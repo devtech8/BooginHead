@@ -1,0 +1,15 @@
+﻿@using Nop.Web.Framework.UI
+@using Nop.Core.Infrastructure
+@{
+    var furnitureSettings = EngineContext.Current.Resolve<Nop.Plugin.ThemeHelper.Furniture.FurnitureSettings>();
+    if (furnitureSettings.ResponsiveDesignEnabled)
+    {
+        Html.AppendCssFileParts("~/Themes/Furniture/Content/responsive.css");
+    }
+    //add main CSS file
+    Html.AppendCssFileParts("~/Themes/Furniture/Content/styles.css");
+}
+@if (furnitureSettings.ResponsiveDesignEnabled)
+{
+<meta name="viewport" content="width=device-width, initial-scale=1">
+}

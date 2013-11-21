@@ -1,0 +1,42 @@
+﻿@model CatalogPagingFilteringModel.PriceRangeFilterModel
+@using Nop.Web.Models.Catalog;
+@helper FormatPriceRangeText(CatalogPagingFilteringModel.PriceRangeFilterItem filterItem)
+{
+    string rangeOption = "";
+    string selected = "";
+    if(filterItem.Selected)
+    {
+        selected = "selected=\"selected\"";
+    }
+    if (String.IsNullOrWhiteSpace(filterItem.From))
+    {
+        rangeOption = string.Format("<option value='{2}' {3}>{0} {1}</option>", T("Furniture.PriceRangeFilter.Under").Text, filterItem.To, filterItem.FilterUrl, selected);
+    }
+    else if (String.IsNullOrWhiteSpace(filterItem.To))
+    {
+        rangeOption = string.Format("<option value='{2}' {3}>{0} {1}</option>", T("Furniture.PriceRangeFilter.Over").Text, filterItem.From, filterItem.FilterUrl, selected);
+    }
+    else
+    {
+        rangeOption = string.Format("<option value='{2}' {3}>{0} - {1}</option>", filterItem.From, filterItem.To, filterItem.FilterUrl, selected);
+    }
+<text>@Html.Raw(rangeOption)</text>
+}
+@if (Model.Enabled)
+{
+    <div class="price-range-filter">
+        <span>@T("Filtering.PriceRangeFilter")</span>
+        <span>
+            <select onchange = "setLocation(this.value);">
+                @{
+    var rangeText = string.Format("<option value='{1}'>{0}</option>", T("Furniture.NoFilter"), Model.RemoveFilterUrl);
+                    <text>@Html.Raw(rangeText)</text>
+                }
+                @foreach (var item in Model.Items)
+                {
+                    @FormatPriceRangeText(item)
+                }
+            </select>
+        </span>
+    </div>
+}

@@ -1,0 +1,124 @@
+﻿@model Nop.Plugin.ThemeHelper.Furniture.Models.FooterModel
+
+<div class="footer">
+    <div class="footer-menu-wrapper">
+        <div class="footer-menu information">
+            <h3>@T(" Booginhead Information")</h3>
+            <ul>
+                @if (Model.SitemapEnabled)
+                {
+                    <li><a href="@Url.RouteUrl("Sitemap")">@T("Sitemap")</a></li>
+                }
+                <li><a href="@Url.RouteUrl("Topic", new {SystemName = "shippinginfo"})">@T("ShippingReturns")</a></li>
+                <li><a href="@Url.RouteUrl("Topic", new {SystemName = "privacyinfo"})">@T("PrivacyNotice")</a></li>
+                <li><a href="@Url.RouteUrl("Topic", new {SystemName = "conditionsofUse"})">@T("ConditionsOfUse")</a></li>
+                <li><a href="@Url.RouteUrl("Topic", new {SystemName = "aboutus"})">@T("AboutUs")</a></li>
+                <li><a href="@Url.RouteUrl("ContactUs")">@T("ContactUs")</a> </li>
+            </ul>
+        </div>
+        @if (Model.NewsEnabled 
+             || Model.BlogEnabled 
+             || Model.ForumEnabled 
+             || Model.RecentlyViewedProductsEnabled 
+             || Model.RecentlyAddedProductsEnabled
+             || Model.CompareProductsEnabled)
+        {
+            <div class="footer-menu customer-service">
+                <h3>@T(" Booginhead Customer Service")</h3>
+                <ul>
+                    <li><a href="@Url.RouteUrl("ProductSearch")">@T("Search")</a> </li>
+                    @if (Model.NewsEnabled)
+                    {
+                        <li><a href="@Url.RouteUrl("NewsArchive")">@T("News")</a></li>
+                    }
+                    @if (Model.BlogEnabled)
+                    {
+                        <li><a href="@Url.RouteUrl("Blog")">@T("Blog")</a></li>
+                    }
+                    @if (Model.ForumEnabled)
+                    {
+                        <li><a href="@Url.RouteUrl("Boards")">@T("Forum.Forums")</a></li>
+                    }
+                    @if (Model.RecentlyViewedProductsEnabled)
+                    {
+                        <li><a href="@Url.RouteUrl("RecentlyViewedProducts")">@T("Products.RecentlyViewedProducts")</a></li>
+                    }
+                    @if (Model.CompareProductsEnabled)
+                    {
+                        <li><a href="@Url.RouteUrl("CompareProducts")">@T("Products.Compare.List")</a></li>
+                    }
+                    @if (Model.RecentlyAddedProductsEnabled)
+                    {
+                        <li><a href="@Url.RouteUrl("RecentlyAddedProducts")">@T("Products.NewProducts")</a></li>
+                    }
+                </ul>
+            </div>
+        }
+        <div class="footer-menu my-account">
+            <h3>@T("Account.MyAccount")</h3>
+            <ul>
+                @if (!Model.HideOrders)
+                {
+                    <li><a href="@Url.RouteUrl("CustomerOrders")">@T("Account.CustomerOrders")</a></li>
+                }
+                @if (!Model.HideAddresses)
+                {
+                    <li><a href="@Url.RouteUrl("CustomerAddresses")" class="">@T("Account.CustomerAddresses")</a></li>
+                }
+                <li><a href="@Url.RouteUrl("CustomerInfo")" class="account">@T("Account.MyAccount")</a></li>
+                @if (Model.ShoppingCartEnabled)
+                {
+                    <li><a href="@Url.RouteUrl("ShoppingCart")" class="ico-cart">@T("ShoppingCart")</a></li>
+                }
+                @if (Model.WishlistEnabled)
+                {
+                    <li><a href="@Url.RouteUrl("Wishlist")" class="ico-wishlist">@T("Wishlist")</a></li>
+                }
+            </ul>
+        </div>
+
+        <div class="footer-menu">
+            <h3>@T("Follow Us")</h3>
+            <ul class="follow-us">
+                @if (!string.IsNullOrEmpty(Model.FacebookLink))
+                {
+                    <li>
+                        <a href="@Model.FacebookLink" target="_blank">
+                            <img alt="facebook" title="facebook" src="@Url.Content("~/Themes/Furniture/Content/images/facebook-icon.png")">
+                        </a>
+                    </li>
+                }
+                @if (!string.IsNullOrEmpty(Model.TwitterLink))
+                {
+                    <li>
+                        <a href="@Model.TwitterLink" target="_blank">
+                            <img alt="twitter" title="twitter" src="@Url.Content("~/Themes/Furniture/Content/images/twitter-icon.png")">
+                        </a>
+                    </li>
+                }
+                @if(Model.NewsEnabled)
+                {
+                    <li>
+                        <a href="@Url.RouteUrl("NewsRSS", new {languageId = Model.WorkingLanguageId})" title="@T("News.RSS.Hint")">
+                            <img alt="rss" title="rss" src="@Url.Content("~/Themes/Furniture/Content/images/rss-icon.png")">
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-poweredby">
+        Powered by <a href="http://www.nopcommerce.com/">nopCommerce</a>
+        @*Would you like to remove the "Powered by nopCommerce" link in the bottom of the footer?
+            Find more info here http://www.nopcommerce.com/copyrightremoval.aspx*@
+    </div>
+    <div class="footer-disclaimer">
+        @T("Content.CopyrightNotice", DateTime.Now.Year.ToString(), Model.StoreName)
+    </div>
+    <div class="footer-store-theme">
+        @Html.Action("StoreThemeSelector", "Common")
+    </div>
+    @Html.Action("ChangeDeviceBlock", "Common")
+    @Html.Widget("footer")
+</div>

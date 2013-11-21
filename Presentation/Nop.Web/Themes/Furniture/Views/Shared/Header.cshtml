@@ -1,0 +1,51 @@
+﻿@using System.Web.UI.WebControls
+@using Nop.Core.Infrastructure
+@{
+    Html.AppendScriptParts("~/Themes/Furniture/Scripts/jquery.dd.min.js");
+}
+
+<div class="header">
+    @Html.Widget("header")
+    <div class="header-logo">
+        <a href="@Url.RouteUrl("HomePage")">
+            <img title="" alt="" src="@Url.Content("~/Themes/Furniture/Content/images/booginlogo.png")">
+        </a>
+    </div>
+    <div class="header-links-wrapper">
+        @Html.Action("HeaderLinks", "ThemeHelperFurniture")
+    </div>
+    <div class="header-selectors-wrapper">
+        <div class="header-selectors-inner">
+            <div class="search-box">
+                @Html.Action("SearchBox", "Catalog")
+            </div>
+            <div class="selectors">
+                <div class="tax-display-type-selector">
+                    @Html.Action("TaxTypeSelector", "Common")
+                </div>
+                @*<div class="language-selector">
+                    @Html.Action("LanguageSelector", "Common")
+                </div>
+                <div class="currency-selector">
+                    @Html.Action("CurrencySelector", "Common")
+                </div>*@
+            </div>
+            @Html.Widget("header_selectors")
+        </div>
+        <div class="header-shoppingcart-wrapper">
+            @Html.Action("FlyoutShoppingCart", "ShoppingCart")
+            @Html.Action("ShoppingCartBox", "ThemeHelperFurniture")
+            @Html.Action("Welcome", "ThemeHelperFurniture")
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function (e) {
+        try {
+            $(".header-selectors-wrapper select").msDropDown();
+        } catch (e) {
+            alert(e.message);
+        }
+    });
+</script>
