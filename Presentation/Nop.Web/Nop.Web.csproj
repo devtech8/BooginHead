@@ -597,6 +597,8 @@
     <Content Include="Content\2013.2.611\Windows7\slider-v.gif" />
     <Content Include="Content\2013.2.611\Windows7\sprite-vertical.png" />
     <Content Include="Content\2013.2.611\Windows7\sprite.png" />
+    <Content Include="Content\Custom\cyo\cyo.css" />
+    <Content Include="Content\Custom\cyo\images\binky.png" />
     <Content Include="Content\editors\BBEditor\ed.js" />
     <Content Include="Content\editors\BBEditor\images\bold.gif" />
     <Content Include="Content\editors\BBEditor\images\code.gif" />
@@ -937,6 +939,12 @@
     <Content Include="Scripts\2013.2.611\telerik.treeview.min.js" />
     <Content Include="Scripts\2013.2.611\telerik.upload.min.js" />
     <Content Include="Scripts\2013.2.611\telerik.window.min.js" />
+    <Content Include="Scripts\Custom\cyo\cyo.js" />
+    <Content Include="Scripts\Custom\cyo\jscolor\arrow.gif" />
+    <Content Include="Scripts\Custom\cyo\jscolor\cross.gif" />
+    <Content Include="Scripts\Custom\cyo\jscolor\hs.png" />
+    <Content Include="Scripts\Custom\cyo\jscolor\hv.png" />
+    <Content Include="Scripts\Custom\cyo\jscolor\jscolor.js" />
     <Content Include="Scripts\public.common.mobile.js" />
     <Content Include="Themes\DefaultClean\Content\images\star-x-active.png" />
     <Content Include="Themes\DefaultClean\Content\images\star-x-inactive.png" />
@@ -1909,6 +1917,7 @@
     <Content Include="Themes\Furniture\Views\ShoppingCart\OrderSummary.cshtml" />
     <Content Include="Themes\Furniture\Views\ShoppingCart\Wishlist.cshtml" />
     <Content Include="Themes\Furniture\Views\Web.config" />
+    <Content Include="Views\Custom\cyo\_cyo.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

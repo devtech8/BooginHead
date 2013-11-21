@@ -1,0 +1,84 @@
+﻿#cyoSample {
+  float: left;
+  position: relative;
+  background-repeat:no-repeat;
+  background-position:center;
+  zoom: 60%;
+}
+
+#cyoOverlay {
+  height: auto;
+  width: auto;
+  max-width: 280px;
+  max-height: 130px;
+  position: absolute;
+  top: 180px;
+  left: 200px;
+  padding: 20px;
+  cursor: pointer;
+  font-size: 32px;
+}
+
+#cyoOverlay:hover {
+  border: 1px dashed #999;
+}
+
+#cyoCustomizer {
+  float: right;
+  width: 20%;
+  margin-right: 30px;
+}
+#cyoCustomizer input, #cyoCustomizer select {
+    height: 30px;
+}
+
+/* Using ID selector to override main style sheet. */
+#cyoCustomText { 
+    height: 50px;
+    width: 200px;
+}
+
+#cyoPatternMenu, #cyoFontMenu {
+    border: 1px solid black;
+    width: 200px;
+    height: 50px;
+    overflow: hidden;
+    transition: height 0.1s;
+}
+#cyoPatternMenu:hover, #cyoFontMenu:hover {
+    height: 200px;
+    overflow-y: scroll;
+    transition: height 0.5s;
+}
+#cyoPatternMenu div, #cyoFontMenu div {
+    display: none;
+    margin: 2px;
+    height: 50px;
+    /* opacity: 0.5; */
+}
+
+#cyoPatternMenu div {
+    width: 40%;
+    float: left;
+    margin-right: 12px;
+    margin-bottom: 12px;
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
+#cyoPatternMenu div span {
+    display: block;
+    margin-left: 35px;
+    margin-right: 25px;
+    margin-top: 25px;
+
+}
+
+#cyoPatternMenu:hover div, #cyoFontMenu:hover div {
+    display:block;
+}
+
+#cyoPatternMenu div.selected, #cyoFontMenu div.selected {
+  opacity:1 !important;
+  display:block;
+}

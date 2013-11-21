@@ -1,0 +1,84 @@
+﻿@{
+    Layout = "";
+    
+    Html.AddScriptParts("~/Scripts/Custom/cyo/cyo.js");
+    Html.AddScriptParts("~/Scripts/Custom/cyo/jscolor/jscolor.js");
+    Html.AddCssFileParts("~/Content/Custom/cyo/cyo.css");
+    
+    
+}
+
+  	<div id="cyoSample">
+        <img src="~/Content/Custom/cyo/images/binky.png"/>
+        <div id="cyoOverlay"></div>
+    </div>
+
+	<div id="productCustomizer">
+		<form>
+
+            <div>
+				<label for="cyoCustomText">Text</label> <br />
+                <textarea id="cyoCustomText" name="cyoCustomText"></textarea>
+			</div>
+
+            <div>
+				<label for="cyoCustomColor">Color</label> <br />
+				<input type="text" class="color" value="000000" id="cyoCustomColor" name="cyoCustomColor" />
+			</div>
+
+            <div>
+                <label for="cyoCustomFontSize">Font Size</label> <br />
+                <select id="cyoCustomFontSize" name="cyoCustomFontSize">
+                    <option value="8px">8 px</option>
+                    <option value="10px">10 px</option>
+                    <option value="12px">12 px</option>
+                    <option value="14px">14 px</option>
+                    <option value="18px">18 px</option>
+                    <option value="24px">24 px</option>
+                    <option value="28px">28 px</option>
+                    <option value="32px" selected>32 px</option>
+                    <option value="36px">36 px</option>
+                    <option value="40px">40 px</option>
+                    <option value="48px">48 px</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="cyoCustomFont">Font</label> <br />
+				<input type="hidden" id="cyoCustomFont" name="cyoCustomFont" />
+                <div id="cyoFontMenu" class="ui-corner-all">
+                    <div>Arial</div>
+                    <div>Courier</div>
+                    <div>Georgia</div>
+                    <div>Lucida Console</div>
+                    <div>Times New Roman</div>
+                    <div>Verdana</div>
+                </div>
+            </div>
+
+			<div>
+                <label for="cyoCustomPattern">Image / Pattern</label> <br />
+				<input type="hidden" id="cyoCustomPattern" name="cyoCustomPattern" />
+                <div id="cyoPatternMenu" class="ui-corner-all">
+                    <div data-image-url=""><span>None</span></div>
+                    <div data-image-url="http://booginhead.com/products/pacitool/img/preset/Blue_plaid_banner_thumb.jpg"></div>
+                    <div data-image-url="http://booginhead.com/products/pacitool/img/preset/Houndstooth_Pink_thumb.jpg"></div>
+                    <div data-image-url="http://booginhead.com/products/pacitool/img/preset/America_thumb.jpg"></div>
+                    <div data-image-url="http://booginhead.com/products/pacitool/img/preset/pink_flower_thumb.jpg"></div>
+                    <div data-image-url="http://booginhead.com/products/pacitool/img/preset/Swirls_thumb.jpg"></div>
+                    <div data-image-url="http://booginhead.com/products/pacitool/img/preset/big_dots_thumb.jpg"></div>
+                    <div data-image-url="http://booginhead.com/products/pacitool/img/preset/mustache1_thumb.jpg"></div>
+                    <div data-image-url="http://booginhead.com/products/pacitool/img/preset/skull_girl_thumb.jpg"></div>
+                </div>
+            </div>
+
+		</form>
+	</div>
+
+
+<script type="text/javascript">
+    $(window).load(function () {
+        // call included javascript?
+    });
+</script>
+
