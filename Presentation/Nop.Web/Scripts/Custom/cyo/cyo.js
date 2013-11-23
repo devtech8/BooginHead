@@ -12,6 +12,16 @@
         $('#cyoSample').css('background-image', 'url("' + url.replace(/_thumb/, '') + '")');
     });
     
+    $('#tabs li').click(function () {
+        var tabNumber = $(this).attr('aria-controls').split('-')[1];
+        console.log(tabNumber);
+        for (var i = 1; i < $('#tabs li').length; i++) {
+            $('#tabs-' + i).hide();
+        }
+        $('#tabs-' + tabNumber).show();
+        $('#tabs li').removeClass('ui-tabs-active').removeClass('ui-state-active');
+        $(this).addClass('ui-tabs-active').addClass('ui-state-active');
+    });
 
 
 
