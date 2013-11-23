@@ -1,9 +1,18 @@
 ﻿$(function () {
 
     $("#cyoOverlay").draggable();
+    $("#font-size-slider").slider();
 
+    // Initialize font size slider position and font size
+    $('#font-size-slider a').css('left', '60px');
+    setFontSize($('#font-size-slider a'));
+
+    // When user click while/pink/blue binky, load that image into the customizer on the left
     $('.chooser.shields img').click(function () {
+        var bgImage = $('#cyoSample').css('background-image');
         $('#cyoSample img').attr('src', $(this).attr('data-large-image'));
+        console.log(bgImage);
+        $('#cyoSample').css('background-image', bgImage);
     });
 
     // Load clicked image into pacifier
@@ -11,6 +20,7 @@
         var url = $(this).attr('src');
         //$('#cyoCustomPattern').attr('value', url);
         $('#cyoSample').css('background-image', 'url("' + url.replace(/_thumb/, '') + '")');
+        return false;
     });
     
     // Clear image under pacifier
@@ -48,52 +58,35 @@
         $('#cyoFontMenu li').removeClass('selected');
         $(this).addClass('selected');
         var font = $(this).css('font-family');
-        console.log(font);
         $('#cyoCustomFont').attr('value', font);
         $('#cyoOverlay').css('font-family', font);
     });
 
+    // Allow font color input to set font color in overlay
+    $('#cyoCustomColor').change(function () {
+        var hexColor = '#' + document.getElementById('cyoCustomColor').color.toString();
+        $('#cyoOverlay').css('color', hexColor);
+    });
 
-    //// Custom pattern menu
-    //$.each($('#cyoPatternMenu div'), function (index, element) {
-    //    var url = $(element).attr('data-image-url');
-    //    $(element).css('background-image', 'url("' + url + '")');
-    //    $(element).click(function () {
-    //        $('#cyoPatternMenu div').removeClass('selected');
-    //        $(this).addClass('selected');
-    //        $('#cyoCustomPattern').attr('value', url);
-    //        $('#cyoSample').css('background-image', 'url("' + url.replace(/_thumb/, '') + '")');
-    //    });
-    //});
+    // When user clicks color wheel, focus color input so pop-up colorpicker appears.
+    $('#colorWheel').click(function () {
+        $('#cyoCustomColor').trigger('focus');
+        return false;
+    });
 
-    //// Custom font menu
-    //$.each($('#cyoFontMenu div'), function (index, element) {
-    //    var font = $(element).text();
-    //    $(element).css('font-family', font);
-    //    $(element).css('font-size', '40px');
-    //    $(element).click(function () {
-    //        $('#cyoFontMenu div').removeClass('selected');
-    //        $(this).addClass('selected');
-    //        $('#cyoCustomFont').attr('value', font);
-    //        $('#cyoOverlay').css('font-family', font);
-    //    });
-    //});
+    // Allow slider to set font-size in the overlay
+    $('#font-size-slider a').mouseup(function () {
+        setFontSize($(this));
+    });
 
-    //// Font size
-    //$('#cyoCustomFontSize').change(function () {
-    //    $('#cyoOverlay').css('font-size', $(this).val());
-    //});
+    function setFontSize(sliderControl) {
+        var position = parseInt(sliderControl.css('left'), 10);
+        $('#cyoOverlay').css('font-size', parseInt((position / 1.5), 10));
+    }
 
-    //// Custom text
-    //$('#cyoCustomText').keyup(function () {
-    //    var text = $(this).val().replace(/\n/, "<br/>");
-    //    $('#cyoOverlay').html(text);
-    //});
-
-    //// Font color
-    //$('#cyoCustomColor').change(function () {
-    //    var hexColor = '#' + document.getElementById('cyoCustomColor').color.toString();
-    //    $('#cyoOverlay').css('color', hexColor);
-    //});
+    // Create Proof
+    $('#btn-create-proof').click(function () {
+        alert('Proof is not hooked up yet')
+    });
 
 });

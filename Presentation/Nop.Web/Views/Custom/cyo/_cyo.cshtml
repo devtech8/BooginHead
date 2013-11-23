@@ -3,6 +3,7 @@
     
     Html.AddScriptParts("~/Scripts/Custom/cyo/cyo.js");
     Html.AddScriptParts("~/Scripts/Custom/cyo/jscolor/jscolor.js");
+    Html.AddCssFileParts("~/Content/jquery-ui-themes/smoothness/jquery-ui-1.10.0.custom.min.css");
     Html.AddCssFileParts("~/Content/Custom/cyo/cyo.css");
     
     
@@ -10,7 +11,7 @@
 
   	<div id="cyoSample">
         <img src="~/Content/Custom/cyo/images/binky.png"/>
-        <div id="cyoOverlay"></div>
+        <div id="cyoOverlay" style="font-family: 'ABeeZee';"></div>
     </div>
 
 
@@ -244,7 +245,7 @@
                     <div class="text-box clearfix">
                     <div>Color:</div><br>
                     <div>
-                        <input id="color2" type="text" name="color2" value="#777777" data-hex="true" class="color mColorPicker" style="background-color: rgb(119, 119, 119); color: rgb(255, 255, 255);"><span id="mcp_color2" class="mColorPickerTrigger" style="display: inline-block; cursor: pointer;"><img src="http://www.infabcorp.com/wp-content/themes/infab/images/color.png" style="border: 0px; margin: 0px 0px 0px 3px; vertical-align: text-bottom;"></span>
+                        <input id="cyoCustomColor" type="text" name="cyoCustomColor" value="#777777" data-hex="true" class="color""><span id="colorWheel" class="color" style="display: inline-block; cursor: pointer;"><img src="http://www.infabcorp.com/wp-content/themes/infab/images/color.png" style="border: 0px; margin: 0px 0px 0px 3px; vertical-align: text-bottom;"></span>
                     </div>
                     </div>
                 </div>
@@ -252,7 +253,7 @@
         </div>
         <h2>Step 5: Approve Instant Proof</h2>
         <p>Create your instant proof, and approve it to continue!</p>
-        <a href="proofer/proofer.php" class="button fancybox.ajax" id="proofButton">Create Proof</a>
+        <button id="btn-create-proof">Create Proof</button>
 
         <h2>Step 6: Add to Cart!</h2>
         <div class="relative">
