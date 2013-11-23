@@ -45,58 +45,33 @@
     list-style-type: none;
 }
 
-/*
-#cyoCustomizer input, #cyoCustomizer select {
-    height: 30px;
-}
 
-#cyoCustomText { 
-    height: 50px;
+#cyoFontMenu {
+    border: 1px solid #999;
     width: 200px;
-}
-
-#cyoPatternMenu, #cyoFontMenu {
-    border: 1px solid black;
-    width: 200px;
-    height: 50px;
+    height: 16px;
     overflow: hidden;
     transition: height 0.1s;
 }
-#cyoPatternMenu:hover, #cyoFontMenu:hover {
-    height: 200px;
+#cyoFontMenu:hover {
+    height: 100px;
     overflow-y: scroll;
-    transition: height 0.5s;
-}
-#cyoPatternMenu div, #cyoFontMenu div {
-    display: none;
-    margin: 2px;
-    height: 50px;
 }
 
-#cyoPatternMenu div {
-    width: 40%;
-    float: left;
-    margin-right: 12px;
-    margin-bottom: 12px;
-    background-repeat:no-repeat;
-    background-position:center;
-}
-
-#cyoPatternMenu div span {
-    display: block;
-    margin-left: 35px;
-    margin-right: 25px;
-    margin-top: 25px;
-
-}
-
-#cyoPatternMenu:hover div, #cyoFontMenu:hover div {
+#cyoFontMenu:hover li {
     display:block;
 }
 
-#cyoPatternMenu div.selected, #cyoFontMenu div.selected {
-  opacity:1 !important;
-  display:block;
+#cyoFontMenu li {
+    display: none;
+    margin: 2px;
+    list-style-type: none;
 }
 
-*/
+#cyoFontMenu li:hover {
+    cursor: pointer;
+}
+
+#cyoFontMenu li.selected {
+    display: block;
+}

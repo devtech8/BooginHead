@@ -206,6 +206,7 @@
                     </div>
                     <div class="text-box clearfix">
                     <div>Font:</div><br>
+
                     <div>
                         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=ABeeZee:400,700,400italic,700italic">
                         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Finger Paint:400,700,400italic,700italic">
@@ -215,19 +216,25 @@
                         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Allura:400,700,400italic,700italic">
                         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Chicle:400,700,400italic,700italic">
                         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Titillium Web:400,700,400italic,700italic">
-                        <select id="text-font" name="text-font" onchange="setFont(this.value)" style="display: none;">
-                        <option value="ABeeZee">ABeeZee</option>
-                        <option value="Finger Paint">Finger Paint</option>
-                        <option value="Sofadi One">Sofadi One</option>
-                        <option value="Archivo Black">Archivo Black</option>
-                        <option value="Ranchers">Ranchers</option>
-                        <!--option value="Griffy" >Griffy</option-->
-                        <option value="Allura">Allura</option>
-                        <option value="Chicle">Chicle</option>
-                        <option value="Titillium Web">Titillium Web</option>
-                        </select><div class="fontSelector ui-widget"><h4 style="font-family: 'ABeeZee'" class="selected handle">ABeeZee</h4><span class="handle">▼</span><ul class="fonts"><li style="font-family: 'ABeeZee'" class="selected">ABeeZee</li><li style="font-family: 'Finger Paint'">Finger Paint</li><li style="font-family: 'Sofadi One'">Sofadi One</li><li style="font-family: 'Archivo Black'">Archivo Black</li><li style="font-family: 'Ranchers'">Ranchers</li><li style="font-family: 'Allura'">Allura</li><li style="font-family: 'Chicle'">Chicle</li><li style="font-family: 'Titillium Web'">Titillium Web</li></ul></div>
+
+                        <div>
+                            <label for="cyoCustomFont">Font</label> <br />
+				            <input type="hidden" id="cyoCustomFont" name="cyoCustomFont" />
+                            <ul id="cyoFontMenu">
+                                <li style="font-family:'AbeeZee'" class="selected">ABeeZee</li>
+                                <li style="font-family:'Finger Paint'">Finger Paint</li>
+                                <li style="font-family:'Sofadi One'">Sofadi One</li>
+                                <li style="font-family:'Archivo Black'">Archivo Black</li>
+                                <li style="font-family:'Ranchers'">Ranchers</li>
+                                <li style="font-family:'Allura'">Allura</li>
+                                <li style="font-family:'Chicle'">Chicle</li>
+                                <li style="font-family:'Titillium Web'">Titillium Web</li>
+                            </ul>
+                        </div>
+
+
                     </div>
-                    </div>
+
                     <div class="text-box clearfix">
                     <div>Font Size:</div><br>
                     <div>

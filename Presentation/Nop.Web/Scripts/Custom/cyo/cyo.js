@@ -37,9 +37,20 @@
         $('#cyoOverlay').html(text);
     });
 
+    // Clear custom text when user clicks Clear button
     $('#cyoClearText').click(function () {
         $('#cyoOverlay').html('');
         $('#cyoCustomText').val('');
+    });
+
+    // Custom font menu
+    $('#cyoFontMenu li').click(function () {
+        $('#cyoFontMenu li').removeClass('selected');
+        $(this).addClass('selected');
+        var font = $(this).css('font-family');
+        console.log(font);
+        $('#cyoCustomFont').attr('value', font);
+        $('#cyoOverlay').css('font-family', font);
     });
 
 
