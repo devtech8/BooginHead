@@ -58,7 +58,7 @@
                         </li>
                     </ul>
                 </div>
-                <a href="#" class="cleardesign button">Clear Design</a>
+                <button class="btn-clear-design">Clear Design</button>
             </div>
 
             <div id="tabs-5" aria-labelledby="ui-id-2" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
@@ -79,13 +79,13 @@
                         </li>
                     </ul>
                 </div>
-                <a href="#" class="cleardesign button">Clear Design</a>
+                <button class="btn-clear-design">Clear Design</button>
             </div>
 
             <div id="tabs-1" aria-labelledby="ui-id-3" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
-                <div id="slider1" class="design-slider" style="width: 340px; height: 300px; overflow: hidden;">
-                    <ul style="width: 1360px;">
-                        <li style="float: left;">
+                <div id="slider1" class="design-slider scroll-y">
+                    <ul>
+                        <li>
                             <section class="chooser">
                                 <img src="http://booginhead.com/products/pacitool/img/preset/cute_thumb.jpg" alt="Shield Color thumb">
                                 <img src="http://booginhead.com/products/pacitool/img/preset/mustache1_thumb.jpg" alt="Shield Color thumb">
@@ -99,7 +99,7 @@
                             </section>
                         </li>
 
-                        <li style="float: left;">
+                        <li>
                             <section class="chooser">
                                 <img src="http://booginhead.com/products/pacitool/img/preset/1stBday_thumb.jpg" alt="Shield Color thumb">
                                 <img src="http://booginhead.com/products/pacitool/img/preset/4thJuly_thumb.jpg" alt="Shield Color thumb">
@@ -113,7 +113,7 @@
                             </section>
                         </li>
 
-                        <li style="float: left;">
+                        <li>
                             <section class="chooser">
                                 <img src="http://booginhead.com/products/pacitool/img/preset/HappyHolidays_thumb.jpg" alt="Shield Color thumb">
                                 <img src="http://booginhead.com/products/pacitool/img/preset/Fa_La_La_thumb.jpg" alt="Shield Color thumb">
@@ -127,7 +127,7 @@
                             </section>
                         </li>
 
-                        <li style="float: left;">
+                        <li>
                             <section class="chooser">
                                 <img src="http://booginhead.com/products/pacitool/img/preset/snowflakes_thumb.jpg" alt="Shield Color thumb">
                                 <img src="http://booginhead.com/products/pacitool/img/preset/snowman_thumb.jpg" alt="Shield Color thumb">
@@ -142,13 +142,14 @@
                             </section>
                         </li>
 
-                    </ul>art_hearts               </div> <span id="slider1prev"><a href="javascript:void(0);" style="display: none;">Previous</a></span> <span id="slider1next"><a href="javascript:void(0);">Next</a></span>
-                <a href="#" class="cleardesign button">Clear Design</a>
+                    </ul>
+                </div> 
+                <button class="btn-clear-design">Clear Design</button>
             </div>
             <div id="tabs-2" aria-labelledby="ui-id-4" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
-                <div id="slider2" class="design-slider" style="width: 340px; height: 300px; overflow: hidden;">
-                    <ul style="width: 680px;">
-                        <li style="float: left;">
+                <div id="slider2" class="design-slider scroll-y">
+                    <ul>
+                        <li>
                             <section class="chooser">
                                 <img src="http://booginhead.com/products/pacitool/img/preset/dnd_thumb.jpg" alt="Shield Color thumb">
                                 <img src="http://booginhead.com/products/pacitool/img/preset/fragile_thumb.jpg" alt="Shield Color thumb">
@@ -162,7 +163,7 @@
                             </section>
                         </li>
 
-                        <li style="float: left;">
+                        <li>
                             <section class="chooser">
                                 <img src="http://booginhead.com/products/pacitool/img/preset/mute_button_thumb.jpg" alt="Shield Color thumb">
                                 <img src="http://booginhead.com/products/pacitool/img/preset/no_comment_thumb.jpg" alt="Shield Color thumb">
@@ -177,21 +178,18 @@
                         </li>
                     </ul>
                 </div> 
-                
-                <!--
-                <span id="slider2prev"><a href="javascript:void(0);" style="display: none;">Previous</a></span> 
-                <span id="slider2next"><a href="javascript:void(0);">Next</a></span>
-                <a href="#" class="cleardesign button">Clear Design</a>
-                -->
+                <button class="btn-clear-design">Clear Design</button>
             </div>
-            <div id="tabs-3" aria-labelledby="ui-id-5" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;"><!-- CUSTOM -->
+            <div id="tabs-3" aria-labelledby="ui-id-5" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-expanded="false" aria-hidden="true" style="display: none;">
+                <div class="design-slider">
                 <p>Choose a photo or graphic from your computer</p>
-                <div class="image-upload">
-                    <div class="image-choose">
-                    <div id="userImages"> </div>
-                    <div id="adminUpload" class="photoThumb"><br>
-                        <a href="#" id="photoUpload" class="adminlink button">Choose Image</a>
-                    </div>
+                    <div class="image-upload">
+                        <div class="image-choose">
+                        <div id="userImages"> </div>
+                        <div id="adminUpload" class="photoThumb"><br>
+                            <input type="file" class="btn-choose-image" value="Choose Image"/>
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -201,18 +199,23 @@
         <h2>Step 4: Add Text (Optional)</h2>
         <div class="add-text">
             <div class="body">
-                <div style="float:left; width:350px;">
-                    <div class="text-box clearfix  ">
-                    <input id="add-text-box" type="text" name="t" value="">
-                    <div class="text-buttons">
-                        <input type="button" value="Clear" class="add-button" onclick="removeText()">
-                        <p>Hover text to move.</p>
-                    </div>
+                <div">
+                    <div>
+                        <input type="text" id="cyoCustomText" name="cyoCustomText" value="">
+                        <input type="button" value="Clear" id="cyoClearText">
                     </div>
                     <div class="text-box clearfix">
-                    <div style="float:left;">Font:</div><br>
-                    <div style="float:left;">
-                        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=ABeeZee:400,700,400italic,700italic"><link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Finger Paint:400,700,400italic,700italic"><link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Sofadi One:400,700,400italic,700italic"><link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Archivo Black:400,700,400italic,700italic"><link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ranchers:400,700,400italic,700italic"><link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Allura:400,700,400italic,700italic"><link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Chicle:400,700,400italic,700italic"><link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Titillium Web:400,700,400italic,700italic"><select id="text-font" name="text-font" onchange="setFont(this.value)" style="display: none;">
+                    <div>Font:</div><br>
+                    <div>
+                        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=ABeeZee:400,700,400italic,700italic">
+                        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Finger Paint:400,700,400italic,700italic">
+                        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Sofadi One:400,700,400italic,700italic">
+                        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Archivo Black:400,700,400italic,700italic">
+                        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ranchers:400,700,400italic,700italic">
+                        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Allura:400,700,400italic,700italic">
+                        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Chicle:400,700,400italic,700italic">
+                        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Titillium Web:400,700,400italic,700italic">
+                        <select id="text-font" name="text-font" onchange="setFont(this.value)" style="display: none;">
                         <option value="ABeeZee">ABeeZee</option>
                         <option value="Finger Paint">Finger Paint</option>
                         <option value="Sofadi One">Sofadi One</option>
@@ -226,14 +229,14 @@
                     </div>
                     </div>
                     <div class="text-box clearfix">
-                    <div style="float:left;">Font Size:</div><br>
-                    <div style="float:left;">
+                    <div>Font Size:</div><br>
+                    <div>
                         <div id="font-size-slider" style="width:200px" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"><a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 30.23255813953488%;"></a></div>
                     </div>
                     </div>
                     <div class="text-box clearfix">
-                    <div style="float:left;">Color:</div><br>
-                    <div style="float:left;">
+                    <div>Color:</div><br>
+                    <div>
                         <input id="color2" type="text" name="color2" value="#777777" data-hex="true" class="color mColorPicker" style="background-color: rgb(119, 119, 119); color: rgb(255, 255, 255);"><span id="mcp_color2" class="mColorPickerTrigger" style="display: inline-block; cursor: pointer;"><img src="http://www.infabcorp.com/wp-content/themes/infab/images/color.png" style="border: 0px; margin: 0px 0px 0px 3px; vertical-align: text-bottom;"></span>
                     </div>
                     </div>
