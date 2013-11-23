@@ -10,14 +10,14 @@
 }
 
   	<div id="cyoSample">
-        <img src="~/Content/Custom/cyo/images/binky.png"/>
+        <img src="http://booginhead.com/products/pacitool/img/shield-color/shield_white.png"/>
         <div id="cyoOverlay" style="font-family: 'ABeeZee';"></div>
     </div>
 
 
     <div id="cyoCustomizer">
         <h2>Step 1: Choose A Color</h2>
-        <section class="chooser shields">
+        <section class="shields">
             <img src="http://booginhead.com/products/pacitool/img/shield-color/shield_white_thumb.jpg" alt="Shield Color thumb" data-shield="white" data-large-image="http://booginhead.com/products/pacitool/img/shield-color/shield_white.png">
             <img src="http://booginhead.com/products/pacitool/img/shield-color/shield_pink_thumb.jpg" alt="Shield Color thumb" data-shield="pink" data-large-image="http://booginhead.com/products/pacitool/img/shield-color/shield_pink.png">
             <img src="http://booginhead.com/products/pacitool/img/shield-color/shield_blue_thumb.jpg" alt="Shield Color thumb" data-shield="blue" data-large-image="http://booginhead.com/products/pacitool/img/shield-color/shield_blue.png">
@@ -265,85 +265,26 @@
             <p></p>
         </div>
         </div>
-        <form action="/ADD_THIS_ENDPOINT" method="post" id="product_addtocart_form" enctype="multipart/form-data">
-            <div class="no-display">
-                <input type="hidden" name="product" value="126">
-                <input type="hidden" name="related_product" id="related-products-field" value="">
 
-                <input type="hidden" name="toolbase_URL" id="toolbase_URL" value="http://booginhead.com/products/pacitool/">
-            </div>
+        <form action="/ADD_THIS_ENDPOINT" method="post" id="product_addtocart_form" enctype="multipart/form-data">
+            <input type="hidden" name="cyoImage" id="cyoImage" value="" />
+            <input type="hidden" name="cyoText" id="cyoText" value="" />
+            <input type="hidden" name="cyoFontFamily" id="cyoFontFamily" value="ABeeZee" />
+            <input type="hidden" name="cyoFontColor" id="cyoFontColor" value="#777777" />
+            <input type="hidden" name="cyoFontSize" id="cyoFontSize" value="" />
+            <input type="hidden" name="cyoProductSize" id="cyoProductSize" value="7plus" />
+            <input type="hidden" name="cyoProductColor" id="cyoProductColor" value="white" />
+
+            <input type="hidden" name="cyoTextTop" id="cyoTextTop" value="" />
+            <input type="hidden" name="cyoTextLeft" id="cyoTextLeft" value="" />
+            <input type="hidden" name="cyoTextHeight" id="cyoTextHeight" value="" />
+            <input type="hidden" name="cyoTextWidth" id="cyoTextWidth" value="" />
+            <input type="hidden" name="cyoImageTop" id="cyoImageTop" value="" />
+            <input type="hidden" name="cyoImageLeft" id="cyoImageLeft" value="" />
+            <input type="hidden" name="cyoImageWidth" id="cyoImageWidth" value="" />
+            <input type="hidden" name="cyoImageHeight" id="cyoImageHeight" value="" />
+        </form>
+
     </div>
             
 
-<!--
-	<div id="productCustomizer">
-
-		<form>
-
-            <div>
-				<label for="cyoCustomText">Text</label>
-                <textarea id="cyoCustomText" name="cyoCustomText"></textarea>
-			</div>
-
-            <div>
-				<label for="cyoCustomColor">Color</label>
-				<input type="text" class="color" value="000000" id="cyoCustomColor" name="cyoCustomColor" />
-			</div>
-
-            <div>
-                <label for="cyoCustomFontSize">Font Size</label> <br />
-                <select id="cyoCustomFontSize" name="cyoCustomFontSize">
-                    <option value="8px">8 px</option>
-                    <option value="10px">10 px</option>
-                    <option value="12px">12 px</option>
-                    <option value="14px">14 px</option>
-                    <option value="18px">18 px</option>
-                    <option value="24px">24 px</option>
-                    <option value="28px">28 px</option>
-                    <option value="32px" selected>32 px</option>
-                    <option value="36px">36 px</option>
-                    <option value="40px">40 px</option>
-                    <option value="48px">48 px</option>
-                </select>
-            </div>
-
-            <div>
-                <label for="cyoCustomFont">Font</label> <br />
-				<input type="hidden" id="cyoCustomFont" name="cyoCustomFont" />
-                <div id="cyoFontMenu" class="ui-corner-all">
-                    <div>Arial</div>
-                    <div>Courier</div>
-                    <div>Georgia</div>
-                    <div>Lucida Console</div>
-                    <div>Times New Roman</div>
-                    <div>Verdana</div>
-                </div>
-            </div>
-
-			<div>
-                <label for="cyoCustomPattern">Image / Pattern</label> <br />
-				<input type="hidden" id="cyoCustomPattern" name="cyoCustomPattern" />
-                <div id="cyoPatternMenu" class="ui-corner-all">
-                    <div data-image-url=""><span>None</span></div>
-                    <div data-image-url="http://booginhead.com/products/pacitool/img/preset/Blue_plaid_banner_thumb.jpg"></div>
-                    <div data-image-url="http://booginhead.com/products/pacitool/img/preset/Houndstooth_Pink_thumb.jpg"></div>
-                    <div data-image-url="http://booginhead.com/products/pacitool/img/preset/America_thumb.jpg"></div>
-                    <div data-image-url="http://booginhead.com/products/pacitool/img/preset/pink_flower_thumb.jpg"></div>
-                    <div data-image-url="http://booginhead.com/products/pacitool/img/preset/Swirls_thumb.jpg"></div>
-                    <div data-image-url="http://booginhead.com/products/pacitool/img/preset/big_dots_thumb.jpg"></div>
-                    <div data-image-url="http://booginhead.com/products/pacitool/img/preset/mustache1_thumb.jpg"></div>
-                    <div data-image-url="http://booginhead.com/products/pacitool/img/preset/skull_girl_thumb.jpg"></div>
-                </div>
-            </div>
-
-		</form>
-	</div>
-
-
-<script type="text/javascript">
-    $(window).load(function () {
-        // call included javascript?
-    });
-</script>
-
--->
