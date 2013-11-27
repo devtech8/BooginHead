@@ -99,6 +99,29 @@ namespace Nop.Web.Controllers
             }, "text/plain");
         }
 
+        [HttpGet]
+        public ActionResult GetFileUpload(Guid downloadId)
+        {
+            var download = _downloadService.GetDownloadByGuid(downloadId);
+            if (download == null)
+                return Content("Download is not available anymore.");
+
+            if (download.UseDownloadUrl)
+            {
+                //return result
+                return new RedirectResult(download.DownloadUrl);
+            }
+            else
+            {
+                if (download.DownloadBinary == null)
+                    return Content("Download data is not available anymore.");
+
+                //return result
+                string fileName = !String.IsNullOrWhiteSpace(download.Filename) ? download.Filename : downloadId.ToString();
+                string contentType = fileName.ToLower().EndsWith(".png") ? "image/png" : "image/jpeg";
+                return new FileContentResult(download.DownloadBinary, contentType) { FileDownloadName = fileName + download.Extension };
+            }
+        }
 
     }
 }

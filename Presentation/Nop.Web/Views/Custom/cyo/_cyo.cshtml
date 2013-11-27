@@ -70,16 +70,23 @@
         <div id="cyoModalUpload" title="Upload Image">
         <p>Choose a photo or graphic from your computer</p>
             <input id="cyoUploadFile" name="cyoUploadFile" type="hidden" />
-            <div id="cyoUploader">
+            <div id="cyoUploader"></div>
+            <div id="cyoUploadedImageDiv" style="display:none;">
+                <img id="cyoUploadedImageThumbnail" src="" width="200"/>
             </div>
             <script type="text/javascript">
                 $(function () {
+                    var previewUrl = '@(Url.RouteUrl(new { controller = "CYO", action = "GetFileUpload", downloadId = Guid.Empty }))';
                     var cyoUploader = new qq.FileUploader({
                         element: document.getElementById('cyoUploader'),
                         action: '@(Url.RouteUrl(new { controller = "CYO", action = "UploadFile" }))',
                         onComplete: function(id, fileName, responseJSON){
                             $("#cyoUploadFile").val(responseJSON.downloadGuid);
-                            if (responseJSON.message) {
+                            if (responseJSON.downloadGuid) {                               
+                                $('#cyoUploadedImageThumbnail').attr('src', previewUrl.replace('00000000-0000-0000-0000-000000000000', responseJSON.downloadGuid));
+                                $('#cyoUploadedImageDiv').show();
+                            }
+                            else if (responseJSON.message) {
                                 alert(responseJSON.message);
                             }
                         },

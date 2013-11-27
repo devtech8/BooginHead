@@ -40,6 +40,9 @@
     margin: 4px;
 }
 
+#cyoUploader li {
+    list-style-type: none;
+}
 
 #cyoFontMenu {
     border: 1px solid #999;
