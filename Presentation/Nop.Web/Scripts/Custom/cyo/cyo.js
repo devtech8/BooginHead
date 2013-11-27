@@ -4,7 +4,7 @@
     $("#font-size-slider").slider();
 
     var modalProperties = {
-        height: 300,
+        height: 400,
         width: 500,
         modal: true,
         autoOpen: false,

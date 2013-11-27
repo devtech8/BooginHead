@@ -37,18 +37,7 @@
 
 .chooser img {
     cursor: pointer;
-}
-
-.design-slider {
-    height: 180px;
-}
-
-.scroll-y {
-    overflow-y: scroll;
-}
-
-.design-slider li, .font-selector ul li {
-    list-style-type: none;
+    margin: 4px;
 }
 
 
