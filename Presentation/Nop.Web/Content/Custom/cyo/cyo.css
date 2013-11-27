@@ -29,6 +29,12 @@
   margin-right: 30px;
 }
 
+#cyoLaunchButtonContainer button{
+    display: block;
+    margin-top: 10px;
+    width: 150px;
+}
+
 .chooser img {
     cursor: pointer;
 }

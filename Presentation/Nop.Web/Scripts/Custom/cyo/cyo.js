@@ -3,23 +3,39 @@
     $("#cyoOverlay").draggable();
     $("#font-size-slider").slider();
 
+    var modalProperties = {
+        height: 300,
+        width: 500,
+        modal: true,
+        autoOpen: false,
+        show: { effect: "blind", duration: 600 }
+    };
+
+    $("#cyoModalUpload").dialog(modalProperties);
+    $("#cyoModalBackground").dialog(modalProperties);
+    $("#cyoModalText").dialog(modalProperties);
+    $("#cyoModalGraphic").dialog(modalProperties);
+
+    $('#btnShowModalUpload').click(function () {
+        $("#cyoModalUpload").dialog("open");
+    });
+
+    $('#btnShowModalBackground').click(function () {
+        $("#cyoModalBackground").dialog("open");
+    });
+
+    $('#btnShowModalText').click(function () {
+        $("#cyoModalText").dialog("open");
+    });
+
+    $('#btnShowModalGraphic').click(function () {
+        $("#cyoModalGraphic").dialog("open");
+    });
+
+
     // Initialize font size slider position and font size
     $('#font-size-slider a').css('left', '60px');
     setFontSize($('#font-size-slider a'));
-
-
-    // Wire up tabs to show/hide image divs
-    $('#tabs li').click(function () {
-        var tabNumber = $(this).attr('aria-controls').split('-')[1];
-        console.log(tabNumber);
-        for (var i = 1; i < $('#tabs li').length; i++) {
-            $('#tabs-' + i).hide();
-        }
-        $('#tabs-' + tabNumber).show();
-        $('#tabs li').removeClass('ui-tabs-active').removeClass('ui-state-active');
-        $(this).addClass('ui-tabs-active').addClass('ui-state-active');
-    });
-
 
     // Copy product size to hidden form when user changes it
     $('input[name=size]').change(function () {
