@@ -34,6 +34,7 @@
     max-height: 140px;
     overflow: hidden;
     position: absolute;
+  cursor: move;
 }
 
 #cyoOverlayStockImage {
@@ -59,10 +60,32 @@
   margin-right: 30px;
 }
 
-#cyoLaunchButtonContainer button{
-    display: block;
+#cyoLaunchButtonContainer .cyoButtonContainer {
     margin-top: 10px;
+    display: block;
+}
+#cyoLaunchButtonContainer .cyoButtonContainer button {
     width: 150px;
+}
+
+#cyoLaunchButtonContainer .cyoButtonContainer .ui-icon-closethick {
+    cursor: pointer;
+}
+
+.cyoDisplaySetting{
+    width: 150px;
+    border: 1px solid black;
+    padding: 3px;
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.hidden{
+    display: none;
+}
+
+.inline-block {
+    display: inline-block;
 }
 
 .chooser img {

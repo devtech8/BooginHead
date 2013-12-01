@@ -54,7 +54,7 @@
         $('#cyoProductSize').val($(this).val());
     });
 
-    // When user click while/pink/blue binky, load that image into the customizer on the left
+    // When user clicks white/pink/blue binky, load that image into the customizer on the left
     $('.shields img').click(function () {
         var bgImage = $('#cyoSample').css('background-image');
         $('#cyoSample img').attr('src', $(this).attr('data-large-image'));
@@ -68,6 +68,7 @@
         var url = $(this).attr('src');
         $('#cyoSample').css('background-image', 'url("' + url.replace(/_thumb/, '') + '")');
         $('#cyoImage').val(url);
+        showSettings('#cyoSelectBackgroundContainer', $(this).attr('title'));
         return false;
     });
 
@@ -79,8 +80,25 @@
         $('#cyoOverlayStockImage .cyoImgContainer').html(img);        
         sizeImageToDiv("#cyoOverlayStockImage");
         $('#cyoOverlayStockImage').show();
+        showSettings('#cyoAddGraphicContainer', $(this).attr('title'));
         return false;
     });
+
+    function showSettings(divId, setting) {
+        var settingDiv = $(divId).find('.cyoDisplaySetting');
+        settingDiv.html(setting);
+        settingDiv.show();
+        $(divId).find('.ui-icon-closethick').removeClass('hidden').addClass('inline-block');
+        return false;
+    }
+
+    function clearSettings(divId) {
+        var settingDiv = $(divId).find('.cyoDisplaySetting');
+        settingDiv.html('');
+        settingDiv.hide();
+        $(divId).find('.ui-icon-closethick').removeClass('inline-block').addClass('hidden');
+        return false;
+    }
 
     
     // Clear image under pacifier

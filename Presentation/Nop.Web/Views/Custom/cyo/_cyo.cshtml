@@ -41,32 +41,48 @@
         <h2>Step 3: Design Custom Pacifier</h2>
 
         <div id="cyoLaunchButtonContainer">
-            <button id="btnShowModalBackground">Select Background</button>
-            <button id="btnShowModalUpload">Upload Image</button>
-            <button id="btnShowModalGraphic">Add Graphic</button>
-            <button id="btnShowModalText">Add Text</button>
+            <div class="cyoButtonContainer" id="cyoSelectBackgroundContainer">
+                <button id="btnShowModalBackground">Select Background</button> 
+                <span class="cyoDisplaySetting" style="display:none"></span>
+                <span class="hidden ui-button-icon-primary ui-icon ui-icon-closethick" title="Clear background image"></span>
+            </div>
+            <div class="cyoButtonContainer" id="cyoUploadImageContainer">
+                <button id="btnShowModalUpload">Upload Image</button>
+                <span class="cyoDisplaySetting" style="display:none"></span>
+                <span class="hidden ui-button-icon-primary ui-icon ui-icon-closethick" title="Clear uploaded image"></span>
+            </div>
+            <div class="cyoButtonContainer" id="cyoAddGraphicContainer">
+                <button id="btnShowModalGraphic">Add Graphic</button>
+                <span class="cyoDisplaySetting" style="display:none"></span>
+                <span class="hidden ui-button-icon-primary ui-icon ui-icon-closethick" title="Clear graphic"></span>
+            </div>
+            <div class="cyoButtonContainer" id="cyoAddTextContainer">
+                <button id="btnShowModalText">Add Text</button>
+                <span class="cyoDisplaySetting" style="display:none"></span>
+                <span class="hidden ui-button-icon-primary ui-icon ui-icon-closethick"  title="Clear text"></span>
+            </div>
         </div>
 
         <div id="cyoModalBackground" title="Choose a Background">            
             <section class="chooser">
-                <img src="http://booginhead.com/products/pacitool/img/preset/America_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/BritishFlag_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Blue_plaid_banner_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Brown_Stars_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Green_Star_Banner_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Houndstooth_Blue_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Houndstooth_Pink_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Pink_Dot_Banner_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Purple_Dot_Banner_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/purple_plaid_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Burberry_Plaid_Banner_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/pink_flower_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Hearts_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/big_dots_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Flower_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/giraffe_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/zebra_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Swirls_thumb.jpg">
+                <img src="http://booginhead.com/products/pacitool/img/preset/America_thumb.jpg" title="America">
+                <img src="http://booginhead.com/products/pacitool/img/preset/BritishFlag_thumb.jpg" title="British Flag">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Blue_plaid_banner_thumb.jpg" title="Blue Plaid Banner">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Brown_Stars_thumb.jpg" title="Brown Stars">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Green_Star_Banner_thumb.jpg" title="Green Star Banner">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Houndstooth_Blue_thumb.jpg" title="Blue Houndstooth">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Houndstooth_Pink_thumb.jpg" title="Pink Houndstooth">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Pink_Dot_Banner_thumb.jpg" title="Pink Dot Banner">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Purple_Dot_Banner_thumb.jpg" title="Purple Dot Banner">
+                <img src="http://booginhead.com/products/pacitool/img/preset/purple_plaid_thumb.jpg" title="Purple Plaid">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Burberry_Plaid_Banner_thumb.jpg" title="Burberry Plaid Banner">
+                <img src="http://booginhead.com/products/pacitool/img/preset/pink_flower_thumb.jpg" title="Pink Flower">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Hearts_thumb.jpg" title="Hearts">
+                <img src="http://booginhead.com/products/pacitool/img/preset/big_dots_thumb.jpg" title="Big Dots">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Flower_thumb.jpg" title="Flower">
+                <img src="http://booginhead.com/products/pacitool/img/preset/giraffe_thumb.jpg" title="Giraffe">
+                <img src="http://booginhead.com/products/pacitool/img/preset/zebra_thumb.jpg" title="Zebra">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Swirls_thumb.jpg" title="Swirls">
             </section>
         </div>
 
@@ -83,7 +99,7 @@
                     var cyoUploader = new qq.FileUploader({
                         element: document.getElementById('cyoUploader'),
                         action: '@(Url.RouteUrl(new { controller = "CYO", action = "UploadFile" }))',
-                        onComplete: function(id, fileName, responseJSON){
+                        onComplete: function (id, fileName, responseJSON) {
                             $("#cyoUploadFile").val(responseJSON.downloadGuid);
                             if (responseJSON.downloadGuid) {
                                 var imgUrl = previewUrl.replace('00000000-0000-0000-0000-000000000000', responseJSON.downloadGuid);
@@ -96,6 +112,11 @@
                                 imgElement.attr('height', $('#cyoOverlayUploadedImage').height());
                                 imgElement.attr('width', $('#cyoOverlayUploadedImage').width());
                                 $('#cyoOverlayUploadedImage').show();
+
+                                var settingDiv = $('#cyoUploadImageContainer .cyoDisplaySetting');
+                                settingDiv.html($('.qq-upload-file').text());
+                                settingDiv.show();
+                                $('#cyoUploadImageContainer').find('.ui-icon-closethick').removeClass('hidden').addClass('inline-block');
                             }
                             else if (responseJSON.message) {
                                 alert(responseJSON.message);
@@ -160,60 +181,60 @@
 
         <div id="cyoModalGraphic" title="Choose a Background">
             <section class="chooser">
-                <img src="http://booginhead.com/products/pacitool/img/preset/cute_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/mustache1_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/mustache2_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/owl_boy_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/owl_girl_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/skull_boy_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/skull_girl_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Bee_boy_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/bee_girl_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/1stBday_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/4thJuly_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Class2030_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/recycle_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/female_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/male_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/ladybug_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/peppermint_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/pink-peppermint_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/HappyHolidays_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Fa_La_La_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/dreidal_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Halloween_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Hanukkah_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Joy_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/MerryXmas_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Merry_X_mas_Red_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/Thanksgiving_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/snowflakes_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/snowman_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/new_year_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/art_hearts_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/heart_banner_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/i_love_dad_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/i_love_mom_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/LOVE_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/triheart_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/dnd_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/fragile_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/heaven_sent_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/hi_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/icry_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/im_a_boy_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/im_a_girl_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/just_chillin_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/milk_junkie_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/mute_button_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/no_comment_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/no_hablo_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/ptsa_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/snooze_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/taxdeduction_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/too_cute_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/volume_control_thumb.jpg">
-                <img src="http://booginhead.com/products/pacitool/img/preset/whine_connoisseur_thumb.jpg">
+                <img src="http://booginhead.com/products/pacitool/img/preset/cute_thumb.jpg" title="Cute">
+                <img src="http://booginhead.com/products/pacitool/img/preset/mustache1_thumb.jpg" title="Mustache (1)">
+                <img src="http://booginhead.com/products/pacitool/img/preset/mustache2_thumb.jpg" title="Mustache (2)">
+                <img src="http://booginhead.com/products/pacitool/img/preset/owl_boy_thumb.jpg" title="Boy Owl">
+                <img src="http://booginhead.com/products/pacitool/img/preset/owl_girl_thumb.jpg" title="Girl Owl">
+                <img src="http://booginhead.com/products/pacitool/img/preset/skull_boy_thumb.jpg" title="Boy Skull">
+                <img src="http://booginhead.com/products/pacitool/img/preset/skull_girl_thumb.jpg" title="Girl Skull">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Bee_boy_thumb.jpg" title="Boy Bee">
+                <img src="http://booginhead.com/products/pacitool/img/preset/bee_girl_thumb.jpg" title="Girl Bee">
+                <img src="http://booginhead.com/products/pacitool/img/preset/1stBday_thumb.jpg" title="First Birthday">
+                <img src="http://booginhead.com/products/pacitool/img/preset/4thJuly_thumb.jpg" title="4th of July">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Class2030_thumb.jpg" title="Class of 2030">
+                <img src="http://booginhead.com/products/pacitool/img/preset/recycle_thumb.jpg" title="Recycle">
+                <img src="http://booginhead.com/products/pacitool/img/preset/female_thumb.jpg" title="Female">
+                <img src="http://booginhead.com/products/pacitool/img/preset/male_thumb.jpg" title="Male">
+                <img src="http://booginhead.com/products/pacitool/img/preset/ladybug_thumb.jpg" title="Ladybug">
+                <img src="http://booginhead.com/products/pacitool/img/preset/peppermint_thumb.jpg" title="Peppermint">
+                <img src="http://booginhead.com/products/pacitool/img/preset/pink-peppermint_thumb.jpg" title="Pink Peppermint">
+                <img src="http://booginhead.com/products/pacitool/img/preset/HappyHolidays_thumb.jpg" title="Happy Holidays">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Fa_La_La_thumb.jpg" title="Fa La La">
+                <img src="http://booginhead.com/products/pacitool/img/preset/dreidal_thumb.jpg" title="Dreidal">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Halloween_thumb.jpg" title="Halloween">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Hanukkah_thumb.jpg" title="Hanukkah">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Joy_thumb.jpg" title="Joy">
+                <img src="http://booginhead.com/products/pacitool/img/preset/MerryXmas_thumb.jpg" title="Merry Xmas">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Merry_X_mas_Red_thumb.jpg" title="Merry Xmas Red">
+                <img src="http://booginhead.com/products/pacitool/img/preset/Thanksgiving_thumb.jpg" title="Thanksgiving">
+                <img src="http://booginhead.com/products/pacitool/img/preset/snowflakes_thumb.jpg" title="Snowflakes">
+                <img src="http://booginhead.com/products/pacitool/img/preset/snowman_thumb.jpg" title="Snowman">
+                <img src="http://booginhead.com/products/pacitool/img/preset/new_year_thumb.jpg" title="New Year">
+                <img src="http://booginhead.com/products/pacitool/img/preset/art_hearts_thumb.jpg" title="Art Hearts">
+                <img src="http://booginhead.com/products/pacitool/img/preset/heart_banner_thumb.jpg" title="Heart Banner">
+                <img src="http://booginhead.com/products/pacitool/img/preset/i_love_dad_thumb.jpg" title="I Love Dad">
+                <img src="http://booginhead.com/products/pacitool/img/preset/i_love_mom_thumb.jpg" title="I Love Mom">
+                <img src="http://booginhead.com/products/pacitool/img/preset/LOVE_thumb.jpg" title="Love">
+                <img src="http://booginhead.com/products/pacitool/img/preset/triheart_thumb.jpg" title="Tri Heart">
+                <img src="http://booginhead.com/products/pacitool/img/preset/dnd_thumb.jpg" title="DND">
+                <img src="http://booginhead.com/products/pacitool/img/preset/fragile_thumb.jpg" title="Fragile">
+                <img src="http://booginhead.com/products/pacitool/img/preset/heaven_sent_thumb.jpg" title="Heaven Sent">
+                <img src="http://booginhead.com/products/pacitool/img/preset/hi_thumb.jpg" title="Hi">
+                <img src="http://booginhead.com/products/pacitool/img/preset/icry_thumb.jpg" title="I Cry">
+                <img src="http://booginhead.com/products/pacitool/img/preset/im_a_boy_thumb.jpg" title="I'm a Boy">
+                <img src="http://booginhead.com/products/pacitool/img/preset/im_a_girl_thumb.jpg" title="I'm a Girl">
+                <img src="http://booginhead.com/products/pacitool/img/preset/just_chillin_thumb.jpg" title="Just Chillin">
+                <img src="http://booginhead.com/products/pacitool/img/preset/milk_junkie_thumb.jpg" title="Milk Junkie">
+                <img src="http://booginhead.com/products/pacitool/img/preset/mute_button_thumb.jpg" title="Mute Button">
+                <img src="http://booginhead.com/products/pacitool/img/preset/no_comment_thumb.jpg" title="No Comment">
+                <img src="http://booginhead.com/products/pacitool/img/preset/no_hablo_thumb.jpg" title="No Hablo">
+                <img src="http://booginhead.com/products/pacitool/img/preset/ptsa_thumb.jpg" title="PTSA">
+                <img src="http://booginhead.com/products/pacitool/img/preset/snooze_thumb.jpg" title="Snooze">
+                <img src="http://booginhead.com/products/pacitool/img/preset/taxdeduction_thumb.jpg" title="Tax Deduction">
+                <img src="http://booginhead.com/products/pacitool/img/preset/too_cute_thumb.jpg" title="Too Cute">
+                <img src="http://booginhead.com/products/pacitool/img/preset/volume_control_thumb.jpg" title="Volume Control">
+                <img src="http://booginhead.com/products/pacitool/img/preset/whine_connoisseur_thumb.jpg" title="Whine Connoisseur">
             </section>
         </div> 
 
