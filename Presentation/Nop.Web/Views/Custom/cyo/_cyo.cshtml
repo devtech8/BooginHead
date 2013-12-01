@@ -14,7 +14,10 @@
 
   	<div id="cyoSample">
         <img src="http://booginhead.com/products/pacitool/img/shield-color/shield_white.png"/>
-        <div id="cyoOverlay" style="font-family: 'ABeeZee';"></div>
+        <div id="cyoOverlayUploadedImage" style="display: none;"><div class="cyoImgContainer"></div></div>
+        <div id="cyoOverlayStockImage"><div class="cyoImgContainer"></div></div>
+        <div id="cyoOverlayText1" style="font-family: 'ABeeZee';"></div>
+        <div id="cyoOverlayText2" style="font-family: 'ABeeZee';"></div>
     </div>
 
 
@@ -82,9 +85,17 @@
                         action: '@(Url.RouteUrl(new { controller = "CYO", action = "UploadFile" }))',
                         onComplete: function(id, fileName, responseJSON){
                             $("#cyoUploadFile").val(responseJSON.downloadGuid);
-                            if (responseJSON.downloadGuid) {                               
-                                $('#cyoUploadedImageThumbnail').attr('src', previewUrl.replace('00000000-0000-0000-0000-000000000000', responseJSON.downloadGuid));
+                            if (responseJSON.downloadGuid) {
+                                var imgUrl = previewUrl.replace('00000000-0000-0000-0000-000000000000', responseJSON.downloadGuid);
+                                $('#cyoUploadedImageThumbnail').attr('src', imgUrl);
                                 $('#cyoUploadedImageDiv').show();
+                                var img = '<img src=\"' + imgUrl + '\">';
+                                var imgContainer = $('#cyoOverlayUploadedImage .cyoImgContainer');
+                                imgContainer.html(img);
+                                var imgElement = $('#cyoOverlayUploadedImage .cyoImgContainer img');
+                                imgElement.attr('height', $('#cyoOverlayUploadedImage').height());
+                                imgElement.attr('width', $('#cyoOverlayUploadedImage').width());
+                                $('#cyoOverlayUploadedImage').show();
                             }
                             else if (responseJSON.message) {
                                 alert(responseJSON.message);

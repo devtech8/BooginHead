@@ -1,6 +1,14 @@
 ﻿$(function () {
 
-    $("#cyoOverlay").draggable();
+    $("#cyoOverlayStockImage").draggable().resizable();
+    $("#cyoOverlayUploadedImage").draggable().resizable({
+        resize: function (e, ui) {
+            sizeImageToDiv("#cyoOverlayUploadedImage");
+        }
+     });
+    $("#cyoOverlayText1").draggable();
+    $("#cyoOverlayText2").draggable();
+
     $("#font-size-slider").slider();
 
     var modalProperties = {
@@ -68,13 +76,13 @@
     // Set custom text as user types
     $('#cyoCustomText').keyup(function () {
         var text = $(this).val().replace(/\n/, "<br/>");
-        $('#cyoOverlay').html(text);
+        $('#cyoOverlayText1').html(text);
         $('#cyoText').val(text);
     });
 
     // Clear custom text when user clicks Clear button
     $('#cyoClearText').click(function () {
-        $('#cyoOverlay').html('');
+        $('#cyoOverlayText1').html('');
         $('#cyoCustomText').val('');
         $('#cyoText').val('');
     });
@@ -85,14 +93,14 @@
         $(this).addClass('selected');
         var font = $(this).css('font-family');
         $('#cyoCustomFont').attr('value', font);
-        $('#cyoOverlay').css('font-family', font);
+        $('#cyoOverlayText1').css('font-family', font);
         $('#cyoFontFamily').val(font.replace(/'/, ''));
     });
 
     // Allow font color input to set font color in overlay
     $('#cyoCustomColor').change(function () {
         var hexColor = '#' + document.getElementById('cyoCustomColor').color.toString();
-        $('#cyoOverlay').css('color', hexColor);
+        $('#cyoOverlayText1').css('color', hexColor);
         $('#cyoFontColor').val(hexColor);
     });
 
@@ -110,8 +118,15 @@
     function setFontSize(sliderControl) {
         var position = parseInt(sliderControl.css('left'), 10);
         var fontSize = parseInt((position / 1.5), 10);
-        $('#cyoOverlay').css('font-size', fontSize);
+        $('#cyoOverlayText1').css('font-size', fontSize);
         $('#cyoFontSize').val(fontSize + 'px');
+    }
+
+    // Resize the image to match the dimensions of its container div
+    function sizeImageToDiv(divId) {
+        var imgElement = $(divId + ' .cyoImgContainer img');
+        imgElement.attr('height', $(divId).height());
+        imgElement.attr('width', $(divId).width());
     }
 
     // Create Proof

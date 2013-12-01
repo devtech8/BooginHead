@@ -6,22 +6,52 @@
   zoom: 60%;
 }
 
-#cyoOverlay {
+#cyoOverlayStockImage, #cyoOverlayText1, #cyoOverlayText2 {
   height: auto;
   width: auto;
   max-width: 280px;
   max-height: 130px;
+  overflow: hidden;
   position: absolute;
-  top: 194px;
-  left: 200px;
   padding: 20px;
-  cursor: pointer;
+  cursor: move;
   font-size: 32px;
 }
 
-#cyoOverlay:hover {
+#cyoOverlayText1:hover, #cyoOverlayText2:hover {
   border: 1px dashed #999;
 }
+
+#cyoOverlayUploadedImage {
+    z-index: 10;
+    border: 0;
+    /* padding: 0; */
+    top: 170px;
+    left: 220px;
+    width: 220px;
+    height: 140px;
+    max-width: 220px;
+    max-height: 140px;
+    overflow: hidden;
+    position: absolute;
+}
+
+#cyoOverlayStockImage {
+    z-index: 20;
+}
+
+#cyoOverlayText1 {
+  top: 194px;
+  left: 200px;
+  z-index: 30;
+}
+
+#cyoOverlayText2 {
+  top: 224px;
+  left: 200px;
+  z-index: 40;
+}
+
 
 #cyoCustomizer {
   float: right;
