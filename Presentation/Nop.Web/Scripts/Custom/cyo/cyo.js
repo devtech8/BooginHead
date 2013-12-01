@@ -2,21 +2,7 @@
 
     initUploader();
     initModals();
-
-    $("#cyoOverlayStockImage").draggable().resizable({
-        resize: function (e, ui) {
-            sizeImageToDiv("#cyoOverlayStockImage");
-        }
-    });
-    $("#cyoOverlayUploadedImage").draggable().resizable({
-        resize: function (e, ui) {
-            sizeImageToDiv("#cyoOverlayUploadedImage");
-        }
-     });
-    $("#cyoOverlayText1").draggable();
-    $("#cyoOverlayText2").draggable();
-
-    $("#font-size-slider").slider();
+    initDraggablesAndSliders();
 
 
     // Clear the background image when user clicks X
@@ -185,15 +171,16 @@
             onComplete: function (id, fileName, responseJSON) {
                 $("#cyoUploadFile").val(responseJSON.downloadGuid);
                 if (responseJSON.downloadGuid) {
+                    // Show a thumbnail of the uploaded image in the upload dialog.
                     var imgUrl = previewUrl.replace('00000000-0000-0000-0000-000000000000', responseJSON.downloadGuid);
                     $('#cyoUploadedImageThumbnail').attr('src', imgUrl);
                     $('#cyoUploadedImageDiv').show();
                     var img = '<img src=\"' + imgUrl + '\">';
                     var imgContainer = $('#cyoOverlayUploadedImage .cyoImgContainer');
                     imgContainer.html(img);
-                    var imgElement = $('#cyoOverlayUploadedImage .cyoImgContainer img');
-                    imgElement.attr('height', $('#cyoOverlayUploadedImage').height());
-                    imgElement.attr('width', $('#cyoOverlayUploadedImage').width());
+
+                    // Load the uploaded image into the overlay, and set its size
+                    sizeImageToDiv('#cyoOverlayUploadedImage');
                     $('#cyoOverlayUploadedImage').show();
 
                     // Remove older photos, since we don't have a way of getting back to them.
@@ -206,11 +193,8 @@
                         });
                     }
 
-                    var settingDiv = $('#cyoUploadImageContainer .cyoDisplaySetting');
-                    settingDiv.html($('.qq-upload-file').text());
-                    settingDiv.show();
-                    $('#cyoUploadImageContainer').find('.ui-icon-closethick').removeClass('hidden').addClass('inline-block');
-
+                    // Show the name of the uploaded image next to the button.
+                    showSettings('#cyoUploadImageContainer', $('.qq-upload-file').text());
                 }
                 else if (responseJSON.message) {
                     alert(responseJSON.message);
@@ -260,4 +244,20 @@
         });
     }
 
+    function initDraggablesAndSliders() {
+        $("#cyoOverlayStockImage").draggable().resizable({
+            resize: function (e, ui) {
+                sizeImageToDiv("#cyoOverlayStockImage");
+            }
+        });
+        $("#cyoOverlayUploadedImage").draggable().resizable({
+            resize: function (e, ui) {
+                sizeImageToDiv("#cyoOverlayUploadedImage");
+            }
+        });
+        $("#cyoOverlayText1").draggable();
+        $("#cyoOverlayText2").draggable();
+
+        $("#font-size-slider").slider();
+    }
 });
