@@ -61,8 +61,12 @@
         return false;
     });
 
+    // Clear stock image when user clicks X
     $('#cyoAddGraphicContainer .ui-icon-closethick').click(function () {
-
+        $('#cyoOverlayStockImage .cyoImgContainer').html('');
+        $('#cyoOverlayStockImage').hide();
+        clearSettings('#cyoAddGraphicContainer');
+        return false;
     });
 
     $('#cyoAddTextContainer .ui-icon-closethick').click(function () {
