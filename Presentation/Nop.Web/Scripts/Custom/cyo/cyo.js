@@ -1,6 +1,7 @@
 ﻿$(function () {
 
     initUploader();
+    initModals();
 
     $("#cyoOverlayStockImage").draggable().resizable({
         resize: function (e, ui) {
@@ -17,35 +18,6 @@
 
     $("#font-size-slider").slider();
 
-    var modalProperties = {
-        height: 400,
-        width: 500,
-        modal: true,
-        autoOpen: false,
-        position: { my: "left", at: "center", of: window },
-        show: { effect: "blind", duration: 600 }
-    };
-
-    $("#cyoModalUpload").dialog(modalProperties);
-    $("#cyoModalBackground").dialog(modalProperties);
-    $("#cyoModalText").dialog(modalProperties);
-    $("#cyoModalGraphic").dialog(modalProperties);
-
-    $('#btnShowModalUpload').click(function () {
-        $("#cyoModalUpload").dialog("open");
-    });
-
-    $('#btnShowModalBackground').click(function () {
-        $("#cyoModalBackground").dialog("open");
-    });
-
-    $('#btnShowModalText').click(function () {
-        $("#cyoModalText").dialog("open");
-    });
-
-    $('#btnShowModalGraphic').click(function () {
-        $("#cyoModalGraphic").dialog("open");
-    });
 
     // Clear the background image when user clicks X
     $('#cyoSelectBackgroundContainer .ui-icon-closethick').click(function () {
@@ -251,8 +223,41 @@
                 cancel: settings.attr('data-cancel-string'),
                 failed: settings.attr('data-failed-string')
             }
-});
+        });
+    }
 
+
+    // Initalize the modal dialogs and hook up the buttons that launch them.
+    function initModals() {
+        var modalProperties = {
+            height: 400,
+            width: 500,
+            modal: true,
+            autoOpen: false,
+            position: { my: "left", at: "center", of: window },
+            show: { effect: "blind", duration: 600 }
+        };
+
+        $("#cyoModalUpload").dialog(modalProperties);
+        $("#cyoModalBackground").dialog(modalProperties);
+        $("#cyoModalText").dialog(modalProperties);
+        $("#cyoModalGraphic").dialog(modalProperties);
+
+        $('#btnShowModalUpload').click(function () {
+            $("#cyoModalUpload").dialog("open");
+        });
+
+        $('#btnShowModalBackground').click(function () {
+            $("#cyoModalBackground").dialog("open");
+        });
+
+        $('#btnShowModalText').click(function () {
+            $("#cyoModalText").dialog("open");
+        });
+
+        $('#btnShowModalGraphic').click(function () {
+            $("#cyoModalGraphic").dialog("open");
+        });
     }
 
 });
