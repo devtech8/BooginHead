@@ -44,6 +44,25 @@
         $("#cyoModalGraphic").dialog("open");
     });
 
+    $('#cyoSelectBackgroundContainer .ui-icon-closethick').click(function () {
+        $('#cyoSample').css('background-image', 'none');
+        $('#cyoImage').val('');
+        clearSettings('#cyoSelectBackgroundContainer');
+        return false;
+    });
+
+    $('#cyoUploadImageContainer .ui-icon-closethick').click(function () {
+
+    });
+
+    $('#cyoAddGraphicContainer .ui-icon-closethick').click(function () {
+
+    });
+
+    $('#cyoAddTextContainer .ui-icon-closethick').click(function () {
+
+    });
+
 
     // Initialize font size slider position and font size
     $('#font-size-slider a').css('left', '60px');
