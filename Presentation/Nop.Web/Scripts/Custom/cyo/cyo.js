@@ -70,8 +70,13 @@
         return false;
     });
 
+    // Clear text when user clicks X
     $('#cyoAddTextContainer .ui-icon-closethick').click(function () {
-
+        $('#cyoOverlayText1').html('');
+        $('#cyoCustomText').val('');
+        $('#cyoText').val('');
+        clearSettings('#cyoAddTextContainer');
+        return false;
     });
 
 
@@ -142,14 +147,9 @@
         var text = $(this).val().replace(/\n/, "<br/>");
         $('#cyoOverlayText1').html(text);
         $('#cyoText').val(text);
+        showSettings('#cyoAddTextContainer', text);
     });
 
-    // Clear custom text when user clicks Clear button
-    $('#cyoClearText').click(function () {
-        $('#cyoOverlayText1').html('');
-        $('#cyoCustomText').val('');
-        $('#cyoText').val('');
-    });
 
     // Custom font menu
     $('#cyoFontMenu li').click(function () {
