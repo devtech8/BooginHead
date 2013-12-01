@@ -1,5 +1,7 @@
 ﻿$(function () {
 
+    initUploader();
+
     $("#cyoOverlayStockImage").draggable().resizable({
         resize: function (e, ui) {
             sizeImageToDiv("#cyoOverlayStockImage");
@@ -197,5 +199,60 @@
     $('#btn-create-proof').click(function () {
         alert('Proof is not hooked up yet')
     });
+
+
+    // Initialize the file upload controller.
+    // The #cyoUploadControlSettings div contains some settings 
+    // in data-* attributes that were set by the server.
+    function initUploader() {        
+        var settings = $('#cyoUploadControlSettings');
+        var previewUrl = settings.attr('data-preview-url');
+        var cyoUploader = new qq.FileUploader({
+            element: document.getElementById('cyoUploader'),
+            action: settings.attr('data-form-action'),
+            onComplete: function (id, fileName, responseJSON) {
+                $("#cyoUploadFile").val(responseJSON.downloadGuid);
+                if (responseJSON.downloadGuid) {
+                    var imgUrl = previewUrl.replace('00000000-0000-0000-0000-000000000000', responseJSON.downloadGuid);
+                    $('#cyoUploadedImageThumbnail').attr('src', imgUrl);
+                    $('#cyoUploadedImageDiv').show();
+                    var img = '<img src=\"' + imgUrl + '\">';
+                    var imgContainer = $('#cyoOverlayUploadedImage .cyoImgContainer');
+                    imgContainer.html(img);
+                    var imgElement = $('#cyoOverlayUploadedImage .cyoImgContainer img');
+                    imgElement.attr('height', $('#cyoOverlayUploadedImage').height());
+                    imgElement.attr('width', $('#cyoOverlayUploadedImage').width());
+                    $('#cyoOverlayUploadedImage').show();
+
+                    // Remove older photos, since we don't have a way of getting back to them.
+                    var imageCount = $('.qq-upload-success').length;
+                    if (imageCount > 1) {
+                        $('.qq-upload-success').each(function (index, element) {
+                            if (index == 0) {
+                                $(element).remove();
+                            }
+                        });
+                    }
+
+                    var settingDiv = $('#cyoUploadImageContainer .cyoDisplaySetting');
+                    settingDiv.html($('.qq-upload-file').text());
+                    settingDiv.show();
+                    $('#cyoUploadImageContainer').find('.ui-icon-closethick').removeClass('hidden').addClass('inline-block');
+
+                }
+                else if (responseJSON.message) {
+                    alert(responseJSON.message);
+                }
+            },
+            allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+            strings: {
+                upload: settings.attr('data-upload-string'),
+                drop: settings.attr('data-drop-string'),
+                cancel: settings.attr('data-cancel-string'),
+                failed: settings.attr('data-failed-string')
+            }
+});
+
+    }
 
 });

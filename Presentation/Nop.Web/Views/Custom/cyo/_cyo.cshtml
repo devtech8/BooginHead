@@ -93,57 +93,16 @@
             <div id="cyoUploadedImageDiv" style="display:none;">
                 <img id="cyoUploadedImageThumbnail" src="" width="200"/>
             </div>
-            <script type="text/javascript">
-                // TODO: Move into cyo.js
-                $(function () {
-                    var previewUrl = '@(Url.RouteUrl(new { controller = "CYO", action = "GetFileUpload", downloadId = Guid.Empty }))';
-                    var cyoUploader = new qq.FileUploader({
-                        element: document.getElementById('cyoUploader'),
-                        action: '@(Url.RouteUrl(new { controller = "CYO", action = "UploadFile" }))',
-                        onComplete: function (id, fileName, responseJSON) {
-                            $("#cyoUploadFile").val(responseJSON.downloadGuid);
-                            if (responseJSON.downloadGuid) {
-                                var imgUrl = previewUrl.replace('00000000-0000-0000-0000-000000000000', responseJSON.downloadGuid);
-                                $('#cyoUploadedImageThumbnail').attr('src', imgUrl);
-                                $('#cyoUploadedImageDiv').show();
-                                var img = '<img src=\"' + imgUrl + '\">';
-                                var imgContainer = $('#cyoOverlayUploadedImage .cyoImgContainer');
-                                imgContainer.html(img);
-                                var imgElement = $('#cyoOverlayUploadedImage .cyoImgContainer img');
-                                imgElement.attr('height', $('#cyoOverlayUploadedImage').height());
-                                imgElement.attr('width', $('#cyoOverlayUploadedImage').width());
-                                $('#cyoOverlayUploadedImage').show();
 
-                                // Remove older photos, since we don't have a way of getting back to them.
-                                var imageCount = $('.qq-upload-success').length;
-                                if (imageCount > 1) {
-                                    $('.qq-upload-success').each(function (index, element) {
-                                        if (index == 0) {
-                                            $(element).remove();
-                                        }
-                                    });
-                                }
+            <div style="display:none" 
+                id="cyoUploadControlSettings"
+                data-preview-url="@(Url.RouteUrl(new { controller = "CYO", action = "GetFileUpload", downloadId = Guid.Empty }))"
+                data-form-action="@(Url.RouteUrl(new { controller = "CYO", action = "UploadFile" }))"
+                data-upload-string="@T("Common.FileUploader.Upload")"
+                data-drop-string="@T("Common.FileUploader.DropFiles")"
+                data-cancel-string="@T("Common.FileUploader.Cancel")"
+                data-failed-string="@T("Common.FileUploader.Failed")"></div>
 
-                                var settingDiv = $('#cyoUploadImageContainer .cyoDisplaySetting');
-                                settingDiv.html($('.qq-upload-file').text());
-                                settingDiv.show();
-                                $('#cyoUploadImageContainer').find('.ui-icon-closethick').removeClass('hidden').addClass('inline-block');
-
-                            }
-                            else if (responseJSON.message) {
-                                alert(responseJSON.message);
-                            }
-                        },
-                        allowedExtensions: ['jpg', 'jpeg', 'png', 'gif'],
-                        strings: {
-                            upload: "@T("Common.FileUploader.Upload")",
-                            drop: "@T("Common.FileUploader.DropFiles")",
-                            cancel: "@T("Common.FileUploader.Cancel")",
-                            failed: "@T("Common.FileUploader.Failed")"
-                        }
-                    });
-                });
-            </script>
         </div>
 
         <div id="cyoModalText" title="Enter Text">
