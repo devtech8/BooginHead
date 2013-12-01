@@ -20,6 +20,7 @@
         width: 500,
         modal: true,
         autoOpen: false,
+        position: { my: "left", at: "center", of: window },
         show: { effect: "blind", duration: 600 }
     };
 
