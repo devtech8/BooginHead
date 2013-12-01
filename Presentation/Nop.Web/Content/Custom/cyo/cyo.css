@@ -72,6 +72,10 @@
     cursor: pointer;
 }
 
+#cyoUploadedImageDiv{
+    cursor: pointer;
+}
+
 .cyoDisplaySetting{
     width: 150px;
     border: 1px solid black;

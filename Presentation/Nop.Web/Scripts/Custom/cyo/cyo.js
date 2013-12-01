@@ -44,6 +44,31 @@
         imgElement.attr('width', $(divId).width());
     }
 
+    // Display the uploaded image on the binky
+    function showUploadInOverlay(imgUrl) {
+        var img = '<img src=\"' + imgUrl + '\">';
+        var imgContainer = $('#cyoOverlayUploadedImage .cyoImgContainer');
+        imgContainer.html(img);
+        sizeImageToDiv('#cyoOverlayUploadedImage');
+        $('#cyoOverlayUploadedImage').show();
+        removeOldUploadsFromDisplay();
+
+        // Show the name of the uploaded image next to the button.
+        showSettings('#cyoUploadImageContainer', $('.qq-upload-file').text());
+    }
+
+    // Remove older photos from the upload dialog, 
+    // since we don't have a way of getting back to them.
+    function removeOldUploadsFromDisplay() {        
+        var imageCount = $('.qq-upload-success').length;
+        if (imageCount > 1) {
+            $('.qq-upload-success').each(function (index, element) {
+                if (index == 0) {
+                    $(element).remove();
+                }
+            });
+        }
+    }
 
     // --------------------------------------------------------------------
     // BEGIN INITIALIZERS
@@ -65,26 +90,7 @@
                     var imgUrl = previewUrl.replace('00000000-0000-0000-0000-000000000000', responseJSON.downloadGuid);
                     $('#cyoUploadedImageThumbnail').attr('src', imgUrl);
                     $('#cyoUploadedImageDiv').show();
-                    var img = '<img src=\"' + imgUrl + '\">';
-                    var imgContainer = $('#cyoOverlayUploadedImage .cyoImgContainer');
-                    imgContainer.html(img);
-
-                    // Load the uploaded image into the overlay, and set its size
-                    sizeImageToDiv('#cyoOverlayUploadedImage');
-                    $('#cyoOverlayUploadedImage').show();
-
-                    // Remove older photos, since we don't have a way of getting back to them.
-                    var imageCount = $('.qq-upload-success').length;
-                    if (imageCount > 1) {
-                        $('.qq-upload-success').each(function (index, element) {
-                            if (index == 0) {
-                                $(element).remove();
-                            }
-                        });
-                    }
-
-                    // Show the name of the uploaded image next to the button.
-                    showSettings('#cyoUploadImageContainer', $('.qq-upload-file').text());
+                    showUploadInOverlay(imgUrl);
                 }
                 else if (responseJSON.message) {
                     alert(responseJSON.message);
@@ -106,6 +112,15 @@
             $('#cyoOverlayUploadedImage').hide();
             clearSettings('#cyoUploadImageContainer');
             return false;
+        });
+
+        // If user clicks on the uploaded image thumbnail, 
+        // load the image back into the overlay. This is 
+        // useful when user deletes uploaded image then
+        // wants it back
+        $('#cyoUploadedImageThumbnail').click(function () {
+            var imgUrl = $('#cyoUploadedImageThumbnail').attr('src');
+            showUploadInOverlay(imgUrl);
         });
     }
 
