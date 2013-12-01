@@ -113,10 +113,21 @@
                                 imgElement.attr('width', $('#cyoOverlayUploadedImage').width());
                                 $('#cyoOverlayUploadedImage').show();
 
+                                // Remove older photos, since we don't have a way of getting back to them.
+                                var imageCount = $('.qq-upload-success').length;
+                                if (imageCount > 1) {
+                                    $('.qq-upload-success').each(function (index, element) {
+                                        if (index == 0) {
+                                            $(element).remove();
+                                        }
+                                    });
+                                }
+
                                 var settingDiv = $('#cyoUploadImageContainer .cyoDisplaySetting');
                                 settingDiv.html($('.qq-upload-file').text());
                                 settingDiv.show();
                                 $('#cyoUploadImageContainer').find('.ui-icon-closethick').removeClass('hidden').addClass('inline-block');
+
                             }
                             else if (responseJSON.message) {
                                 alert(responseJSON.message);

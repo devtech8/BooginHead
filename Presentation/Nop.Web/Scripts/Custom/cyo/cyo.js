@@ -44,6 +44,7 @@
         $("#cyoModalGraphic").dialog("open");
     });
 
+    // Clear the background image when user clicks X
     $('#cyoSelectBackgroundContainer .ui-icon-closethick').click(function () {
         $('#cyoSample').css('background-image', 'none');
         $('#cyoImage').val('');
@@ -51,8 +52,13 @@
         return false;
     });
 
+    // Clear uploaded image when user clicks X
     $('#cyoUploadImageContainer .ui-icon-closethick').click(function () {
-
+        var imgContainer = $('#cyoOverlayUploadedImage .cyoImgContainer');
+        imgContainer.html('');
+        $('#cyoOverlayUploadedImage').hide();
+        clearSettings('#cyoUploadImageContainer');
+        return false;
     });
 
     $('#cyoAddGraphicContainer .ui-icon-closethick').click(function () {
