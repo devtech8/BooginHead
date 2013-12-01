@@ -1,6 +1,10 @@
 ﻿$(function () {
 
-    $("#cyoOverlayStockImage").draggable().resizable();
+    $("#cyoOverlayStockImage").draggable().resizable({
+        resize: function (e, ui) {
+            sizeImageToDiv("#cyoOverlayStockImage");
+        }
+    });
     $("#cyoOverlayUploadedImage").draggable().resizable({
         resize: function (e, ui) {
             sizeImageToDiv("#cyoOverlayUploadedImage");
@@ -59,13 +63,25 @@
         $('#cyoProductColor').val($(this).attr('data-shield'));
     });
 
-    // Load clicked image into pacifier
-    $('.chooser img').click(function () {
+    // Load clicked background image into pacifier
+    $('#cyoModalBackground .chooser img').click(function () {
         var url = $(this).attr('src');
         $('#cyoSample').css('background-image', 'url("' + url.replace(/_thumb/, '') + '")');
         $('#cyoImage').val(url);
         return false;
     });
+
+
+    // Load clicked stock image into div
+    $('#cyoModalGraphic .chooser img').click(function () {
+        var url = $(this).attr('src');
+        var img = '<img src=\"' + url + '\">';
+        $('#cyoOverlayStockImage .cyoImgContainer').html(img);        
+        sizeImageToDiv("#cyoOverlayStockImage");
+        $('#cyoOverlayStockImage').show();
+        return false;
+    });
+
     
     // Clear image under pacifier
     $('.btn-clear-design').click(function () {

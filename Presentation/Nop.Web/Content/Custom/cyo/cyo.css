@@ -6,7 +6,7 @@
   zoom: 60%;
 }
 
-#cyoOverlayStockImage, #cyoOverlayText1, #cyoOverlayText2 {
+#cyoOverlayText1, #cyoOverlayText2 {
   height: auto;
   width: auto;
   max-width: 280px;
@@ -22,7 +22,7 @@
   border: 1px dashed #999;
 }
 
-#cyoOverlayUploadedImage {
+#cyoOverlayStockImage, #cyoOverlayUploadedImage {
     z-index: 10;
     border: 0;
     /* padding: 0; */
