@@ -70,6 +70,19 @@
         }
     }
 
+    // Set the binky background color to match what's selected
+    // in the background dialog.
+    function setBinkyBackgroundColor() {
+        $('#cyoSample').css('background-image', 'none');
+        $('#cyoImage').val('');
+        var hexColor = '#' + document.getElementById('cyoBackgroundColorControl').color.toString();
+        showSettings('#cyoSelectBackgroundContainer', hexColor);
+        $('#cyoSample').css('background-image', 'none');
+        $('#cyoSample').css('background-color', hexColor);
+        $('#cyoBackgroundColor').val(hexColor);
+        return false;
+    }
+
     // --------------------------------------------------------------------
     // BEGIN INITIALIZERS
     // --------------------------------------------------------------------
@@ -181,6 +194,8 @@
             var url = $(this).attr('src');
             $('#cyoSample').css('background-image', 'url("' + url.replace(/_thumb/, '') + '")');
             $('#cyoImage').val(url);
+            $('#cyoSample').css('background-color', 'transparent');
+            $('#cyoBackgroundColor').val('');
             showSettings('#cyoSelectBackgroundContainer', $(this).attr('title'));
             return false;
         });
@@ -192,6 +207,15 @@
             clearSettings('#cyoSelectBackgroundContainer');
             return false;
         });
+
+        $('#cyoBackgroundColorControl').click(function () {
+            setBinkyBackgroundColor();
+        });
+
+        $('#cyoBackgroundColorControl').change(function () {
+            setBinkyBackgroundColor();
+        });
+
     }
 
     function initStockImageBehaviors() {

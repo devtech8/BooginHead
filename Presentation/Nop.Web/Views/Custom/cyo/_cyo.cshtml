@@ -63,8 +63,13 @@
             </div>
         </div>
 
-        <div id="cyoModalBackground" title="Choose a Background">            
-            <section class="chooser">
+        <div id="cyoModalBackground" title="Choose a Background">
+            <section style="width:30%;float:left;">
+                <h3>Solid Color</h3>
+                <input id="cyoBackgroundColorControl" type="text" name="cyoBackgroundColorControl" value="#FFFFFF" data-hex="true" class="color"">
+            </section>
+            <section class="chooser" style="width:60%;float:right;">
+                <h3>Background Image</h3>
                 <img src="http://booginhead.com/products/pacitool/img/preset/America_thumb.jpg" title="America">
                 <img src="http://booginhead.com/products/pacitool/img/preset/BritishFlag_thumb.jpg" title="British Flag">
                 <img src="http://booginhead.com/products/pacitool/img/preset/Blue_plaid_banner_thumb.jpg" title="Blue Plaid Banner">
@@ -224,12 +229,16 @@
 
         <form action="/ADD_THIS_ENDPOINT" method="post" id="product_addtocart_form" enctype="multipart/form-data">
             <input type="hidden" name="cyoImage" id="cyoImage" value="" />
+            <input type="hidden" name="cyoUploadedImage" id="cyoUploadedImage" value="" />
             <input type="hidden" name="cyoText" id="cyoText" value="" />
             <input type="hidden" name="cyoFontFamily" id="cyoFontFamily" value="ABeeZee" />
             <input type="hidden" name="cyoFontColor" id="cyoFontColor" value="#777777" />
             <input type="hidden" name="cyoFontSize" id="cyoFontSize" value="" />
             <input type="hidden" name="cyoProductSize" id="cyoProductSize" value="7plus" />
             <input type="hidden" name="cyoProductColor" id="cyoProductColor" value="white" />
+            <input type="hidden" name="cyoBackgroundColor" id="cyoBackgroundColor" value="white" />
+            <input type="hidden" name="cyoBackgroundImage" id="cyoBackgroundImage" value="" />
+
 
             <input type="hidden" name="cyoTextTop" id="cyoTextTop" value="" />
             <input type="hidden" name="cyoTextLeft" id="cyoTextLeft" value="" />

@@ -4,6 +4,7 @@
   background-repeat:no-repeat;
   background-position:center;
   zoom: 60%;
+  -moz-transform: scale(0.60);
 }
 
 #cyoOverlayText1, #cyoOverlayText2 {
