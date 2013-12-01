@@ -88,6 +88,28 @@
     display: inline-block;
 }
 
+#cyoModalText label {
+    display: block;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    text-align: left;
+}
+
+#cyoModalText .control {
+    margin-left: 120px;
+    width: 200px;
+}
+
+#cyoModalText .control-color {
+    margin-left: 120px;
+    width: 225px;
+}
+
+#cyoModalText input[type=text] {
+    width: 200px;
+}
+
+
 .chooser img {
     cursor: pointer;
     margin: 4px;
@@ -100,21 +122,11 @@
 #cyoFontMenu {
     border: 1px solid #999;
     width: 200px;
-    height: 16px;
-    overflow: hidden;
-    transition: height 0.1s;
-}
-#cyoFontMenu:hover {
-    height: 100px;
+    height: 120px;
     overflow-y: scroll;
 }
 
-#cyoFontMenu:hover li {
-    display:block;
-}
-
 #cyoFontMenu li {
-    display: none;
     margin: 2px;
     list-style-type: none;
 }
@@ -124,5 +136,5 @@
 }
 
 #cyoFontMenu li.selected {
-    display: block;
+    background-color: #ddd;
 }

@@ -94,6 +94,7 @@
                 <img id="cyoUploadedImageThumbnail" src="" width="200"/>
             </div>
             <script type="text/javascript">
+                // TODO: Move into cyo.js
                 $(function () {
                     var previewUrl = '@(Url.RouteUrl(new { controller = "CYO", action = "GetFileUpload", downloadId = Guid.Empty }))';
                     var cyoUploader = new qq.FileUploader({
@@ -146,12 +147,23 @@
         </div>
 
         <div id="cyoModalText" title="Enter Text">
-            <div>
-                <input type="text" id="cyoCustomText" name="cyoCustomText" value="">
-                <input type="button" value="Clear" id="cyoClearText">
+            <div class="control">
+                <label>Text</label>
+                <input type="text" id="cyoCustomText" name="cyoCustomText" value="">                
             </div>
 
-            <div>
+            <div class="control-color">
+                <label for="cyoCustomColor">Color</label>
+                <input id="cyoCustomColor" type="text" name="cyoCustomColor" value="#777777" data-hex="true" class="color""><span id="colorWheel" class="color" style="display: inline-block; cursor: pointer;"><img src="http://www.infabcorp.com/wp-content/themes/infab/images/color.png" style="border: 0px; margin: 0px 0px 0px 3px; vertical-align: text-bottom;"></span>
+            </div>
+
+            <div class="control">
+                <label>Font-Size</label>
+                <div id="font-size-slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"><a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 30.23255813953488%;"></a></div>
+            </div>
+
+            <div class="control">
+                <label>Font</label>
                 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=ABeeZee:400,700,400italic,700italic">
                 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Finger Paint:400,700,400italic,700italic">
                 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Sofadi One:400,700,400italic,700italic">
@@ -161,33 +173,19 @@
                 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Chicle:400,700,400italic,700italic">
                 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Titillium Web:400,700,400italic,700italic">
 
-                <div>
-                    <label for="cyoCustomFont">Font</label>
-				    <input type="hidden" id="cyoCustomFont" name="cyoCustomFont" />
-                    <ul id="cyoFontMenu">
-                        <li style="font-family:'AbeeZee'" class="selected">ABeeZee</li>
-                        <li style="font-family:'Finger Paint'">Finger Paint</li>
-                        <li style="font-family:'Sofadi One'">Sofadi One</li>
-                        <li style="font-family:'Archivo Black'">Archivo Black</li>
-                        <li style="font-family:'Ranchers'">Ranchers</li>
-                        <li style="font-family:'Allura'">Allura</li>
-                        <li style="font-family:'Chicle'">Chicle</li>
-                        <li style="font-family:'Titillium Web'">Titillium Web</li>
-                    </ul>
-                </div>
-
-
+				<input type="hidden" id="cyoCustomFont" name="cyoCustomFont" />
+                <ul id="cyoFontMenu">
+                    <li style="font-family:'AbeeZee'" class="selected">ABeeZee</li>
+                    <li style="font-family:'Finger Paint'">Finger Paint</li>
+                    <li style="font-family:'Sofadi One'">Sofadi One</li>
+                    <li style="font-family:'Archivo Black'">Archivo Black</li>
+                    <li style="font-family:'Ranchers'">Ranchers</li>
+                    <li style="font-family:'Allura'">Allura</li>
+                    <li style="font-family:'Chicle'">Chicle</li>
+                    <li style="font-family:'Titillium Web'">Titillium Web</li>
+                </ul>
             </div>
 
-            <div>
-                <label for="font-size-slider">Font Size</label>
-                <div id="font-size-slider" style="width:200px" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"><a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 30.23255813953488%;"></a></div>
-            </div>
-
-            <div>
-                <label for="cyoCustomColor">Color</label>
-                <input id="cyoCustomColor" type="text" name="cyoCustomColor" value="#777777" data-hex="true" class="color""><span id="colorWheel" class="color" style="display: inline-block; cursor: pointer;"><img src="http://www.infabcorp.com/wp-content/themes/infab/images/color.png" style="border: 0px; margin: 0px 0px 0px 3px; vertical-align: text-bottom;"></span>
-            </div>
         </div>
 
         <div id="cyoModalGraphic" title="Choose a Background">
