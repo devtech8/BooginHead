@@ -8,6 +8,14 @@
     // BEGIN UTILITY FUNCTIONS
     // --------------------------------------------------------------------
 
+    // Set the binky's background image. This fills the entire shield.
+    function setBinkyBackground(imageUrl) {
+        $('#cyoSample').css('background-image', 'url("' + imageUrl + '")');
+        $('#cyoImage').val(imageUrl);
+        $('#cyoSample').css('background-color', 'transparent');
+        $('#cyoBackgroundColor').val('');
+    }
+
     // Show the selected image/text next to the buttons on the
     // right side of the screen.
     function showSettings(divId, setting) {
@@ -205,10 +213,7 @@
         // Load clicked background image into pacifier
         $('#cyoModalBackground .chooser img').click(function () {
             var url = $(this).attr('src');
-            $('#cyoSample').css('background-image', 'url("' + url.replace(/_thumb/, '') + '")');
-            $('#cyoImage').val(url);
-            $('#cyoSample').css('background-color', 'transparent');
-            $('#cyoBackgroundColor').val('');
+            setBinkyBackground(url.replace(/_thumb/, ''));
             showSettings('#cyoSelectBackgroundContainer', $(this).attr('title'));
             return false;
         });
@@ -235,10 +240,16 @@
         // Load clicked stock image into div on top of pacifier
         $('#cyoModalGraphic .chooser img').click(function () {
             var url = $(this).attr('src');
-            var img = '<img src=\"' + url + '\">';
-            $('#cyoOverlayStockImage .cyoImgContainer').html(img);
-            sizeImageToDiv("#cyoOverlayStockImage");
-            $('#cyoOverlayStockImage').show();
+            if ($(this).attr('data-fill-background') == 'true') {
+                setBinkyBackground(url.replace(/_thumb/, ''));
+                $('#cyoOverlayStockImage .cyoImgContainer').empty();
+            }
+            else {
+                var img = '<img src=\"' + url + '\">';
+                $('#cyoOverlayStockImage .cyoImgContainer').html(img);
+                sizeImageToDiv("#cyoOverlayStockImage");
+                $('#cyoOverlayStockImage').show();
+            }
             showSettings('#cyoAddGraphicContainer', $(this).attr('title'));
             return false;
         });

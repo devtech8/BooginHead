@@ -3,8 +3,8 @@
   position: relative;
   background-repeat:no-repeat;
   background-position:center;
-  zoom: 60%;
-  -moz-transform: scale(0.60);
+  zoom: 70%;
+  -moz-transform: scale(0.70);
 }
 
 #cyoOverlayText1, #cyoOverlayText2 {
@@ -56,7 +56,7 @@
 
 #cyoCustomizer {
   float: right;
-  width: 50%;
+  width: 40%;
   margin-right: 30px;
 }
 
