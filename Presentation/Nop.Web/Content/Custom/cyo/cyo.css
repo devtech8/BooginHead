@@ -24,6 +24,10 @@
   cursor: move;
 }
 
+.selected-overlay {
+  border: 2px dashed #F00 !important;
+}
+
 #cyoOverlayStockImage, #cyoOverlayUploadedImage {
     z-index: 10;
     border: 0;

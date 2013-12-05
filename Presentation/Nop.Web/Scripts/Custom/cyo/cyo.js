@@ -1,5 +1,7 @@
 ﻿$(function () {
 
+    var DELETE = 46;
+
     // Call all of the UI initializers & wire up all behaviors
     initUI();
 
@@ -7,6 +9,21 @@
     // --------------------------------------------------------------------
     // BEGIN UTILITY FUNCTIONS
     // --------------------------------------------------------------------
+
+    // Remove the stock image & related settings
+    function clearStockImage() {
+        if ($('#cyoGraphicIsBackground').val() == 'false') {
+            $('#cyoOverlayStockImage .cyoImgContainer').html('');
+            $('#cyoOverlayStockImage').hide();
+        }
+        else {
+            $('#cyoSample').css('background-image', 'none');
+        }
+        clearSettings('#cyoAddGraphicContainer');
+        $('#cyoGraphic').val('');
+        $('#cyoGraphicIsBackground').val('false');
+        return false;
+    }
 
     // Set the binky's background image. This fills the entire shield.
     function setBinkyBackground(imageUrl) {
@@ -261,17 +278,7 @@
 
         // Clear stock image when user clicks X
         $('#cyoAddGraphicContainer .ui-icon-closethick').click(function () {
-            if ($('#cyoGraphicIsBackground').val() == 'false') {
-                $('#cyoOverlayStockImage .cyoImgContainer').html('');
-                $('#cyoOverlayStockImage').hide();
-            }
-            else {
-                $('#cyoSample').css('background-image', 'none');
-            }
-            clearSettings('#cyoAddGraphicContainer');
-            $('#cyoGraphic').val('');
-            $('#cyoGraphicIsBackground').val('false');
-            return false;
+            clearStockImage();
         });
     }
 
@@ -356,6 +363,29 @@
         });
     }
 
+    function initOverlays() {
+        $('#cyoOverlayStockImage').click(function () {
+            $(this).addClass('selected-overlay');
+            return false;
+        });
+    }
+
+    function initDocumentBehaviors() {
+        $('body').click(function () {
+            $('.selected-overlay').removeClass('selected-overlay');
+            return false;
+        });
+        $(document).keyup(function (event) {
+            var selectedOverlay = $('.selected-overlay')[0];
+            if (selectedOverlay != null && event.which == DELETE) {
+                if ($(selectedOverlay).attr('id') == 'cyoOverlayStockImage') {
+                    clearStockImage();
+                    $('#cyoOverlayStockImage').removeClass('selected-overlay');
+                }
+            }
+        });
+    }
+
     function initUI() {
         initUploader();
         initModals();
@@ -366,5 +396,7 @@
         initSizeRadios();
         initBinkySelector();
         initCreateProof();
+        initOverlays();
+        initDocumentBehaviors();
     }
 });
