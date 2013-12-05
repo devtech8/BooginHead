@@ -22,14 +22,14 @@
 
 
     <div id="cyoCustomizer">
-        <h2>Step 1: Choose A Color</h2>
+        <h2 class="cyo-h2">Step 1: Choose A Color</h2>
         <section class="shields">
             <img src="http://booginhead.com/products/pacitool/img/shield-color/shield_white_thumb.jpg" data-shield="white" data-large-image="http://booginhead.com/products/pacitool/img/shield-color/shield_white.png">
             <img src="http://booginhead.com/products/pacitool/img/shield-color/shield_pink_thumb.jpg" data-shield="pink" data-large-image="http://booginhead.com/products/pacitool/img/shield-color/shield_pink.png">
             <img src="http://booginhead.com/products/pacitool/img/shield-color/shield_blue_thumb.jpg" data-shield="blue" data-large-image="http://booginhead.com/products/pacitool/img/shield-color/shield_blue.png">
         </section>
 
-        <h2>Step 2: Choose A Size</h2>
+        <h2 class="cyo-h2">Step 2: Choose A Size</h2>
                
             <input type="radio" name="size" id="p6" value="7plus" checked="checked">
             <label for="p6">6+ Months</label>
@@ -38,7 +38,7 @@
             <label for="u6">0-6 Months</label>
                 
 
-        <h2>Step 3: Design Custom Pacifier</h2>
+        <h2 class="cyo-h2">Step 3: Design Custom Pacifier</h2>
 
         <div id="cyoLaunchButtonContainer">
             <div class="cyoButtonContainer" id="cyoSelectBackgroundContainer">
@@ -64,9 +64,13 @@
         </div>
 
         <div id="cyoModalBackground" title="Choose a Background">
+            <input type="hidden" autofocus="autofocus" /> <!-- jQuery dialog autofocus fix -->
             <section style="width:30%;float:left;">
                 <h3>Solid Color</h3>
                 <input id="cyoBackgroundColorControl" type="text" name="cyoBackgroundColorControl" value="#FFFFFF" data-hex="true" class="color"">
+                <div class="modal-close-button">
+                    <button id="btnHideModalBackground">OK</button>
+                </div>
             </section>
             <section class="chooser" style="width:60%;float:right;">
                 <h3>Background Image</h3>
@@ -98,7 +102,9 @@
             <div id="cyoUploadedImageDiv" style="display:none;" title="Click to add this image to your design">
                 <img id="cyoUploadedImageThumbnail" src="" width="200"/>
             </div>
-
+            <div class="modal-close-button">
+                <button id="btnHideModalUpload">OK</button>
+            </div>
             <div style="display:none" 
                 id="cyoUploadControlSettings"
                 data-preview-url="@(Url.RouteUrl(new { controller = "CYO", action = "GetFileUpload", downloadId = Guid.Empty }))"
@@ -149,10 +155,13 @@
                     <li style="font-family:'Titillium Web'">Titillium Web</li>
                 </ul>
             </div>
-
+            <div class="modal-close-button">
+                <button id="btnHideModalText">OK</button>
+            </div>
         </div>
 
         <div id="cyoModalGraphic" title="Choose a Background">
+            <input type="hidden" autofocus="autofocus" /> <!-- jQuery dialog autofocus fix -->
             <section class="chooser">
                 <img src="http://booginhead.com/products/pacitool/img/preset/cute_thumb.jpg" title="Cute">
                 <img src="http://booginhead.com/products/pacitool/img/preset/mustache1_thumb.jpg" title="Mustache (1)">
@@ -209,14 +218,17 @@
                 <img src="http://booginhead.com/products/pacitool/img/preset/volume_control_thumb.jpg" title="Volume Control">
                 <img src="http://booginhead.com/products/pacitool/img/preset/whine_connoisseur_thumb.jpg" title="Whine Connoisseur">
             </section>
+            <div class="modal-close-button">
+                <button id="btnHideModalGraphic">OK</button>
+            </div>
         </div> 
 
 
-        <h2>Step 5: Approve Instant Proof</h2>
+        <h2 class="cyo-h2">Step 5: Approve Instant Proof</h2>
         <p>Create your instant proof, and approve it to continue!</p>
         <button id="btn-create-proof">Create Proof</button>
 
-        <h2>Step 6: Add to Cart!</h2>
+        <h2 class="cyo-h2">Step 6: Add to Cart!</h2>
         <div class="relative">
         <p class="noapproval">Once your "Instant Proof" is approved, you will be able to add your design to the cart!</p>
         <div class="info">

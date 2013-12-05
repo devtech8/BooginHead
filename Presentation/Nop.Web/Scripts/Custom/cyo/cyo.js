@@ -157,17 +157,30 @@
         $('#btnShowModalUpload').click(function () {
             $("#cyoModalUpload").dialog("open");
         });
+        $('#btnHideModalUpload').click(function () {
+            $("#cyoModalUpload").dialog("close");
+        });
+
 
         $('#btnShowModalBackground').click(function () {
             $("#cyoModalBackground").dialog("open");
+        });
+        $('#btnHideModalBackground').click(function () {
+            $("#cyoModalBackground").dialog("close");
         });
 
         $('#btnShowModalText').click(function () {
             $("#cyoModalText").dialog("open");
         });
+        $('#btnHideModalText').click(function () {
+            $("#cyoModalText").dialog("close");
+        });
 
         $('#btnShowModalGraphic').click(function () {
             $("#cyoModalGraphic").dialog("open");
+        });
+        $('#btnHideModalGraphic').click(function () {
+            $("#cyoModalGraphic").dialog("close");
         });
     }
 

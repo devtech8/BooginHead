@@ -113,7 +113,13 @@
     width: 200px;
 }
 
+.modal-close-button {
+    margin-top: 20px;
+}
 
+.cyo-h2 {
+    margin-top: 20px; 
+}
 .chooser img {
     cursor: pointer;
     margin: 4px;
