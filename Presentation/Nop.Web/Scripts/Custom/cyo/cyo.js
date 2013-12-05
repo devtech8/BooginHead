@@ -243,22 +243,34 @@
             if ($(this).attr('data-fill-background') == 'true') {
                 setBinkyBackground(url.replace(/_thumb/, ''));
                 $('#cyoOverlayStockImage .cyoImgContainer').empty();
+                $('#cyoGraphicIsBackground').val('true');
             }
             else {
                 var img = '<img src=\"' + url + '\">';
                 $('#cyoOverlayStockImage .cyoImgContainer').html(img);
                 sizeImageToDiv("#cyoOverlayStockImage");
                 $('#cyoOverlayStockImage').show();
+                if ($('#cyoGraphicIsBackground').val() == 'true')
+                    $('#cyoSample').css('background-image', 'none');
+                $('#cyoGraphicIsBackground').val('false');
             }
+            $('#cyoGraphic').val(url);
             showSettings('#cyoAddGraphicContainer', $(this).attr('title'));
             return false;
         });
 
         // Clear stock image when user clicks X
         $('#cyoAddGraphicContainer .ui-icon-closethick').click(function () {
-            $('#cyoOverlayStockImage .cyoImgContainer').html('');
-            $('#cyoOverlayStockImage').hide();
+            if ($('#cyoGraphicIsBackground').val() == 'false') {
+                $('#cyoOverlayStockImage .cyoImgContainer').html('');
+                $('#cyoOverlayStockImage').hide();
+            }
+            else {
+                $('#cyoSample').css('background-image', 'none');
+            }
             clearSettings('#cyoAddGraphicContainer');
+            $('#cyoGraphic').val('');
+            $('#cyoGraphicIsBackground').val('false');
             return false;
         });
     }
