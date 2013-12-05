@@ -143,7 +143,7 @@
         var modalProperties = {
             height: 400,
             width: 500,
-            modal: true,
+            modal: false,
             autoOpen: false,
             position: { my: "left", at: "center", of: window },
             show: { effect: "blind", duration: 600 }
@@ -278,7 +278,7 @@
         });
 
         // Initialize font size slider position and font size
-        $('#font-size-slider a').css('left', '60px');
+        $('#font-size-slider a').css('left', '80px');
         setFontSize($('#font-size-slider a'));
 
         // Clear text when user clicks X

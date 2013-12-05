@@ -15,7 +15,7 @@
   overflow: hidden;
   position: absolute;
   padding: 20px;
-  font-size: 32px;
+  font-size: 40px;
 }
 
 #cyoOverlayText1:hover, #cyoOverlayText2:hover,
@@ -32,8 +32,6 @@
     left: 220px;
     width: 220px;
     height: 140px;
-    max-width: 220px;
-    max-height: 140px;
     overflow: hidden;
     position: absolute;
     cursor: move;
