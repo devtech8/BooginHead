@@ -2,11 +2,12 @@
     Layout = "";
     
     Html.AddScriptParts("~/Scripts/Custom/cyo/cyo.js");
-    Html.AddScriptParts("~/Scripts/Custom/cyo/jscolor/jscolor.js");
+    Html.AddScriptParts("~/Scripts/Custom/cyo/spectrum.js");
     Html.AddScriptParts("~/Scripts/fileuploader.js");
 
     Html.AddCssFileParts("~/Content/fileuploader/fileuploader.css");
     Html.AddCssFileParts("~/Content/jquery-ui-themes/smoothness/jquery-ui-1.10.0.custom.min.css");
+    Html.AddCssFileParts("~/Content/Custom/cyo/spectrum.css");
     Html.AddCssFileParts("~/Content/Custom/cyo/cyo.css");
     
     
@@ -67,7 +68,7 @@
             <input type="hidden" autofocus="autofocus" /> <!-- jQuery dialog autofocus fix -->
             <section style="width:30%;float:left;">
                 <h3>Solid Color</h3>
-                <input id="cyoBackgroundColorControl" type="text" name="cyoBackgroundColorControl" value="#FFFFFF" data-hex="true" class="color"">
+                <input type="color" id="cyoBackgroundColorControl" name="cyoBackgroundColorControl">
                 <span id="cyoBgColorWheel" class="color" style="display: inline-block; cursor: pointer;"><img src="http://www.infabcorp.com/wp-content/themes/infab/images/color.png" style="border: 0px; margin: 0px 0px 0px 3px; vertical-align: text-bottom;"></span>
                 <div class="modal-close-button">
                     <button id="btnHideModalBackground">OK</button>

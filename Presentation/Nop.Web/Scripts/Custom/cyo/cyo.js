@@ -100,7 +100,7 @@
     function setBinkyBackgroundColor() {
         $('#cyoSample').css('background-image', 'none');
         $('#cyoImage').val('');
-        var hexColor = '#' + document.getElementById('cyoBackgroundColorControl').color.toString();
+        var hexColor = $('#cyoBackgroundColorControl').spectrum("get").toHexString(); //'#' + document.getElementById('cyoBackgroundColorControl').color.toString();
         showSettings('#cyoSelectBackgroundContainer', hexColor);
         $('#cyoSample').css('background-image', 'none');
         $('#cyoSample').css('background-color', hexColor);
@@ -246,6 +246,10 @@
         //$('#cyoBackgroundColorControl').click(function () {
         //    setBinkyBackgroundColor();
         //});
+
+        $('#cyoBackgroundColorControl').spectrum({
+            color: "#fff"
+        });
 
         $('#cyoBackgroundColorControl').change(function () {
             setBinkyBackgroundColor();
