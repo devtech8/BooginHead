@@ -42,7 +42,7 @@
     function clearText() {
         $('#cyoTextContent' + activeTextContainer).html('');
         $('#cyoCustomText').val('');
-        $('#cyoText').val('');
+        $('#cyoText' + activeTextContainer).val('');
         clearSettings('#cyoAddTextContainer' + activeTextContainer);
     }
 
@@ -53,8 +53,9 @@
         var text = $('#cyoText' + activeTextContainer).val();
         $('#cyoCustomText').val(text);
 
-        var color = $('#cyoColor' + activeTextContainer).val();
-        $("#cyoColor").spectrum("set", color);
+        var color = $('#cyoFontColor' + activeTextContainer).val();
+        console.log(color);
+        $("#cyoTextColor").spectrum("set", color);
 
         var font = $('#cyoFontFamily' + activeTextContainer).val();
         var fontSize = $('#cyoFontSize' + activeTextContainer).val();
@@ -71,7 +72,7 @@
     function setTextColor() {
         var hexColor = $('#cyoTextColor').spectrum("get").toHexString();
         $('#cyoTextContent' + activeTextContainer).css('color', hexColor);
-        $('#cyoFontColor').val(hexColor);
+        $('#cyoFontColor' + activeTextContainer).val(hexColor);
     }
 
     // Show the selected image/text next to the buttons on the
