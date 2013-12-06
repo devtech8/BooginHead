@@ -243,12 +243,18 @@
             return false;
         });
 
-        $('#cyoBackgroundColorControl').click(function () {
-            setBinkyBackgroundColor();
-        });
+        //$('#cyoBackgroundColorControl').click(function () {
+        //    setBinkyBackgroundColor();
+        //});
 
         $('#cyoBackgroundColorControl').change(function () {
             setBinkyBackgroundColor();
+        });
+
+        // When user clicks color wheel, focus color input so pop-up colorpicker appears.
+        $('#cyoBgColorWheel').click(function () {
+            $('#cyoBackgroundColorControl').trigger('focus');
+            return false;
         });
 
     }
@@ -257,12 +263,13 @@
         // Load clicked stock image into div on top of pacifier
         $('#cyoModalGraphic .chooser img').click(function () {
             var url = $(this).attr('src');
+            // Full background image...
             if ($(this).attr('data-fill-background') == 'true') {
                 setBinkyBackground(url.replace(/_thumb/, ''));
                 $('#cyoOverlayStockImage .cyoImgContainer').empty();
                 $('#cyoGraphicIsBackground').val('true');
             }
-            else {
+            else {  // Smaller image goes on overlay
                 var img = '<img src=\"' + url + '\">';
                 $('#cyoOverlayStockImage .cyoImgContainer').html(img);
                 sizeImageToDiv("#cyoOverlayStockImage");
@@ -302,7 +309,7 @@
         });
 
         // When user clicks color wheel, focus color input so pop-up colorpicker appears.
-        $('#colorWheel').click(function () {
+        $('#cyoText1ColorWheel').click(function () {
             $('#cyoCustomColor').trigger('focus');
             return false;
         });
