@@ -10,8 +10,8 @@
 #cyoOverlayText1, #cyoOverlayText2 {
   height: auto;
   width: auto;
-  max-width: 280px;
-  max-height: 130px;
+  width: 280px;
+  height: 130px;
   overflow: hidden;
   position: absolute;
   padding: 20px;

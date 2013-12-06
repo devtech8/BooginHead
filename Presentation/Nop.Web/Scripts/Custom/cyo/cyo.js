@@ -39,7 +39,7 @@
     // Clear the text1 overlay and the settings that appear
     // to the right of the Text1 button.
     function clearText1() {
-        $('#cyoOverlayText1').html('');
+        $('#cyoText1Content').html('');
         $('#cyoCustomText').val('');
         $('#cyoText').val('');
         clearSettings('#cyoAddTextContainer');
@@ -55,7 +55,7 @@
 
     function setText1Color() {
         var hexColor = $('#cyoText1Color').spectrum("get").toHexString();
-        $('#cyoOverlayText1').css('color', hexColor);
+        $('#cyoText1Content').css('color', hexColor);
         $('#cyoFontColor').val(hexColor);
     }
 
@@ -84,8 +84,15 @@
     function setFontSize(sliderControl) {
         var position = parseInt(sliderControl.css('left'), 10);
         var fontSize = parseInt((position / 1.5), 10);
-        $('#cyoOverlayText1').css('font-size', fontSize);
+        $('#cyoText1Content').css('font-size', fontSize);
         $('#cyoFontSize').val(fontSize + 'px');
+    }
+
+    // Resize the inner text container to match the dimensions of its container div
+    function sizeTextContainerToDiv(divId) {
+        var textContainer = $(divId).find('div');
+        textContainer.attr('height', $(divId).height());
+        textContainer.attr('width', $(divId).width());
     }
 
     // Resize the image to match the dimensions of its container div
@@ -242,8 +249,16 @@
                 sizeImageToDiv("#cyoOverlayUploadedImage");
             }
         });
-        $("#cyoOverlayText1").draggable();
-        $("#cyoOverlayText2").draggable();
+        $("#cyoOverlayText1").draggable().resizable({
+            resize: function (e, ui) {
+                sizeTextContainerToDiv("#cyoOverlayText1");
+            }
+        });
+        $("#cyoOverlayText2").draggable().resizable({
+            resize: function (e, ui) {
+                sizeTextContainerToDiv("#cyoOverlayText1");
+            }
+        });
 
         $("#font-size-slider").slider();
     }
@@ -326,7 +341,7 @@
             $(this).addClass('selected');
             var font = $(this).css('font-family');
             $('#cyoCustomFont').attr('value', font);
-            $('#cyoOverlayText1').css('font-family', font);
+            $('#cyoText1Content').css('font-family', font);
             $('#cyoFontFamily').val(font.replace(/'/, ''));
         });
 
@@ -346,7 +361,7 @@
         // Set custom text as user types
         $('#cyoCustomText').keyup(function () {
             var text = $(this).val().replace(/\n/, "<br/>");
-            $('#cyoOverlayText1').html(text);
+            $('#cyoText1Content').html(text);
             $('#cyoText').val(text);
             showSettings('#cyoAddTextContainer', text);
         });
