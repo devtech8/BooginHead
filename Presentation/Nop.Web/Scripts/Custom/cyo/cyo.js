@@ -37,13 +37,27 @@
         return false;
     }
 
-    // Clear the text1 overlay and the settings that appear
-    // to the right of the Text1 button.
-    function clearText1() {
-        $('#cyoText1Content').html('');
+    // Clear the text overlay and the settings that appear
+    // to the right of the Text button.
+    function clearText() {
+        $('#cyoTextContent' + activeTextContainer).html('');
         $('#cyoCustomText').val('');
         $('#cyoText').val('');
-        clearSettings('#cyoAddText1Container');
+        clearSettings('#cyoAddTextContainer' + activeTextContainer);
+    }
+
+    // Load custom text settings from the hidden vars back into the UI controls.
+    // User may be switching back and forth between text1 and text2, so we need
+    // to load the correct values for whatever they're working with.
+    function loadTextSettings() {
+        var text = $('#cyoText' + activeTextContainer).val();
+        $('#cyoCustomText').val(text);
+
+        var color = $('#cyoColor' + activeTextContainer).val();
+        $("#cyoColor").spectrum("set", color);
+
+        var font = $('#cyoFontFamily' + activeTextContainer).val();
+        var fontSize = $('#cyoFontSize' + activeTextContainer).val();
     }
 
     // Set the binky's background image. This fills the entire shield.
@@ -56,7 +70,7 @@
 
     function setTextColor() {
         var hexColor = $('#cyoTextColor').spectrum("get").toHexString();
-        $('#cyoText1Content').css('color', hexColor);
+        $('#cyoTextContent' + activeTextContainer).css('color', hexColor);
         $('#cyoFontColor').val(hexColor);
     }
 
@@ -85,8 +99,8 @@
     function setFontSize(sliderControl) {
         var position = parseInt(sliderControl.css('left'), 10);
         var fontSize = parseInt((position / 1.5), 10);
-        $('#cyoText1Content').css('font-size', fontSize);
-        $('#cyoFontSize').val(fontSize + 'px');
+        $('#cyoTextContent' + activeTextContainer).css('font-size', fontSize);
+        $('#cyoFontSize' + activeTextContainer).val(fontSize + 'px');
     }
 
     // Resize the inner text container to match the dimensions of its container div
@@ -226,10 +240,14 @@
 
         $('#btnShowModalText1').click(function () {
             activeTextContainer = 1;
+            loadTextSettings();
+            $("#cyoOverlayText1").show();
             $("#cyoModalText").dialog("open");
         });
         $('#btnShowModalText2').click(function () {
             activeTextContainer = 2;
+            loadTextSettings();
+            $("#cyoOverlayText2").show();
             $("#cyoModalText").dialog("open");
         });
         $('#btnHideModalText').click(function () {
@@ -262,7 +280,7 @@
         });
         $("#cyoOverlayText2").draggable().resizable({
             resize: function (e, ui) {
-                sizeTextContainerToDiv("#cyoOverlayText1");
+                sizeTextContainerToDiv("#cyoOverlayText2");
             }
         });
 
@@ -347,14 +365,14 @@
             $(this).addClass('selected');
             var font = $(this).css('font-family');
             $('#cyoCustomFont').attr('value', font);
-            $('#cyoText1Content').css('font-family', font);
-            $('#cyoFontFamily').val(font.replace(/'/, ''));
+            $('#cyoTextContent' + activeTextContainer).css('font-family', font);
+            $('#cyoFontFamily' + activeTextContainer).val(font.replace(/'/, ''));
         });
 
         // Allow font color input to set font color in overlay
         $('#cyoTextColor').spectrum({
             allowEmpty: true,
-            color: "#fff",
+            color: "#000",
             move: setTextColor,
             showPalette: true
         });
@@ -367,9 +385,9 @@
         // Set custom text as user types
         $('#cyoCustomText').keyup(function () {
             var text = $(this).val().replace(/\n/, "<br/>");
-            $('#cyoText1Content').html(text);
-            $('#cyoText').val(text);
-            showSettings('#cyoAddText1Container', text);
+            $('#cyoTextContent' + activeTextContainer).html(text);
+            $('#cyoText' + activeTextContainer).val(text);
+            showSettings('#cyoAddTextContainer' + activeTextContainer, text);
         });
 
         // Initialize font size slider position and font size
@@ -377,8 +395,8 @@
         setFontSize($('#font-size-slider a'));
 
         // Clear text when user clicks X
-        $('#cyoAddText1Container .ui-icon-closethick').click(function () {
-            clearText1();
+        $('#cyoAddTextContainer1 .ui-icon-closethick, #cyoAddTextContainer2 .ui-icon-closethick').click(function () {
+            clearText();
             return false;
         });
     }
@@ -417,9 +435,14 @@
         // If the user clicks on an element, make that element
         // the "selected" element. Make sure any previously selected
         // elements are no longer selected.
-        $('#cyoOverlayStockImage, #cyoOverlayUploadedImage, #cyoOverlayText1').click(function () {
+        $('#cyoOverlayStockImage, #cyoOverlayUploadedImage, #cyoOverlayText1, #cyoOverlayText2').click(function () {
             $('.selected-overlay').removeClass('selected-overlay');
             $(this).addClass('selected-overlay');
+            var elementId = $(this).attr('id');
+            if (elementId == 'cyoOverlayText1')
+                activeTextContainer = 1
+            else if (elementId == 'cyoOverlayText2')
+                activeTextContainer = 2
             return false;
         });
     }
@@ -447,8 +470,14 @@
                     $('#cyoOverlayUploadedImage').removeClass('selected-overlay');
                 }
                 else if ($(selectedOverlay).attr('id') == 'cyoOverlayText1') {
-                    clearText1();
-                    $('#cyoOverlayText1').removeClass('selected-overlay');
+                    clearText();
+                    $('#cyoOverlayText' + activeTextContainer).removeClass('selected-overlay');
+                    $('#cyoOverlayText1').hide();
+                }
+                else if ($(selectedOverlay).attr('id') == 'cyoOverlayText2') {
+                    clearText();
+                    $('#cyoOverlayText2').removeClass('selected-overlay');
+                    $('#cyoOverlayText2').hide();
                 }
             }
         });
