@@ -54,11 +54,12 @@
         $('#cyoCustomText').val(text);
 
         var color = $('#cyoFontColor' + activeTextContainer).val();
-        console.log(color);
         $("#cyoTextColor").spectrum("set", color);
 
         var font = $('#cyoFontFamily' + activeTextContainer).val();
-        var fontSize = $('#cyoFontSize' + activeTextContainer).val();
+        console.log(font);
+
+        setSliderFromFontSize()
     }
 
     // Set the binky's background image. This fills the entire shield.
@@ -102,6 +103,12 @@
         var fontSize = parseInt((position / 1.5), 10);
         $('#cyoTextContent' + activeTextContainer).css('font-size', fontSize);
         $('#cyoFontSize' + activeTextContainer).val(fontSize + 'px');
+    }
+
+    // Set the position of the font-size slider based on font size in the text overlay.
+    function setSliderFromFontSize() {
+        var fontSize = parseInt($('#cyoFontSize' + activeTextContainer).val(), 10);
+        $('#font-size-slider a').css('left', fontSize * 1.5);
     }
 
     // Resize the inner text container to match the dimensions of its container div
