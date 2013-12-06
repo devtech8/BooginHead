@@ -1,6 +1,7 @@
 ﻿$(function () {
 
     var DELETE = 46;
+    var activeTextContainer = 1;
 
     // Call all of the UI initializers & wire up all behaviors
     initUI();
@@ -42,7 +43,7 @@
         $('#cyoText1Content').html('');
         $('#cyoCustomText').val('');
         $('#cyoText').val('');
-        clearSettings('#cyoAddTextContainer');
+        clearSettings('#cyoAddText1Container');
     }
 
     // Set the binky's background image. This fills the entire shield.
@@ -53,8 +54,8 @@
         $('#cyoBackgroundColor').val('');
     }
 
-    function setText1Color() {
-        var hexColor = $('#cyoText1Color').spectrum("get").toHexString();
+    function setTextColor() {
+        var hexColor = $('#cyoTextColor').spectrum("get").toHexString();
         $('#cyoText1Content').css('color', hexColor);
         $('#cyoFontColor').val(hexColor);
     }
@@ -223,7 +224,12 @@
             $("#cyoModalBackground").dialog("close");
         });
 
-        $('#btnShowModalText').click(function () {
+        $('#btnShowModalText1').click(function () {
+            activeTextContainer = 1;
+            $("#cyoModalText").dialog("open");
+        });
+        $('#btnShowModalText2').click(function () {
+            activeTextContainer = 2;
             $("#cyoModalText").dialog("open");
         });
         $('#btnHideModalText').click(function () {
@@ -346,10 +352,10 @@
         });
 
         // Allow font color input to set font color in overlay
-        $('#cyoText1Color').spectrum({
+        $('#cyoTextColor').spectrum({
             allowEmpty: true,
             color: "#fff",
-            move: setText1Color,
+            move: setTextColor,
             showPalette: true
         });
 
@@ -363,7 +369,7 @@
             var text = $(this).val().replace(/\n/, "<br/>");
             $('#cyoText1Content').html(text);
             $('#cyoText').val(text);
-            showSettings('#cyoAddTextContainer', text);
+            showSettings('#cyoAddText1Container', text);
         });
 
         // Initialize font size slider position and font size
@@ -371,7 +377,7 @@
         setFontSize($('#font-size-slider a'));
 
         // Clear text when user clicks X
-        $('#cyoAddTextContainer .ui-icon-closethick').click(function () {
+        $('#cyoAddText1Container .ui-icon-closethick').click(function () {
             clearText1();
             return false;
         });
