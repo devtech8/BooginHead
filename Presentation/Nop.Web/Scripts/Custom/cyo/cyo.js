@@ -25,6 +25,26 @@
         return false;
     }
 
+    // Remove the uploaded image from the overlay and clear
+    // the settings display to the right of the button. The
+    // uploaded image is still available in the upload dialog.
+    function clearUploadedImage() {
+        var imgContainer = $('#cyoOverlayUploadedImage .cyoImgContainer');
+        imgContainer.html('');
+        $('#cyoOverlayUploadedImage').hide();
+        clearSettings('#cyoUploadImageContainer');
+        return false;
+    }
+
+    // Clear the text1 overlay and the settings that appear
+    // to the right of the Text1 button.
+    function clearText1() {
+        $('#cyoOverlayText1').html('');
+        $('#cyoCustomText').val('');
+        $('#cyoText').val('');
+        clearSettings('#cyoAddTextContainer');
+    }
+
     // Set the binky's background image. This fills the entire shield.
     function setBinkyBackground(imageUrl) {
         $('#cyoSample').css('background-image', 'url("' + imageUrl + '")');
@@ -151,11 +171,7 @@
 
         // Clear uploaded image when user clicks X
         $('#cyoUploadImageContainer .ui-icon-closethick').click(function () {
-            var imgContainer = $('#cyoOverlayUploadedImage .cyoImgContainer');
-            imgContainer.html('');
-            $('#cyoOverlayUploadedImage').hide();
-            clearSettings('#cyoUploadImageContainer');
-            return false;
+            clearUploadedImage();
         });
 
         // If user clicks on the uploaded image thumbnail, 
@@ -341,10 +357,7 @@
 
         // Clear text when user clicks X
         $('#cyoAddTextContainer .ui-icon-closethick').click(function () {
-            $('#cyoOverlayText1').html('');
-            $('#cyoCustomText').val('');
-            $('#cyoText').val('');
-            clearSettings('#cyoAddTextContainer');
+            clearText1();
             return false;
         });
     }
@@ -378,24 +391,43 @@
         });
     }
 
+
     function initOverlays() {
-        $('#cyoOverlayStockImage').click(function () {
+        // If the user clicks on an element, make that element
+        // the "selected" element. Make sure any previously selected
+        // elements are no longer selected.
+        $('#cyoOverlayStockImage, #cyoOverlayUploadedImage, #cyoOverlayText1').click(function () {
+            $('.selected-overlay').removeClass('selected-overlay');
             $(this).addClass('selected-overlay');
             return false;
         });
     }
 
+    // Initialize document-wide click and key behaviors
     function initDocumentBehaviors() {
+
+        // When clicking on the body, outside of one of our overlays,
+        // de-select any overlay that might be selected.
         $('body').click(function () {
             $('.selected-overlay').removeClass('selected-overlay');
-            return false;
         });
+
+        // Catch the keyup event for the delete key. If one of the overlays
+        // is selected when user hits delete, empty that element and hide it.
         $(document).keyup(function (event) {
             var selectedOverlay = $('.selected-overlay')[0];
             if (selectedOverlay != null && event.which == DELETE) {
                 if ($(selectedOverlay).attr('id') == 'cyoOverlayStockImage') {
                     clearStockImage();
                     $('#cyoOverlayStockImage').removeClass('selected-overlay');
+                }
+                else if ($(selectedOverlay).attr('id') == 'cyoOverlayUploadedImage') {
+                    clearUploadedImage();
+                    $('#cyoOverlayUploadedImage').removeClass('selected-overlay');
+                }
+                else if ($(selectedOverlay).attr('id') == 'cyoOverlayText1') {
+                    clearText1();
+                    $('#cyoOverlayText1').removeClass('selected-overlay');
                 }
             }
         });

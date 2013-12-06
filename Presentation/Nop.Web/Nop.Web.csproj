@@ -600,6 +600,7 @@
     <Content Include="Content\2013.2.611\Windows7\sprite.png" />
     <Content Include="Content\Custom\cyo\cyo.css" />
     <Content Include="Content\Custom\cyo\images\binky.png" />
+    <Content Include="Content\Custom\cyo\spectrum.css" />
     <Content Include="Content\editors\BBEditor\ed.js" />
     <Content Include="Content\editors\BBEditor\images\bold.gif" />
     <Content Include="Content\editors\BBEditor\images\code.gif" />
@@ -946,6 +947,7 @@
     <Content Include="Scripts\Custom\cyo\jscolor\hs.png" />
     <Content Include="Scripts\Custom\cyo\jscolor\hv.png" />
     <Content Include="Scripts\Custom\cyo\jscolor\jscolor.js" />
+    <Content Include="Scripts\Custom\cyo\spectrum.js" />
     <Content Include="Scripts\public.common.mobile.js" />
     <Content Include="Themes\DefaultClean\Content\images\star-x-active.png" />
     <Content Include="Themes\DefaultClean\Content\images\star-x-inactive.png" />
