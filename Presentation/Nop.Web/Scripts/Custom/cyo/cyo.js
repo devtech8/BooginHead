@@ -33,6 +33,12 @@
         $('#cyoBackgroundColor').val('');
     }
 
+    function setText1Color() {
+        var hexColor = $('#cyoText1Color').spectrum("get").toHexString();
+        $('#cyoOverlayText1').css('color', hexColor);
+        $('#cyoFontColor').val(hexColor);
+    }
+
     // Show the selected image/text next to the buttons on the
     // right side of the screen.
     function showSettings(divId, setting) {
@@ -100,7 +106,7 @@
     function setBinkyBackgroundColor() {
         $('#cyoSample').css('background-image', 'none');
         $('#cyoImage').val('');
-        var hexColor = $('#cyoBackgroundColorControl').spectrum("get").toHexString(); //'#' + document.getElementById('cyoBackgroundColorControl').color.toString();
+        var hexColor = $('#cyoBackgroundColorControl').spectrum("get").toHexString();
         showSettings('#cyoSelectBackgroundContainer', hexColor);
         $('#cyoSample').css('background-image', 'none');
         $('#cyoSample').css('background-color', hexColor);
@@ -243,12 +249,15 @@
             return false;
         });
 
-        //$('#cyoBackgroundColorControl').click(function () {
-        //    setBinkyBackgroundColor();
-        //});
-
+        // Set up the colorpicker.
+        // The move event here is not mousemove. It's fired
+        // when you move the black dot on the color picker
+        // by clicking in a new location or by dragging the dot.
         $('#cyoBackgroundColorControl').spectrum({
-            color: "#fff"
+            allowEmpty: true,
+            color: "#fff",
+            move: setBinkyBackgroundColor,
+            showPalette: true
         });
 
         $('#cyoBackgroundColorControl').change(function () {
@@ -306,16 +315,11 @@
         });
 
         // Allow font color input to set font color in overlay
-        $('#cyoCustomColor').change(function () {
-            var hexColor = '#' + document.getElementById('cyoCustomColor').color.toString();
-            $('#cyoOverlayText1').css('color', hexColor);
-            $('#cyoFontColor').val(hexColor);
-        });
-
-        // When user clicks color wheel, focus color input so pop-up colorpicker appears.
-        $('#cyoText1ColorWheel').click(function () {
-            $('#cyoCustomColor').trigger('focus');
-            return false;
+        $('#cyoText1Color').spectrum({
+            allowEmpty: true,
+            color: "#fff",
+            move: setText1Color,
+            showPalette: true
         });
 
         // Allow slider to set font-size in the overlay
