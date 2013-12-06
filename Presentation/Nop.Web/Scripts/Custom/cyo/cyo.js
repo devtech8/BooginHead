@@ -57,7 +57,13 @@
         $("#cyoTextColor").spectrum("set", color);
 
         var font = $('#cyoFontFamily' + activeTextContainer).val();
-        console.log(font);
+        var quotedFont = "'" + font + "'";
+        $('#cyoFontMenu li').each(function (index, element) {
+            var liFont = $(element).css('font-family');
+            if (liFont == quotedFont || liFont == font) {
+                $(element).trigger("click");
+            }
+        });
 
         setSliderFromFontSize()
     }
@@ -374,7 +380,7 @@
             var font = $(this).css('font-family');
             $('#cyoCustomFont').attr('value', font);
             $('#cyoTextContent' + activeTextContainer).css('font-family', font);
-            $('#cyoFontFamily' + activeTextContainer).val(font.replace(/'/, ''));
+            $('#cyoFontFamily' + activeTextContainer).val(font.replace(/'/g, ''));
         });
 
         // Allow font color input to set font color in overlay
@@ -392,7 +398,7 @@
 
         // Set custom text as user types
         $('#cyoCustomText').keyup(function () {
-            var text = $(this).val().replace(/\n/, "<br/>");
+            var text = $(this).val().replace(/\n/g, "<br/>");
             $('#cyoTextContent' + activeTextContainer).html(text);
             $('#cyoText' + activeTextContainer).val(text);
             showSettings('#cyoAddTextContainer' + activeTextContainer, text);
