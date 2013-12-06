@@ -440,10 +440,14 @@
             $('.selected-overlay').removeClass('selected-overlay');
             $(this).addClass('selected-overlay');
             var elementId = $(this).attr('id');
-            if (elementId == 'cyoOverlayText1')
-                activeTextContainer = 1
-            else if (elementId == 'cyoOverlayText2')
-                activeTextContainer = 2
+            if (elementId == 'cyoOverlayText1') {
+                activeTextContainer = 1;
+                loadTextSettings();
+            }
+            else if (elementId == 'cyoOverlayText2') {
+                activeTextContainer = 2;
+                loadTextSettings();
+            }
             return false;
         });
     }
