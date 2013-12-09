@@ -1,4 +1,4 @@
-﻿$(function () {
+$(function () {
 
     var DELETE = 46;
     var activeTextContainer = 1;
@@ -65,7 +65,7 @@
             }
         });
 
-        setSliderFromFontSize()
+        setSliderFromFontSize();
     }
 
     // Set the binky's background image. This fills the entire shield.
@@ -280,22 +280,26 @@
         $("#cyoOverlayStockImage").draggable().resizable({
             resize: function (e, ui) {
                 sizeImageToDiv("#cyoOverlayStockImage");
-            }
+            },
+            handles: "n, e, s, w"
         });
         $("#cyoOverlayUploadedImage").draggable().resizable({
             resize: function (e, ui) {
                 sizeImageToDiv("#cyoOverlayUploadedImage");
-            }
+            },
+            handles: "n, e, s, w"
         });
         $("#cyoOverlayText1").draggable().resizable({
             resize: function (e, ui) {
                 sizeTextContainerToDiv("#cyoOverlayText1");
-            }
+            },
+            handles: "n, e, s, w"
         });
         $("#cyoOverlayText2").draggable().resizable({
             resize: function (e, ui) {
                 sizeTextContainerToDiv("#cyoOverlayText2");
-            }
+            },
+            handles: "n, e, s, w"
         });
 
         $("#font-size-slider").slider();
@@ -451,16 +455,18 @@
         // elements are no longer selected.
         $('#cyoOverlayStockImage, #cyoOverlayUploadedImage, #cyoOverlayText1, #cyoOverlayText2').click(function () {
             $('.selected-overlay').removeClass('selected-overlay');
-            $(this).addClass('selected-overlay');
             var elementId = $(this).attr('id');
             if (elementId == 'cyoOverlayText1') {
                 activeTextContainer = 1;
                 loadTextSettings();
+                $("#cyoModalText").dialog("open");
             }
             else if (elementId == 'cyoOverlayText2') {
                 activeTextContainer = 2;
                 loadTextSettings();
+                $("#cyoModalText").dialog("open");
             }
+            $(this).addClass('selected-overlay');
             return false;
         });
     }
@@ -489,7 +495,7 @@
                 }
                 else if ($(selectedOverlay).attr('id') == 'cyoOverlayText1') {
                     clearText();
-                    $('#cyoOverlayText' + activeTextContainer).removeClass('selected-overlay');
+                    $('#cyoOverlayText1').removeClass('selected-overlay');
                     $('#cyoOverlayText1').hide();
                 }
                 else if ($(selectedOverlay).attr('id') == 'cyoOverlayText2') {
