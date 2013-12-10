@@ -15,8 +15,8 @@
 #cyoOverlayText1, #cyoOverlayText2 {
   height: auto;
   width: auto;
-  width: 280px;
-  height: 130px;
+  width: auto;
+  height: auto;
   overflow: hidden;
   position: absolute;
   padding: 20px;
