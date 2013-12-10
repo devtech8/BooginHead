@@ -1,6 +1,7 @@
 ﻿$(function () {
 
     var DELETE = 46;
+    var DEFAULT_ZOOM_SLIDER_POSITION = "40%";
     var activeTextContainer = 1;
 
     // Call all of the UI initializers & wire up all behaviors
@@ -74,6 +75,11 @@
         $('#cyoImage').val(imageUrl);
         $('#cyoSample').css('background-color', 'transparent');
         $('#cyoBackgroundColor').val('');
+
+        // Reset zoom when setting new image
+        $('#cyoSample').css('background-size', '100%')
+        $('#uploadSizeSlider a').css('left', DEFAULT_ZOOM_SLIDER_POSITION);
+
     }
 
     function setTextColor() {
@@ -110,6 +116,18 @@
         $('#cyoTextContent' + activeTextContainer).css('font-size', fontSize);
         $('#cyoFontSize' + activeTextContainer).val(fontSize + 'px');
     }
+
+    // Set the zoom on the uploaded background image when the user
+    // changes the zoom slider. The slider is in the upload dialog.
+    function setUploadImageZoom(sliderControl) {
+        var binkyBackground = $('#cyoSample').css('background-image');
+        var uploadedImage = $('#cyoUploadedImage').val();
+        if (binkyBackground.indexOf(uploadedImage) > -1) {
+            var zoom = parseInt(sliderControl.css('left'), 10);        
+            $('#cyoSample').css('background-size', (zoom / 2) + '%')
+        }
+    }
+
 
     // Set the position of the font-size slider based on font size in the text overlay.
     function setSliderFromFontSize() {
@@ -233,7 +251,7 @@
         $("#cyoModalGraphic").dialog(modalProperties);
 
         $('#btnShowModalUpload').click(function () {
-            $("#cyoModalUpload").dialog("open");
+            $("#cyoModalUpload").dialog("open");            
         });
         $('#btnHideModalUpload').click(function () {
             $("#cyoModalUpload").dialog("close");
@@ -298,6 +316,8 @@
         });
 
         $("#font-size-slider").slider();
+        $("#uploadSizeSlider").slider();
+        $("#uploadSizeSlider a").css("left", DEFAULT_ZOOM_SLIDER_POSITION);
     }
 
     function initBackgroundImageBehaviors() {
@@ -393,6 +413,10 @@
         // Allow slider to set font-size in the overlay
         $('#font-size-slider a').mouseup(function () {
             setFontSize($(this));
+        });
+
+        $('#uploadSizeSlider a').mouseup(function () {
+            setUploadImageZoom($(this));
         });
 
         // Set custom text as user types

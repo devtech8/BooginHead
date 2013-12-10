@@ -86,6 +86,13 @@
     cursor: pointer;
 }
 
+#cyoUploadedImageDiv label {
+    margin-bottom: 10px;
+}
+#cyoUploadedImageThumbnail{
+    margin-bottom: 20px;
+}
+
 #cyoBackgroundColorControl{
     width: 80%;
 }
