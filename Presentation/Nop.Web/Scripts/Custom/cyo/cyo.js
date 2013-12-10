@@ -184,6 +184,7 @@
         return false;
     }
 
+
     // --------------------------------------------------------------------
     // BEGIN INITIALIZERS
     // --------------------------------------------------------------------
@@ -549,6 +550,40 @@
         });
     }
 
+    // Adapted from https://github.com/kentor/jquery-draggable-background
+    function initDraggableBackground() {
+        $('#cyoSample').on('mousedown touchstart', function (e) {
+            e.preventDefault()
+            if (e.originalEvent.touches) {
+                e.clientX = e.originalEvent.touches[0].clientX
+                e.clientY = e.originalEvent.touches[0].clientY
+            }
+            else if (e.which !== 1) {
+                return
+            }
+            var x0 = e.clientX
+              , y0 = e.clientY
+              , pos = $(this).css('background-position').match(/(-?\d+).*?\s(-?\d+)/) || []
+              , xPos = parseInt(pos[1]) || 0
+              , yPos = parseInt(pos[2]) || 0
+            $(window).on('mousemove touchmove', function (e) {
+                e.preventDefault()
+                if (e.originalEvent.touches) {
+                    e.clientX = e.originalEvent.touches[0].clientX
+                    e.clientY = e.originalEvent.touches[0].clientY
+                }
+                var x = e.clientX
+                  , y = e.clientY
+                xPos = xPos + x - x0
+                yPos = yPos + y - y0
+                x0 = x
+                y0 = y
+                $('#cyoSample').css('background-position', xPos + 'px ' + yPos + 'px')
+            })
+        })
+        $(window).on('mouseup touchend', function () { $(window).off('mousemove touchmove') })
+    }
+
     function initUI() {
         initUploader();
         initModals();
@@ -560,6 +595,7 @@
         initBinkySelector();
         initCreateProof();
         initOverlays();
+        initDraggableBackground();
         initDocumentBehaviors();
     }
 });
