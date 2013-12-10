@@ -218,6 +218,14 @@
             }
         });
 
+        // Remove this div. If the user drags anywhere in the upload dialog,
+        // that will cause the uploader to display a div that says 
+        // "Drop files here to upload". By the time the user is dragging, 
+        // he/she has already uploaded an image and is trying to work with
+        // the slider. The appearance of this new div is disconcerting in 
+        // that context.
+        $('.qq-upload-drop-area').remove();
+
         // Clear uploaded image when user clicks X
         $('#cyoUploadImageContainer .ui-icon-closethick').click(function () {
             clearUploadedImage();
