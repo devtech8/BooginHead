@@ -2,6 +2,7 @@
 
     var DELETE = 46;
     var DEFAULT_ZOOM_SLIDER_POSITION = "50%";
+    var ZOOM_FOR_STOCK_IMAGES = "50%";
     var activeTextContainer = 1;
 
     // Call all of the UI initializers & wire up all behaviors
@@ -25,6 +26,13 @@
         $('#cyoGraphic').val('');
         $('#cyoGraphicIsBackground').val('false');
         return false;
+    }
+
+    // When set as background, reduce stock image zoom so it fits in binky 
+    function setZoomForStockImage() {
+        $('#cyoSample').css('background-size', ZOOM_FOR_STOCK_IMAGES)
+        $('#uploadSizeSlider a').css('left', ZOOM_FOR_STOCK_IMAGES);
+        $('#cyoBgImageZoom').val(ZOOM_FOR_STOCK_IMAGES);
     }
 
     // Remove the uploaded image from the overlay and clear
@@ -76,6 +84,7 @@
             $('#cyoGraphicIsBackground').val('false');
         }
         clearSettings('#cyoSelectBackgroundContainer');
+        clearSettings('#cyoUploadImageContainer');
 
         // Set the background image to imageUrl
         if (imageUrl != '')
@@ -98,7 +107,8 @@
 
     // Reset zoom and offsets when setting new image or bg color
     function resetBgZoomAndOffsets() {
-        $('#cyoSample').css('background-size', '100%')
+        $('#cyoSample').css('background-size', '100%');
+        $('#cyoSample').css('background-position', 'center');
         $('#uploadSizeSlider a').css('left', DEFAULT_ZOOM_SLIDER_POSITION);
         $('#cyoBgImageZoom').val('100');
         $('#cyoBgImageOffsetX').val('0');
@@ -369,6 +379,7 @@
         $('#cyoModalBackground .chooser img').click(function () {
             var url = $(this).attr('src');
             setBinkyBackground(url.replace(/_thumb/, ''));
+            setZoomForStockImage();
             showSettings('#cyoSelectBackgroundContainer', $(this).attr('title'));
             return false;
         });
@@ -413,10 +424,7 @@
                 setBinkyBackground(url.replace(/_thumb/, ''));
                 $('#cyoOverlayStockImage .cyoImgContainer').empty();
                 $('#cyoGraphicIsBackground').val('true');
-                // When set as background, reduce stock image zoom so it fits in binky 
-                $('#cyoSample').css('background-size', '50%')
-                $('#uploadSizeSlider a').css('left', '50%');
-                $('#cyoBgImageZoom').val('50');
+                setZoomForStockImage();
             }
             else {  // Smaller image goes on overlay
                 var img = '<img src=\"' + url + '\">';
@@ -589,6 +597,11 @@
     // Adapted from https://github.com/kentor/jquery-draggable-background
     function initDraggableBackground() {
         $('#cyoSample').on('mousedown touchstart', function (e) {
+            // Do not make bg image draggable unless image was uploaded by user.
+            // The stock Booginhead images are correctly placed by default.
+            if (bgImageWasUploadedByUser() == false) {
+                return false;
+            }
             e.preventDefault();
             if (e.originalEvent.touches) {
                 e.clientX = e.originalEvent.touches[0].clientX;
