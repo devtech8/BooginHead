@@ -1,4 +1,4 @@
-$(function () {
+﻿$(function () {
 
     var DELETE = 46;
     var activeTextContainer = 1;
@@ -425,6 +425,20 @@ $(function () {
         // Copy product size to hidden form when user changes it
         $('input[name=size]').change(function () {
             $('#cyoProductSize').val($(this).val());
+        });
+
+        // Select & display binky brand
+        $('input[name=brand]').change(function () {
+            var brand = $(this).val();
+            $('#cyoBrand').val($(this).val());
+            if (brand == 'booginhead') {
+                $('#binkiesNuk').hide();
+                $('#binkiesBooginhead').show();
+            }
+            else {
+                $('#binkiesBooginhead').hide();
+                $('#binkiesNuk').show();
+            }
         });
     }
 

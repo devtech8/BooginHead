@@ -7,6 +7,11 @@
   -moz-transform: scale(0.70);
 }
 
+/* This div is hidden until user selects Nuk brand */
+#binkiesNuk {
+    display: none;
+}
+
 #cyoOverlayText1, #cyoOverlayText2 {
   height: auto;
   width: auto;
