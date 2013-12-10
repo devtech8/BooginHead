@@ -132,14 +132,9 @@
     }
 
     // Display the uploaded image on the binky
-    function showUploadInOverlay(imgUrl) {
-        var img = '<img src=\"' + imgUrl + '\">';
-        var imgContainer = $('#cyoOverlayUploadedImage .cyoImgContainer');
-        imgContainer.html(img);
-        sizeImageToDiv('#cyoOverlayUploadedImage');
-        $('#cyoOverlayUploadedImage').show();
+    function showUploadAsBackground(imgUrl) {
+        setBinkyBackground(imgUrl);
         removeOldUploadsFromDisplay();
-
         // Show the name of the uploaded image next to the button.
         showSettings('#cyoUploadImageContainer', $('.qq-upload-file').text());
     }
@@ -190,7 +185,7 @@
                     var imgUrl = previewUrl.replace('00000000-0000-0000-0000-000000000000', responseJSON.downloadGuid);
                     $('#cyoUploadedImageThumbnail').attr('src', imgUrl);
                     $('#cyoUploadedImageDiv').show();
-                    showUploadInOverlay(imgUrl);
+                    showUploadAsBackground(imgUrl);
                 }
                 else if (responseJSON.message) {
                     alert(responseJSON.message);
@@ -216,7 +211,7 @@
         // wants it back
         $('#cyoUploadedImageThumbnail').click(function () {
             var imgUrl = $('#cyoUploadedImageThumbnail').attr('src');
-            showUploadInOverlay(imgUrl);
+            showUploadAsBackground(imgUrl);
         });
     }
 
@@ -421,7 +416,7 @@
 
 
 
-    function initSizeRadios() {
+    function initRadios() {
         // Copy product size to hidden form when user changes it
         $('input[name=size]').change(function () {
             $('#cyoProductSize').val($(this).val());
@@ -528,7 +523,7 @@
         initBackgroundImageBehaviors();
         initStockImageBehaviors();
         initTextDialogBehaviors();
-        initSizeRadios();
+        initRadios();
         initBinkySelector();
         initCreateProof();
         initOverlays();
