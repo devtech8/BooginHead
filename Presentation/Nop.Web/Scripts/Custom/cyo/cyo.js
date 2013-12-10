@@ -1,7 +1,7 @@
 ﻿$(function () {
 
     var DELETE = 46;
-    var DEFAULT_ZOOM_SLIDER_POSITION = "40%";
+    var DEFAULT_ZOOM_SLIDER_POSITION = "50%";
     var activeTextContainer = 1;
 
     // Call all of the UI initializers & wire up all behaviors
@@ -123,8 +123,9 @@
         var binkyBackground = $('#cyoSample').css('background-image');
         var uploadedImage = $('#cyoUploadedImage').val();
         if (binkyBackground.indexOf(uploadedImage) > -1) {
-            var zoom = parseInt(sliderControl.css('left'), 10);        
-            $('#cyoSample').css('background-size', (zoom / 2) + '%')
+            var zoom = parseInt(sliderControl.css('left'), 10) / 2;        
+            $('#cyoSample').css('background-size', zoom + '%')
+            $('#cyoBgImageZoom').val(zoom);
         }
     }
 
