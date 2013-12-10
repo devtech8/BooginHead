@@ -76,10 +76,19 @@
         $('#cyoSample').css('background-color', 'transparent');
         $('#cyoBackgroundColor').val('');
 
-        // Reset zoom when setting new image
+        // Reset zoom and offsets when setting new image
         $('#cyoSample').css('background-size', '100%')
         $('#uploadSizeSlider a').css('left', DEFAULT_ZOOM_SLIDER_POSITION);
+        $('#cyoBgImageZoom').val('100');
+        $('#cyoBgImageOffsetX').val('0');
+        $('#cyoBgImageOffsetY').val('0');
 
+        if (bgImageWasUploadedByUser()) {
+            $('#cyoSample').attr('title', 'Click and drag to reposition image');
+        }
+        else {
+            $('#cyoSample').attr('title', '');
+        }
     }
 
     function setTextColor() {
@@ -117,18 +126,23 @@
         $('#cyoFontSize' + activeTextContainer).val(fontSize + 'px');
     }
 
+    // Returns true if the image showing on the binky shield was uploaded
+    // by the user.
+    function bgImageWasUploadedByUser() {
+        var binkyBackground = $('#cyoSample').css('background-image');
+        var uploadedImage = $('#cyoUploadedImage').val();
+        return (binkyBackground.indexOf(uploadedImage) > -1);
+    }
+
     // Set the zoom on the uploaded background image when the user
     // changes the zoom slider. The slider is in the upload dialog.
     function setUploadImageZoom(sliderControl) {
-        var binkyBackground = $('#cyoSample').css('background-image');
-        var uploadedImage = $('#cyoUploadedImage').val();
-        if (binkyBackground.indexOf(uploadedImage) > -1) {
+        if (bgImageWasUploadedByUser()) {
             var zoom = parseInt(sliderControl.css('left'), 10) / 2;        
             $('#cyoSample').css('background-size', zoom + '%')
             $('#cyoBgImageZoom').val(zoom);
         }
     }
-
 
     // Set the position of the font-size slider based on font size in the text overlay.
     function setSliderFromFontSize() {
@@ -305,7 +319,8 @@
                 sizeImageToDiv("#cyoOverlayStockImage");
             },
             handles: "n, e, s, w"
-        });
+        });        
+
         $("#cyoOverlayUploadedImage").draggable().resizable({
             resize: function (e, ui) {
                 sizeImageToDiv("#cyoOverlayUploadedImage");
@@ -325,6 +340,16 @@
             handles: "n, e, s, w"
         });
 
+        // Stop propagation of the mousedown event on the draggable
+        // overlays. If we don't do this, dragging the overlay also
+        // drags the underlying background image.
+        $("#cyoOverlayStockImage").on("mousedown", function (e) { e.stopPropagation(); return false; });
+        $("#cyoOverlayUploadedImage").on("mousedown", function (e) { e.stopPropagation(); return false; });
+        $("#cyoOverlayText1").on("mousedown", function (e) { e.stopPropagation(); return false; });
+        $("#cyoOverlayText2").on("mousedown", function (e) { e.stopPropagation(); return false; });
+
+        // Initialize the sliders. Position for font-size-slider is set 
+        // when text controls are initialized. That should be done here. (Someday)
         $("#font-size-slider").slider();
         $("#uploadSizeSlider").slider();
         $("#uploadSizeSlider a").css("left", DEFAULT_ZOOM_SLIDER_POSITION);
@@ -550,16 +575,17 @@
         });
     }
 
+    // Allow user to reposition the background image they uploaded. 
     // Adapted from https://github.com/kentor/jquery-draggable-background
     function initDraggableBackground() {
         $('#cyoSample').on('mousedown touchstart', function (e) {
-            e.preventDefault()
+            e.preventDefault();
             if (e.originalEvent.touches) {
-                e.clientX = e.originalEvent.touches[0].clientX
-                e.clientY = e.originalEvent.touches[0].clientY
+                e.clientX = e.originalEvent.touches[0].clientX;
+                e.clientY = e.originalEvent.touches[0].clientY;
             }
             else if (e.which !== 1) {
-                return
+                return;
             }
             var x0 = e.clientX
               , y0 = e.clientY
@@ -567,21 +593,23 @@
               , xPos = parseInt(pos[1]) || 0
               , yPos = parseInt(pos[2]) || 0
             $(window).on('mousemove touchmove', function (e) {
-                e.preventDefault()
+                e.preventDefault();
                 if (e.originalEvent.touches) {
-                    e.clientX = e.originalEvent.touches[0].clientX
-                    e.clientY = e.originalEvent.touches[0].clientY
+                    e.clientX = e.originalEvent.touches[0].clientX;
+                    e.clientY = e.originalEvent.touches[0].clientY;
                 }
                 var x = e.clientX
                   , y = e.clientY
-                xPos = xPos + x - x0
-                yPos = yPos + y - y0
-                x0 = x
-                y0 = y
-                $('#cyoSample').css('background-position', xPos + 'px ' + yPos + 'px')
-            })
-        })
-        $(window).on('mouseup touchend', function () { $(window).off('mousemove touchmove') })
+                xPos = xPos + x - x0;
+                yPos = yPos + y - y0;
+                x0 = x;
+                y0 = y;
+                $('#cyoSample').css('background-position', xPos + 'px ' + yPos + 'px');
+                $('#cyoBgImageOffsetX').val(xPos);
+                $('#cyoBgImageOffsetY').val(yPos);
+            });
+        });
+        $(window).on('mouseup touchend', function () { $(window).off('mousemove touchmove') });
     }
 
     function initUI() {
