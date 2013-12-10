@@ -31,9 +31,6 @@
     // the settings display to the right of the button. The
     // uploaded image is still available in the upload dialog.
     function clearUploadedImage() {
-        var imgContainer = $('#cyoOverlayUploadedImage .cyoImgContainer');
-        imgContainer.html('');
-        $('#cyoOverlayUploadedImage').hide();
         clearSettings('#cyoUploadImageContainer');
         return false;
     }
@@ -321,12 +318,6 @@
             handles: "n, e, s, w"
         });        
 
-        $("#cyoOverlayUploadedImage").draggable().resizable({
-            resize: function (e, ui) {
-                sizeImageToDiv("#cyoOverlayUploadedImage");
-            },
-            handles: "n, e, s, w"
-        });
         $("#cyoOverlayText1").draggable().resizable({
             resize: function (e, ui) {
                 sizeTextContainerToDiv("#cyoOverlayText1");
@@ -344,9 +335,9 @@
         // overlays. If we don't do this, dragging the overlay also
         // drags the underlying background image.
         $("#cyoOverlayStockImage").on("mousedown", function (e) { e.stopPropagation(); return false; });
-        $("#cyoOverlayUploadedImage").on("mousedown", function (e) { e.stopPropagation(); return false; });
         $("#cyoOverlayText1").on("mousedown", function (e) { e.stopPropagation(); return false; });
         $("#cyoOverlayText2").on("mousedown", function (e) { e.stopPropagation(); return false; });
+
 
         // Initialize the sliders. Position for font-size-slider is set 
         // when text controls are initialized. That should be done here. (Someday)
@@ -521,7 +512,8 @@
         // If the user clicks on an element, make that element
         // the "selected" element. Make sure any previously selected
         // elements are no longer selected.
-        $('#cyoOverlayStockImage, #cyoOverlayUploadedImage, #cyoOverlayText1, #cyoOverlayText2').click(function () {
+
+        $('#cyoOverlayStockImage, #cyoOverlayText1, #cyoOverlayText2').click(function () {
             $('.selected-overlay').removeClass('selected-overlay');
             var elementId = $(this).attr('id');
             if (elementId == 'cyoOverlayText1') {
@@ -556,10 +548,6 @@
                 if ($(selectedOverlay).attr('id') == 'cyoOverlayStockImage') {
                     clearStockImage();
                     $('#cyoOverlayStockImage').removeClass('selected-overlay');
-                }
-                else if ($(selectedOverlay).attr('id') == 'cyoOverlayUploadedImage') {
-                    clearUploadedImage();
-                    $('#cyoOverlayUploadedImage').removeClass('selected-overlay');
                 }
                 else if ($(selectedOverlay).attr('id') == 'cyoOverlayText1') {
                     clearText();

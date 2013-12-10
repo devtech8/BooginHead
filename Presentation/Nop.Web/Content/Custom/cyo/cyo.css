@@ -24,7 +24,7 @@
 }
 
 #cyoOverlayText1:hover, #cyoOverlayText2:hover,
-#cyoOverlayStockImage:hover, #cyoOverlayUploadedImage:hover {
+#cyoOverlayStockImage:hover {
   border: 1px dashed #999;
   cursor: move;
 }
@@ -33,10 +33,9 @@
   border: 2px dashed #F00 !important;
 }
 
-#cyoOverlayStockImage, #cyoOverlayUploadedImage {
+#cyoOverlayStockImage {
     z-index: 10;
     border: 0;
-    /* padding: 0; */
     top: 170px;
     left: 220px;
     width: 220px;
