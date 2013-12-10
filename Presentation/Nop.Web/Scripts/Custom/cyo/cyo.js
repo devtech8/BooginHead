@@ -31,6 +31,8 @@
     // the settings display to the right of the button. The
     // uploaded image is still available in the upload dialog.
     function clearUploadedImage() {
+        if (bgImageWasUploadedByUser())
+            setBinkyBackground('');
         clearSettings('#cyoUploadImageContainer');
         return false;
     }
@@ -68,24 +70,39 @@
 
     // Set the binky's background image. This fills the entire shield.
     function setBinkyBackground(imageUrl) {
-        $('#cyoSample').css('background-image', 'url("' + imageUrl + '")');
+        // Clear out any other settings that describe the binky's background.
+        if ($('#cyoGraphicIsBackground').val() == 'true') {
+            clearSettings('#cyoAddGraphicContainer');
+            $('#cyoGraphicIsBackground').val('false');
+        }
+        clearSettings('#cyoSelectBackgroundContainer');
+
+        // Set the background image to imageUrl
+        if (imageUrl != '')
+            $('#cyoSample').css('background-image', 'url("' + imageUrl + '")');
+        else
+            $('#cyoSample').css('background-image', 'none');
+
+        // Update our hidden inputs
         $('#cyoImage').val(imageUrl);
         $('#cyoSample').css('background-color', 'transparent');
-        $('#cyoBackgroundColor').val('');
+        $('#cyoBackgroundColor').val('');        
 
-        // Reset zoom and offsets when setting new image
+        // Special for uploaded images...
+        resetBgZoomAndOffsets();
+        if (bgImageWasUploadedByUser()) 
+            $('#cyoSample').attr('title', 'Click and drag to reposition image');
+        else 
+            $('#cyoSample').attr('title', '');
+    }
+
+    // Reset zoom and offsets when setting new image or bg color
+    function resetBgZoomAndOffsets() {
         $('#cyoSample').css('background-size', '100%')
         $('#uploadSizeSlider a').css('left', DEFAULT_ZOOM_SLIDER_POSITION);
         $('#cyoBgImageZoom').val('100');
         $('#cyoBgImageOffsetX').val('0');
         $('#cyoBgImageOffsetY').val('0');
-
-        if (bgImageWasUploadedByUser()) {
-            $('#cyoSample').attr('title', 'Click and drag to reposition image');
-        }
-        else {
-            $('#cyoSample').attr('title', '');
-        }
     }
 
     function setTextColor() {
@@ -192,6 +209,7 @@
         $('#cyoSample').css('background-image', 'none');
         $('#cyoSample').css('background-color', hexColor);
         $('#cyoBackgroundColor').val(hexColor);
+        resetBgZoomAndOffsets();
         return false;
     }
 
@@ -395,6 +413,10 @@
                 setBinkyBackground(url.replace(/_thumb/, ''));
                 $('#cyoOverlayStockImage .cyoImgContainer').empty();
                 $('#cyoGraphicIsBackground').val('true');
+                // When set as background, reduce stock image zoom so it fits in binky 
+                $('#cyoSample').css('background-size', '50%')
+                $('#uploadSizeSlider a').css('left', '50%');
+                $('#cyoBgImageZoom').val('50');
             }
             else {  // Smaller image goes on overlay
                 var img = '<img src=\"' + url + '\">';
