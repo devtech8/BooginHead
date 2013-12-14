@@ -526,6 +526,9 @@
             $('#cyoSample').css('background-image', bgImage);
             // Copy product color to hidden form
             $('#cyoProductColor').val($(this).attr('data-shield'));
+            // Highlight selected binky and remove highlight from others
+            $('.shields .selected').removeClass('selected');
+            $(this).addClass('selected');
         });
     }
 

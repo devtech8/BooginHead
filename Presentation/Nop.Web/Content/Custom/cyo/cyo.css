@@ -12,6 +12,10 @@
     display: none;
 }
 
+.shields .selected{
+    border: 1px solid blue;
+}
+
 #cyoOverlayText1, #cyoOverlayText2 {
   height: auto;
   width: auto;
