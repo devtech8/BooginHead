@@ -515,7 +515,7 @@
         // When user clicks white/pink/blue binky, load that image into the customizer on the left
         $('.shields img').click(function () {
             var bgImage = $('#cyoSample').css('background-image');
-            $('#cyoSample img').attr('src', $(this).attr('data-large-image'));
+            $('#cyoBinkyLarge').attr('src', $(this).attr('data-large-image'));
             $('#cyoSample').css('background-image', bgImage);
             // Copy product color to hidden form
             $('#cyoProductColor').val($(this).attr('data-shield'));
