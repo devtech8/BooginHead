@@ -1,6 +1,7 @@
 ﻿$(function () {
 
     var DELETE = 46;
+    var BACKSPACE = 8;
     var DEFAULT_ZOOM_SLIDER_POSITION = "50%";
     var ZOOM_FOR_STOCK_IMAGES = "50%";
     var activeTextContainer = 1;
@@ -577,7 +578,7 @@
         // is selected when user hits delete, empty that element and hide it.
         $(document).keyup(function (event) {
             var selectedOverlay = $('.selected-overlay')[0];
-            if (selectedOverlay != null && event.which == DELETE) {
+            if (selectedOverlay != null && (event.which == DELETE || event.which == BACKSPACE)) {
                 if ($(selectedOverlay).attr('id') == 'cyoOverlayStockImage') {
                     clearStockImage();
                     $('#cyoOverlayStockImage').removeClass('selected-overlay');
@@ -592,6 +593,7 @@
                     $('#cyoOverlayText2').removeClass('selected-overlay');
                     $('#cyoOverlayText2').hide();
                 }
+                event.stopPropagation();
             }
         });
     }
