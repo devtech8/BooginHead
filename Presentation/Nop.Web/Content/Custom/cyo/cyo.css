@@ -20,7 +20,7 @@
   height: auto;
   width: auto;
   width: auto;
-  height: auto;
+  height: auto;mo
   overflow: hidden;
   position: absolute;
   padding: 20px;
@@ -130,10 +130,6 @@
 
 #cyoModalText input[type=text] {
     width: 200px;
-}
-
-.modal-close-button {
-    margin-top: 20px;
 }
 
 .cyo-h2 {

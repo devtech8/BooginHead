@@ -287,12 +287,17 @@
     // Initalize the modal dialogs and hook up the buttons that launch them.
     function initModals() {
         var modalProperties = {
-            height: 400,
+            height: 460,
             width: 500,
             modal: false,
             autoOpen: false,
             position: { my: "left", at: "center", of: window },
-            show: { effect: "blind", duration: 600 }
+            show: { effect: "blind", duration: 600 },
+            buttons: {
+                "OK": function () {
+                    $(this).dialog("close");
+                }
+            }
         };
 
         $("#cyoModalUpload").dialog(modalProperties);
@@ -303,16 +308,9 @@
         $('#btnShowModalUpload').click(function () {
             $("#cyoModalUpload").dialog("open");            
         });
-        $('#btnHideModalUpload').click(function () {
-            $("#cyoModalUpload").dialog("close");
-        });
-
 
         $('#btnShowModalBackground').click(function () {
             $("#cyoModalBackground").dialog("open");
-        });
-        $('#btnHideModalBackground').click(function () {
-            $("#cyoModalBackground").dialog("close");
         });
 
         $('#btnShowModalText1').click(function () {
@@ -327,15 +325,9 @@
             $("#cyoOverlayText2").show();
             $("#cyoModalText").dialog("open");
         });
-        $('#btnHideModalText').click(function () {
-            $("#cyoModalText").dialog("close");
-        });
 
         $('#btnShowModalGraphic').click(function () {
             $("#cyoModalGraphic").dialog("open");
-        });
-        $('#btnHideModalGraphic').click(function () {
-            $("#cyoModalGraphic").dialog("close");
         });
     }
 
@@ -592,7 +584,7 @@
                     clearText();
                     $('#cyoOverlayText2').removeClass('selected-overlay');
                     $('#cyoOverlayText2').hide();
-                }
+                }                
                 event.stopPropagation();
             }
         });
