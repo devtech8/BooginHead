@@ -2,15 +2,15 @@
     Layout = "";
 
     Html.AddScriptParts("~/Scripts/Custom/cyo/spectrum.js");
-    Html.AddScriptParts("~/Scripts/fileuploader.js");    
+    Html.AddScriptParts("~/Scripts/fileuploader.js");
     Html.AddScriptParts("~/Scripts/Custom/cyo/cyo.js");
-    
+
     Html.AddCssFileParts("~/Content/jquery-ui-themes/smoothness/jquery-ui-1.10.0.custom.min.css");
     Html.AddCssFileParts("~/Content/Custom/cyo/spectrum.css");
     Html.AddCssFileParts("~/Content/fileuploader/fileuploader.css");
     Html.AddCssFileParts("~/Content/Custom/cyo/cyo.css");
-    
-    
+
+
 }
 
   	<div id="cyoSample">
@@ -23,7 +23,7 @@
 
     <div id="cyoCustomizer">
         <h2 class="cyo-h2">Step 1: Choose A Brand</h2>
-               
+
             <input type="radio" name="brand" id="brandBooginhead" value="booginhead" checked="checked">
             <label for="brandBooginhead">Booginhead</label>
 
@@ -37,26 +37,24 @@
             <img src="http://booginhead.com/products/pacitool/img/shield-color/shield_blue_thumb.jpg" data-shield="blue" data-large-image="http://booginhead.com/products/pacitool/img/shield-color/shield_blue.png">
         </section>
         <section class="shields" id="binkiesNuk">
-            <img src="http://booginhead.com/products/pacitool/img/shield-color/shield_pink_thumb.jpg" data-shield="pink" data-large-image="http://booginhead.com/products/pacitool/img/shield-color/shield_pink.png">
-            <img src="http://booginhead.com/products/pacitool/img/shield-color/shield_blue_thumb.jpg" data-shield="blue" data-large-image="http://booginhead.com/products/pacitool/img/shield-color/shield_blue.png">
-            <img src="http://booginhead.com/products/pacitool/img/shield-color/shield_white_thumb.jpg" data-shield="white" data-large-image="http://booginhead.com/products/pacitool/img/shield-color/shield_white.png">
+            <img src="~/Content/custom/cyo/images/nuk_thumb.jpg" data-shield="white" data-large-image="@Url.Content("~/Content/custom/cyo/images/nuk.jpg")">
         </section>
 
 
         <h2 class="cyo-h2">Step 3: Choose A Size</h2>
-               
+
             <input type="radio" name="size" id="p6" value="7plus" checked="checked">
             <label for="p6">6+ Months</label>
 
             <input type="radio" name="size" id="u6" value="0-6">
             <label for="u6">0-6 Months</label>
-                
+
 
         <h2 class="cyo-h2">Step 4: Design Custom Pacifier</h2>
 
         <div id="cyoLaunchButtonContainer">
             <div class="cyoButtonContainer" id="cyoSelectBackgroundContainer">
-                <button id="btnShowModalBackground">Select Background</button> 
+                <button id="btnShowModalBackground">Select Background</button>
                 <span class="cyoDisplaySetting" style="display:none"></span>
                 <span class="hidden ui-button-icon-primary ui-icon ui-icon-closethick" title="Clear background image"></span>
             </div>
@@ -130,7 +128,7 @@
             <div class="modal-close-button">
                 <button id="btnHideModalUpload">OK</button>
             </div>
-            <div style="display:none" 
+            <div style="display:none"
                 id="cyoUploadControlSettings"
                 data-preview-url="@(Url.RouteUrl(new { controller = "CYO", action = "GetFileUpload", downloadId = Guid.Empty }))"
                 data-form-action="@(Url.RouteUrl(new { controller = "CYO", action = "UploadFile" }))"
@@ -249,7 +247,7 @@
             <div class="modal-close-button">
                 <button id="btnHideModalGraphic">OK</button>
             </div>
-        </div> 
+        </div>
 
 
         <h2 class="cyo-h2">Step 6: Approve Instant Proof</h2>
@@ -304,5 +302,5 @@
         </form>
 
     </div>
-            
+
 

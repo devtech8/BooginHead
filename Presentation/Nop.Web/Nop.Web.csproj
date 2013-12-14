@@ -599,7 +599,8 @@
     <Content Include="Content\2013.2.611\Windows7\sprite-vertical.png" />
     <Content Include="Content\2013.2.611\Windows7\sprite.png" />
     <Content Include="Content\Custom\cyo\cyo.css" />
-    <Content Include="Content\Custom\cyo\images\binky.png" />
+    <Content Include="Content\Custom\cyo\images\nuk.jpg" />
+    <Content Include="Content\Custom\cyo\images\nuk_thumb.jpg" />
     <Content Include="Content\Custom\cyo\spectrum.css" />
     <Content Include="Content\editors\BBEditor\ed.js" />
     <Content Include="Content\editors\BBEditor\images\bold.gif" />
