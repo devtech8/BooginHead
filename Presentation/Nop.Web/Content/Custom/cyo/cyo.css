@@ -21,7 +21,7 @@
   height: auto;
   width: auto;
   width: auto;
-  height: auto;mo
+  height: auto;
   overflow: hidden;
   position: absolute;
   padding: 20px;
@@ -43,11 +43,13 @@
     border: 0;
     top: 170px;
     left: 220px;
-    width: 220px;
-    height: 140px;
+    width: 80px;
+    height: 80px;
     overflow: hidden;
     position: absolute;
     cursor: move;
+    border: 5px;
+    zoom: 143%;   /* Parent element zoom is 70%. This restores current element to 100%. */
 }
 
 #cyoOverlayStockImage {

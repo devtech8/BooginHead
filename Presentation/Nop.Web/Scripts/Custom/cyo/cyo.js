@@ -24,12 +24,7 @@
             $('#cyoSample').css('background-image', 'none');
         }
         clearSettings('#cyoAddGraphicContainer');
-        $('#cyoGraphic').val('');
-        $('#cyoGraphicIsBackground').val('false');
-        $('#cyoGraphicTop').val('');
-        $('#cyoGraphicLeft').val('');
-        $('#cyoGraphicWidth').val('');
-        $('#cyoGraphicHeight').val('');
+        clearFormDataForGraphic();
         return false;
     }
 
@@ -193,6 +188,7 @@
         imgElement.attr('width', $(divId).width());
     }
 
+
     // Display the uploaded image on the binky
     function showUploadAsBackground(imgUrl) {
         setBinkyBackground(imgUrl);
@@ -228,6 +224,26 @@
         return false;
     }
 
+    // Set the hidden form data for the graphic currently showing in the overlay.
+    function setFormDataForGraphic(url) {
+        $('#cyoGraphic').val(url);
+        $('#cyoGraphicTop').val($('#cyoOverlayStockImage').offset().top);
+        $('#cyoGraphicLeft').val($('#cyoOverlayStockImage').offset().left);
+        $('#cyoGraphicWidth').val($('#cyoOverlayStockImage').width());
+        $('#cyoGraphicHeight').val($('#cyoOverlayStockImage').height());
+        $('#cyoGraphicZoom').val($('#cyoOverlayStockImage').css('zoom') * $('#cyoSample').css('zoom'));
+    }
+
+    // When user deletes the graphic in the overlay, clear out the form data for that graphic.
+    function clearFormDataForGraphic() {
+        $('#cyoGraphic').val('');
+        $('#cyoGraphicIsBackground').val('false');
+        $('#cyoGraphicTop').val('');
+        $('#cyoGraphicLeft').val('');
+        $('#cyoGraphicWidth').val('');
+        $('#cyoGraphicHeight').val('');
+        $('#cyoGraphicZoom').val('');
+    }
 
     // --------------------------------------------------------------------
     // BEGIN INITIALIZERS
@@ -416,7 +432,8 @@
         // Load clicked stock image into div on top of pacifier
         $('#cyoModalGraphic .chooser img').click(function () {
             var url = $(this).attr('src');
-            // Full background image...
+            // Full background image... No longer used. Full images have been
+            // moved up to the background image dialog.
             if ($(this).attr('data-fill-background') == 'true') {
                 setBinkyBackground(url.replace(/_thumb/, ''));
                 $('#cyoOverlayStockImage .cyoImgContainer').empty();
@@ -432,11 +449,7 @@
                     $('#cyoSample').css('background-image', 'none');
                 $('#cyoGraphicIsBackground').val('false');
             }
-            $('#cyoGraphic').val(url);
-            $('#cyoGraphicTop').val($('#cyoOverlayStockImage').offset().top);
-            $('#cyoGraphicLeft').val($('#cyoOverlayStockImage').offset().left);
-            $('#cyoGraphicWidth').val($('#cyoOverlayStockImage').width());
-            $('#cyoGraphicHeight').val($('#cyoOverlayStockImage').height());
+            setFormDataForGraphic(url);
             showSettings('#cyoAddGraphicContainer', $(this).attr('title'));
             return false;
         });
