@@ -26,6 +26,10 @@
         clearSettings('#cyoAddGraphicContainer');
         $('#cyoGraphic').val('');
         $('#cyoGraphicIsBackground').val('false');
+        $('#cyoGraphicTop').val('');
+        $('#cyoGraphicLeft').val('');
+        $('#cyoGraphicWidth').val('');
+        $('#cyoGraphicHeight').val('');
         return false;
     }
 
@@ -429,6 +433,10 @@
                 $('#cyoGraphicIsBackground').val('false');
             }
             $('#cyoGraphic').val(url);
+            $('#cyoGraphicTop').val($('#cyoOverlayStockImage').offset().top);
+            $('#cyoGraphicLeft').val($('#cyoOverlayStockImage').offset().left);
+            $('#cyoGraphicWidth').val($('#cyoOverlayStockImage').width());
+            $('#cyoGraphicHeight').val($('#cyoOverlayStockImage').height());
             showSettings('#cyoAddGraphicContainer', $(this).attr('title'));
             return false;
         });
