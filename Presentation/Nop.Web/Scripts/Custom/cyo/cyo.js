@@ -188,7 +188,7 @@
         var imgElement = $(divId + ' .cyoImgContainer img');
         imgElement.attr('height', $(divId).height());
         imgElement.attr('width', $(divId).width());
-        setFormDataForGraphic(imgElement.attr('src'));
+        setFormDataForGraphic();
     }
 
 
@@ -228,8 +228,8 @@
     }
 
     // Set the hidden form data for the graphic currently showing in the overlay.
-    function setFormDataForGraphic(url) {
-        $('#cyoGraphic').val(url);
+    function setFormDataForGraphic() {
+        $('#cyoGraphic').val($('#cyoModalGraphic .chooser img').attr('src'));
         $('#cyoGraphicTop').val($('#cyoOverlayStockImage').offset().top);
         $('#cyoGraphicLeft').val($('#cyoOverlayStockImage').offset().left);
         $('#cyoGraphicWidth').val($('#cyoOverlayStockImage').width());
@@ -360,7 +360,11 @@
     }
 
     function initDraggablesAndSliders() {
-        $("#cyoOverlayStockImage").draggable().resizable({
+        $("#cyoOverlayStockImage").draggable({
+            drag: function (e, ui) {
+                setFormDataForGraphic();
+            }
+        }).resizable({
             resize: function (e, ui) {
                 sizeImageToDiv("#cyoOverlayStockImage");
             },
@@ -457,7 +461,7 @@
                     $('#cyoSample').css('background-image', 'none');
                 $('#cyoGraphicIsBackground').val('false');
             }
-            setFormDataForGraphic(url);
+            setFormDataForGraphic();
             showSettings('#cyoAddGraphicContainer', $(this).attr('title'));
             return false;
         });
