@@ -103,6 +103,8 @@
             $('#cyoSample').attr('title', 'Click and drag to reposition image');
         else 
             $('#cyoSample').attr('title', '');
+
+        setFormDataForBinky();
     }
 
     // Reset zoom and offsets when setting new image or bg color
@@ -186,6 +188,7 @@
         var imgElement = $(divId + ' .cyoImgContainer img');
         imgElement.attr('height', $(divId).height());
         imgElement.attr('width', $(divId).width());
+        setFormDataForGraphic(imgElement.attr('src'));
     }
 
 
@@ -243,6 +246,11 @@
         $('#cyoGraphicWidth').val('');
         $('#cyoGraphicHeight').val('');
         $('#cyoGraphicZoom').val('');
+    }
+
+    function setFormDataForBinky() {
+        $('#cyoSampleTop').val($('#cyoSample').offset().top);
+        $('#cyoSampleLeft').val($('#cyoSample').offset().left);
     }
 
     // --------------------------------------------------------------------
@@ -653,6 +661,10 @@
         $(window).on('mouseup touchend', function () { $(window).off('mousemove touchmove') });
     }
 
+    function initHiddenForm() {
+        setFormDataForBinky();
+    }
+
     function initUI() {
         initUploader();
         initModals();
@@ -665,6 +677,7 @@
         initCreateProof();
         initOverlays();
         initDraggableBackground();
+        initHiddenForm();
         initDocumentBehaviors();
     }
 });
