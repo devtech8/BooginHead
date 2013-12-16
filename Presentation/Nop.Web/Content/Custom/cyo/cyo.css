@@ -3,6 +3,7 @@
   position: relative;
   background-repeat:no-repeat;
   background-position:center;
+  height: 478px;  /* Needs to mactch image height, or background bleeds through at bottom */
   zoom: 70%;
   -moz-transform: scale(0.70);
 }
