@@ -368,20 +368,20 @@
             resize: function (e, ui) {
                 sizeImageToDiv("#cyoOverlayStockImage");
             },
-            handles: "n, e, s, w"
+            handles: "se"
         });        
 
         $("#cyoOverlayText1").draggable().resizable({
             resize: function (e, ui) {
                 sizeTextContainerToDiv("#cyoOverlayText1");
             },
-            handles: "n, e, s, w"
+            handles: "se"
         });
         $("#cyoOverlayText2").draggable().resizable({
             resize: function (e, ui) {
                 sizeTextContainerToDiv("#cyoOverlayText2");
             },
-            handles: "n, e, s, w"
+            handles: "se"
         });
 
         // Stop propagation of the mousedown event on the draggable
