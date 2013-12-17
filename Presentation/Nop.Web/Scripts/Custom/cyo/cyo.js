@@ -123,6 +123,10 @@
         $('#cyoFontColor' + activeTextContainer).val(hexColor);
     }
 
+    function clearTextColor() {
+        $('#cyoFontColor' + activeTextContainer).val('');
+    }
+
     // Show the selected image/text next to the buttons on the
     // right side of the screen.
     function showSettings(divId, setting) {
@@ -149,7 +153,28 @@
         var position = parseInt(sliderControl.css('left'), 10);
         var fontSize = parseInt((position / 1.5), 10);
         $('#cyoTextContent' + activeTextContainer).css('font-size', fontSize);
-        $('#cyoFontSize' + activeTextContainer).val(fontSize + 'px');
+        setFormDataForText();
+    }
+
+    // Sets data in the hidden form for text.
+    function setFormDataForText() {
+        var textOverlay = $('#cyoOverlayText' + activeTextContainer);
+        $('#cyoFontSize' + activeTextContainer).val($('#cyoTextContent' + activeTextContainer).css('font-size'));
+        $('#cyoTextTop' + activeTextContainer).val(textOverlay.position().top);
+        $('#cyoTextLeft' + activeTextContainer).val(textOverlay.position().left);
+        $('#cyoTextHeight' + activeTextContainer).val(textOverlay.height());
+        $('#cyoTextWidth' + activeTextContainer).val(textOverlay.width());
+        setTextColor();
+    }
+
+    // Clears data in the hidden form for text.
+    function clearFormDataForText() {
+        $('#cyoFontSize' + activeTextContainer).val('');
+        $('#cyoTextTop' + activeTextContainer).val('');
+        $('#cyoTextLeft' + activeTextContainer).val('');
+        $('#cyoTextHeight' + activeTextContainer).val('');
+        $('#cyoTextWidth' + activeTextContainer).val('');
+        clearTextColor();
     }
 
     // Returns true if the image showing on the binky shield was uploaded
