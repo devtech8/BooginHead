@@ -253,35 +253,43 @@
         </div>
 
         <form action="/ADD_THIS_ENDPOINT" method="post" id="product_addtocart_form" enctype="multipart/form-data">
+
+            <!-- Product Info -->
+            <input type="hidden" name="cyoProductSize" id="cyoProductSize" value="7plus" />
+            <input type="hidden" name="cyoProductColor" id="cyoProductColor" value="white" />
+            <input type="hidden" name="cyoBrand" id="cyoBrand" value="booginhead" />
+
+            <!-- Binky position and background -->
             <input type="hidden" name="cyoSampleTop" id="cyoSampleTop" value="" />
             <input type="hidden" name="cyoSampleLeft" id="cyoSampleLeft" value="" />
-            <input type="hidden" name="cyoBrand" id="cyoBrand" value="booginhead" />
-            <input type="hidden" name="cyoBgImage" id="cyoImage" value="" />
+            <input type="hidden" name="cyoBgImage" id="cyoBgImage" value="" />
             <input type="hidden" name="cyoUploadedImage" id="cyoUploadedImage" value="" />
             <input type="hidden" name="cyoBgImageZoom" id="cyoBgImageZoom" value="100" />
             <input type="hidden" name="cyoBgImageOffsetX" id="cyoBgImageOffsetX" value="0" />
             <input type="hidden" name="cyoBgImageOffsetY" id="cyoBgImageOffsetY" value="0" />
+            <input type="hidden" name="cyoBgColor" id="cyoBgColor" value="" />
 
-            <input type="hidden" name="cyoProductSize" id="cyoProductSize" value="7plus" />
-            <input type="hidden" name="cyoProductColor" id="cyoProductColor" value="white" />
-            <input type="hidden" name="cyoBackgroundColor" id="cyoBackgroundColor" value="" />
-
-
+            <!-- Text1 Overlay -->
             <input type="hidden" name="cyoText1" id="cyoText1" value="" />
             <input type="hidden" name="cyoFontFamily1" id="cyoFontFamily1" value="ABeeZee" />
             <input type="hidden" name="cyoFontColor1" id="cyoFontColor1" value="#777777" />
             <input type="hidden" name="cyoFontSize1" id="cyoFontSize1" value="53px" />
+            <input type="hidden" name="cyoTextTop1" id="cyoTextTop1" value="" />
+            <input type="hidden" name="cyoTextLeft1" id="cyoTextLeft1" value="" />
+            <input type="hidden" name="cyoTextHeight1" id="cyoTextHeight1" value="" />
+            <input type="hidden" name="cyoTextWidth1" id="cyoTextWidth1" value="" />
 
+            <!-- Text2 Overlay -->
             <input type="hidden" name="cyoText2" id="cyoText2" value="" />
             <input type="hidden" name="cyoFontFamily2" id="cyoFontFamily2" value="ABeeZee" />
             <input type="hidden" name="cyoFontColor2" id="cyoFontColor2" value="#777777" />
             <input type="hidden" name="cyoFontSize2" id="cyoFontSize2" value="53px" />
+            <input type="hidden" name="cyoTextTop2" id="cyoTextTop2" value="" />
+            <input type="hidden" name="cyoTextLeft2" id="cyoTextLeft2" value="" />
+            <input type="hidden" name="cyoTextHeight2" id="cyoTextHeight2" value="" />
+            <input type="hidden" name="cyoTextWidth2" id="cyoTextWidth2" value="" />
 
-            <input type="hidden" name="cyoTextTop" id="cyoTextTop" value="" />
-            <input type="hidden" name="cyoTextLeft" id="cyoTextLeft" value="" />
-            <input type="hidden" name="cyoTextHeight" id="cyoTextHeight" value="" />
-            <input type="hidden" name="cyoTextWidth" id="cyoTextWidth" value="" />
-
+            <!-- Graphic Overlay -->
             <input type="hidden" name="cyoGraphic" id="cyoGraphic" value="" />
             <input type="hidden" name="cyoGraphicIsBackground" id="cyoGraphicIsBackground" value="false" />
             <input type="hidden" name="cyoGraphicTop" id="cyoGraphicTop" value="" />

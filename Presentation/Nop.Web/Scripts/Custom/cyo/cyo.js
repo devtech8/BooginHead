@@ -95,7 +95,7 @@
         // Update our hidden inputs
         $('#cyoBgImage').val(imageUrl);
         $('#cyoSample').css('background-color', 'transparent');
-        $('#cyoBackgroundColor').val('');        
+        $('#cyoBgColor').val('');        
 
         // Special for uploaded images...
         resetBgZoomAndOffsets();
@@ -222,7 +222,7 @@
         showSettings('#cyoSelectBackgroundContainer', hexColor);
         $('#cyoSample').css('background-image', 'none');
         $('#cyoSample').css('background-color', hexColor);
-        $('#cyoBackgroundColor').val(hexColor);
+        $('#cyoBgColor').val(hexColor);
         resetBgZoomAndOffsets();
         return false;
     }
