@@ -93,7 +93,7 @@
             $('#cyoSample').css('background-image', 'none');
 
         // Update our hidden inputs
-        $('#cyoImage').val(imageUrl);
+        $('#cyoBgImage').val(imageUrl);
         $('#cyoSample').css('background-color', 'transparent');
         $('#cyoBackgroundColor').val('');        
 
@@ -217,7 +217,7 @@
     // in the background dialog.
     function setBinkyBackgroundColor() {
         $('#cyoSample').css('background-image', 'none');
-        $('#cyoImage').val('');
+        $('#cyoBgImage').val('');
         var hexColor = $('#cyoBackgroundColorControl').spectrum("get").toHexString();
         showSettings('#cyoSelectBackgroundContainer', hexColor);
         $('#cyoSample').css('background-image', 'none');
@@ -272,6 +272,7 @@
                     // Show a thumbnail of the uploaded image in the upload dialog.
                     var imgUrl = previewUrl.replace('00000000-0000-0000-0000-000000000000', responseJSON.downloadGuid);
                     $('#cyoUploadedImageThumbnail').attr('src', imgUrl);
+                    $('#cyoUploadedImage').val(imgUrl);
                     $('#cyoUploadedImageDiv').show();
                     showUploadAsBackground(imgUrl);
                 }
@@ -412,7 +413,7 @@
         // Clear the background image from the pacifier when user clicks X
         $('#cyoSelectBackgroundContainer .ui-icon-closethick').click(function () {
             $('#cyoSample').css('background-image', 'none');
-            $('#cyoImage').val('');
+            $('#cyoBgImage').val('');
             clearSettings('#cyoSelectBackgroundContainer');
             return false;
         });
