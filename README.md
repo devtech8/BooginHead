@@ -18,10 +18,6 @@ Presentation\Nop.Web\Views\Custom\cyo
 
 The CYO partial currently renders on the Wishlist page.
 
-# Storing Images in File System
+DB connection is stored in AppData/Settings.txt
 
-Store images in the filesystem!
-
-1. Login as Admin
-2. Go to Configuration > Settings > Media Settings
-3. Set the first setting, "Pictures are stored into ..." to "File System"
+Uploaded files are stored in a database table called Downloads. The full binary data for all uploads is stored there.
