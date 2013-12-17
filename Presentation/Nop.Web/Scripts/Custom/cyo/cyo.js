@@ -385,7 +385,10 @@
         });
     }
 
+    // Initialize some jQuery elements. 
     function initDraggablesAndSliders() {
+
+        // This displays the overlay graphic
         $("#cyoOverlayStockImage").draggable({
             drag: function (e, ui) {
                 setFormDataForGraphic();
@@ -397,15 +400,28 @@
             handles: "se"
         });        
 
-        $("#cyoOverlayText1").draggable().resizable({
+        // This displays the first line of text.
+        $("#cyoOverlayText1").draggable({
+            drag: function (e, ui) {
+                setFormDataForText();
+            }
+        }).resizable({
             resize: function (e, ui) {
                 sizeTextContainerToDiv("#cyoOverlayText1");
+                setFormDataForText();
             },
             handles: "se"
         });
-        $("#cyoOverlayText2").draggable().resizable({
+
+        // This displays the second line of text.
+        $("#cyoOverlayText2").draggable({
+            drag: function (e, ui) {
+                setFormDataForText();
+            }
+        }).resizable({
             resize: function (e, ui) {
                 sizeTextContainerToDiv("#cyoOverlayText2");
+                setFormDataForText();
             },
             handles: "se"
         });
@@ -533,6 +549,7 @@
             $('#cyoTextContent' + activeTextContainer).html(text);
             $('#cyoText' + activeTextContainer).val(text);
             showSettings('#cyoAddTextContainer' + activeTextContainer, text);
+            setFormDataForText();
         });
 
         // Initialize font size slider position and font size
@@ -541,7 +558,16 @@
 
         // Clear text when user clicks X
         $('#cyoAddTextContainer1 .ui-icon-closethick, #cyoAddTextContainer2 .ui-icon-closethick').click(function () {
+            if ($(this).parent().attr('id') == 'cyoAddTextContainer1') {
+                activeTextContainer = 1;
+                $('#cyoOverlayText1').hide();
+            }
+            else {
+                activeTextContainer = 2;
+                $('#cyoOverlayText2').hide();
+            }
             clearText();
+            clearFormDataForText();
             return false;
         });
     }
@@ -638,11 +664,13 @@
                     clearText();
                     $('#cyoOverlayText1').removeClass('selected-overlay');
                     $('#cyoOverlayText1').hide();
+                    clearFormDataForText();
                 }
                 else if ($(selectedOverlay).attr('id') == 'cyoOverlayText2') {
                     clearText();
                     $('#cyoOverlayText2').removeClass('selected-overlay');
                     $('#cyoOverlayText2').hide();
+                    clearFormDataForText();
                 }                
                 event.stopPropagation();
             }
