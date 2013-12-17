@@ -17,3 +17,11 @@ Presentation\Nop.Web\Views\Custom\cyo
 (No configuration just yet ...)
 
 The CYO partial currently renders on the Wishlist page.
+
+# Storing Images in File System
+
+Store images in the filesystem!
+
+1. Login as Admin
+2. Go to Configuration > Settings > Media Settings
+3. Set the first setting, "Pictures are stored into ..." to "File System"
