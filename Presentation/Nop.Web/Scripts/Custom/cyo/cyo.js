@@ -273,9 +273,21 @@
         $('#cyoGraphicZoom').val('');
     }
 
+    // Store some metadata about the binky in our hidden form.
     function setFormDataForBinky() {
         $('#cyoSampleTop').val($('#cyoSample').offset().top);
         $('#cyoSampleLeft').val($('#cyoSample').offset().left);
+    }
+
+    // How many pixels per inch on this display?
+    function getPixelsPerInch() {
+        var div = document.createElement("div");
+        div.style.width = "1in";
+        var body = document.getElementsByTagName("body")[0];
+        body.appendChild(div);
+        var ppi = document.defaultView.getComputedStyle(div, null).getPropertyValue('width');
+        body.removeChild(div);
+        return parseFloat(ppi);
     }
 
     // --------------------------------------------------------------------
@@ -721,6 +733,10 @@
 
     function initHiddenForm() {
         setFormDataForBinky();
+        var ppi = 0;
+        try { ppi = getPixelsPerInch(); }
+        catch (ex) {}
+        $('#cyoPixelsPerInch').val(ppi);
     }
 
     function initUI() {
