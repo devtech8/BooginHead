@@ -10,7 +10,9 @@
     Html.AddCssFileParts("~/Content/fileuploader/fileuploader.css");
     Html.AddCssFileParts("~/Content/Custom/cyo/cyo.css");
 
-
+    AjaxOptions ajaxOptions = new AjaxOptions();
+    ajaxOptions.HttpMethod = "Post";
+    ajaxOptions.OnComplete = "cyoProofOnComplete"; // callback is defined in cyo.js
 }
 
   	<div id="cyoSample">
@@ -306,8 +308,8 @@
         </div>
         </div>
 
-        <form action="@(Url.RouteUrl(new { controller = "CYO", action = "CreateProof" }))" method="post" id="cyoCreateProofForm">
-
+        @using (Ajax.BeginForm("CreateProof", "CYO", ajaxOptions))
+        {
             <!-- Product Info -->
             <input type="hidden" name="cyoProductSize" id="cyoProductSize" value="7plus" />
             <input type="hidden" name="cyoProductColor" id="cyoProductColor" value="white" />
@@ -354,7 +356,7 @@
 
             <!-- Screen resolution info -->
             <input type="hidden" name="cyoPixelsPerInch" id="cyoPixelsPerInch" value="0" />
-        </form>
+        }
 
     </div>
 

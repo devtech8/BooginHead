@@ -9,8 +9,6 @@ namespace Nop.Web.Models.Custom
     public class CYOModel
     {
 
-        public double UNPARSABLE_DOUBLE = Double.MinValue;
-
         #region Constructors
 
         public CYOModel() { }
@@ -124,7 +122,7 @@ namespace Nop.Web.Models.Custom
 
         public bool DoubleValueIsMissing(double value)
         {
-            return value == UNPARSABLE_DOUBLE;
+            return value == Double.MinValue;
         }
 
         #endregion
@@ -261,7 +259,7 @@ namespace Nop.Web.Models.Custom
 
         private double ParseDouble(string value)
         {
-            double result = UNPARSABLE_DOUBLE;
+            double result = Double.MinValue;
             Double.TryParse(value, out result);
             return result;
         }

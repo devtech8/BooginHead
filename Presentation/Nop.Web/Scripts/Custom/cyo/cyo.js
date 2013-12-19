@@ -626,7 +626,8 @@
     function initCreateProof() {
         // Create Proof button
         $('#btn-create-proof').click(function () {
-            alert('Proof is not hooked up yet')
+            var form = $('#cyoProductSize').parent();
+            form.submit();
         });
     }
 
@@ -753,5 +754,13 @@
         initDraggableBackground();
         initHiddenForm();
         initDocumentBehaviors();
+    }
+
+
+    // Callback for submitting proof form
+    window.cyoProofOnComplete = function (xhr) {
+        try { console.log(xhr); }
+        catch (ex) { }
+        alert("We're still working on the Create Proof feature. Soon we'll be using the data you submit to create a proof image. Here's the data you submitted: \n\n" + xhr.responseText);
     }
 });

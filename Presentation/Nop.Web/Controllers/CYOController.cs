@@ -124,14 +124,16 @@ namespace Nop.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// This will return the proof image. It's currently just returning
+        /// the data that the user submitted.
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult CreateProof()
         {
             CYOModel cyoModel = new CYOModel(Request.Params);
-            ContentResult content = new ContentResult();
-            content.Content = "Got CYO data. Thank you!";
-            content.ContentType = "text/plain";
-            return content;
+            return Json(cyoModel);
         }
     }
 }
