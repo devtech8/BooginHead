@@ -8,6 +8,7 @@ using Nop.Core.Domain.Media;
 using Nop.Core.Infrastructure;
 using Nop.Services.Localization;
 using Nop.Services.Media;
+using Nop.Web.Models.Custom;
 
 namespace Nop.Web.Controllers
 {
@@ -123,5 +124,14 @@ namespace Nop.Web.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult CreateProof()
+        {
+            CYOModel cyoModel = new CYOModel(Request.Params);
+            ContentResult content = new ContentResult();
+            content.Content = "Got CYO data. Thank you!";
+            content.ContentType = "text/plain";
+            return content;
+        }
     }
 }

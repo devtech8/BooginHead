@@ -294,7 +294,7 @@
 
         <h2 class="cyo-h2">Step 6: Approve Instant Proof</h2>
         <p>Create your instant proof, and approve it to continue!</p>
-        <button id="btn-create-proof">Create Proof</button>
+        <button id="btn-create-proof">Create Proof</button> 
 
         <h2 class="cyo-h2">Step 7: Add to Cart!</h2>
         <div class="relative">
@@ -306,7 +306,7 @@
         </div>
         </div>
 
-        <form action="/ADD_THIS_ENDPOINT" method="post" id="product_addtocart_form" enctype="multipart/form-data">
+        <form action="@(Url.RouteUrl(new { controller = "CYO", action = "CreateProof" }))" method="post" id="cyoCreateProofForm">
 
             <!-- Product Info -->
             <input type="hidden" name="cyoProductSize" id="cyoProductSize" value="7plus" />
