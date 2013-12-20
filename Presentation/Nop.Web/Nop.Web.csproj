@@ -605,6 +605,9 @@
     <Content Include="Content\Custom\cyo\images\nuk.jpg" />
     <Content Include="Content\Custom\cyo\images\nuk_thumb.jpg" />
     <Content Include="Content\Custom\cyo\images\OwlBoy.png" />
+    <Content Include="Content\Custom\cyo\images\shield_blue.png" />
+    <Content Include="Content\Custom\cyo\images\shield_pink.png" />
+    <Content Include="Content\Custom\cyo\images\shield_white.png" />
     <Content Include="Content\Custom\cyo\images\SkullGirl.png" />
     <Content Include="Content\Custom\cyo\spectrum.css" />
     <Content Include="Content\editors\BBEditor\ed.js" />

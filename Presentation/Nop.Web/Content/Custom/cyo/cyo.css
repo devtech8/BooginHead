@@ -3,9 +3,7 @@
   position: relative;
   background-repeat:no-repeat;
   background-position:center;
-  height: 478px;  /* Needs to mactch image height, or background bleeds through at bottom */
-  zoom: 70%;
-  -moz-transform: scale(0.70);
+  height: 335px;  /* Needs to mactch image height, or background bleeds through at bottom */
 }
 
 /* This div is hidden until user selects Nuk brand */
@@ -49,7 +47,6 @@
     position: absolute;
     cursor: move;
     border: 5px;
-    zoom: 143%;   /* Parent element zoom is 70%. This restores current element to 100%. */
 }
 
 #cyoOverlayText1 {
