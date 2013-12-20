@@ -23,6 +23,7 @@ namespace Nop.Web.Models.Custom
         {
             ProductSize = requestParams["cyoProductSize"];
             ProductColor = requestParams["cyoProductColor"];
+            SampleImage = requestParams["cyoSampleImage"];
             Brand = requestParams["cyoBrand"];
             SampleTop = ParseDouble(requestParams["cyoSampleTop"]);
             SampleLeft = ParseDouble(requestParams["cyoSampleLeft"]);
@@ -64,6 +65,7 @@ namespace Nop.Web.Models.Custom
 
         public string ProductSize { get; set; }
         public string ProductColor { get; set; }
+        public string SampleImage { get; set; }
         public string Brand { get; set; }
         public double SampleTop { get; set; }
         public double SampleLeft { get; set; }
@@ -248,10 +250,12 @@ namespace Nop.Web.Models.Custom
                 errors.Add("Please choose a product size.");
             if (string.IsNullOrEmpty(ProductColor))
                 errors.Add("Please choose a product color.");
+            if (string.IsNullOrEmpty(SampleImage))
+                errors.Add("Sample image is missing.");
             if (string.IsNullOrEmpty(Brand))
                 errors.Add("Please choose a brand.");
             if (DoubleValueIsMissing(SampleTop))
-                errors.Add("Sample top position is missing");
+                errors.Add("Sample top position is missing.");
             if (DoubleValueIsMissing(SampleLeft))
                 errors.Add("Please choose a product size.");
             return errors;
