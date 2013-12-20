@@ -197,8 +197,8 @@
     function setFormDataForText() {
         var textOverlay = $('#cyoOverlayText' + activeTextContainer);
         $('#cyoFontSize' + activeTextContainer).val($('#cyoTextContent' + activeTextContainer).css('font-size'));
-        $('#cyoTextTop' + activeTextContainer).val(textOverlay.position().top);
-        $('#cyoTextLeft' + activeTextContainer).val(textOverlay.position().left);
+        $('#cyoTextTop' + activeTextContainer).val(textOverlay.offset().top);
+        $('#cyoTextLeft' + activeTextContainer).val(textOverlay.offset().left);
         $('#cyoTextHeight' + activeTextContainer).val(textOverlay.height());
         $('#cyoTextWidth' + activeTextContainer).val(textOverlay.width());
         setTextColor();
