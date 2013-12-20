@@ -455,12 +455,6 @@
             drag: function (e, ui) {
                 setFormDataForText();
             }
-        }).resizable({
-            resize: function (e, ui) {
-                sizeTextContainerToDiv("#cyoOverlayText1");
-                setFormDataForText();
-            },
-            handles: "se"
         });
 
         // This displays the second line of text.
@@ -468,12 +462,6 @@
             drag: function (e, ui) {
                 setFormDataForText();
             }
-        }).resizable({
-            resize: function (e, ui) {
-                sizeTextContainerToDiv("#cyoOverlayText2");
-                setFormDataForText();
-            },
-            handles: "se"
         });
 
         // Stop propagation of the mousedown event on the draggable
