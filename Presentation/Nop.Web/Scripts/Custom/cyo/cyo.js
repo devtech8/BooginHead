@@ -11,7 +11,8 @@
 
 
     // --------------------------------------------------------------------
-    // BEGIN UTILITY FUNCTIONS
+    // FUNCTIONS FOR GRAPHIC
+    // Graphic and Stock Image are the same thing. Need to normalize names.
     // --------------------------------------------------------------------
 
     // Remove the stock image & related settings
@@ -35,6 +36,60 @@
         $('#cyoBgImageZoom').val(ZOOM_FOR_STOCK_IMAGES);
     }
 
+    // Resize the image to match the dimensions of its container div
+    function sizeImageToDiv(divId) {
+        var imgElement = $(divId + ' .cyoImgContainer img');
+        imgElement.attr('height', $(divId).height());
+        imgElement.attr('width', $(divId).width());
+        setFormDataForGraphic();
+    }
+
+    // Set the hidden form data for the graphic currently showing in the overlay.
+    function setFormDataForGraphic() {
+        $('#cyoGraphic').val($('#cyoModalGraphic .chooser img').attr('src'));
+        $('#cyoGraphicTop').val($('#cyoOverlayStockImage').offset().top);
+        $('#cyoGraphicLeft').val($('#cyoOverlayStockImage').offset().left);
+        $('#cyoGraphicWidth').val($('#cyoOverlayStockImage').width());
+        $('#cyoGraphicHeight').val($('#cyoOverlayStockImage').height());
+        $('#cyoGraphicZoom').val($('#cyoOverlayStockImage').css('zoom') * $('#cyoSample').css('zoom'));
+    }
+
+    // When user deletes the graphic in the overlay, clear out the form data for that graphic.
+    function clearFormDataForGraphic() {
+        $('#cyoGraphic').val('');
+        $('#cyoGraphicIsBackground').val('false');
+        $('#cyoGraphicTop').val('');
+        $('#cyoGraphicLeft').val('');
+        $('#cyoGraphicWidth').val('');
+        $('#cyoGraphicHeight').val('');
+        $('#cyoGraphicZoom').val('');
+    }
+
+    // --------------------------------------------------------------------
+    // FUNCTIONS FOR UPLOADED IMAGE
+    // --------------------------------------------------------------------
+
+    // Display the uploaded image on the binky
+    function showUploadAsBackground(imgUrl) {
+        setBinkyBackground(imgUrl);
+        removeOldUploadsFromDisplay();
+        // Show the name of the uploaded image next to the button.
+        showSettings('#cyoUploadImageContainer', $('.qq-upload-file').text());
+    }
+
+    // Remove older photos from the upload dialog, 
+    // since we don't have a way of getting back to them.
+    function removeOldUploadsFromDisplay() {
+        var imageCount = $('.qq-upload-success').length;
+        if (imageCount > 1) {
+            $('.qq-upload-success').each(function (index, element) {
+                if (index == 0) {
+                    $(element).remove();
+                }
+            });
+        }
+    }
+
     // Remove the uploaded image from the overlay and clear
     // the settings display to the right of the button. The
     // uploaded image is still available in the upload dialog.
@@ -44,6 +99,11 @@
         clearSettings('#cyoUploadImageContainer');
         return false;
     }
+
+
+    // --------------------------------------------------------------------
+    // FUNCTIONS FOR CUSTOM TEXT
+    // --------------------------------------------------------------------
 
     // Clear the text overlay and the settings that appear
     // to the right of the Text button.
@@ -75,6 +135,64 @@
 
         setSliderFromFontSize();
     }
+
+    function setTextColor() {
+        var hexColor = $('#cyoTextColor').spectrum("get").toHexString();
+        $('#cyoTextContent' + activeTextContainer).css('color', hexColor);
+        $('#cyoFontColor' + activeTextContainer).val(hexColor);
+    }
+
+    function clearTextColor() {
+        $('#cyoFontColor' + activeTextContainer).val('');
+    }
+
+    // Set the font size in the text overlay based on the position
+    // of the font-size slider.
+    function setFontSize(sliderControl) {
+        var position = parseInt(sliderControl.css('left'), 10);
+        var fontSize = parseInt((position / 1.5), 10);
+        $('#cyoTextContent' + activeTextContainer).css('font-size', fontSize);
+        setFormDataForText();
+    }
+
+    // Set the position of the font-size slider based on font size in the text overlay.
+    function setSliderFromFontSize() {
+        var fontSize = parseInt($('#cyoFontSize' + activeTextContainer).val(), 10);
+        $('#font-size-slider a').css('left', fontSize * 1.5);
+    }
+
+    // Resize the inner text container to match the dimensions of its container div
+    function sizeTextContainerToDiv(divId) {
+        var textContainer = $(divId).find('div');
+        textContainer.attr('height', $(divId).height());
+        textContainer.attr('width', $(divId).width());
+    }
+
+    // Sets data in the hidden form for text.
+    function setFormDataForText() {
+        var textOverlay = $('#cyoOverlayText' + activeTextContainer);
+        $('#cyoFontSize' + activeTextContainer).val($('#cyoTextContent' + activeTextContainer).css('font-size'));
+        $('#cyoTextTop' + activeTextContainer).val(textOverlay.position().top);
+        $('#cyoTextLeft' + activeTextContainer).val(textOverlay.position().left);
+        $('#cyoTextHeight' + activeTextContainer).val(textOverlay.height());
+        $('#cyoTextWidth' + activeTextContainer).val(textOverlay.width());
+        setTextColor();
+    }
+
+    // Clears data in the hidden form for text.
+    function clearFormDataForText() {
+        $('#cyoFontSize' + activeTextContainer).val('');
+        $('#cyoTextTop' + activeTextContainer).val('');
+        $('#cyoTextLeft' + activeTextContainer).val('');
+        $('#cyoTextHeight' + activeTextContainer).val('');
+        $('#cyoTextWidth' + activeTextContainer).val('');
+        clearTextColor();
+    }
+
+
+    // --------------------------------------------------------------------
+    // FUNCTIONS FOR BINKY BACKGROUND
+    // --------------------------------------------------------------------
 
     // Set the binky's background image. This fills the entire shield.
     function setBinkyBackground(imageUrl) {
@@ -117,15 +235,43 @@
         $('#cyoBgImageOffsetY').val('0');
     }
 
-    function setTextColor() {
-        var hexColor = $('#cyoTextColor').spectrum("get").toHexString();
-        $('#cyoTextContent' + activeTextContainer).css('color', hexColor);
-        $('#cyoFontColor' + activeTextContainer).val(hexColor);
+
+    // Returns true if the image showing on the binky shield was uploaded
+    // by the user.
+    function bgImageWasUploadedByUser() {
+        var binkyBackground = $('#cyoSample').css('background-image');
+        var uploadedImage = $('#cyoUploadedImage').val();
+        return (uploadedImage.length > 0 && binkyBackground.indexOf(uploadedImage) > -1);
     }
 
-    function clearTextColor() {
-        $('#cyoFontColor' + activeTextContainer).val('');
+    // Set the zoom on the uploaded background image when the user
+    // changes the zoom slider. The slider is in the upload dialog.
+    function setUploadImageZoom(sliderControl) {
+        if (bgImageWasUploadedByUser()) {
+            var zoom = parseInt(sliderControl.css('left'), 10) / 2;
+            $('#cyoSample').css('background-size', zoom + '%')
+            $('#cyoBgImageZoom').val(zoom);
+        }
     }
+
+    // Set the binky background color to match what's selected
+    // in the background dialog.
+    function setBinkyBackgroundColor() {
+        $('#cyoSample').css('background-image', 'none');
+        $('#cyoBgImage').val('');
+        var hexColor = $('#cyoBackgroundColorControl').spectrum("get").toHexString();
+        showSettings('#cyoSelectBackgroundContainer', hexColor);
+        $('#cyoSample').css('background-image', 'none');
+        $('#cyoSample').css('background-color', hexColor);
+        $('#cyoBgColor').val(hexColor);
+        resetBgZoomAndOffsets();
+        return false;
+    }
+
+
+    // --------------------------------------------------------------------
+    // MISC UTILITY FUNCTIONS
+    // --------------------------------------------------------------------
 
     // Show the selected image/text next to the buttons on the
     // right side of the screen.
@@ -147,131 +293,6 @@
         return false;
     }
 
-    // Set the font size in the text overlay based on the position
-    // of the font-size slider.
-    function setFontSize(sliderControl) {
-        var position = parseInt(sliderControl.css('left'), 10);
-        var fontSize = parseInt((position / 1.5), 10);
-        $('#cyoTextContent' + activeTextContainer).css('font-size', fontSize);
-        setFormDataForText();
-    }
-
-    // Sets data in the hidden form for text.
-    function setFormDataForText() {
-        var textOverlay = $('#cyoOverlayText' + activeTextContainer);
-        $('#cyoFontSize' + activeTextContainer).val($('#cyoTextContent' + activeTextContainer).css('font-size'));
-        $('#cyoTextTop' + activeTextContainer).val(textOverlay.position().top);
-        $('#cyoTextLeft' + activeTextContainer).val(textOverlay.position().left);
-        $('#cyoTextHeight' + activeTextContainer).val(textOverlay.height());
-        $('#cyoTextWidth' + activeTextContainer).val(textOverlay.width());
-        setTextColor();
-    }
-
-    // Clears data in the hidden form for text.
-    function clearFormDataForText() {
-        $('#cyoFontSize' + activeTextContainer).val('');
-        $('#cyoTextTop' + activeTextContainer).val('');
-        $('#cyoTextLeft' + activeTextContainer).val('');
-        $('#cyoTextHeight' + activeTextContainer).val('');
-        $('#cyoTextWidth' + activeTextContainer).val('');
-        clearTextColor();
-    }
-
-    // Returns true if the image showing on the binky shield was uploaded
-    // by the user.
-    function bgImageWasUploadedByUser() {
-        var binkyBackground = $('#cyoSample').css('background-image');
-        var uploadedImage = $('#cyoUploadedImage').val();
-        return (binkyBackground.indexOf(uploadedImage) > -1);
-    }
-
-    // Set the zoom on the uploaded background image when the user
-    // changes the zoom slider. The slider is in the upload dialog.
-    function setUploadImageZoom(sliderControl) {
-        if (bgImageWasUploadedByUser()) {
-            var zoom = parseInt(sliderControl.css('left'), 10) / 2;        
-            $('#cyoSample').css('background-size', zoom + '%')
-            $('#cyoBgImageZoom').val(zoom);
-        }
-    }
-
-    // Set the position of the font-size slider based on font size in the text overlay.
-    function setSliderFromFontSize() {
-        var fontSize = parseInt($('#cyoFontSize' + activeTextContainer).val(), 10);
-        $('#font-size-slider a').css('left', fontSize * 1.5);
-    }
-
-    // Resize the inner text container to match the dimensions of its container div
-    function sizeTextContainerToDiv(divId) {
-        var textContainer = $(divId).find('div');
-        textContainer.attr('height', $(divId).height());
-        textContainer.attr('width', $(divId).width());
-    }
-
-    // Resize the image to match the dimensions of its container div
-    function sizeImageToDiv(divId) {
-        var imgElement = $(divId + ' .cyoImgContainer img');
-        imgElement.attr('height', $(divId).height());
-        imgElement.attr('width', $(divId).width());
-        setFormDataForGraphic();
-    }
-
-
-    // Display the uploaded image on the binky
-    function showUploadAsBackground(imgUrl) {
-        setBinkyBackground(imgUrl);
-        removeOldUploadsFromDisplay();
-        // Show the name of the uploaded image next to the button.
-        showSettings('#cyoUploadImageContainer', $('.qq-upload-file').text());
-    }
-
-    // Remove older photos from the upload dialog, 
-    // since we don't have a way of getting back to them.
-    function removeOldUploadsFromDisplay() {        
-        var imageCount = $('.qq-upload-success').length;
-        if (imageCount > 1) {
-            $('.qq-upload-success').each(function (index, element) {
-                if (index == 0) {
-                    $(element).remove();
-                }
-            });
-        }
-    }
-
-    // Set the binky background color to match what's selected
-    // in the background dialog.
-    function setBinkyBackgroundColor() {
-        $('#cyoSample').css('background-image', 'none');
-        $('#cyoBgImage').val('');
-        var hexColor = $('#cyoBackgroundColorControl').spectrum("get").toHexString();
-        showSettings('#cyoSelectBackgroundContainer', hexColor);
-        $('#cyoSample').css('background-image', 'none');
-        $('#cyoSample').css('background-color', hexColor);
-        $('#cyoBgColor').val(hexColor);
-        resetBgZoomAndOffsets();
-        return false;
-    }
-
-    // Set the hidden form data for the graphic currently showing in the overlay.
-    function setFormDataForGraphic() {
-        $('#cyoGraphic').val($('#cyoModalGraphic .chooser img').attr('src'));
-        $('#cyoGraphicTop').val($('#cyoOverlayStockImage').offset().top);
-        $('#cyoGraphicLeft').val($('#cyoOverlayStockImage').offset().left);
-        $('#cyoGraphicWidth').val($('#cyoOverlayStockImage').width());
-        $('#cyoGraphicHeight').val($('#cyoOverlayStockImage').height());
-        $('#cyoGraphicZoom').val($('#cyoOverlayStockImage').css('zoom') * $('#cyoSample').css('zoom'));
-    }
-
-    // When user deletes the graphic in the overlay, clear out the form data for that graphic.
-    function clearFormDataForGraphic() {
-        $('#cyoGraphic').val('');
-        $('#cyoGraphicIsBackground').val('false');
-        $('#cyoGraphicTop').val('');
-        $('#cyoGraphicLeft').val('');
-        $('#cyoGraphicWidth').val('');
-        $('#cyoGraphicHeight').val('');
-        $('#cyoGraphicZoom').val('');
-    }
 
     // Store some metadata about the binky in our hidden form.
     function setFormDataForBinky() {
