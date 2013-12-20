@@ -39,7 +39,7 @@
 }
 
 #cyoOverlayStockImage {
-    z-index: 10;
+    z-index: 20;
     border: 0;
     top: 170px;
     left: 220px;
@@ -50,10 +50,6 @@
     cursor: move;
     border: 5px;
     zoom: 143%;   /* Parent element zoom is 70%. This restores current element to 100%. */
-}
-
-#cyoOverlayStockImage {
-    z-index: 20;
 }
 
 #cyoOverlayText1 {

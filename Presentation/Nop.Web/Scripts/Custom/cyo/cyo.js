@@ -36,11 +36,19 @@
         $('#cyoBgImageZoom').val(ZOOM_FOR_STOCK_IMAGES);
     }
 
-    // Resize the image to match the dimensions of its container div
+    // Resize the image to match the dimensions of its container div.
+    // This actually resizes both the image and the div as the user 
+    // drags the corner of the div. It uses a css trick: when we reset
+    // the height of the image *without resetting the image width*,
+    // the browser automatically re-calculates the image width to preserve
+    // the original proportions, which is what we want. We then set the
+    // width of div to match whatever the browser calculated as the
+    // width of the image.
     function sizeImageToDiv(divId) {
         var imgElement = $(divId + ' .cyoImgContainer img');
         imgElement.attr('height', $(divId).height());
-        imgElement.attr('width', $(divId).width());
+        console.log(imgElement.width());
+        $(divId).css('width', imgElement.width() + "px");
         setFormDataForGraphic();
     }
 
@@ -533,9 +541,10 @@
                 setZoomForStockImage();
             }
             else {  // Smaller image goes on overlay
-                var img = '<img src=\"' + url + '\">';
+                var img = '<img src=\"' + url + '\" height=\"' + $(this).height() + '\">';
                 $('#cyoOverlayStockImage .cyoImgContainer').html(img);
-                sizeImageToDiv("#cyoOverlayStockImage");
+                //$(img).height($(this).height());
+                //$(img).width($(this).width());
                 $('#cyoOverlayStockImage').show();
                 if ($('#cyoGraphicIsBackground').val() == 'true')
                     $('#cyoSample').css('background-image', 'none');
