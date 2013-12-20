@@ -168,6 +168,38 @@
         textContainer.attr('width', $(divId).width());
     }
 
+    // Center the selected text overlay within the binky shield.
+    function centerText() {
+        var activeOverlay = $('#cyoOverlayText' + activeTextContainer);
+        var overlayHeight = activeOverlay.height();
+        var overlayWidth = activeOverlay.width();
+        var overlayPosition = activeOverlay.position();
+        var overlayOffset = activeOverlay.offset();
+        var binkyDiv = $('#cyoSample'); //.offset().top
+        var binkyHeight = binkyDiv.height();
+        var binkyWidth = binkyDiv.width();
+        var binkyPosition = binkyDiv.position();
+        var binkyOffset = binkyDiv.offset();
+        console.log("overlayHeight = " + overlayHeight);
+        console.log("overlayWidth = " + overlayWidth);
+        console.log("overlayPosition Left = " + overlayPosition.left);
+        console.log("overlayPosition Top = " + overlayPosition.top);
+        console.log("overlayOffset Left = " + overlayOffset.left);
+        console.log("overlayOffset Top = " + overlayOffset.top);
+        console.log("binkyHeight = " + binkyHeight);
+        console.log("binkyWidth = " + binkyWidth);
+        console.log("binkyPosition Left = " + binkyPosition.left);
+        console.log("binkyPosition Top = " + binkyPosition.top);
+        console.log("binkyOffset Left = " + binkyOffset.left);
+        console.log("binkyOffset Top = " + binkyOffset.top);
+
+        var centeredLeft = (binkyWidth - overlayWidth) / 2;
+        var centeredTop = (binkyHeight - overlayHeight) / 2;
+        console.log("Moving text offset to top " + centeredTop + ", left " + centeredLeft);
+        activeOverlay.css("left", centeredLeft);
+        activeOverlay.css("top", centeredTop);
+    }
+
     // Sets data in the hidden form for text.
     function setFormDataForText() {
         var textOverlay = $('#cyoOverlayText' + activeTextContainer);
@@ -584,6 +616,8 @@
             showSettings('#cyoAddTextContainer' + activeTextContainer, text);
             setFormDataForText();
         });
+
+        $('#btnCenterText').click(centerText);
 
         // Initialize font size slider position and font size
         $('#font-size-slider a').css('left', '80px');
