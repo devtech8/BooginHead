@@ -321,6 +321,7 @@
 
     // Store some metadata about the binky in our hidden form.
     function setFormDataForBinky() {
+        $('#cyoSampleImage').val($('#cyoBinkyLarge').attr('src'));
         $('#cyoSampleTop').val($('#cyoSample').offset().top);
         $('#cyoSampleLeft').val($('#cyoSample').offset().left);
     }
@@ -653,6 +654,7 @@
             $('#cyoSample').css('background-image', bgImage);
             // Copy product color to hidden form
             $('#cyoProductColor').val($(this).attr('data-shield'));
+            $('#cyoSampleImage').val($('#cyoBinkyLarge').attr('src'));
             // Highlight selected binky and remove highlight from others
             $('.shields .selected').removeClass('selected');
             $(this).addClass('selected');
