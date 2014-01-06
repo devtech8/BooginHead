@@ -138,7 +138,7 @@
 
             <div style="display:none"
                 id="cyoUploadControlSettings"
-                data-preview-url="@(Url.RouteUrl(new { controller = "CYO", action = "GetFileUpload", downloadId = Guid.Empty }))"
+                data-preview-url="@(Url.RouteUrl(new { controller = "CYO", action = "GetFileUpload", fileName = Guid.Empty }))"
                 data-form-action="@(Url.RouteUrl(new { controller = "CYO", action = "UploadFile" }))"
                 data-upload-string="@T("Common.FileUploader.Upload")"
                 data-drop-string="@T("Common.FileUploader.DropFiles")"

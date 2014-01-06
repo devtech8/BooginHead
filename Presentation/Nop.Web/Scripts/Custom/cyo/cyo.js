@@ -351,10 +351,10 @@
             element: document.getElementById('cyoUploader'),
             action: settings.attr('data-form-action'),
             onComplete: function (id, fileName, responseJSON) {
-                $("#cyoUploadFile").val(responseJSON.downloadGuid);
-                if (responseJSON.downloadGuid) {
+                $("#cyoUploadFile").val(responseJSON.fileName);
+                if (responseJSON.fileName) {
                     // Show a thumbnail of the uploaded image in the upload dialog.
-                    var imgUrl = previewUrl.replace('00000000-0000-0000-0000-000000000000', responseJSON.downloadGuid);
+                    var imgUrl = previewUrl.replace('00000000-0000-0000-0000-000000000000', responseJSON.fileName);
                     $('#cyoUploadedImageThumbnail').attr('src', imgUrl);
                     $('#cyoUploadedImage').val(imgUrl);
                     $('#cyoUploadedImageDiv').show();

@@ -6,6 +6,11 @@ using System.Web;
 
 namespace Nop.Web.Models.Custom
 {
+    /// <summary>
+    /// The CYOModel contains information about the customized product.
+    /// This model is NOT saved to the database, so don't expect to find
+    /// a table for it there.
+    /// </summary>
     public class CYOModel
     {
 

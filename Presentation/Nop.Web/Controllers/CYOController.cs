@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using Nop.Core.Domain.Media;
@@ -16,6 +17,7 @@ namespace Nop.Web.Controllers
     {
         ILocalizationService _localizationService = null;
         IDownloadService _downloadService = null;
+        Regex validFileName = new Regex(@"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\.[a-z]{3,4}$");
 
         public CYOController()
         {
@@ -75,53 +77,55 @@ namespace Nop.Web.Controllers
                 }, "text/plain");
             }
 
-            var download = new Download()
+            string uniqueFileName = string.Format("{0}{1}", Guid.NewGuid(), fileExtension);
+            string path = Path.Combine(Server.MapPath("~/App_Data/cyo/uploads"), uniqueFileName);
+            FileStream imageFile = null;
+            try
             {
-                DownloadGuid = Guid.NewGuid(),
-                UseDownloadUrl = false,
-                DownloadUrl = "",
-                DownloadBinary = fileBinary,
-                ContentType = contentType,
-                //we store filename without extension for downloads
-                Filename = Path.GetFileNameWithoutExtension(fileName),
-                Extension = fileExtension,
-                IsNew = true
-            };
-            _downloadService.InsertDownload(download);
-
-            // TODO: Where is the download saved? 
-            // TODO: Delete file when session expires.
+                imageFile = System.IO.File.OpenWrite(path);
+                imageFile.Write(fileBinary, 0, fileBinary.Length);
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log this exception
+                return Json(new
+                {
+                    success = false,
+                    message = string.Format("Error saving file: " + ex.Message),
+                    fileName = Guid.Empty,
+                }, "text/plain");
+            }
+            finally
+            {
+                if (imageFile != null)
+                    imageFile.Close();
+            }
 
             return Json(new
             {
                 success = true,
                 message = _localizationService.GetResource("ShoppingCart.FileUploaded"),
-                downloadGuid = download.DownloadGuid,
+                fileName = uniqueFileName,
             }, "text/plain");
         }
 
         [HttpGet]
-        public ActionResult GetFileUpload(Guid downloadId)
+        public ActionResult GetFileUpload(string fileName)
         {
-            var download = _downloadService.GetDownloadByGuid(downloadId);
-            if (download == null)
-                return Content("Download is not available anymore.");
+            if (!validFileName.IsMatch(fileName))
+                return Content(string.Format("Filename '{0}' is not valid.", fileName));
 
-            if (download.UseDownloadUrl)
-            {
-                //return result
-                return new RedirectResult(download.DownloadUrl);
-            }
-            else
-            {
-                if (download.DownloadBinary == null)
-                    return Content("Download data is not available anymore.");
+            string filePath = Path.Combine(Server.MapPath("~/App_Data/cyo/uploads"), fileName);
 
-                //return result
-                string fileName = !String.IsNullOrWhiteSpace(download.Filename) ? download.Filename : downloadId.ToString();
-                string contentType = fileName.ToLower().EndsWith(".png") ? "image/png" : "image/jpeg";
-                return new FileContentResult(download.DownloadBinary, contentType) { FileDownloadName = fileName + download.Extension };
-            }
+            if (!System.IO.File.Exists(filePath))
+                return Content(string.Format("File '{0}' not found.", fileName));
+
+            string contentType = "image/jpeg";
+            if (fileName.EndsWith(".gif", StringComparison.InvariantCultureIgnoreCase))
+                contentType = "image/gif";
+            else if (fileName.EndsWith(".png", StringComparison.InvariantCultureIgnoreCase))
+                contentType = "image/png";
+            return new FileContentResult(System.IO.File.ReadAllBytes(filePath), contentType);
         }
 
         /// <summary>

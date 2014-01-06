@@ -1694,6 +1694,9 @@
     <Content Include="Views\Shared\_Notifications.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\cyo\orders\" />
+    <Folder Include="App_Data\cyo\proofs\" />
+    <Folder Include="App_Data\cyo\uploads\" />
     <Folder Include="Plugins\bin\" />
   </ItemGroup>
   <ItemGroup>
