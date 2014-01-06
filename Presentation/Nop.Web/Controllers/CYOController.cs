@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
@@ -16,13 +17,11 @@ namespace Nop.Web.Controllers
     public class CYOController : Controller
     {
         ILocalizationService _localizationService = null;
-        IDownloadService _downloadService = null;
         Regex validFileName = new Regex(@"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\.[a-z]{3,4}$");
 
         public CYOController()
         {
             this._localizationService = EngineContext.Current.Resolve<ILocalizationService>();
-            this._downloadService = EngineContext.Current.Resolve<IDownloadService>();
         }
 
         //
@@ -88,6 +87,7 @@ namespace Nop.Web.Controllers
             catch (Exception ex)
             {
                 // TODO: Log this exception
+                
                 return Json(new
                 {
                     success = false,
@@ -139,5 +139,6 @@ namespace Nop.Web.Controllers
             CYOModel cyoModel = new CYOModel(Request.Params);
             return Json(cyoModel);
         }
+
     }
 }
