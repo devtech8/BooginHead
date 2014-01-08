@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -112,6 +113,19 @@ namespace Nop.Web.Models.Custom
         public double GraphicHeight { get; set; }
         public double GraphicZoom { get; set; }
         public double PixelsPerInch { get; set; }
+
+        /// <summary>
+        /// Returns true if the background image was uploaded by the user.
+        /// Returns false if the background image is one of Booginhead's
+        /// stock image, or if there is no background image.
+        /// </summary>
+        public bool BackgroundIsUploadedImage
+        {
+            get
+            {
+                return (!string.IsNullOrEmpty(this.BgImage) && this.BgImage == this.UploadedImage);
+            }
+        }
 
         /// <summary>
         /// Returns a list of errors describing missing or

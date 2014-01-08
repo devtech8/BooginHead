@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -7,27 +8,43 @@ using System.Web;
 
 namespace Nop.Web.Models.Custom
 {
+
     public class CYOImageHelper
     {
         private CYOModel cyoModel = null;
-        Regex cyoUploadedFileName = new Regex(@"([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\.[a-z]{3,4})");
+        private HttpServerUtilityBase server = null;
+        private Guid guid = Guid.Empty;
 
-        public CYOImageHelper(CYOModel cyoModel)
+        Regex cyoUploadedFileName = new Regex(@"([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\.[a-z]{3,4})");
+        Regex legalFileName = new Regex(@"^[\w\-. ]+$");
+        Regex legalHexColor = new Regex(@"^#[0-9a-f]{6}$", RegexOptions.IgnoreCase);
+
+        public CYOImageHelper(CYOModel cyoModel, HttpServerUtilityBase server)
         {
             this.cyoModel = cyoModel;
+            this.server = server;
+            this.guid = Guid.NewGuid();
         }
 
-        # region GetProofCommand
+        public string OutputFileName
+        {
+            get
+            {
+                return Path.Combine(this.server.MapPath("~/App_Data/cyo/proofs/"), string.Format("{0}.png", this.guid));
+            }
+        }
+
+        # region GetProofCommand 
 
         // TODO: Deal with resized graphic.
         // TODO: Deal with zoomed background image.
+        // TODO: Deal with background color.
         // TODO: If there's no background image, or if bg image is smaller than binky image, don't crop!
         // TODO: Handle both text1 and text2.
         // TODO: Proper output file name instead of output.png.
         // TODO: Sanitize everything from cyoModel, since we're passing it to the shell.
         public string GetProofCommand()
         {
-
             // The first part of the command should look something
             // like the following, with no spaces between the numbers.
             // convert -crop 674x479+165+145
@@ -62,7 +79,7 @@ namespace Nop.Web.Models.Custom
             // -pointsize 30 
             sb.Append(this.FontSizeParam);
 
-            // -font "GoogleWebFonts/Allura-Regular.ttf" 
+            // -font "cyo/fonts/Allura-Regular.ttf" 
             sb.Append(this.FontFamilyParam);
 
             // -fill blue 
@@ -75,12 +92,72 @@ namespace Nop.Web.Models.Custom
             sb.Append(this.TextPositionAndContentParam);
 
             //output.png ";
-            sb.Append("output.png");
+            sb.Append(this.OutputFileName);
 
             return sb.ToString();
         }
 
         # endregion
+
+        # region Validation / Parameter Sanitization
+
+        /// <summary>
+        /// Throw an ArgumentException if we get any bad or potentially
+        /// dangerous parameters.
+        /// </summary>
+        private void ValidateParams()
+        {
+            if (cyoModel.BackgroundIsUploadedImage)
+            {
+                string filename = this.ImageBaseName(cyoModel.BgImage);
+                string path = Path.Combine(this.server.MapPath("~/App_Data/cyo/uploads"), filename);
+                if (!File.Exists(path))
+                    throw new CYOInvalidDataException("The uploaded background image does not exist.");
+            }
+            else if (!string.IsNullOrEmpty(cyoModel.BgImage))
+            {
+                string filename = this.ImageBaseName(cyoModel.BgImage);
+                string path = Path.Combine(this.server.MapPath("~/Content/custom/cyo/images"), filename);
+                if (!File.Exists(path))
+                    throw new CYOInvalidDataException("The selected background image does not exist.");
+            }
+            if (!string.IsNullOrEmpty(cyoModel.Graphic))
+            {
+                string filename = this.ImageBaseName(cyoModel.Graphic);
+                string path = Path.Combine(this.server.MapPath("~/Content/custom/cyo/images"), filename);
+                if (!File.Exists(path))
+                    throw new CYOInvalidDataException("The selected graphic does not exist.");
+            }
+            if (!string.IsNullOrEmpty(cyoModel.FontFamily1)) 
+            {
+                string filename = this.FormatFontName(cyoModel.FontFamily1);
+                string path = Path.Combine(this.server.MapPath("~/App_Data/cyo/fonts"), filename);
+                if (!File.Exists(path))
+                    throw new CYOInvalidDataException("The selected font for text element #1 does not exist.");
+            }
+            if (!string.IsNullOrEmpty(cyoModel.FontFamily2)) 
+            {
+                string filename = this.FormatFontName(cyoModel.FontFamily2);
+                string path = Path.Combine(this.server.MapPath("~/App_Data/cyo/fonts"), filename);
+                if (!File.Exists(path))
+                    throw new CYOInvalidDataException("The selected font for text element #1 does not exist.");
+            }
+            if (!string.IsNullOrEmpty(cyoModel.FontColor1) && !legalHexColor.IsMatch(cyoModel.FontColor1))
+            {
+                throw new CYOInvalidDataException(string.Format("Illegal color '{0}' for text element #1.", cyoModel.FontColor1));
+            }
+            if (!string.IsNullOrEmpty(cyoModel.FontColor2) && !legalHexColor.IsMatch(cyoModel.FontColor2))
+            {
+                throw new CYOInvalidDataException(string.Format("Illegal color '{0}' for text element #2.", cyoModel.FontColor2));
+            }
+            if (!string.IsNullOrEmpty(cyoModel.BgColor) && !legalHexColor.IsMatch(cyoModel.BgColor))
+            {
+                throw new CYOInvalidDataException(string.Format("Illegal background color '{0}'.", cyoModel.BgColor));
+            }            
+        }
+
+
+        #endregion
 
         # region Text/Font
 
@@ -113,7 +190,8 @@ namespace Nop.Web.Models.Custom
             {
                 if (!string.IsNullOrEmpty(cyoModel.Text1))
                 {
-                    return string.Format("-font \"GoogleWebFonts/{0}-Regular.ttf\" ", cyoModel.FontFamily1);
+                    string pathToFont = Path.Combine(this.server.MapPath("~/App_Data/cyo/fonts"), this.FormatFontName(cyoModel.FontFamily1));
+                    return string.Format("-font \"{0}\" ", pathToFont);
                 }
                 return "";
             }
@@ -170,7 +248,7 @@ namespace Nop.Web.Models.Custom
             {
                 if (!string.IsNullOrEmpty(cyoModel.Text1))
                 {
-                    return string.Format("-annotate {0} \"{1}\" ", this.TextOffset, cyoModel.Text1);
+                    return string.Format("-annotate {0} \"{1}\" ", this.TextOffset, cyoModel.Text1.Replace("\"", "\\\""));
                 }
                 return "";
             }
@@ -227,7 +305,8 @@ namespace Nop.Web.Models.Custom
             {
                 if (!string.IsNullOrEmpty(cyoModel.Graphic))
                 {
-                    return string.Format("-page {0} {1} ", this.GraphicOffset, ImageBaseName(cyoModel.Graphic));
+                    string pathToGraphic = Path.Combine(this.server.MapPath("~/Content/Custom/cyo/images"), ImageBaseName(cyoModel.Graphic));
+                    return string.Format("-page {0} \"{1}\" ", this.GraphicOffset, pathToGraphic);
                 }
                 return "";
             }
@@ -259,7 +338,8 @@ namespace Nop.Web.Models.Custom
         {
             get
             {
-                return string.Format("-page {0} {1} ", this.ProductSampleOffset, ImageBaseName(cyoModel.SampleImage));
+                string pathToSampleImage = Path.Combine(this.server.MapPath("~/Content/Custom/cyo/images"), ImageBaseName(cyoModel.SampleImage));
+                return string.Format("-page {0} \"{1}\" ", this.ProductSampleOffset, ImageBaseName(pathToSampleImage));
             }
         }
 
@@ -310,7 +390,12 @@ namespace Nop.Web.Models.Custom
             {
                 if (!string.IsNullOrEmpty(cyoModel.BgImage))
                 {
-                    return string.Format("-page {0} {1} ", this.BackgroundImageOffset, ImageBaseName(cyoModel.BgImage));
+                    string pathToBgImage = null;
+                    if (cyoModel.BackgroundIsUploadedImage)
+                        pathToBgImage = Path.Combine(this.server.MapPath("~/Content/Custom/cyo/uploads"), ImageBaseName(cyoModel.BgImage));
+                    else
+                        pathToBgImage = Path.Combine(this.server.MapPath("~/Content/Custom/cyo/images"), ImageBaseName(cyoModel.BgImage));
+                    return string.Format("-page {0} \"{1}\" ", this.BackgroundImageOffset, pathToBgImage);
                 }
                 return "";
             }
@@ -366,7 +451,21 @@ namespace Nop.Web.Models.Custom
             return parts.Last();
         }
 
+        public string FormatFontName(string fontName)
+        {
+            return string.Format("{0}-Regular.ttf", fontName.Replace(" ", ""));
+        }
+
         # endregion
 
     }
+
+    public class CYOInvalidDataException : System.Exception
+    {
+        public CYOInvalidDataException(string message) : base(message)
+        {
+
+        }
+    }
+
 }
