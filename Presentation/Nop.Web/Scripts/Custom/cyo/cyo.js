@@ -54,7 +54,7 @@
 
     // Set the hidden form data for the graphic currently showing in the overlay.
     function setFormDataForGraphic() {
-        $('#cyoGraphic').val($('#cyoModalGraphic .chooser img').attr('src'));
+        $('#cyoGraphic').val($('#cyoModalGraphic .chooser img.selected').attr('src'));
         $('#cyoGraphicTop').val($('#cyoOverlayStockImage').offset().top);
         $('#cyoGraphicLeft').val($('#cyoOverlayStockImage').offset().left);
         $('#cyoGraphicWidth').val($('#cyoOverlayStockImage').width());
@@ -532,6 +532,8 @@
     function initStockImageBehaviors() {
         // Load clicked stock image into div on top of pacifier
         $('#cyoModalGraphic .chooser img').click(function () {
+            $('#cyoModalGraphic .chooser img').removeClass("selected");
+            $(this).addClass("selected");
             var url = $(this).attr('src');
             // Full background image... No longer used. Full images have been
             // moved up to the background image dialog.
