@@ -357,6 +357,7 @@
     <Compile Include="Validators\Common\ContactUsValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\cyo\fonts\_README_.txt" />
     <Content Include="App_Data\Install\create_required_data.sql" />
     <Content Include="App_Data\Install\create_sample_data.sql" />
     <Content Include="App_Data\Localization\Installation\installation.ar.xml" />
@@ -1748,6 +1749,50 @@
     <Content Include="Content\samples\product_SingleLadies_1.zip" />
     <Content Include="51Degrees.mobi.config" />
     <Content Include="App_Data\GeoIP.dat" />
+    <Content Include="App_Data\cyo\fonts\ABeeZee-Italic.ttf" />
+    <Content Include="App_Data\cyo\fonts\ABeeZee-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\Allura-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\Anton-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\ArchivoBlack-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\AutourOne-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\BerkshireSwath-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\BigelowRules-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\Bonbon-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\Candal-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\Chicle-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\CodaCaption-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\Comfortaa-Bold.ttf" />
+    <Content Include="App_Data\cyo\fonts\Comfortaa-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\Electrolize-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\FingerPaint-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\Fresca-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\Frijole-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\HomemadeApple-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\LeckerliOne-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\LilyScriptOne-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\Merienda-Bold.ttf" />
+    <Content Include="App_Data\cyo\fonts\Merienda-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\MissFajardose-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\Peralta-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\PinyonScript-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\PurplePurse-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\Ranchers-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\Roboto-Bold.ttf" />
+    <Content Include="App_Data\cyo\fonts\Roboto-BoldItalic.ttf" />
+    <Content Include="App_Data\cyo\fonts\Roboto-Italic.ttf" />
+    <Content Include="App_Data\cyo\fonts\Roboto-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\RugeBoogie-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\RunRaisin-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\Rye-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\ShadowsIntoLight-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\SofadiOne-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\TheGirlNextDoor-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\TitiliumWeb-Bold.ttf" />
+    <Content Include="App_Data\cyo\fonts\TitiliumWeb-BoldItalic.ttf" />
+    <Content Include="App_Data\cyo\fonts\TitiliumWeb-Italic.ttf" />
+    <Content Include="App_Data\cyo\fonts\TitiliumWeb-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\Ultra-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\VerelaRound-Regular.ttf" />
     <None Include="App_Data\Resources.xsd">
       <SubType>Designer</SubType>
     </None>
