@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace Nop.Web.Models.Custom
@@ -18,6 +19,8 @@ namespace Nop.Web.Models.Custom
         public static readonly int BOOGINHEAD_IMAGE_HEIGHT = 335;
         public static readonly int NUK_IMAGE_WIDTH = 472;
         public static readonly int NUK_IMAGE_HEIGHT = 335;
+
+        Regex illegalForDouble = new Regex(@"[^0-9\.\-]");
 
         #region Constructors
 
@@ -274,7 +277,11 @@ namespace Nop.Web.Models.Custom
         private double ParseDouble(string value)
         {
             double result = Double.MinValue;
-            Double.TryParse(value, out result);
+            if(!string.IsNullOrEmpty(value))
+            {
+                string legalValue = illegalForDouble.Replace(value, "");
+                Double.TryParse(legalValue, out result);
+            }
             return result;
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace Nop.Web.Models.Custom
@@ -9,11 +10,14 @@ namespace Nop.Web.Models.Custom
     public class CYOImageHelper
     {
         private CYOModel cyoModel = null;
+        Regex cyoUploadedFileName = new Regex(@"([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\.[a-z]{3,4})");
 
         public CYOImageHelper(CYOModel cyoModel)
         {
             this.cyoModel = cyoModel;
         }
+
+        # region GetProofCommand
 
         // TODO: Deal with resized graphic.
         // TODO: Deal with zoomed background image.
@@ -76,6 +80,14 @@ namespace Nop.Web.Models.Custom
             return sb.ToString();
         }
 
+        # endregion
+
+        # region Text/Font
+
+        /// <summary>
+        /// Returns a string describing the font size, 
+        /// in points.
+        /// </summary>
         public string FontSizeParam
         {
             get
@@ -83,7 +95,7 @@ namespace Nop.Web.Models.Custom
                 if (!string.IsNullOrEmpty(cyoModel.Text1))
                 {
                     double fontSizeInInches = cyoModel.FontSize1 / cyoModel.PixelsPerInch;
-                    double fontSizeInPoints = fontSizeInInches / 72.0;
+                    double fontSizeInPoints = fontSizeInInches * 72.0;
                     int pointsize = System.Convert.ToInt32(Math.Round(fontSizeInPoints, 0, MidpointRounding.AwayFromZero));
                     return string.Format("-pointsize {0} ", pointsize);
                 }
@@ -91,30 +103,50 @@ namespace Nop.Web.Models.Custom
             }
         }
 
+        /// <summary>
+        /// Returns a string specifying the font family used
+        /// to render the user's custom text.
+        /// </summary>
         public string FontFamilyParam
         {
             get
             {
                 if (!string.IsNullOrEmpty(cyoModel.Text1))
                 {
-                    return string.Format("-font {0} ", cyoModel.FontFamily1);
+                    return string.Format("-font \"GoogleWebFonts/{0}-Regular.ttf\" ", cyoModel.FontFamily1);
                 }
                 return "";
             }
         }
 
+        /// <summary>
+        /// Returns a string specifying the font color. 
+        /// ImageMagick supports essentially the same colors
+        /// as CSS: named colors like "red" and hex colors.
+        /// </summary>
         public string FontColorParam
         {
             get
             {
                 if (!string.IsNullOrEmpty(cyoModel.Text1))
                 {
-                    return string.Format("-fill {0} ", cyoModel.FontColor1);
+                    return string.Format("-fill \"{0}\" ", cyoModel.FontColor1);
                 }
                 return "";
             }
         }
 
+
+        /// <summary>
+        /// Returns a string telling ImageMagic not to use any
+        /// special "gravity" for the text. The gravity can be
+        /// something like "center", "south" or "northwest" to
+        /// indicate that the position of the text should be 
+        /// relative to ceter, an edge, or a corner. We don't
+        /// want any special gravity for the text. We'll position
+        /// it relative to the NorthEast corner, just like every
+        /// other item we're positioning.
+        /// </summary>
         public string FontGravityParam
         {
             get
@@ -127,6 +159,11 @@ namespace Nop.Web.Models.Custom
             }
         }
 
+
+        /// <summary>
+        /// Returns a string describing the position and content
+        /// of the text.
+        /// </summary>
         public string TextPositionAndContentParam
         {
             get
@@ -139,6 +176,11 @@ namespace Nop.Web.Models.Custom
             }
         }
 
+
+        /// <summary>
+        /// Returns a string describing how far to offset the text
+        /// from the top left corner of the image.
+        /// </summary>
         public string TextOffset
         {
             get
@@ -149,7 +191,9 @@ namespace Nop.Web.Models.Custom
             }
         }
 
+        #endregion
 
+        #region Layers
 
         /// <summary>
         /// If we have more than one layer, return a param to 
@@ -167,6 +211,10 @@ namespace Nop.Web.Models.Custom
             }
         }
 
+        # endregion
+
+        # region Graphic
+
         /// <summary>
         /// Returns a string telling ImageMagick to add the graphic
         /// overlay to the image. The graphic appears on top of any
@@ -179,7 +227,7 @@ namespace Nop.Web.Models.Custom
             {
                 if (!string.IsNullOrEmpty(cyoModel.Graphic))
                 {
-                    return string.Format("-page {0} {1} ", this.GraphicOffset, cyoModel.Graphic);
+                    return string.Format("-page {0} {1} ", this.GraphicOffset, ImageBaseName(cyoModel.Graphic));
                 }
                 return "";
             }
@@ -199,6 +247,9 @@ namespace Nop.Web.Models.Custom
             }
         }
 
+        # endregion
+
+        # region Product
 
         /// <summary>
         /// Returns a string telling ImageMagick to add the product 
@@ -208,21 +259,58 @@ namespace Nop.Web.Models.Custom
         {
             get
             {
-                return string.Format("-page {0} {1} ", this.ProductSampleOffset, cyoModel.SampleImage);
+                return string.Format("-page {0} {1} ", this.ProductSampleOffset, ImageBaseName(cyoModel.SampleImage));
             }
         }
+
+        /// <summary>
+        /// Returns a string describing the dimensions of the selected sample binky image.
+        /// </summary>
+        public string ProductSampleDimensions
+        {
+            get
+            {
+                string productSampleDimensions = string.Format("{0}x{1}", CYOModel.BOOGINHEAD_IMAGE_WIDTH, CYOModel.BOOGINHEAD_IMAGE_HEIGHT);
+                if (cyoModel.Brand == "nuk")
+                    productSampleDimensions = string.Format("{0}x{1}", CYOModel.NUK_IMAGE_WIDTH, CYOModel.NUK_IMAGE_HEIGHT);
+                return productSampleDimensions;
+            }
+        }
+
+        /// <summary>
+        /// Offset of productSampleImage from 0,0 of full image.
+        /// The background image may be bigger or smaller than the binky sample,
+        /// with only a portion of the background showing through the middle of
+        /// the binky. If the background is larger than the binky sample,
+        /// the offset will be positive. If the background is smaller than the
+        /// binky, the offset may be negative.
+        /// </summary>
+        public string ProductSampleOffset
+        {
+            get
+            {
+                return string.Format("{0}{1}{2}{3} ",
+                        this.SignFor(cyoModel.SampleLeft), System.Convert.ToInt32(cyoModel.SampleLeft),
+                        this.SignFor(cyoModel.SampleTop), System.Convert.ToInt32(cyoModel.SampleTop));
+            }
+        }
+
+        #endregion
+
+        # region Background
 
         /// <summary>
         /// Returns a string telling ImageMagick to add the background image
         /// to the proof. Returns an empty string if there is no background
         /// image to add.
         /// </summary>
-        public string BackgroundParam {
+        public string BackgroundParam
+        {
             get
             {
                 if (!string.IsNullOrEmpty(cyoModel.BgImage))
                 {
-                    return string.Format("-page {0} {1} ", this.BackgroundImageOffset, cyoModel.BgImage);
+                    return string.Format("-page {0} {1} ", this.BackgroundImageOffset, ImageBaseName(cyoModel.BgImage));
                 }
                 return "";
             }
@@ -242,38 +330,9 @@ namespace Nop.Web.Models.Custom
             }
         }
 
-        /// <summary>
-        /// Returns a string describing the dimensions of the selected sample binky image.
-        /// </summary>
-        public string ProductSampleDimensions
-        {
-            get
-            {
-                string productSampleDimensions = string.Format("{0}x{1}", CYOModel.BOOGINHEAD_IMAGE_WIDTH, CYOModel.BOOGINHEAD_IMAGE_HEIGHT);
-                if (cyoModel.Brand == "nuk")
-                    productSampleDimensions = string.Format("{0}x{1}", CYOModel.NUK_IMAGE_WIDTH, CYOModel.NUK_IMAGE_HEIGHT);
-                return productSampleDimensions;
-            }
-        }
+        #endregion
 
-
-        /// <summary>
-        /// Offset of productSampleImage from 0,0 of full image.
-        /// The background image may be bigger or smaller than the binky sample,
-        /// with only a portion of the background showing through the middle of
-        /// the binky. If the background is larger than the binky sample,
-        /// the offset will be positive. If the background is smaller than the
-        /// binky, the offset may be negative.
-        /// </summary>
-        public string ProductSampleOffset
-        {
-            get
-            {
-                return string.Format("{0}{1}{2}{3}",
-                        this.SignFor(cyoModel.SampleLeft), System.Convert.ToInt32(cyoModel.SampleLeft),
-                        this.SignFor(cyoModel.SampleTop), System.Convert.ToInt32(cyoModel.SampleTop));                
-            }
-        }
+        # region Utilities
 
         /// <summary>
         /// Returns "+" or "-" based on the value of the input param.
@@ -296,6 +355,18 @@ namespace Nop.Web.Models.Custom
             string sign = (value >= 0 ? "+" : "-");
             return sign;
         }
+
+
+        public string ImageBaseName(string imageURI)
+        {
+            Match match = cyoUploadedFileName.Match(imageURI);
+            if(match.Success)
+                return match.Groups[1].Value;
+            string[] parts = imageURI.Split(new char[] { '/' });
+            return parts.Last();
+        }
+
+        # endregion
 
     }
 }
