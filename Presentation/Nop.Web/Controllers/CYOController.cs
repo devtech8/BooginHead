@@ -137,7 +137,9 @@ namespace Nop.Web.Controllers
         public ActionResult CreateProof()
         {
             CYOModel cyoModel = new CYOModel(Request.Params);
-            return Json(cyoModel);
+            CYOImageHelper imageHelper = new CYOImageHelper(cyoModel);
+            string command = imageHelper.GetProofCommand();
+            return Json(new {command = command});
         }
 
     }
