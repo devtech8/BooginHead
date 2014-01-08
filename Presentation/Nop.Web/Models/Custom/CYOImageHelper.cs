@@ -34,9 +34,16 @@ namespace Nop.Web.Models.Custom
             }
         }
 
+        public string CreateProof()
+        {
+            this.ValidateParams();
+            this.ExecuteCommand(this.GetProofCommand());
+            return this.OutputFileName;
+        }
+
         # region GetProofCommand 
 
-        // TODO: Deal with resized graphic.
+        // TODO: Set graphic to proper size.
         // TODO: Deal with zoomed background image.
         // TODO: Deal with background color.
         // TODO: If there's no background image, or if bg image is smaller than binky image, don't crop!
@@ -454,6 +461,18 @@ namespace Nop.Web.Models.Custom
         public string FormatFontName(string fontName)
         {
             return string.Format("{0}-Regular.ttf", fontName.Replace(" ", ""));
+        }
+
+        private void ExecuteCommand(string command)
+        {
+            System.Diagnostics.ProcessStartInfo procStartInfo = new System.Diagnostics.ProcessStartInfo("cmd", "/c " + command);
+            procStartInfo.RedirectStandardOutput = true;
+            procStartInfo.UseShellExecute = false;
+            procStartInfo.CreateNoWindow = true;
+            System.Diagnostics.Process proc = new System.Diagnostics.Process();
+            proc.StartInfo = procStartInfo;
+            proc.Start();
+            string result = proc.StandardOutput.ReadToEnd();
         }
 
         # endregion
