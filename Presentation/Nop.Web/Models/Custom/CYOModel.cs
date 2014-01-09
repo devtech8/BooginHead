@@ -15,12 +15,6 @@ namespace Nop.Web.Models.Custom
     /// </summary>
     public class CYOModel
     {
-        // Height & width of product sample images.
-        public static readonly int BOOGINHEAD_IMAGE_WIDTH = 472;
-        public static readonly int BOOGINHEAD_IMAGE_HEIGHT = 335;
-        public static readonly int NUK_IMAGE_WIDTH = 472;
-        public static readonly int NUK_IMAGE_HEIGHT = 335;
-
         Regex illegalForDouble = new Regex(@"[^0-9\.\-]");
 
         #region Constructors

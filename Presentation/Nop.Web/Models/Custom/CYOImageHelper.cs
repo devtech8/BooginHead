@@ -57,8 +57,11 @@ namespace Nop.Web.Models.Custom
             {
                 backgroundImage = new Bitmap(productImage.Width, productImage.Height);
                 Graphics bg = Graphics.FromImage(backgroundImage);
-                Brush brush = new SolidBrush(ColorTranslator.FromHtml("#333333"));
-                bg.FillRectangle(brush, 0, 0, productImage.Width, productImage.Height);
+                if (!string.IsNullOrEmpty(cyoModel.BgColor))
+                {
+                    Brush brush = new SolidBrush(ColorTranslator.FromHtml(cyoModel.BgColor));
+                    bg.FillRectangle(brush, 0, 0, productImage.Width, productImage.Height);
+                }
             }
             string pathToGraphic = PathToGraphic;
             if (pathToGraphic != null)
@@ -91,63 +94,7 @@ namespace Nop.Web.Models.Custom
             return this.OutputFileName;
         }
 
-        # region GetProofCommand 
 
-        //public string GetProofCommand()
-        //{
-        //    // The first part of the command should look something
-        //    // like the following, with no spaces between the numbers.
-        //    // convert -crop 674x479+165+145
-        //    StringBuilder sb = new StringBuilder("convert -crop ");
-        //    sb.Append(this.ProductSampleDimensions);
-        //    sb.Append(this.ProductSampleOffset);
-
-        //    // If there is a background image, add it to the proof.
-        //    // The param will look something like this:
-        //    // -page +0+0 Desert.jpg
-        //    sb.Append(this.BackgroundParam);
-
-        //    // Add the product (the binky) to the image.
-        //    // The param should look something like this.
-        //    // -page +165+145 shield_white.png 
-        //    sb.Append(this.ProductParam);
-
-        //    // Add the param to include the graphic, if
-        //    // one is specified. It should look something
-        //    // like this:
-        //    // -page +331+236 SkullGirl.png
-        //    sb.Append(this.GraphicParam);
-
-        //    // Returns the following param, if we need it.
-        //    // -layers merge +repage 
-        //    sb.Append(this.LayersParam);
-
-        //    // The following params are added only if the
-        //    // user specified some text.
-
-        //    // Add param for font size, like so:
-        //    // -pointsize 30 
-        //    sb.Append(this.FontSizeParam);
-
-        //    // -font "cyo/fonts/Allura-Regular.ttf" 
-        //    sb.Append(this.FontFamilyParam);
-
-        //    // -fill blue 
-        //    sb.Append(this.FontColorParam);
-
-        //    //-gravity None \
-        //    sb.Append(this.FontGravityParam);
-
-        //    //-annotate +200+300 'Precious Baby Snookums' \
-        //    sb.Append(this.TextPositionAndContentParam);
-
-        //    //output.png ";
-        //    sb.Append(this.OutputFileName);
-
-        //    return sb.ToString();
-        //}
-
-        # endregion
 
         # region Validation / Parameter Sanitization
 
@@ -211,135 +158,30 @@ namespace Nop.Web.Models.Custom
 
         # region Text/Font
 
-        /// <summary>
-        /// Returns a string describing the font size, 
-        /// in points.
-        /// </summary>
-        public string FontSizeParam
+        public int? FontSize
         {
             get
             {
+                int? pointsize = null;
                 if (!string.IsNullOrEmpty(cyoModel.Text1))
                 {
                     double fontSizeInInches = cyoModel.FontSize1 / cyoModel.PixelsPerInch;
                     double fontSizeInPoints = fontSizeInInches * 72.0;
-                    int pointsize = System.Convert.ToInt32(Math.Round(fontSizeInPoints, 0, MidpointRounding.AwayFromZero));
-                    return string.Format("-pointsize {0} ", pointsize);
+                    pointsize = System.Convert.ToInt32(Math.Round(fontSizeInPoints, 0, MidpointRounding.AwayFromZero));                    
                 }
-                return "";
+                return pointsize;
             }
         }
 
-        /// <summary>
-        /// Returns a string specifying the font family used
-        /// to render the user's custom text.
-        /// </summary>
-        public string FontFamilyParam
+        public Point TextOffset(int whichText)
         {
-            get
-            {
-                if (!string.IsNullOrEmpty(cyoModel.Text1))
-                {
-                    string pathToFont = Path.Combine(this.server.MapPath("~/App_Data/cyo/fonts"), this.FormatFontName(cyoModel.FontFamily1));
-                    return string.Format("-font \"{0}\" ", pathToFont);
-                }
-                return "";
-            }
-        }
-
-        /// <summary>
-        /// Returns a string specifying the font color. 
-        /// ImageMagick supports essentially the same colors
-        /// as CSS: named colors like "red" and hex colors.
-        /// </summary>
-        public string FontColorParam
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(cyoModel.Text1))
-                {
-                    return string.Format("-fill \"{0}\" ", cyoModel.FontColor1);
-                }
-                return "";
-            }
-        }
-
-
-        /// <summary>
-        /// Returns a string telling ImageMagic not to use any
-        /// special "gravity" for the text. The gravity can be
-        /// something like "center", "south" or "northwest" to
-        /// indicate that the position of the text should be 
-        /// relative to ceter, an edge, or a corner. We don't
-        /// want any special gravity for the text. We'll position
-        /// it relative to the NorthEast corner, just like every
-        /// other item we're positioning.
-        /// </summary>
-        public string FontGravityParam
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(cyoModel.Text1))
-                {
-                    return "-gravity None ";
-                }
-                return "";
-            }
-        }
-
-
-        /// <summary>
-        /// Returns a string describing the position and content
-        /// of the text.
-        /// </summary>
-        public string TextPositionAndContentParam
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(cyoModel.Text1))
-                {
-                    return string.Format("-annotate {0} \"{1}\" ", this.TextOffset, cyoModel.Text1.Replace("\"", "\\\""));
-                }
-                return "";
-            }
-        }
-
-
-        /// <summary>
-        /// Returns a string describing how far to offset the text
-        /// from the top left corner of the image.
-        /// </summary>
-        public string TextOffset
-        {
-            get
-            {
-                return string.Format("{0}{1}{2}{3}",
-                        this.SignFor(cyoModel.TextLeft1), System.Convert.ToInt32(cyoModel.TextLeft1),
-                        this.SignFor(cyoModel.TextTop1), System.Convert.ToInt32(cyoModel.TextTop1));
-            }
+            if (whichText == 1)
+                return new Point(System.Convert.ToInt32(cyoModel.TextLeft1), System.Convert.ToInt32(cyoModel.TextTop1));
+            else
+                return new Point(System.Convert.ToInt32(cyoModel.TextLeft2), System.Convert.ToInt32(cyoModel.TextTop2));
         }
 
         #endregion
-
-        #region Layers
-
-        /// <summary>
-        /// If we have more than one layer, return a param to 
-        /// merge and repage the layers.
-        /// </summary>
-        public string LayersParam
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(cyoModel.BgImage) || !string.IsNullOrEmpty(cyoModel.Graphic))
-                {
-                    return "-layers merge +repage ";
-                }
-                return "";
-            }
-        }
-
-        # endregion
 
         # region Graphic
 
@@ -354,17 +196,11 @@ namespace Nop.Web.Models.Custom
             }
         }
 
-        /// <summary>
-        /// Returns the offset of the custom graphic from 0,0 of full image
-        /// in the form of a string that ImageMagick understands.
-        /// </summary>
-        public string GraphicOffset
+        public Point GraphicOffset
         {
             get
             {
-                return string.Format("{0}{1}{2}{3}",
-                        this.SignFor(cyoModel.GraphicLeft), System.Convert.ToInt32(cyoModel.GraphicLeft),
-                        this.SignFor(cyoModel.GraphicTop), System.Convert.ToInt32(cyoModel.GraphicTop));
+                return new Point(System.Convert.ToInt32(cyoModel.GraphicLeft), System.Convert.ToInt32(cyoModel.GraphicTop));
             }
         }
 
@@ -380,35 +216,12 @@ namespace Nop.Web.Models.Custom
             }
         }
 
-        /// <summary>
-        /// Returns a string describing the dimensions of the selected sample binky image.
-        /// </summary>
-        public string ProductSampleDimensions
-        {
-            get
-            {
-                string productSampleDimensions = string.Format("{0}x{1}", CYOModel.BOOGINHEAD_IMAGE_WIDTH, CYOModel.BOOGINHEAD_IMAGE_HEIGHT);
-                if (cyoModel.Brand == "nuk")
-                    productSampleDimensions = string.Format("{0}x{1}", CYOModel.NUK_IMAGE_WIDTH, CYOModel.NUK_IMAGE_HEIGHT);
-                return productSampleDimensions;
-            }
-        }
 
-        /// <summary>
-        /// Offset of productSampleImage from 0,0 of full image.
-        /// The background image may be bigger or smaller than the binky sample,
-        /// with only a portion of the background showing through the middle of
-        /// the binky. If the background is larger than the binky sample,
-        /// the offset will be positive. If the background is smaller than the
-        /// binky, the offset may be negative.
-        /// </summary>
-        public string ProductSampleOffset
+        public Point ProductSampleOffset
         {
             get
             {
-                return string.Format("{0}{1}{2}{3} ",
-                        this.SignFor(cyoModel.SampleLeft), System.Convert.ToInt32(cyoModel.SampleLeft),
-                        this.SignFor(cyoModel.SampleTop), System.Convert.ToInt32(cyoModel.SampleTop));
+                return new Point(System.Convert.ToInt32(cyoModel.SampleLeft), System.Convert.ToInt32(cyoModel.SampleTop));
             }
         }
 
@@ -433,45 +246,17 @@ namespace Nop.Web.Models.Custom
         }
 
 
-        /// <summary>
-        /// Returns the offset, from the top left corner, of the background image.
-        /// </summary>
-        public string BackgroundImageOffset
+        public Point BackgroundImageOffset
         {
             get
             {
-                return string.Format("{0}{1}{2}{3}",
-                        this.SignFor(cyoModel.BgImageOffsetX), System.Convert.ToInt32(cyoModel.BgImageOffsetX),
-                        this.SignFor(cyoModel.BgImageOffsetX), System.Convert.ToInt32(cyoModel.BgImageOffsetY));
+                return new Point(System.Convert.ToInt32(cyoModel.BgImageOffsetX), System.Convert.ToInt32(cyoModel.BgImageOffsetY));
             }
         }
 
         #endregion
 
         # region Utilities
-
-        /// <summary>
-        /// Returns "+" or "-" based on the value of the input param.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public string SignFor(double value)
-        {
-            string sign = (value >= 0 ? "+" : "-");
-            return sign;
-        }
-
-        /// <summary>
-        /// Returns "+" or "-" based on the value of the input param.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public string SignFor(int value)
-        {
-            string sign = (value >= 0 ? "+" : "-");
-            return sign;
-        }
-
 
         public string ImageBaseName(string imageURI)
         {
@@ -485,18 +270,6 @@ namespace Nop.Web.Models.Custom
         public string FormatFontName(string fontName)
         {
             return string.Format("{0}-Regular.ttf", fontName.Replace(" ", ""));
-        }
-
-        private void ExecuteCommand(string command)
-        {
-            System.Diagnostics.ProcessStartInfo procStartInfo = new System.Diagnostics.ProcessStartInfo("cmd", "/c " + command);
-            procStartInfo.RedirectStandardOutput = true;
-            procStartInfo.UseShellExecute = false;
-            procStartInfo.CreateNoWindow = true;
-            System.Diagnostics.Process proc = new System.Diagnostics.Process();
-            proc.StartInfo = procStartInfo;
-            proc.Start();
-            string result = proc.StandardOutput.ReadToEnd();
         }
 
         # endregion
