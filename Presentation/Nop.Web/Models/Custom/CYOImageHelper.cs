@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -34,15 +35,6 @@ namespace Nop.Web.Models.Custom
             }
         }
 
-        public string CreateProof()
-        {
-            this.ValidateParams();
-            this.ExecuteCommand(this.GetProofCommand());
-            return this.OutputFileName;
-        }
-
-        # region GetProofCommand 
-
         // TODO: Set graphic to proper size.
         // TODO: Deal with zoomed background image.
         // TODO: Deal with background color.
@@ -50,59 +42,110 @@ namespace Nop.Web.Models.Custom
         // TODO: Handle both text1 and text2.
         // TODO: Proper output file name instead of output.png.
         // TODO: Sanitize everything from cyoModel, since we're passing it to the shell.
-        public string GetProofCommand()
+        public string CreateProof()
         {
-            // The first part of the command should look something
-            // like the following, with no spaces between the numbers.
-            // convert -crop 674x479+165+145
-            StringBuilder sb = new StringBuilder("convert -crop ");
-            sb.Append(this.ProductSampleDimensions);
-            sb.Append(this.ProductSampleOffset);
+            this.ValidateParams();
+            
+            Image productImage = Image.FromFile(PathToProductImage);
+            Image backgroundImage = null;
+            Image graphicImage = null;
 
-            // If there is a background image, add it to the proof.
-            // The param will look something like this:
-            // -page +0+0 Desert.jpg
-            sb.Append(this.BackgroundParam);
+            string pathToBgImage = PathToBackgroundImage;
+            if (pathToBgImage != null)
+                backgroundImage = Image.FromFile(pathToBgImage);
+            else
+            {
+                backgroundImage = new Bitmap(productImage.Width, productImage.Height);
+                Graphics bg = Graphics.FromImage(backgroundImage);
+                Brush brush = new SolidBrush(ColorTranslator.FromHtml("#333333"));
+                bg.FillRectangle(brush, 0, 0, productImage.Width, productImage.Height);
+            }
+            string pathToGraphic = PathToGraphic;
+            if (pathToGraphic != null)
+                graphicImage = Image.FromFile(pathToGraphic);
 
-            // Add the product (the binky) to the image.
-            // The param should look something like this.
-            // -page +165+145 shield_white.png 
-            sb.Append(this.ProductParam);
 
-            // Add the param to include the graphic, if
-            // one is specified. It should look something
-            // like this:
-            // -page +331+236 SkullGirl.png
-            sb.Append(this.GraphicParam);
+            Graphics g = Graphics.FromImage(backgroundImage);
 
-            // Returns the following param, if we need it.
-            // -layers merge +repage 
-            sb.Append(this.LayersParam);
+            g.DrawImage(productImage, 0, 0);
+            if (graphicImage != null)
+                g.DrawImage(graphicImage, 100, 100);
 
-            // The following params are added only if the
-            // user specified some text.
+            if(!string.IsNullOrEmpty(cyoModel.Text1))
+            {
+                Color color = ColorTranslator.FromHtml("#990000");
+                SolidBrush brush = new SolidBrush(color);
+                Font font = new Font("Georgia", 20);
+                g.DrawString(cyoModel.Text1, font, brush, 150, 150);
+            }
 
-            // Add param for font size, like so:
-            // -pointsize 30 
-            sb.Append(this.FontSizeParam);
+            if(!string.IsNullOrEmpty(cyoModel.Text2))
+            {
+                Color color = ColorTranslator.FromHtml("#009900");
+                SolidBrush brush = new SolidBrush(color);
+                Font font = new Font("Courier", 30);
+                g.DrawString(cyoModel.Text2, font, brush, 200, 200);
+            }
 
-            // -font "cyo/fonts/Allura-Regular.ttf" 
-            sb.Append(this.FontFamilyParam);
-
-            // -fill blue 
-            sb.Append(this.FontColorParam);
-
-            //-gravity None \
-            sb.Append(this.FontGravityParam);
-
-            //-annotate +200+300 'Precious Baby Snookums' \
-            sb.Append(this.TextPositionAndContentParam);
-
-            //output.png ";
-            sb.Append(this.OutputFileName);
-
-            return sb.ToString();
+            backgroundImage.Save(this.OutputFileName);
+            return this.OutputFileName;
         }
+
+        # region GetProofCommand 
+
+        //public string GetProofCommand()
+        //{
+        //    // The first part of the command should look something
+        //    // like the following, with no spaces between the numbers.
+        //    // convert -crop 674x479+165+145
+        //    StringBuilder sb = new StringBuilder("convert -crop ");
+        //    sb.Append(this.ProductSampleDimensions);
+        //    sb.Append(this.ProductSampleOffset);
+
+        //    // If there is a background image, add it to the proof.
+        //    // The param will look something like this:
+        //    // -page +0+0 Desert.jpg
+        //    sb.Append(this.BackgroundParam);
+
+        //    // Add the product (the binky) to the image.
+        //    // The param should look something like this.
+        //    // -page +165+145 shield_white.png 
+        //    sb.Append(this.ProductParam);
+
+        //    // Add the param to include the graphic, if
+        //    // one is specified. It should look something
+        //    // like this:
+        //    // -page +331+236 SkullGirl.png
+        //    sb.Append(this.GraphicParam);
+
+        //    // Returns the following param, if we need it.
+        //    // -layers merge +repage 
+        //    sb.Append(this.LayersParam);
+
+        //    // The following params are added only if the
+        //    // user specified some text.
+
+        //    // Add param for font size, like so:
+        //    // -pointsize 30 
+        //    sb.Append(this.FontSizeParam);
+
+        //    // -font "cyo/fonts/Allura-Regular.ttf" 
+        //    sb.Append(this.FontFamilyParam);
+
+        //    // -fill blue 
+        //    sb.Append(this.FontColorParam);
+
+        //    //-gravity None \
+        //    sb.Append(this.FontGravityParam);
+
+        //    //-annotate +200+300 'Precious Baby Snookums' \
+        //    sb.Append(this.TextPositionAndContentParam);
+
+        //    //output.png ";
+        //    sb.Append(this.OutputFileName);
+
+        //    return sb.ToString();
+        //}
 
         # endregion
 
@@ -300,22 +343,14 @@ namespace Nop.Web.Models.Custom
 
         # region Graphic
 
-        /// <summary>
-        /// Returns a string telling ImageMagick to add the graphic
-        /// overlay to the image. The graphic appears on top of any
-        /// other images, but below the text. The graphic may not be
-        /// specified, in which case this returns an empty string.
-        /// </summary>
-        public string GraphicParam
+        public string PathToGraphic
         {
             get
             {
+                string pathToGraphic = null;
                 if (!string.IsNullOrEmpty(cyoModel.Graphic))
-                {
-                    string pathToGraphic = Path.Combine(this.server.MapPath("~/Content/Custom/cyo/images"), ImageBaseName(cyoModel.Graphic));
-                    return string.Format("-page {0} \"{1}\" ", this.GraphicOffset, pathToGraphic);
-                }
-                return "";
+                    pathToGraphic = Path.Combine(this.server.MapPath("~/Content/Custom/cyo/images"), ImageBaseName(cyoModel.Graphic));
+                return pathToGraphic;
             }
         }
 
@@ -337,16 +372,11 @@ namespace Nop.Web.Models.Custom
 
         # region Product
 
-        /// <summary>
-        /// Returns a string telling ImageMagick to add the product 
-        /// (the binky) to the proof.
-        /// </summary>
-        public string ProductParam
+        public string PathToProductImage
         {
             get
             {
-                string pathToSampleImage = Path.Combine(this.server.MapPath("~/Content/Custom/cyo/images"), ImageBaseName(cyoModel.SampleImage));
-                return string.Format("-page {0} \"{1}\" ", this.ProductSampleOffset, ImageBaseName(pathToSampleImage));
+                return Path.Combine(this.server.MapPath("~/Content/Custom/cyo/images"), ImageBaseName(cyoModel.SampleImage));
             }
         }
 
@@ -386,25 +416,19 @@ namespace Nop.Web.Models.Custom
 
         # region Background
 
-        /// <summary>
-        /// Returns a string telling ImageMagick to add the background image
-        /// to the proof. Returns an empty string if there is no background
-        /// image to add.
-        /// </summary>
-        public string BackgroundParam
+        public string PathToBackgroundImage
         {
             get
             {
+                string pathToBgImage = null;
                 if (!string.IsNullOrEmpty(cyoModel.BgImage))
                 {
-                    string pathToBgImage = null;
                     if (cyoModel.BackgroundIsUploadedImage)
                         pathToBgImage = Path.Combine(this.server.MapPath("~/Content/Custom/cyo/uploads"), ImageBaseName(cyoModel.BgImage));
                     else
                         pathToBgImage = Path.Combine(this.server.MapPath("~/Content/Custom/cyo/images"), ImageBaseName(cyoModel.BgImage));
-                    return string.Format("-page {0} \"{1}\" ", this.BackgroundImageOffset, pathToBgImage);
                 }
-                return "";
+                return pathToBgImage;
             }
         }
 

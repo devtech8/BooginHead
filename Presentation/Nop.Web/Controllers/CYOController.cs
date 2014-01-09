@@ -138,9 +138,9 @@ namespace Nop.Web.Controllers
         {
             CYOModel cyoModel = new CYOModel(Request.Params);
             CYOImageHelper imageHelper = new CYOImageHelper(cyoModel, Server);
-            string command = imageHelper.GetProofCommand();
+            //string command = imageHelper.GetProofCommand();
             string outputFile = imageHelper.CreateProof();
-            return Json(new {command = command, outputFile = outputFile});
+            return Json(new {outputFile = outputFile});
         }
 
     }
