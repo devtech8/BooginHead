@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,6 +21,8 @@ namespace Nop.Web.Models.Custom
         Regex cyoUploadedFileName = new Regex(@"([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\.[a-z]{3,4})");
         Regex legalFileName = new Regex(@"^[\w\-. ]+$");
         Regex legalHexColor = new Regex(@"^#[0-9a-f]{6}$", RegexOptions.IgnoreCase);
+
+        private static PrivateFontCollection customFonts = new PrivateFontCollection();
 
         public CYOImageHelper(CYOModel cyoModel, HttpServerUtilityBase server)
         {
@@ -76,9 +80,9 @@ namespace Nop.Web.Models.Custom
 
             if(!string.IsNullOrEmpty(cyoModel.Text1))
             {
-                Color color = ColorTranslator.FromHtml("#990000");
+                Color color = ColorTranslator.FromHtml(cyoModel.FontColor1);
                 SolidBrush brush = new SolidBrush(color);
-                Font font = new Font("Georgia", 20);
+                Font font = TextFont(1);
                 g.DrawString(cyoModel.Text1, font, brush, 150, 150);
             }
 
@@ -86,7 +90,7 @@ namespace Nop.Web.Models.Custom
             {
                 Color color = ColorTranslator.FromHtml("#009900");
                 SolidBrush brush = new SolidBrush(color);
-                Font font = new Font("Courier", 30);
+                Font font = TextFont(2);
                 g.DrawString(cyoModel.Text2, font, brush, 200, 200);
             }
 
@@ -158,19 +162,14 @@ namespace Nop.Web.Models.Custom
 
         # region Text/Font
 
-        public int? FontSize
+        public int FontSize(int whichText)
         {
-            get
-            {
-                int? pointsize = null;
-                if (!string.IsNullOrEmpty(cyoModel.Text1))
-                {
-                    double fontSizeInInches = cyoModel.FontSize1 / cyoModel.PixelsPerInch;
-                    double fontSizeInPoints = fontSizeInInches * 72.0;
-                    pointsize = System.Convert.ToInt32(Math.Round(fontSizeInPoints, 0, MidpointRounding.AwayFromZero));                    
-                }
-                return pointsize;
-            }
+            double fontSize = cyoModel.FontSize1;
+            if (whichText == 2)
+                fontSize = cyoModel.FontSize2;
+            double fontSizeInInches = fontSize / cyoModel.PixelsPerInch;
+            double fontSizeInPoints = fontSizeInInches * 72.0;
+            return System.Convert.ToInt32(Math.Round(fontSizeInPoints, 0, MidpointRounding.AwayFromZero));                                
         }
 
         public Point TextOffset(int whichText)
@@ -179,6 +178,16 @@ namespace Nop.Web.Models.Custom
                 return new Point(System.Convert.ToInt32(cyoModel.TextLeft1), System.Convert.ToInt32(cyoModel.TextTop1));
             else
                 return new Point(System.Convert.ToInt32(cyoModel.TextLeft2), System.Convert.ToInt32(cyoModel.TextTop2));
+        }
+
+        public Font TextFont(int whichText)
+        {
+            if (customFonts.Families.Length == 0)
+                LoadCustomFonts();
+            string fontFamily = cyoModel.FontFamily1;
+            if (whichText == 2)
+                fontFamily = cyoModel.FontFamily2;
+            return new Font(FormatFontName(fontFamily), FontSize(whichText));
         }
 
         #endregion
@@ -270,6 +279,13 @@ namespace Nop.Web.Models.Custom
         public string FormatFontName(string fontName)
         {
             return string.Format("{0}-Regular.ttf", fontName.Replace(" ", ""));
+        }
+
+        private void LoadCustomFonts()
+        {
+            IEnumerable fontFiles = Directory.EnumerateFiles(this.server.MapPath("~/App_Data/cyo/fonts"), "*.ttf");
+            foreach (string filename in fontFiles)
+                customFonts.AddFontFile(filename);
         }
 
         # endregion
