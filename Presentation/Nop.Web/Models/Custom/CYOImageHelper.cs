@@ -55,8 +55,11 @@ namespace Nop.Web.Models.Custom
             Image graphicImage = null;
 
             string pathToBgImage = PathToBackgroundImage;
-            if (pathToBgImage != null)
+            bool hasBgImage = !string.IsNullOrEmpty(pathToBgImage);
+            if (hasBgImage)
+            {
                 backgroundImage = Image.FromFile(pathToBgImage);
+            }
             else
             {
                 backgroundImage = new Bitmap(productImage.Width, productImage.Height);
@@ -74,16 +77,30 @@ namespace Nop.Web.Models.Custom
 
             Graphics g = Graphics.FromImage(backgroundImage);
 
-            g.DrawImage(productImage, 0, 0);
+            if (hasBgImage)
+            {
+                g.DrawImage(productImage, System.Convert.ToInt32(cyoModel.SampleLeft), System.Convert.ToInt32(cyoModel.SampleTop));
+            }
+            else
+            {
+                g.DrawImage(productImage, 0, 0);
+            }
+
             if (graphicImage != null)
-                g.DrawImage(graphicImage, 100, 100);
+            {
+                int x = System.Convert.ToInt32(cyoModel.GraphicLeft);
+                int y = System.Convert.ToInt32(cyoModel.GraphicTop);
+                g.DrawImage(graphicImage, x, y);
+            }
 
             if(!string.IsNullOrEmpty(cyoModel.Text1))
             {
                 Color color = ColorTranslator.FromHtml(cyoModel.FontColor1);
                 SolidBrush brush = new SolidBrush(color);
                 Font font = TextFont(1);
-                g.DrawString(cyoModel.Text1, font, brush, 150, 150);
+                int x = System.Convert.ToInt32(cyoModel.TextLeft1);
+                int y = System.Convert.ToInt32(cyoModel.TextTop1);
+                g.DrawString(cyoModel.Text1, font, brush, x, y);
             }
 
             if(!string.IsNullOrEmpty(cyoModel.Text2))
@@ -91,7 +108,15 @@ namespace Nop.Web.Models.Custom
                 Color color = ColorTranslator.FromHtml("#009900");
                 SolidBrush brush = new SolidBrush(color);
                 Font font = TextFont(2);
-                g.DrawString(cyoModel.Text2, font, brush, 200, 200);
+                int x = System.Convert.ToInt32(cyoModel.TextLeft2);
+                int y = System.Convert.ToInt32(cyoModel.TextTop2);
+                g.DrawString(cyoModel.Text2, font, brush, x, y);
+            }
+
+            if (hasBgImage)
+            {
+                Rectangle cropArea = new Rectangle(System.Convert.ToInt32(cyoModel.SampleLeft), System.Convert.ToInt32(cyoModel.SampleTop), productImage.Width, productImage.Height);
+                backgroundImage = new Bitmap(backgroundImage).Clone(cropArea, backgroundImage.PixelFormat);
             }
 
             backgroundImage.Save(this.OutputFileName);
