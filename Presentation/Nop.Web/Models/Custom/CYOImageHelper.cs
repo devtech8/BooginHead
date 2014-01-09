@@ -184,10 +184,12 @@ namespace Nop.Web.Models.Custom
         {
             if (customFonts.Families.Length == 0)
                 LoadCustomFonts();
-            string fontFamily = cyoModel.FontFamily1;
+            string fontFamilyName = cyoModel.FontFamily1;
             if (whichText == 2)
-                fontFamily = cyoModel.FontFamily2;
-            return new Font(FormatFontName(fontFamily), FontSize(whichText));
+                fontFamilyName = cyoModel.FontFamily2;
+            FontFamily fontFamily = customFonts.Families.First(ff => ff.Name == fontFamilyName);
+            return new Font(fontFamily, FontSize(whichText));
+            //return new Font(fontFamily, FontSize(whichText), FontStyle.Regular, GraphicsUnit.Point);
         }
 
         #endregion
