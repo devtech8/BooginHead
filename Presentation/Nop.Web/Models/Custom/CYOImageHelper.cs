@@ -248,7 +248,7 @@ namespace Nop.Web.Models.Custom
                 if (!string.IsNullOrEmpty(cyoModel.BgImage))
                 {
                     if (cyoModel.BackgroundIsUploadedImage)
-                        pathToBgImage = Path.Combine(this.server.MapPath("~/Content/Custom/cyo/uploads"), ImageBaseName(cyoModel.BgImage));
+                        pathToBgImage = Path.Combine(this.server.MapPath("~/App_Data/cyo/uploads"), ImageBaseName(cyoModel.BgImage));
                     else
                         pathToBgImage = Path.Combine(this.server.MapPath("~/Content/Custom/cyo/images"), ImageBaseName(cyoModel.BgImage));
                 }
