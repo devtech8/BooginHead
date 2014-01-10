@@ -54,6 +54,8 @@ namespace Nop.Web.Models.Custom
             Bitmap bitmap = new Bitmap(productImage.Width, productImage.Height);
             Graphics g = Graphics.FromImage(bitmap);
 
+            // Do this, or your text will look like crap.
+            g.TextRenderingHint = TextRenderingHint.AntiAlias;
 
             Image backgroundImage = null;
             Image graphicImage = null;
