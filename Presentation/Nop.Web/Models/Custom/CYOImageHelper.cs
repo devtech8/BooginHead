@@ -63,9 +63,9 @@ namespace Nop.Web.Models.Custom
             else
             {
                 backgroundImage = new Bitmap(productImage.Width, productImage.Height);
-                Graphics bg = Graphics.FromImage(backgroundImage);
                 if (!string.IsNullOrEmpty(cyoModel.BgColor))
                 {
+                    Graphics bg = Graphics.FromImage(backgroundImage);
                     Brush brush = new SolidBrush(ColorTranslator.FromHtml(cyoModel.BgColor));
                     bg.FillRectangle(brush, 0, 0, productImage.Width, productImage.Height);
                 }
@@ -79,11 +79,11 @@ namespace Nop.Web.Models.Custom
 
             if (hasBgImage)
             {
-                g.DrawImage(productImage, cyoModel.SampleLeft, cyoModel.SampleTop);
+                g.DrawImage(productImage, cyoModel.SampleLeft, cyoModel.SampleTop, productImage.Width, productImage.Height);
             }
             else
             {
-                g.DrawImage(productImage, 0, 0);
+                g.DrawImage(productImage, 0, 0, productImage.Width, productImage.Height);                 
             }
 
             if (graphicImage != null)
