@@ -214,7 +214,18 @@ namespace Nop.Web.Models.Custom
                 fontFamilyName = cyoModel.FontFamily2;
             FontFamily fontFamily = customFonts.Families.First(ff => ff.Name == fontFamilyName);
             // TODO: Ensure that the font family supports "Regular", or choose other style
-            return new Font(fontFamily, FontSize(whichText));
+
+            Font font = null;
+            int fontSize = FontSize(whichText);
+            if (fontFamily.IsStyleAvailable(FontStyle.Regular))
+                font = new Font(fontFamily, fontSize, FontStyle.Regular);
+            else if (fontFamily.IsStyleAvailable(FontStyle.Bold))
+                font = new Font(fontFamily, fontSize, FontStyle.Bold);
+            else if (fontFamily.IsStyleAvailable(FontStyle.Italic))
+                font = new Font(fontFamily, fontSize, FontStyle.Italic);
+            else
+                throw new InvalidDataException(string.Format("Font family '{0}' does not support Regular, Bold or Italic styles.", fontFamily.Name));
+            return font;
         }
 
         #endregion
