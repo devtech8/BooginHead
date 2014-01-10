@@ -119,8 +119,8 @@ namespace Nop.Web.Models.Custom
                 Color color = ColorTranslator.FromHtml(cyoModel.FontColor1);
                 SolidBrush brush = new SolidBrush(color);
                 Font font = TextFont(1);
-                int x = cyoModel.TextLeft1;
-                int y = cyoModel.TextTop1;
+                int x = cyoModel.TextLeft1 - cyoModel.SampleLeft;
+                int y = cyoModel.TextTop1 - cyoModel.SampleTop;
                 g.DrawString(cyoModel.Text1, font, brush, x, y);
             }
 
@@ -129,8 +129,8 @@ namespace Nop.Web.Models.Custom
                 Color color = ColorTranslator.FromHtml("#009900");
                 SolidBrush brush = new SolidBrush(color);
                 Font font = TextFont(2);
-                int x = cyoModel.TextLeft2;
-                int y = cyoModel.TextTop2;
+                int x = cyoModel.TextLeft2 - cyoModel.SampleLeft;
+                int y = cyoModel.TextTop2 - cyoModel.SampleTop;
                 g.DrawString(cyoModel.Text2, font, brush, x, y);
             }
 
