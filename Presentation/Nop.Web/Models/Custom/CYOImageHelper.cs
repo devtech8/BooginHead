@@ -109,9 +109,9 @@ namespace Nop.Web.Models.Custom
 
             if (graphicImage != null)
             {
-                int x = cyoModel.GraphicLeft;
-                int y = cyoModel.GraphicTop;
-                g.DrawImage(graphicImage, x, y);
+                int x = cyoModel.GraphicLeft - cyoModel.SampleLeft;
+                int y = cyoModel.GraphicTop - cyoModel.SampleTop;
+                g.DrawImage(graphicImage, x, y, cyoModel.GraphicWidth, cyoModel.GraphicHeight);
             }
 
             if(!string.IsNullOrEmpty(cyoModel.Text1))
