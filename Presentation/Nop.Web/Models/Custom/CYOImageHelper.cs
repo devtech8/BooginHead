@@ -49,8 +49,12 @@ namespace Nop.Web.Models.Custom
         public string CreateProof()
         {
             this.ValidateParams();
-            
+
             Image productImage = Image.FromFile(PathToProductImage);
+            Bitmap bitmap = new Bitmap(productImage.Width, productImage.Height);
+            Graphics g = Graphics.FromImage(bitmap);
+
+
             Image backgroundImage = null;
             Image graphicImage = null;
 
@@ -59,32 +63,28 @@ namespace Nop.Web.Models.Custom
             if (hasBgImage)
             {
                 backgroundImage = Image.FromFile(pathToBgImage);
+                if(cyoModel.BgImageZoom != 100) {
+                    double zoom = cyoModel.BgImageZoom / 100.0;
+                    int width = System.Convert.ToInt32(zoom * backgroundImage.Width);
+                    int height = System.Convert.ToInt32(zoom * backgroundImage.Height);
+                    backgroundImage = (Image)new Bitmap(backgroundImage, width, height);
+                }
+                g.DrawImage(backgroundImage, 0, 0, backgroundImage.Height, backgroundImage.Width);                
             }
             else
             {
-                backgroundImage = new Bitmap(productImage.Width, productImage.Height);
                 if (!string.IsNullOrEmpty(cyoModel.BgColor))
                 {
-                    Graphics bg = Graphics.FromImage(backgroundImage);
                     Brush brush = new SolidBrush(ColorTranslator.FromHtml(cyoModel.BgColor));
-                    bg.FillRectangle(brush, 0, 0, productImage.Width, productImage.Height);
+                    g.FillRectangle(brush, 0, 0, productImage.Width, productImage.Height);
                 }
             }
+
             string pathToGraphic = PathToGraphic;
             if (pathToGraphic != null)
                 graphicImage = Image.FromFile(pathToGraphic);
 
-
-            Graphics g = Graphics.FromImage(backgroundImage);
-
-            if (hasBgImage)
-            {
-                g.DrawImage(productImage, cyoModel.SampleLeft, cyoModel.SampleTop, productImage.Width, productImage.Height);
-            }
-            else
-            {
-                g.DrawImage(productImage, 0, 0, productImage.Width, productImage.Height);                 
-            }
+            g.DrawImage(productImage, 0, 0, productImage.Width, productImage.Height);                 
 
             if (graphicImage != null)
             {
@@ -113,13 +113,8 @@ namespace Nop.Web.Models.Custom
                 g.DrawString(cyoModel.Text2, font, brush, x, y);
             }
 
-            if (hasBgImage)
-            {
-                Rectangle cropArea = new Rectangle(cyoModel.SampleLeft, cyoModel.SampleTop, productImage.Width, productImage.Height);
-                backgroundImage = new Bitmap(backgroundImage).Clone(cropArea, backgroundImage.PixelFormat);
-            }
-
-            backgroundImage.Save(this.OutputFileName);
+            g.Dispose();
+            bitmap.Save(this.OutputFileName);
             return ImageBaseName(this.OutputFileName);
         }
 
