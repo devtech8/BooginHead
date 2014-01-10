@@ -120,7 +120,7 @@ namespace Nop.Web.Models.Custom
             }
 
             backgroundImage.Save(this.OutputFileName);
-            return this.OutputFileName;
+            return ImageBaseName(this.OutputFileName);
         }
 
 
@@ -213,8 +213,8 @@ namespace Nop.Web.Models.Custom
             if (whichText == 2)
                 fontFamilyName = cyoModel.FontFamily2;
             FontFamily fontFamily = customFonts.Families.First(ff => ff.Name == fontFamilyName);
+            // TODO: Ensure that the font family supports "Regular", or choose other style
             return new Font(fontFamily, FontSize(whichText));
-            //return new Font(fontFamily, FontSize(whichText), FontStyle.Regular, GraphicsUnit.Point);
         }
 
         #endregion

@@ -138,9 +138,28 @@ namespace Nop.Web.Controllers
         {
             CYOModel cyoModel = new CYOModel(Request.Params);
             CYOImageHelper imageHelper = new CYOImageHelper(cyoModel, Server);
-            //string command = imageHelper.GetProofCommand();
-            string outputFile = imageHelper.CreateProof();
-            return Json(new {outputFile = outputFile});
+            string proofUrl = null;
+            string errorMessage = null;
+            try
+            {
+                string imageFileName = imageHelper.CreateProof();
+                proofUrl = Url.Action("ViewProof", new { fileName = imageFileName });
+            }
+            catch (Exception ex)
+            {
+                // TODO: Log error
+                errorMessage = ex.Message;
+            }
+            return Json(new {proofUrl = proofUrl, errorMessage = errorMessage});
+        }
+
+        [HttpGet]
+        public ActionResult ViewProof(string fileName)
+        {
+            string filePath = Path.Combine(Server.MapPath("~/App_Data/cyo/proofs"), fileName);
+            if (!System.IO.File.Exists(filePath))
+                return Content(string.Format("File '{0}' not found.", fileName));
+            return new FileContentResult(System.IO.File.ReadAllBytes(filePath), "image/png");
         }
 
     }

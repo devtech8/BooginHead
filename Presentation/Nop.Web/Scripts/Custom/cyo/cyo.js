@@ -417,6 +417,7 @@
         $("#cyoModalBackground").dialog(modalProperties);
         $("#cyoModalText").dialog(modalProperties);
         $("#cyoModalGraphic").dialog(modalProperties);
+        $("#cyoModalProof").dialog(modalProperties);
 
         $('#btnShowModalUpload').click(function () {
             $("#cyoModalUpload").dialog("open");            
@@ -799,9 +800,22 @@
 
 
     // Callback for submitting proof form
-    window.cyoProofOnComplete = function (xhr) {
-        try { console.log(xhr); }
+    window.cyoProofOnComplete = function (response) {
+        try { console.log(response); }
         catch (ex) { }
-        alert("We're still working on the Create Proof feature. Soon we'll be using the data you submit to create a proof image. Here's the data you submitted: \n\n" + xhr.responseText);
+        console.log(response.responseText);
+        var responseData = JSON.parse(response.responseText);
+        console.log(responseData);
+        var imageTag = "<img src='" + responseData.proofUrl + "'>";
+        $('#cyoProofImageContainer').html(imageTag);
+        if (responseData.errorMessage) {
+            $('#cyoProofErrorMessage').html(responseData.errorMessage);
+            $('#cyoDefaultProofMessage').hide();
+        }
+        else {
+            $('#cyoProofErrorMessage').html('');
+            $('#cyoDefaultProofMessage').show();
+        }
+        $("#cyoModalProof").dialog("open");
     }
 });
