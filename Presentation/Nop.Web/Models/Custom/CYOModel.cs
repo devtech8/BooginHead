@@ -33,80 +33,80 @@ namespace Nop.Web.Models.Custom
             ProductColor = requestParams["cyoProductColor"];
             SampleImage = requestParams["cyoSampleImage"];
             Brand = requestParams["cyoBrand"];
-            SampleTop = ParseDouble(requestParams["cyoSampleTop"]);
-            SampleLeft = ParseDouble(requestParams["cyoSampleLeft"]);
+            SampleTop = ParseInt(requestParams["cyoSampleTop"]);
+            SampleLeft = ParseInt(requestParams["cyoSampleLeft"]);
             BgImage = requestParams["cyoBgImage"];
             UploadedImage = requestParams["cyoUploadedImage"];
-            BgImageZoom = ParseDouble(requestParams["cyoBgImageZoom"]);
-            BgImageOffsetX = ParseDouble(requestParams["cyoBgImageOffsetX"]);
-            BgImageOffsetY = ParseDouble(requestParams["cyoBgImageOffsetY"]);
+            BgImageZoom = ParseInt(requestParams["cyoBgImageZoom"]);
+            BgImageOffsetX = ParseInt(requestParams["cyoBgImageOffsetX"]);
+            BgImageOffsetY = ParseInt(requestParams["cyoBgImageOffsetY"]);
             BgColor = requestParams["cyoBgColor"];
             Text1 = requestParams["cyoText1"];
             FontFamily1 = requestParams["cyoFontFamily1"];
             FontColor1 = requestParams["cyoFontColor1"];
-            FontSize1 = ParseDouble(requestParams["cyoFontSize1"]);
-            TextTop1 = ParseDouble(requestParams["cyoTextTop1"]);
-            TextLeft1 = ParseDouble(requestParams["cyoTextLeft1"]);
-            TextHeight1 = ParseDouble(requestParams["cyoTextHeight1"]);
-            TextWidth1 = ParseDouble(requestParams["cyoTextWidth1"]);
+            FontSize1 = ParseInt(requestParams["cyoFontSize1"]);
+            TextTop1 = ParseInt(requestParams["cyoTextTop1"]);
+            TextLeft1 = ParseInt(requestParams["cyoTextLeft1"]);
+            TextHeight1 = ParseInt(requestParams["cyoTextHeight1"]);
+            TextWidth1 = ParseInt(requestParams["cyoTextWidth1"]);
             Text2 = requestParams["cyoText2"];
             FontFamily2 = requestParams["cyoFontFamily2"];
             FontColor2 = requestParams["cyoFontColor2"];
-            FontSize2 = ParseDouble(requestParams["cyoFontSize2"]);
-            TextTop2 = ParseDouble(requestParams["cyoTextTop2"]);
-            TextLeft2 = ParseDouble(requestParams["cyoTextLeft2"]);
-            TextHeight2 = ParseDouble(requestParams["cyoTextHeight2"]);
-            TextWidth2 = ParseDouble(requestParams["cyoTextWidth2"]);
+            FontSize2 = ParseInt(requestParams["cyoFontSize2"]);
+            TextTop2 = ParseInt(requestParams["cyoTextTop2"]);
+            TextLeft2 = ParseInt(requestParams["cyoTextLeft2"]);
+            TextHeight2 = ParseInt(requestParams["cyoTextHeight2"]);
+            TextWidth2 = ParseInt(requestParams["cyoTextWidth2"]);
             Graphic = requestParams["cyoGraphic"];
             GraphicIsBackground = ParseBool(requestParams["cyoGraphicIsBackground"], false);
-            GraphicTop = ParseDouble(requestParams["cyoGraphicTop"]);
-            GraphicLeft = ParseDouble(requestParams["cyoGraphicLeft"]);
-            GraphicWidth = ParseDouble(requestParams["cyoGraphicWidth"]);
-            GraphicHeight = ParseDouble(requestParams["cyoGraphicHeight"]);
-            GraphicZoom = ParseDouble(requestParams["cyoGraphicZoom"]);
-            PixelsPerInch = ParseDouble(requestParams["cyoPixelsPerInch"]);
+            GraphicTop = ParseInt(requestParams["cyoGraphicTop"]);
+            GraphicLeft = ParseInt(requestParams["cyoGraphicLeft"]);
+            GraphicWidth = ParseInt(requestParams["cyoGraphicWidth"]);
+            GraphicHeight = ParseInt(requestParams["cyoGraphicHeight"]);
+            GraphicZoom = ParseInt(requestParams["cyoGraphicZoom"]);
+            PixelsPerInch = ParseInt(requestParams["cyoPixelsPerInch"]);
         }
 
         #endregion
 
         #region Public Properties
-
+        
         public string ProductSize { get; set; }
         public string ProductColor { get; set; }
         public string SampleImage { get; set; }
         public string Brand { get; set; }
-        public double SampleTop { get; set; }
-        public double SampleLeft { get; set; }
+        public int SampleTop { get; set; }
+        public int SampleLeft { get; set; }
         public string BgImage { get; set; }
         public string UploadedImage { get; set; }
-        public double BgImageZoom { get; set; }
-        public double BgImageOffsetX { get; set; }
-        public double BgImageOffsetY { get; set; }
+        public int BgImageZoom { get; set; }
+        public int BgImageOffsetX { get; set; }
+        public int BgImageOffsetY { get; set; }
         public string BgColor { get; set; }
         public string Text1 { get; set; }
         public string FontFamily1 { get; set; }
         public string FontColor1 { get; set; }
-        public double FontSize1 { get; set; }
-        public double TextTop1 { get; set; }
-        public double TextLeft1 { get; set; }
-        public double TextHeight1 { get; set; }
-        public double TextWidth1 { get; set; }
+        public int FontSize1 { get; set; }
+        public int TextTop1 { get; set; }
+        public int TextLeft1 { get; set; }
+        public int TextHeight1 { get; set; }
+        public int TextWidth1 { get; set; }
         public string Text2 { get; set; }
         public string FontFamily2 { get; set; }
         public string FontColor2 { get; set; }
-        public double FontSize2 { get; set; }
-        public double TextTop2 { get; set; }
-        public double TextLeft2 { get; set; }
-        public double TextHeight2 { get; set; }
-        public double TextWidth2 { get; set; }
+        public int FontSize2 { get; set; }
+        public int TextTop2 { get; set; }
+        public int TextLeft2 { get; set; }
+        public int TextHeight2 { get; set; }
+        public int TextWidth2 { get; set; }
         public string Graphic { get; set; }
         public bool GraphicIsBackground { get; set; }
-        public double GraphicTop { get; set; }
-        public double GraphicLeft { get; set; }
-        public double GraphicWidth { get; set; }
-        public double GraphicHeight { get; set; }
-        public double GraphicZoom { get; set; }
-        public double PixelsPerInch { get; set; }
+        public int GraphicTop { get; set; }
+        public int GraphicLeft { get; set; }
+        public int GraphicWidth { get; set; }
+        public int GraphicHeight { get; set; }
+        public int GraphicZoom { get; set; }
+        public int PixelsPerInch { get; set; }
 
         /// <summary>
         /// Returns true if the background image was uploaded by the user.
@@ -143,7 +143,7 @@ namespace Nop.Web.Models.Custom
 
         #region Public Methods
 
-        public bool DoubleValueIsMissing(double value)
+        public bool IntValueIsMissing(double value)
         {
             return value == Double.MinValue;
         }
@@ -166,15 +166,15 @@ namespace Nop.Web.Models.Custom
                     errors.Add("Text color for text line 1 is missing.");
                 if (string.IsNullOrEmpty(FontFamily1))
                     errors.Add("Font family for text line 1 is missing.");
-                if (DoubleValueIsMissing(FontSize1))
+                if (IntValueIsMissing(FontSize1))
                     errors.Add("Font size for text line 1 is missing.");
-                if (DoubleValueIsMissing(TextTop1))
+                if (IntValueIsMissing(TextTop1))
                     errors.Add("Top offset for text line 1 is missing.");
-                if (DoubleValueIsMissing(TextLeft1))
+                if (IntValueIsMissing(TextLeft1))
                     errors.Add("Left offset for text line 1 is missing.");
-                if (DoubleValueIsMissing(TextHeight1))
+                if (IntValueIsMissing(TextHeight1))
                     errors.Add("Container height for text line 1 is missing.");
-                if (DoubleValueIsMissing(TextWidth1)) 
+                if (IntValueIsMissing(TextWidth1)) 
                     errors.Add("Container width for text line 1 is missing.");
             }
             return errors;
@@ -194,15 +194,15 @@ namespace Nop.Web.Models.Custom
                     errors.Add("Text color for text line 2 is missing.");
                 if (string.IsNullOrEmpty(FontFamily2))
                     errors.Add("Font family for text line 2 is missing.");
-                if (DoubleValueIsMissing(FontSize2))
+                if (IntValueIsMissing(FontSize2))
                     errors.Add("Font size for text line 2 is missing.");
-                if (DoubleValueIsMissing(TextTop2))
+                if (IntValueIsMissing(TextTop2))
                     errors.Add("Top offset for text line 2 is missing.");
-                if (DoubleValueIsMissing(TextLeft2))
+                if (IntValueIsMissing(TextLeft2))
                     errors.Add("Left offset for text line 2 is missing.");
-                if (DoubleValueIsMissing(TextHeight2))
+                if (IntValueIsMissing(TextHeight2))
                     errors.Add("Container height for text line 2 is missing.");
-                if (DoubleValueIsMissing(TextWidth2))
+                if (IntValueIsMissing(TextWidth2))
                     errors.Add("Container width for text line 2 is missing.");
             }
             return errors;
@@ -222,15 +222,15 @@ namespace Nop.Web.Models.Custom
             List<string> errors = new List<string>();
             if (!string.IsNullOrEmpty(Graphic))
             {
-                if (DoubleValueIsMissing(GraphicTop))
+                if (IntValueIsMissing(GraphicTop))
                     errors.Add("Graphic top is missing.");
-                if (DoubleValueIsMissing(GraphicLeft))
+                if (IntValueIsMissing(GraphicLeft))
                     errors.Add("Graphic left is missing.");
-                if (DoubleValueIsMissing(GraphicWidth))
+                if (IntValueIsMissing(GraphicWidth))
                     errors.Add("Graphic width is missing.");
-                if (DoubleValueIsMissing(GraphicHeight))
+                if (IntValueIsMissing(GraphicHeight))
                     errors.Add("Graphic height is missing.");
-                if (DoubleValueIsMissing(GraphicZoom))
+                if (IntValueIsMissing(GraphicZoom))
                     errors.Add("Graphic zoom is missing.");
             }
             return errors;
@@ -249,11 +249,11 @@ namespace Nop.Web.Models.Custom
             if (GraphicIsBackground && string.IsNullOrEmpty(BgImage))
                 errors.Add("Background image graphic is missing.");
             if(!string.IsNullOrEmpty(BgImage)) {
-                if(DoubleValueIsMissing(BgImageZoom))
+                if(IntValueIsMissing(BgImageZoom))
                     errors.Add("Background image zoom is missing.");
-                if (DoubleValueIsMissing(BgImageOffsetX))
+                if (IntValueIsMissing(BgImageOffsetX))
                     errors.Add("Background image offset X is missing.");
-                if (DoubleValueIsMissing(BgImageOffsetY))
+                if (IntValueIsMissing(BgImageOffsetY))
                     errors.Add("Background image offset Y is missing.");
             }
             return errors;
@@ -275,9 +275,9 @@ namespace Nop.Web.Models.Custom
                 errors.Add("Sample image is missing.");
             if (string.IsNullOrEmpty(Brand))
                 errors.Add("Please choose a brand.");
-            if (DoubleValueIsMissing(SampleTop))
+            if (IntValueIsMissing(SampleTop))
                 errors.Add("Sample top position is missing.");
-            if (DoubleValueIsMissing(SampleLeft))
+            if (IntValueIsMissing(SampleLeft))
                 errors.Add("Please choose a product size.");
             return errors;
         }
@@ -291,6 +291,14 @@ namespace Nop.Web.Models.Custom
                 Double.TryParse(legalValue, out result);
             }
             return result;
+        }
+
+        private int ParseInt(string value)
+        {
+            double result = ParseDouble(value);
+            if (result == Double.MinValue)
+                return Int32.MinValue;
+            return System.Convert.ToInt32(Math.Round(result, MidpointRounding.AwayFromZero));
         }
 
         private bool ParseBool(string value, bool defaultValue)

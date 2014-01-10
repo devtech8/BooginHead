@@ -79,7 +79,7 @@ namespace Nop.Web.Models.Custom
 
             if (hasBgImage)
             {
-                g.DrawImage(productImage, System.Convert.ToInt32(cyoModel.SampleLeft), System.Convert.ToInt32(cyoModel.SampleTop));
+                g.DrawImage(productImage, cyoModel.SampleLeft, cyoModel.SampleTop);
             }
             else
             {
@@ -88,8 +88,8 @@ namespace Nop.Web.Models.Custom
 
             if (graphicImage != null)
             {
-                int x = System.Convert.ToInt32(cyoModel.GraphicLeft);
-                int y = System.Convert.ToInt32(cyoModel.GraphicTop);
+                int x = cyoModel.GraphicLeft;
+                int y = cyoModel.GraphicTop;
                 g.DrawImage(graphicImage, x, y);
             }
 
@@ -98,8 +98,8 @@ namespace Nop.Web.Models.Custom
                 Color color = ColorTranslator.FromHtml(cyoModel.FontColor1);
                 SolidBrush brush = new SolidBrush(color);
                 Font font = TextFont(1);
-                int x = System.Convert.ToInt32(cyoModel.TextLeft1);
-                int y = System.Convert.ToInt32(cyoModel.TextTop1);
+                int x = cyoModel.TextLeft1;
+                int y = cyoModel.TextTop1;
                 g.DrawString(cyoModel.Text1, font, brush, x, y);
             }
 
@@ -108,14 +108,14 @@ namespace Nop.Web.Models.Custom
                 Color color = ColorTranslator.FromHtml("#009900");
                 SolidBrush brush = new SolidBrush(color);
                 Font font = TextFont(2);
-                int x = System.Convert.ToInt32(cyoModel.TextLeft2);
-                int y = System.Convert.ToInt32(cyoModel.TextTop2);
+                int x = cyoModel.TextLeft2;
+                int y = cyoModel.TextTop2;
                 g.DrawString(cyoModel.Text2, font, brush, x, y);
             }
 
             if (hasBgImage)
             {
-                Rectangle cropArea = new Rectangle(System.Convert.ToInt32(cyoModel.SampleLeft), System.Convert.ToInt32(cyoModel.SampleTop), productImage.Width, productImage.Height);
+                Rectangle cropArea = new Rectangle(cyoModel.SampleLeft, cyoModel.SampleTop, productImage.Width, productImage.Height);
                 backgroundImage = new Bitmap(backgroundImage).Clone(cropArea, backgroundImage.PixelFormat);
             }
 
@@ -200,9 +200,9 @@ namespace Nop.Web.Models.Custom
         public Point TextOffset(int whichText)
         {
             if (whichText == 1)
-                return new Point(System.Convert.ToInt32(cyoModel.TextLeft1), System.Convert.ToInt32(cyoModel.TextTop1));
+                return new Point(cyoModel.TextLeft1, cyoModel.TextTop1);
             else
-                return new Point(System.Convert.ToInt32(cyoModel.TextLeft2), System.Convert.ToInt32(cyoModel.TextTop2));
+                return new Point(cyoModel.TextLeft2, cyoModel.TextTop2);
         }
 
         public Font TextFont(int whichText)
@@ -236,7 +236,7 @@ namespace Nop.Web.Models.Custom
         {
             get
             {
-                return new Point(System.Convert.ToInt32(cyoModel.GraphicLeft), System.Convert.ToInt32(cyoModel.GraphicTop));
+                return new Point(cyoModel.GraphicLeft, cyoModel.GraphicTop);
             }
         }
 
@@ -257,7 +257,7 @@ namespace Nop.Web.Models.Custom
         {
             get
             {
-                return new Point(System.Convert.ToInt32(cyoModel.SampleLeft), System.Convert.ToInt32(cyoModel.SampleTop));
+                return new Point(cyoModel.SampleLeft, cyoModel.SampleTop);
             }
         }
 
@@ -286,7 +286,7 @@ namespace Nop.Web.Models.Custom
         {
             get
             {
-                return new Point(System.Convert.ToInt32(cyoModel.BgImageOffsetX), System.Convert.ToInt32(cyoModel.BgImageOffsetY));
+                return new Point(cyoModel.BgImageOffsetX, cyoModel.BgImageOffsetY);
             }
         }
 
