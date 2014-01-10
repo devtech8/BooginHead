@@ -417,6 +417,11 @@
         $("#cyoModalBackground").dialog(modalProperties);
         $("#cyoModalText").dialog(modalProperties);
         $("#cyoModalGraphic").dialog(modalProperties);
+
+        var proofModalProperties = modalProperties;
+        proofModalProperties.height += 100;
+        proofModalProperties.width += 150;
+        proofModalProperties.position = { at: "center", of: window }
         $("#cyoModalProof").dialog(modalProperties);
 
         $('#btnShowModalUpload').click(function () {
