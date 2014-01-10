@@ -63,6 +63,25 @@ namespace Nop.Web.Models.Custom
             if (hasBgImage)
             {
                 backgroundImage = Image.FromFile(pathToBgImage);
+                // To reflect what the browser shows, we must resize 
+                // the background image to the size of the product image
+                // because the browser forces the CSS background image
+                // to fit into the div that contains the product image.
+                if (backgroundImage.Width > productImage.Width)
+                {
+                    double zoom = productImage.Width / System.Convert.ToDouble(backgroundImage.Width);
+                    int width = System.Convert.ToInt32(zoom * backgroundImage.Width);
+                    int height = System.Convert.ToInt32(zoom * backgroundImage.Height);
+                    backgroundImage = (Image)new Bitmap(backgroundImage, width, height);
+                }
+                else if (backgroundImage.Height > productImage.Height)
+                {
+                    double zoom = productImage.Height / System.Convert.ToDouble(backgroundImage.Height);
+                    int width = System.Convert.ToInt32(zoom * backgroundImage.Width);
+                    int height = System.Convert.ToInt32(zoom * backgroundImage.Height);
+                    backgroundImage = (Image)new Bitmap(backgroundImage, width, height);
+                }
+                // Now apply the zoom.
                 if(cyoModel.BgImageZoom != 100) {
                     double zoom = cyoModel.BgImageZoom / 100.0;
                     int width = System.Convert.ToInt32(zoom * backgroundImage.Width);
@@ -71,7 +90,7 @@ namespace Nop.Web.Models.Custom
                 }
                 int backgroundX = cyoModel.BgImageOffsetX;// -cyoModel.SampleLeft;
                 int backgroundY = cyoModel.BgImageOffsetY;// -cyoModel.SampleTop;
-                g.DrawImage(backgroundImage, backgroundX, backgroundY, backgroundImage.Height, backgroundImage.Width);                
+                g.DrawImage(backgroundImage, backgroundX, backgroundY); //, backgroundImage.Height, backgroundImage.Width);                
             }
             else
             {
