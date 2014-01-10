@@ -69,7 +69,9 @@ namespace Nop.Web.Models.Custom
                     int height = System.Convert.ToInt32(zoom * backgroundImage.Height);
                     backgroundImage = (Image)new Bitmap(backgroundImage, width, height);
                 }
-                g.DrawImage(backgroundImage, 0, 0, backgroundImage.Height, backgroundImage.Width);                
+                int backgroundX = cyoModel.BgImageOffsetX;// -cyoModel.SampleLeft;
+                int backgroundY = cyoModel.BgImageOffsetY;// -cyoModel.SampleTop;
+                g.DrawImage(backgroundImage, backgroundX, backgroundY, backgroundImage.Height, backgroundImage.Width);                
             }
             else
             {
