@@ -164,7 +164,7 @@ namespace Nop.Web.Models.Custom
             else if (!string.IsNullOrEmpty(cyoModel.BgImage))
             {
                 string filename = this.ImageBaseName(cyoModel.BgImage);
-                string path = Path.Combine(this.server.MapPath("~/Content/custom/cyo/images"), filename);
+                string path = Path.Combine(this.server.MapPath("~/Content/custom/cyo/images/backgrounds"), filename);
                 if (!File.Exists(path))
                     throw new CYOInvalidDataException("The selected background image does not exist.");
             }
@@ -305,7 +305,7 @@ namespace Nop.Web.Models.Custom
                     if (cyoModel.BackgroundIsUploadedImage)
                         pathToBgImage = Path.Combine(this.server.MapPath("~/App_Data/cyo/uploads"), ImageBaseName(cyoModel.BgImage));
                     else
-                        pathToBgImage = Path.Combine(this.server.MapPath("~/Content/Custom/cyo/images"), ImageBaseName(cyoModel.BgImage));
+                        pathToBgImage = Path.Combine(this.server.MapPath("~/Content/Custom/cyo/images/backgrounds/"), ImageBaseName(cyoModel.BgImage));
                 }
                 return pathToBgImage;
             }
