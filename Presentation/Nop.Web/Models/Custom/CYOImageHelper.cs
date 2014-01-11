@@ -45,7 +45,7 @@ namespace Nop.Web.Models.Custom
             g.TextRenderingHint = TextRenderingHint.AntiAlias;
 
             Image backgroundImage = null;
-            Image graphicImage = null;
+            
 
             string pathToBgImage = PathToBackgroundImage;
             bool hasBgImage = !string.IsNullOrEmpty(pathToBgImage);
@@ -90,39 +90,8 @@ namespace Nop.Web.Models.Custom
                 }
             }
 
-            string pathToGraphic = PathToGraphic;
-            if (pathToGraphic != null)
-                graphicImage = Image.FromFile(pathToGraphic);
 
-            g.DrawImage(productImage, 0, 0, productImage.Width, productImage.Height);                 
-
-            if (graphicImage != null)
-            {
-                int x = cyoModel.GraphicLeft - cyoModel.SampleLeft;
-                int y = cyoModel.GraphicTop - cyoModel.SampleTop;
-                g.DrawImage(graphicImage, x, y, cyoModel.GraphicWidth, cyoModel.GraphicHeight);
-            }
-
-            //if(!string.IsNullOrEmpty(cyoModel.Text1))
-            //{
-            //    Color color = ColorTranslator.FromHtml(cyoModel.FontColor1);
-            //    SolidBrush brush = new SolidBrush(color);
-            //    Font font = TextFont(1);
-            //    int x = cyoModel.TextLeft1 - cyoModel.SampleLeft;
-            //    int y = cyoModel.TextTop1 - cyoModel.SampleTop;
-            //    g.DrawString(cyoModel.Text1, font, brush, x, y);
-            //}
-
-            //if(!string.IsNullOrEmpty(cyoModel.Text2))
-            //{
-            //    Color color = ColorTranslator.FromHtml("#009900");
-            //    SolidBrush brush = new SolidBrush(color);
-            //    Font font = TextFont(2);
-            //    int x = cyoModel.TextLeft2 - cyoModel.SampleLeft;
-            //    int y = cyoModel.TextTop2 - cyoModel.SampleTop;
-            //    g.DrawString(cyoModel.Text2, font, brush, x, y);
-            //}
-
+            RenderGraphic(g, productImage);
             RenderText(g, 1, cyoModel.Text1, cyoModel.FontColor1, cyoModel.TextLeft1, cyoModel.TextTop1);
             RenderText(g, 2, cyoModel.Text2, cyoModel.FontColor2, cyoModel.TextLeft2, cyoModel.TextTop2);
 
@@ -132,6 +101,37 @@ namespace Nop.Web.Models.Custom
         }
 
 
+        /// <summary>
+        /// Render the graphic overlay that goes on top of the background.
+        /// </summary>
+        /// <param name="graphics"></param>
+        public void RenderGraphic(Graphics graphics, Image productImage)
+        {
+            Image graphicImage = null;
+            string pathToGraphic = PathToGraphic;
+            if (pathToGraphic != null)
+                graphicImage = Image.FromFile(pathToGraphic);
+
+            graphics.DrawImage(productImage, 0, 0, productImage.Width, productImage.Height);
+
+            if (graphicImage != null)
+            {
+                int x = cyoModel.GraphicLeft - cyoModel.SampleLeft;
+                int y = cyoModel.GraphicTop - cyoModel.SampleTop;
+                graphics.DrawImage(graphicImage, x, y, cyoModel.GraphicWidth, cyoModel.GraphicHeight);
+            }
+        }
+
+        /// <summary>
+        /// Render the text. This goes on top of all other layers,
+        /// with text2 being topmost.
+        /// </summary>
+        /// <param name="graphics"></param>
+        /// <param name="whichText"></param>
+        /// <param name="text"></param>
+        /// <param name="hexColor"></param>
+        /// <param name="leftOffset"></param>
+        /// <param name="topOffset"></param>
         public void RenderText(Graphics graphics, int whichText, string text, string hexColor,  int leftOffset, int topOffset)
         {
             if (!string.IsNullOrEmpty(text))
