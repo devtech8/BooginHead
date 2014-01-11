@@ -39,81 +39,80 @@ namespace Nop.Web.Models.Custom
 
             Image productImage = Image.FromFile(PathToProductImage);
             Bitmap bitmap = new Bitmap(productImage.Width, productImage.Height);
-            Graphics g = Graphics.FromImage(bitmap);
 
-            // Do this, or your text will look like crap.
-            g.TextRenderingHint = TextRenderingHint.AntiAlias;
-
-            Image backgroundImage = null;
-            
-
-            string pathToBgImage = PathToBackgroundImage;
-            bool hasBgImage = !string.IsNullOrEmpty(pathToBgImage);
-            if (hasBgImage)
+            // Render each layer of the image, from bottom to top.
+            using (Graphics graphics = Graphics.FromImage(bitmap))
             {
-                backgroundImage = Image.FromFile(pathToBgImage);
-                // To reflect what the browser shows, we must resize 
-                // the background image to the size of the product image
-                // because the browser forces the CSS background image
-                // to fit into the div that contains the product image.
-                if (backgroundImage.Width > productImage.Width)
-                {
-                    double zoom = productImage.Width / System.Convert.ToDouble(backgroundImage.Width);
-                    int width = System.Convert.ToInt32(zoom * backgroundImage.Width);
-                    int height = System.Convert.ToInt32(zoom * backgroundImage.Height);
-                    backgroundImage = (Image)new Bitmap(backgroundImage, width, height);
-                }
-                else if (backgroundImage.Height > productImage.Height)
-                {
-                    double zoom = productImage.Height / System.Convert.ToDouble(backgroundImage.Height);
-                    int width = System.Convert.ToInt32(zoom * backgroundImage.Width);
-                    int height = System.Convert.ToInt32(zoom * backgroundImage.Height);
-                    backgroundImage = (Image)new Bitmap(backgroundImage, width, height);
-                }
-                // Now apply the zoom.
-                if(cyoModel.BgImageZoom != 100) {
-                    double zoom = cyoModel.BgImageZoom / 100.0;
-                    int width = System.Convert.ToInt32(zoom * backgroundImage.Width);
-                    int height = System.Convert.ToInt32(zoom * backgroundImage.Height);
-                    backgroundImage = (Image)new Bitmap(backgroundImage, width, height);
-                }
-                int backgroundX = cyoModel.BgImageOffsetX;// -cyoModel.SampleLeft;
-                int backgroundY = cyoModel.BgImageOffsetY;// -cyoModel.SampleTop;
-                g.DrawImage(backgroundImage, backgroundX, backgroundY); //, backgroundImage.Height, backgroundImage.Width);                
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(cyoModel.BgColor))
-                {
-                    Brush brush = new SolidBrush(ColorTranslator.FromHtml(cyoModel.BgColor));
-                    g.FillRectangle(brush, 0, 0, productImage.Width, productImage.Height);
-                }
+                // Without anti-alias, text looks like crap.
+                graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+
+                if (!string.IsNullOrEmpty(PathToBackgroundImage))
+                    RenderBackgroundImage(graphics, productImage);
+                else if (!string.IsNullOrEmpty(cyoModel.BgColor))
+                    RenderBackgroundColor(graphics, productImage);
+
+                graphics.DrawImage(productImage, 0, 0, productImage.Width, productImage.Height);
+                RenderGraphic(graphics);
+                RenderText(graphics, 1, cyoModel.Text1, cyoModel.FontColor1, cyoModel.TextLeft1, cyoModel.TextTop1);
+                RenderText(graphics, 2, cyoModel.Text2, cyoModel.FontColor2, cyoModel.TextLeft2, cyoModel.TextTop2);
             }
 
-
-            RenderGraphic(g, productImage);
-            RenderText(g, 1, cyoModel.Text1, cyoModel.FontColor1, cyoModel.TextLeft1, cyoModel.TextTop1);
-            RenderText(g, 2, cyoModel.Text2, cyoModel.FontColor2, cyoModel.TextLeft2, cyoModel.TextTop2);
-
-            g.Dispose();
             bitmap.Save(this.OutputFileName);
             return ImageBaseName(this.OutputFileName);
         }
 
 
+        public void RenderBackgroundImage(Graphics graphics, Image productImage)
+        {
+            Image backgroundImage = Image.FromFile(PathToBackgroundImage);
+            // To reflect what the browser shows, we must resize 
+            // the background image to the size of the product image
+            // because the browser forces the CSS background image
+            // to fit into the div that contains the product image.
+            if (backgroundImage.Width > productImage.Width)
+            {
+                double zoom = productImage.Width / System.Convert.ToDouble(backgroundImage.Width);
+                int width = System.Convert.ToInt32(zoom * backgroundImage.Width);
+                int height = System.Convert.ToInt32(zoom * backgroundImage.Height);
+                backgroundImage = (Image)new Bitmap(backgroundImage, width, height);
+            }
+            else if (backgroundImage.Height > productImage.Height)
+            {
+                double zoom = productImage.Height / System.Convert.ToDouble(backgroundImage.Height);
+                int width = System.Convert.ToInt32(zoom * backgroundImage.Width);
+                int height = System.Convert.ToInt32(zoom * backgroundImage.Height);
+                backgroundImage = (Image)new Bitmap(backgroundImage, width, height);
+            }
+            // Now apply the zoom.
+            if (cyoModel.BgImageZoom != 100)
+            {
+                double zoom = cyoModel.BgImageZoom / 100.0;
+                int width = System.Convert.ToInt32(zoom * backgroundImage.Width);
+                int height = System.Convert.ToInt32(zoom * backgroundImage.Height);
+                backgroundImage = (Image)new Bitmap(backgroundImage, width, height);
+            }
+            int backgroundX = cyoModel.BgImageOffsetX;
+            int backgroundY = cyoModel.BgImageOffsetY;
+            graphics.DrawImage(backgroundImage, backgroundX, backgroundY); 
+        }
+
+
+        public void RenderBackgroundColor(Graphics graphics, Image productImage)
+        {
+            Brush brush = new SolidBrush(ColorTranslator.FromHtml(cyoModel.BgColor));
+            graphics.FillRectangle(brush, 0, 0, productImage.Width, productImage.Height);
+        }
+
         /// <summary>
         /// Render the graphic overlay that goes on top of the background.
         /// </summary>
         /// <param name="graphics"></param>
-        public void RenderGraphic(Graphics graphics, Image productImage)
+        public void RenderGraphic(Graphics graphics)
         {
             Image graphicImage = null;
             string pathToGraphic = PathToGraphic;
             if (pathToGraphic != null)
                 graphicImage = Image.FromFile(pathToGraphic);
-
-            graphics.DrawImage(productImage, 0, 0, productImage.Width, productImage.Height);
-
             if (graphicImage != null)
             {
                 int x = cyoModel.GraphicLeft - cyoModel.SampleLeft;
