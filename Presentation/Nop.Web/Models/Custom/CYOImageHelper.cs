@@ -31,21 +31,8 @@ namespace Nop.Web.Models.Custom
             this.guid = Guid.NewGuid();
         }
 
-        public string OutputFileName
-        {
-            get
-            {
-                return Path.Combine(this.server.MapPath("~/App_Data/cyo/proofs/"), string.Format("{0}.png", this.guid));
-            }
-        }
+        # region Rendering 
 
-        // TODO: Set graphic to proper size.
-        // TODO: Deal with zoomed background image.
-        // TODO: Deal with background color.
-        // TODO: If there's no background image, or if bg image is smaller than binky image, don't crop!
-        // TODO: Handle both text1 and text2.
-        // TODO: Proper output file name instead of output.png.
-        // TODO: Sanitize everything from cyoModel, since we're passing it to the shell.
         public string CreateProof()
         {
             this.ValidateParams();
@@ -116,25 +103,28 @@ namespace Nop.Web.Models.Custom
                 g.DrawImage(graphicImage, x, y, cyoModel.GraphicWidth, cyoModel.GraphicHeight);
             }
 
-            if(!string.IsNullOrEmpty(cyoModel.Text1))
-            {
-                Color color = ColorTranslator.FromHtml(cyoModel.FontColor1);
-                SolidBrush brush = new SolidBrush(color);
-                Font font = TextFont(1);
-                int x = cyoModel.TextLeft1 - cyoModel.SampleLeft;
-                int y = cyoModel.TextTop1 - cyoModel.SampleTop;
-                g.DrawString(cyoModel.Text1, font, brush, x, y);
-            }
+            //if(!string.IsNullOrEmpty(cyoModel.Text1))
+            //{
+            //    Color color = ColorTranslator.FromHtml(cyoModel.FontColor1);
+            //    SolidBrush brush = new SolidBrush(color);
+            //    Font font = TextFont(1);
+            //    int x = cyoModel.TextLeft1 - cyoModel.SampleLeft;
+            //    int y = cyoModel.TextTop1 - cyoModel.SampleTop;
+            //    g.DrawString(cyoModel.Text1, font, brush, x, y);
+            //}
 
-            if(!string.IsNullOrEmpty(cyoModel.Text2))
-            {
-                Color color = ColorTranslator.FromHtml("#009900");
-                SolidBrush brush = new SolidBrush(color);
-                Font font = TextFont(2);
-                int x = cyoModel.TextLeft2 - cyoModel.SampleLeft;
-                int y = cyoModel.TextTop2 - cyoModel.SampleTop;
-                g.DrawString(cyoModel.Text2, font, brush, x, y);
-            }
+            //if(!string.IsNullOrEmpty(cyoModel.Text2))
+            //{
+            //    Color color = ColorTranslator.FromHtml("#009900");
+            //    SolidBrush brush = new SolidBrush(color);
+            //    Font font = TextFont(2);
+            //    int x = cyoModel.TextLeft2 - cyoModel.SampleLeft;
+            //    int y = cyoModel.TextTop2 - cyoModel.SampleTop;
+            //    g.DrawString(cyoModel.Text2, font, brush, x, y);
+            //}
+
+            RenderText(g, 1, cyoModel.Text1, cyoModel.FontColor1, cyoModel.TextLeft1, cyoModel.TextTop1);
+            RenderText(g, 2, cyoModel.Text2, cyoModel.FontColor2, cyoModel.TextLeft2, cyoModel.TextTop2);
 
             g.Dispose();
             bitmap.Save(this.OutputFileName);
@@ -142,6 +132,20 @@ namespace Nop.Web.Models.Custom
         }
 
 
+        public void RenderText(Graphics graphics, int whichText, string text, string hexColor,  int leftOffset, int topOffset)
+        {
+            if (!string.IsNullOrEmpty(text))
+            {
+                Color color = ColorTranslator.FromHtml(hexColor);
+                SolidBrush brush = new SolidBrush(color);
+                Font font = TextFont(whichText);
+                int x = leftOffset - cyoModel.SampleLeft;
+                int y = topOffset - cyoModel.SampleTop;
+                graphics.DrawString(text, font, brush, x, y);
+            }
+        }
+
+        #endregion
 
         # region Validation / Parameter Sanitization
 
@@ -231,8 +235,6 @@ namespace Nop.Web.Models.Custom
             if (whichText == 2)
                 fontFamilyName = cyoModel.FontFamily2;
             FontFamily fontFamily = customFonts.Families.First(ff => ff.Name == fontFamilyName);
-            // TODO: Ensure that the font family supports "Regular", or choose other style
-
             Font font = null;
             int fontSize = FontSize(whichText);
             if (fontFamily.IsStyleAvailable(FontStyle.Regular))
@@ -322,6 +324,14 @@ namespace Nop.Web.Models.Custom
         #endregion
 
         # region Utilities
+
+        public string OutputFileName
+        {
+            get
+            {
+                return Path.Combine(this.server.MapPath("~/App_Data/cyo/proofs/"), string.Format("{0}.png", this.guid));
+            }
+        }
 
         public string ImageBaseName(string imageURI)
         {
