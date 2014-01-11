@@ -87,12 +87,28 @@ namespace Nop.Web.Models.Custom
             if (cyoModel.BgImageZoom != 100)
             {
                 double zoom = cyoModel.BgImageZoom / 100.0;
+
+                // WTF?? Browser has bg image zoom set to 50%, and it renders correctly.
+                // To match what the browser displays, we have to set the zoom to 65%.
+                // Why?? This applies to Booginhead stock backgrounds only.
+                // Users cannot change the zoom on those.
+                if (!cyoModel.BackgroundIsUploadedImage)
+                    zoom = 0.65;
+
                 int width = System.Convert.ToInt32(zoom * backgroundImage.Width);
                 int height = System.Convert.ToInt32(zoom * backgroundImage.Height);
                 backgroundImage = (Image)new Bitmap(backgroundImage, width, height);
             }
+            // User-uploaded images are positioned as specified by the input params from the browser.
             int backgroundX = cyoModel.BgImageOffsetX;
             int backgroundY = cyoModel.BgImageOffsetY;
+
+            // Booginhead stock background images must be centered behind the product image.
+            if (!cyoModel.BackgroundIsUploadedImage)
+            {
+                backgroundX = (productImage.Width - backgroundImage.Width) / 2;
+                backgroundY = (productImage.Height - backgroundImage.Height) / 2;
+            }
             graphics.DrawImage(backgroundImage, backgroundX, backgroundY); 
         }
 
