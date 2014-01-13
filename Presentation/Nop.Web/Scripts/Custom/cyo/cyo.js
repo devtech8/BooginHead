@@ -579,7 +579,7 @@
                 setZoomForStockImage();
             }
             else {  // Smaller image goes on overlay
-                var img = '<img src=\"' + url + '\" height=\"' + $(this).height() + '\">';
+                var img = '<img src=\"' + url + '\" height=\"222">';
                 $('#cyoOverlayStockImage .cyoImgContainer').html(img);
                 //$(img).height($(this).height());
                 //$(img).width($(this).width());

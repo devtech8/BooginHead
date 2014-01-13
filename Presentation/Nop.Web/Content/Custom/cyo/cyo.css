@@ -39,10 +39,10 @@
 #cyoOverlayStockImage {
     z-index: 20;
     border: 0;
-    top: 170px;
-    left: 220px;
-    width: 80px;
-    height: 80px;
+    top: 59px;
+    left: 107px;
+    width: 272px;
+    height: 222px;
     overflow: hidden;
     position: absolute;
     cursor: move;
