@@ -1,6 +1,9 @@
-﻿#cyoSample {
+﻿#cyoLeftColumn {
   float: left;
   position: relative;
+}
+
+#cyoSample {
   background-repeat:no-repeat;
   background-position:center;
   height: 335px;  /* Needs to mactch image height, or background bleeds through at bottom */
@@ -9,6 +12,15 @@
 /* This div is hidden until user selects Nuk brand */
 #binkiesNuk {
     display: none;
+}
+
+#cyoGuidelines {
+    width: 350px;
+    font-size: 10pt;
+}
+
+#cyoGuidelines ul {
+    margin-left: 20px;
 }
 
 .shields .selected{
