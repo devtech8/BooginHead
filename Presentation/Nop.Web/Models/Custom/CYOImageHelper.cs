@@ -65,6 +65,7 @@ namespace Nop.Web.Models.Custom
         public void RenderBackgroundImage(Graphics graphics, Image productImage)
         {
             Image backgroundImage = Image.FromFile(PathToBackgroundImage);
+
             // To reflect what the browser shows, we must resize 
             // the background image to the size of the product image
             // because the browser forces the CSS background image
@@ -109,7 +110,15 @@ namespace Nop.Web.Models.Custom
                 backgroundX = (productImage.Width - backgroundImage.Width) / 2;
                 backgroundY = (productImage.Height - backgroundImage.Height) / 2;
             }
-            graphics.DrawImage(backgroundImage, backgroundX, backgroundY); 
+
+            // Explicitly specify width and height of bg image, because
+            // if the bg image has a different resolution than the bitmap
+            // we're drawing on, System.Graphics will scale the image and
+            // it will look stretched or squashed.
+            if (backgroundImage.HorizontalResolution < productImage.HorizontalResolution)
+                graphics.DrawImage(backgroundImage, backgroundX, backgroundY, backgroundImage.Width, backgroundImage.Height); 
+            else
+                graphics.DrawImage(backgroundImage, backgroundX, backgroundY);
         }
 
 

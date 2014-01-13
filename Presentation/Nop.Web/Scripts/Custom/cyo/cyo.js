@@ -49,7 +49,6 @@
     function sizeImageToDiv(divId) {
         var imgElement = $(divId + ' .cyoImgContainer img');
         imgElement.attr('height', $(divId).height());
-        console.log(imgElement.width());
         $(divId).css('width', imgElement.width() + "px");
         setFormDataForGraphic();
     }
@@ -189,7 +188,6 @@
 
         var centeredLeft = (binkyWidth - overlayWidth) / 2;
         var centeredTop = (binkyHeight - overlayHeight) / 2;
-        console.log("Moving text offset to top " + centeredTop + ", left " + centeredLeft);
         activeOverlay.css("left", centeredLeft);
         activeOverlay.css("top", centeredTop);
         setFormDataForText();
@@ -258,23 +256,13 @@
         var bgPercent = 100;
         var bgOffsetLeft = 0;
         var bgOffsetTop = 0;
-        var bgImageUrl = $('#cyoSample').css('background-image').match(/^url\("?(.+?)"?\)$/);
-        if (bgImageUrl && bgImageUrl[1]) {
-            var binkyWidth = $('#cyoBinkyLarge').width();
-            var binkyHeight = $('#cyoBinkyLarge').height();
-            var image = new Image();
-            image.src = bgImageUrl[1];
-            var bgSize = (parseFloat(uploadedImageWidth) / parseFloat(binkyWidth));
-            window.immidge = image;
-            console.log(image);
-            console.log("IMAGE WIDTH = " + uploadedImageWidth);
-            console.log("binky width = " + binkyWidth);
-            console.log("BGSIZE = " + bgSize);
+        var binkyWidth = $('#cyoBinkyLarge').width();
+        var binkyHeight = $('#cyoBinkyLarge').height();
+        var bgSize = (parseFloat(uploadedImageWidth) / parseFloat(binkyWidth));
+        if (bgSize < 1.00) {
+            bgOffsetLeft = Math.round((binkyWidth - uploadedImageWidth) / 2);
+            bgOffsetTop = Math.round((binkyHeight - uploadedImageHeight) / 2);
             bgPercent = Math.round(bgSize * 100);
-            if (bgSize < 1.00) {
-                bgOffsetLeft = Math.round((binkyWidth - image.width) / 2);
-                bgOffsetTop = Math.round((binkyHeight - image.height) / 2);
-            }
         }
         // Set background-size and offsets. Zoom is always initialized to 100%.
         $('#cyoSample').css('background-size', bgPercent + '%');
@@ -379,6 +367,7 @@
                 $("#cyoUploadFile").val(responseJSON.fileName);
                 if (responseJSON.fileName) {
                     // Show a thumbnail of the uploaded image in the upload dialog.
+                    $('#cyoUploadedImageThumbnail').removeAttr('width');
                     var imgUrl = previewUrl.replace('00000000-0000-0000-0000-000000000000', responseJSON.fileName);
                     $('#cyoUploadedImageThumbnail').attr('src', imgUrl);
                     $('#cyoUploadedImage').val(imgUrl);
@@ -405,7 +394,6 @@
         $('#cyoUploadedImageThumbnail').load(function () {
             uploadedImageWidth = $('#cyoUploadedImageThumbnail').width();
             uploadedImageHeight = $('#cyoUploadedImageThumbnail').height();
-            console.log("Upload dimensions are " + uploadedImageWidth + " x " + uploadedImageHeight);
             if (uploadedImageWidth > 200)
                 $('#cyoUploadedImageThumbnail').attr('width', 200);
             else
@@ -847,11 +835,7 @@
 
     // Callback for submitting proof form
     window.cyoProofOnComplete = function (response) {
-        try { console.log(response); }
-        catch (ex) { }
-        console.log(response.responseText);
         var responseData = JSON.parse(response.responseText);
-        console.log(responseData);
         var imageTag = "<img src='" + responseData.proofUrl + "'>";
         $('#cyoProofImageContainer').html(imageTag);
         if (responseData.errorMessage) {
