@@ -65,6 +65,9 @@ namespace Nop.Web.Models.Custom
         public void RenderBackgroundImage(Graphics graphics, Image productImage)
         {
             Image backgroundImage = Image.FromFile(PathToBackgroundImage);
+            double zoom = cyoModel.BgImageZoom / 100.0;
+            bool zoomAlreadyApplied = false;
+
 
             // To reflect what the browser shows, we must resize 
             // the background image to the size of the product image
@@ -72,23 +75,24 @@ namespace Nop.Web.Models.Custom
             // to fit into the div that contains the product image.
             if (backgroundImage.Width > productImage.Width)
             {
-                double zoom = productImage.Width / System.Convert.ToDouble(backgroundImage.Width);
-                int width = System.Convert.ToInt32(zoom * backgroundImage.Width);
-                int height = System.Convert.ToInt32(zoom * backgroundImage.Height);
+                double resizeRatio = productImage.Width / System.Convert.ToDouble(backgroundImage.Width) * zoom;
+                int width = System.Convert.ToInt32(resizeRatio * backgroundImage.Width);
+                int height = System.Convert.ToInt32(resizeRatio * backgroundImage.Height);
                 backgroundImage = (Image)new Bitmap(backgroundImage, width, height);
+                zoomAlreadyApplied = true;
             }
             else if (backgroundImage.Height > productImage.Height)
             {
-                double zoom = productImage.Height / System.Convert.ToDouble(backgroundImage.Height);
-                int width = System.Convert.ToInt32(zoom * backgroundImage.Width);
-                int height = System.Convert.ToInt32(zoom * backgroundImage.Height);
+                double resizeRatio = productImage.Height / System.Convert.ToDouble(backgroundImage.Height) * zoom;
+                int width = System.Convert.ToInt32(resizeRatio * backgroundImage.Width);
+                int height = System.Convert.ToInt32(resizeRatio * backgroundImage.Height);
                 backgroundImage = (Image)new Bitmap(backgroundImage, width, height);
+                zoomAlreadyApplied = true;
             }
-            // Now apply the zoom.
-            if (cyoModel.BgImageZoom != 100)
-            {
-                double zoom = cyoModel.BgImageZoom / 100.0;
 
+            // Now apply the zoom.
+            if (cyoModel.BgImageZoom != 100 && zoomAlreadyApplied == false)
+            { 
                 // WTF?? Browser has bg image zoom set to 50%, and it renders correctly.
                 // To match what the browser displays, we have to set the zoom to 65%.
                 // Why?? This applies to Booginhead stock backgrounds only.
@@ -100,6 +104,8 @@ namespace Nop.Web.Models.Custom
                 int height = System.Convert.ToInt32(zoom * backgroundImage.Height);
                 backgroundImage = (Image)new Bitmap(backgroundImage, width, height);
             }
+
+
             // User-uploaded images are positioned as specified by the input params from the browser.
             int backgroundX = cyoModel.BgImageOffsetX;
             int backgroundY = cyoModel.BgImageOffsetY;
