@@ -5,6 +5,8 @@
     var DEFAULT_ZOOM_SLIDER_POSITION = "50%";
     var ZOOM_FOR_STOCK_IMAGES = "50%";
     var activeTextContainer = 1;
+    var uploadedImageWidth = 0;
+    var uploadedImageHeight = 0;
 
     // Call all of the UI initializers & wire up all behaviors
     initUI();
@@ -252,12 +254,35 @@
 
     // Reset zoom and offsets when setting new image or bg color
     function resetBgZoomAndOffsets() {
-        $('#cyoSample').css('background-size', '100%');
+        // Get the size of the background image.
+        var bgPercent = 100;
+        var bgOffsetLeft = 0;
+        var bgOffsetTop = 0;
+        var bgImageUrl = $('#cyoSample').css('background-image').match(/^url\("?(.+?)"?\)$/);
+        if (bgImageUrl && bgImageUrl[1]) {
+            var binkyWidth = $('#cyoBinkyLarge').width();
+            var binkyHeight = $('#cyoBinkyLarge').height();
+            var image = new Image();
+            image.src = bgImageUrl[1];
+            var bgSize = (parseFloat(uploadedImageWidth) / parseFloat(binkyWidth));
+            window.immidge = image;
+            console.log(image);
+            console.log("IMAGE WIDTH = " + uploadedImageWidth);
+            console.log("binky width = " + binkyWidth);
+            console.log("BGSIZE = " + bgSize);
+            bgPercent = Math.round(bgSize * 100);
+            if (bgSize < 1.00) {
+                bgOffsetLeft = Math.round((binkyWidth - image.width) / 2);
+                bgOffsetTop = Math.round((binkyHeight - image.height) / 2);
+            }
+        }
+        // Set background-size and offsets. Zoom is always initialized to 100%.
+        $('#cyoSample').css('background-size', bgPercent + '%');
         $('#cyoSample').css('background-position', 'center');
         $('#uploadSizeSlider a').css('left', DEFAULT_ZOOM_SLIDER_POSITION);
         $('#cyoBgImageZoom').val('100');
-        $('#cyoBgImageOffsetX').val('0');
-        $('#cyoBgImageOffsetY').val('0');
+        $('#cyoBgImageOffsetX').val(bgOffsetLeft.toString());
+        $('#cyoBgImageOffsetY').val(bgOffsetTop.toString());
     }
 
 
@@ -358,7 +383,8 @@
                     $('#cyoUploadedImageThumbnail').attr('src', imgUrl);
                     $('#cyoUploadedImage').val(imgUrl);
                     $('#cyoUploadedImageDiv').show();
-                    showUploadAsBackground(imgUrl);
+                    // See $('#cyoUploadedImageThumbnail').load below.
+                    // That will fire around this time to set the binky background.
                 }
                 else if (responseJSON.message) {
                     alert(responseJSON.message);
@@ -372,6 +398,21 @@
                 failed: settings.attr('data-failed-string')
             }
         });
+
+        // This is called as soon as the image thumbnail is fully loaded.
+        // We need to know the actual dimensions of the uploaded image,
+        // but we want to display it at a relatively small size.
+        $('#cyoUploadedImageThumbnail').load(function () {
+            uploadedImageWidth = $('#cyoUploadedImageThumbnail').width();
+            uploadedImageHeight = $('#cyoUploadedImageThumbnail').height();
+            console.log("Upload dimensions are " + uploadedImageWidth + " x " + uploadedImageHeight);
+            if (uploadedImageWidth > 200)
+                $('#cyoUploadedImageThumbnail').attr('width', 200);
+            else
+                $('#cyoUploadedImageThumbnail').attr('width', uploadedImageWidth);
+            showUploadAsBackground($('#cyoUploadedImageThumbnail').attr('src'));
+        });
+
 
         // Remove this div. If the user drags anywhere in the upload dialog,
         // that will cause the uploader to display a div that says 
