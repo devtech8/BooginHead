@@ -157,7 +157,8 @@
 
     // Set the font size in the text overlay based on the position
     // of the font-size slider.
-    function setFontSize(sliderControl) {
+    function setFontSize() {
+        var sliderControl = $('#font-size-slider a');
         var position = parseInt(sliderControl.css('left'), 10);
         var fontSize = parseInt((position / 1.5), 10);
         $('#cyoTextContent' + activeTextContainer).css('font-size', fontSize);
@@ -518,7 +519,7 @@
 
         // Initialize the sliders. Position for font-size-slider is set 
         // when text controls are initialized. That should be done here. (Someday)
-        $("#font-size-slider").slider();
+        $("#font-size-slider").slider({ slide: setFontSize });
         $("#uploadSizeSlider").slider();
         $("#uploadSizeSlider a").css("left", DEFAULT_ZOOM_SLIDER_POSITION);
     }
@@ -619,11 +620,6 @@
             showPalette: true
         });
 
-        // Allow slider to set font-size in the overlay
-        $('#font-size-slider a').mouseup(function () {
-            setFontSize($(this));
-        });
-
         $('#uploadSizeSlider a').mouseup(function () {
             setUploadImageZoom($(this));
         });
@@ -641,7 +637,7 @@
 
         // Initialize font size slider position and font size
         $('#font-size-slider a').css('left', '80px');
-        setFontSize($('#font-size-slider a'));
+        setFontSize();
 
         // Clear text when user clicks X
         $('#cyoAddTextContainer1 .ui-icon-closethick, #cyoAddTextContainer2 .ui-icon-closethick').click(function () {
