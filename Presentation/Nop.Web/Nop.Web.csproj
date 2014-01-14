@@ -282,6 +282,7 @@
     <Compile Include="Models\Customer\ExternalAuthenticationMethodModel.cs" />
     <Compile Include="Models\Custom\CYOImageHelper.cs" />
     <Compile Include="Models\Custom\CYOModel.cs" />
+    <Compile Include="Models\Custom\CYOOrderHelper.cs" />
     <Compile Include="Models\Install\InstallModel.cs" />
     <Compile Include="Models\Cms\RenderWidgetModel.cs" />
     <Compile Include="Models\News\AddNewsCommentModel.cs" />
