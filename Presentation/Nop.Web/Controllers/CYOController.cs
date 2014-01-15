@@ -166,6 +166,13 @@ namespace Nop.Web.Controllers
         }
 
 
+        # region Recent Designs
+
+        /// <summary>
+        /// Adds the specified proof URL to the list of this user's 
+        /// recent designs.
+        /// </summary>
+        /// <param name="proofUrl"></param>
         private void AddProofToRecentDesigns(string proofUrl)
         {
             List<string> recentDesigns = this.RecentDesigns;
@@ -178,18 +185,46 @@ namespace Nop.Web.Controllers
             Response.Cookies.Set(cookie);
         }
 
+
+        /// <summary>
+        /// Returns the URLs of the user's recent designs. These
+        /// are URLs for the proofs the user has created recently.
+        /// There will be a max of 3 recent URLs.
+        /// </summary>
         private List<string> RecentDesigns
         {
             get
             {
                 HttpCookie cookie = GetRecentDesignsCookie();
                 if (!string.IsNullOrEmpty(cookie.Value))
-                    return cookie.Value.Split('|').ToList<string>();
+                {
+                    List<string> relativeUrls = cookie.Value.Split('|').ToList<string>();
+                    // Remove URLs for items that have been deleted from the proofs folder.
+                    // Items in that folder are deleted after a number of days.
+                    for (int i = relativeUrls.Count - 1; i >= 0; i--)
+                    {
+                        string url = relativeUrls[i];
+                        // Url looks like this:
+                        // /Booginhead/CYO/ViewProof?fileName=ed557fe1-4fc6-46ba-95fa-a71f3fefa7e3.png
+                        // The basename is at the end.
+                        string fileBaseName = url.Split(new char[] { '=' }).Last(); 
+                        string localPath = Path.Combine(Server.MapPath("~/App_Data/cyo/proofs/"), fileBaseName);
+                        if (!System.IO.File.Exists(localPath))
+                            relativeUrls.RemoveAt(i);
+                    }
+                    return relativeUrls;
+                }
                 else
                     return new List<string>();
             }
         }
 
+        /// <summary>
+        /// Returns the cookie containing the list of recent proof URLs.
+        /// NopCommerce does not appear to use ASP.NET session by default,
+        /// so we're storing this data in a cookie.
+        /// </summary>
+        /// <returns></returns>
         private HttpCookie GetRecentDesignsCookie()
         {
             if (Request.Cookies["CYORecentDesigns"] != null)
@@ -198,5 +233,7 @@ namespace Nop.Web.Controllers
             cookie.Expires = DateTime.Now.AddDays(5);
             return cookie;
         }
+
+        # endregion
     }
 }
