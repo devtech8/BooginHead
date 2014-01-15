@@ -837,7 +837,6 @@
 
     function updateRecentDesigns() {
         var cookie = getCookieByName("CYORecentDesigns");
-        console.log(cookie);
         if (cookie != null) {
             var urls = cookie.split('|');
             var html = '<h2 class="cyo-h2">Recent Designs</h2>';
@@ -845,6 +844,13 @@
                 html += '<img src="' + urls[i] + '" width="150" />';
             }
             $("#cyoRecentDesigns").html(html);
+            $("#cyoRecentDesigns img").click(function () {
+                var imageTag = "<img src='" + $(this).attr('src') + "'>";
+                $('#cyoProofImageContainer').html(imageTag);
+                $('#cyoProofErrorMessage').html('');
+                $('#cyoDefaultProofMessage').show();
+                $("#cyoModalProof").dialog("open");
+            });
         }
     }
 
