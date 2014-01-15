@@ -840,11 +840,11 @@
         console.log(cookie);
         if (cookie != null) {
             var urls = cookie.split('|');
-            var imageTags = "";
+            var html = '<h2 class="cyo-h2">Recent Designs</h2>';
             for (var i = 0; i < urls.length; i++) {
-                imageTags += '<img src="' + urls[i] + '" width="110" />';
+                html += '<img src="' + urls[i] + '" width="150" />';
             }
-            $("#cyoRecentDesigns").html(imageTags);
+            $("#cyoRecentDesigns").html(html);
         }
     }
 
