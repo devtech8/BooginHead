@@ -144,13 +144,16 @@ namespace Nop.Web.Controllers
             {
                 string imageFileName = imageHelper.CreateProof();
                 proofUrl = Url.Action("ViewProof", new { fileName = imageFileName });
+                AddProofToRecentDesigns(proofUrl);
             }
             catch (Exception ex)
             {
                 // TODO: Log error
                 errorMessage = ex.Message;
             }
-            return Json(new {proofUrl = proofUrl, errorMessage = errorMessage});
+            return Json(new {proofUrl = proofUrl, 
+                recentDesigns = RecentDesigns.ToArray(),
+                errorMessage = errorMessage});
         }
 
         [HttpGet]
@@ -162,5 +165,38 @@ namespace Nop.Web.Controllers
             return new FileContentResult(System.IO.File.ReadAllBytes(filePath), "image/png");
         }
 
+
+        private void AddProofToRecentDesigns(string proofUrl)
+        {
+            List<string> recentDesigns = this.RecentDesigns;
+            if (recentDesigns.Count() == 3)
+                recentDesigns.RemoveAt(0);
+            recentDesigns.Add(proofUrl);
+            HttpCookie cookie = GetRecentDesignsCookie();
+            cookie.Value = string.Join("|", recentDesigns);
+            cookie.Expires = DateTime.Now.AddDays(5);
+            Response.Cookies.Set(cookie);
+        }
+
+        private List<string> RecentDesigns
+        {
+            get
+            {
+                HttpCookie cookie = GetRecentDesignsCookie();
+                if (!string.IsNullOrEmpty(cookie.Value))
+                    return cookie.Value.Split('|').ToList<string>();
+                else
+                    return new List<string>();
+            }
+        }
+
+        private HttpCookie GetRecentDesignsCookie()
+        {
+            if (Request.Cookies["CYORecentDesigns"] != null)
+                return Request.Cookies["CYORecentDesigns"];
+            HttpCookie cookie = new HttpCookie("CYORecentDesigns");
+            cookie.Expires = DateTime.Now.AddDays(5);
+            return cookie;
+        }
     }
 }

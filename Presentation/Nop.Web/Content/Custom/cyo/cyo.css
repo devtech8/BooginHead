@@ -23,6 +23,11 @@
     margin-left: 20px;
 }
 
+#cyoRecentDesigns {
+    width: 350px;
+    font-size: 10pt;
+}
+
 .shields .selected{
     border: 1px solid blue;
 }
