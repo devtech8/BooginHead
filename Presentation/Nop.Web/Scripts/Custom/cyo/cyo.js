@@ -826,8 +826,27 @@
         initDraggableBackground();
         initHiddenForm();
         initDocumentBehaviors();
+        updateRecentDesigns();
     }
 
+    function getCookieByName(name) {
+        var value = "; " + document.cookie;
+        var parts = value.split("; " + name + "=");
+        if (parts.length == 2) return parts.pop().split(";").shift();
+    }
+
+    function updateRecentDesigns() {
+        var cookie = getCookieByName("CYORecentDesigns");
+        console.log(cookie);
+        if (cookie != null) {
+            var urls = cookie.split('|');
+            var imageTags = "";
+            for (var i = 0; i < urls.length; i++) {
+                imageTags += '<img src="' + urls[i] + '" width="110" />';
+            }
+            $("#cyoRecentDesigns").html(imageTags);
+        }
+    }
 
     // Callback for submitting proof form
     window.cyoProofOnComplete = function (response) {
@@ -841,7 +860,9 @@
         else {
             $('#cyoProofErrorMessage').html('');
             $('#cyoDefaultProofMessage').show();
+            updateRecentDesigns();
         }
         $("#cyoModalProof").dialog("open");
     }
+
 });

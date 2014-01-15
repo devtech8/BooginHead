@@ -151,9 +151,7 @@ namespace Nop.Web.Controllers
                 // TODO: Log error
                 errorMessage = ex.Message;
             }
-            return Json(new {proofUrl = proofUrl, 
-                recentDesigns = RecentDesigns.ToArray(),
-                errorMessage = errorMessage});
+            return Json(new {proofUrl = proofUrl, errorMessage = errorMessage});
         }
 
         [HttpGet]
