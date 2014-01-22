@@ -10,6 +10,9 @@ namespace Nop.Web.Models.Custom
     /// </summary>
     public class CYOOrderHelper
     {
+
+        # region Static Properties
+
         /// <summary>
         /// The sender is Booginhead, and this is their ID.
         /// </summary>
@@ -19,28 +22,38 @@ namespace Nop.Web.Models.Custom
         /// The receiver is PRIDE, and this is their ID.
         /// </summary>
         public static readonly string RECEIVER_ID = "100001803";
-
-        public static readonly string DEFAULT_SHIPPING_METHOD_CODE = "904";
         public static readonly string BUY_FROM_BUSINESS_PARTNER = "WRV5";
         public static readonly string ADDRESS_QUALIFIER = "STBP";
         public static readonly string SALES_UNIT = "EA";
+        
+        public static readonly Dictionary<ShippingMethod, string> SHIPPING_METHOD_CODES = new Dictionary<ShippingMethod, string>()
+        {
+            {ShippingMethod.DEFAULT, "904" },
+        };
 
         private static readonly string DATE_FORMAT = "yyyyMMdd";
 
+        # endregion
 
-        private CYOOrderHelper() 
+        # region Constructor
+
+        public CYOOrderHelper() 
         {
-            this.OrderDate = DateTime.MinValue;
+            this.OrderDate = DateTime.Now;
             this.IsTestMessage = false;
             this.Country = "USA";
             this.Currency = "USD";
+            this.ShippingMethod = ShippingMethod.DEFAULT;
             this.Items = new List<LineItem>();
         }
+
+        # endregion
+
+        # region Public Properties
 
         public string OrderNumber { get; set; }
         public DateTime OrderDate { get;  set; }
         public bool IsTestMessage { get; set; }
-        public string ProductType { get; set; }
         public string PrideOrderId { get { return string.Format("BOO{0}", OrderNumber); } }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
@@ -50,14 +63,41 @@ namespace Nop.Web.Models.Custom
         public string State { get; set; }
         public string Zip { get; set; }
         public string Country { get; set; }
-        public string Currency { get; set; }
+        public string Currency { get; set; }        
+        public ShippingMethod ShippingMethod { get; set; }        
         public List<LineItem> Items { get; set; }
+
+        # endregion
+
+        # region Private Methods
 
         private string ReplacePipes(string input)
         {
             return input.Replace('|', '/');
         }
 
+        private void AddBlanks(List<string> fields, int howMany)
+        {
+            for (int i = 0; i < howMany; i++)
+                fields.Add("");
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public string GetFormattedOrder()
+        {
+            List<string> lines = new List<string>();
+            lines.Add(LineSA1());
+            lines.Add(LineSA2());
+            lines.Add(LineSA3());
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                lines.Add(LineSA5(this.Items[i], i + 1));
+            }
+            return string.Join<string>(Environment.NewLine, lines);
+        }
 
         /// <summary>
         /// Returns the SA1 line of the PRIDE order. This is the
@@ -131,7 +171,7 @@ namespace Nop.Web.Models.Custom
             AddBlanks(fields, 4);
 
             // Shipping method code - is this something the user can change?
-            fields.Add(DEFAULT_SHIPPING_METHOD_CODE);
+            fields.Add(SHIPPING_METHOD_CODES[this.ShippingMethod]);
 
             AddBlanks(fields, 8);
 
@@ -163,7 +203,7 @@ namespace Nop.Web.Models.Custom
 
         public string LineSA3()
         {
-            List<string> fields = new List<string>(26);
+            List<string> fields = new List<string>();
 
             fields.Add("SA3");
             // Message Reference: Booginhead order number XXXXXX prefixed with "BOO"
@@ -260,11 +300,7 @@ namespace Nop.Web.Models.Custom
             return string.Join<string>("|", fields);
         }
 
-        private void AddBlanks(List<string> fields, int howMany)
-        {
-            for (int i = 0; i < howMany; i++)
-                fields.Add("");
-        }
+        # endregion
 
     }
 
@@ -283,5 +319,10 @@ namespace Nop.Web.Models.Custom
 
         public string PartNumber { get; set; }
         public int Quantity { get; set; }
+    }
+
+    public enum ShippingMethod
+    {
+        DEFAULT
     }
 }
