@@ -22,18 +22,29 @@ namespace Nop.Web.Models.Custom
         /// The receiver is PRIDE, and this is their ID.
         /// </summary>
         public static readonly string RECEIVER_ID = "100001803";
-        public static readonly string BUY_FROM_BUSINESS_PARTNER = "WRV5";
+        public static readonly string BUY_FROM_BUSINESS_PARTNER = "S78001";
+        public static readonly string SHIP_FROM_WAREHOUSE = "WRV5";
         public static readonly string ADDRESS_QUALIFIER = "STBP";
         public static readonly string SALES_UNIT = "EA";
         
         public static readonly Dictionary<ShippingMethod, string> SHIPPING_METHOD_CODES = new Dictionary<ShippingMethod, string>()
         {
-            {ShippingMethod.DEFAULT, "904" },
+            {ShippingMethod.USPS, "904" },
+            {ShippingMethod.FEDEX_2DAY, "1000" },
+            {ShippingMethod.FEDEX_GROUND, "2000" },
+            {ShippingMethod.FEDEX_PRIORITY_OVERNIGHT, "3000" },
+            {ShippingMethod.FEDEX_STANDARD_OVERNIGHT, "4000" }
         };
 
         private static readonly string DATE_FORMAT = "yyyyMMdd";
 
         # endregion
+
+        #region Private Properties
+
+        private string _country = "USA";
+
+        #endregion
 
         # region Constructor
 
@@ -43,7 +54,7 @@ namespace Nop.Web.Models.Custom
             this.IsTestMessage = false;
             this.Country = "USA";
             this.Currency = "USD";
-            this.ShippingMethod = ShippingMethod.DEFAULT;
+            this.ShippingMethod = ShippingMethod.USPS;
             this.Items = new List<LineItem>();
         }
 
@@ -55,17 +66,49 @@ namespace Nop.Web.Models.Custom
         public DateTime OrderDate { get;  set; }
         public bool IsTestMessage { get; set; }
         public string PrideOrderId { get { return string.Format("BOO{0}", OrderNumber); } }
+        public string RecipientNameLine1 { get; set; }
+        public string RecipientNameLine2 { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
-        public string Address3 { get; set; }
-        public string Address4 { get; set; }
         public string City { get; set; }
         public string State { get; set; }
-        public string Zip { get; set; }
-        public string Country { get; set; }
-        public string Currency { get; set; }        
+    
         public ShippingMethod ShippingMethod { get; set; }        
         public List<LineItem> Items { get; set; }
+
+        /// <summary>
+        /// As of early 2014, PRIDE supports USD only.
+        /// </summary>
+        public string Currency { get; set; }
+
+        /// <summary>
+        /// US should use 5-digit zip only. Other countries
+        /// should have zip format validated. E.g. Canada
+        /// should be "Z9Z 9Z9", not "Z9Z9Z9". PRIDE will 
+        /// correct the zip format, but that slows things
+        /// down.
+        /// </summary>
+        public string Zip { get; set; }        
+
+        public string Country 
+        {
+            get
+            {
+                return this._country;
+            }
+            set
+            {
+                string country = value;
+                if (!string.IsNullOrEmpty(country) && country.Length != 3)
+                {
+                    // Try to set correct 3-letter country code.
+                    // If we can't do this, PRIDE will correct the order.
+                    if (CountryCodes.ByName.ContainsKey(country.ToUpper()))
+                        country = CountryCodes.ByName[country.ToUpper()];
+                }
+                this._country = country;
+            }
+        }
 
         # endregion
 
@@ -188,12 +231,14 @@ namespace Nop.Web.Models.Custom
             // Business parter code
             fields.Add(BUY_FROM_BUSINESS_PARTNER);
 
+            AddBlanks(fields, 2);
+
+            // Warehouse
+            fields.Add(SHIP_FROM_WAREHOUSE);
+
             AddBlanks(fields, 8);
 
-            // Sender Id - Yet again
             fields.Add(SENDER_ID);
-
-            AddBlanks(fields, 10);
 
             // End of message marker
             fields.Add("SA2_END");
@@ -214,12 +259,12 @@ namespace Nop.Web.Models.Custom
             fields.Add(RECEIVER_ID);
             fields.Add(ADDRESS_QUALIFIER);
             fields.Add(ReplacePipes(Country));
+            fields.Add(ReplacePipes(RecipientNameLine1));
+            fields.Add(ReplacePipes(RecipientNameLine2));
             fields.Add(ReplacePipes(Address1));
             fields.Add(ReplacePipes(Address2));
-            fields.Add(ReplacePipes(Address3));
-            fields.Add(ReplacePipes(Address4));
 
-            AddBlanks(fields, 3);
+            AddBlanks(fields, 2);
 
             fields.Add(ReplacePipes(Zip));
             fields.Add(ReplacePipes(State));
@@ -323,6 +368,259 @@ namespace Nop.Web.Models.Custom
 
     public enum ShippingMethod
     {
-        DEFAULT
+        USPS,
+        FEDEX_2DAY,
+        FEDEX_GROUND,
+        FEDEX_PRIORITY_OVERNIGHT,
+        FEDEX_STANDARD_OVERNIGHT
+    }
+
+    public class CountryCodes
+    {
+        /// <summary>
+        /// Booginhead requires these country codes for shipping.
+        /// </summary>
+        public static Dictionary<string, string> ByName = new Dictionary<string,string>() {
+            {"ARUBA", "ABW"},
+            {"AFGHANISTAN", "AFG"},
+            {"ANGOLA", "AGO"},
+            {"ANGUILLA", "AIA"},
+            {"ALBANIA", "ALB"},
+            {"ANDORRA", "AND"},
+            {"NETHERLANDS ANTILLES", "ANT"},
+            {"UNITED ARAB EMIRATES", "ARE"},
+            {"ARGENTINA", "ARG"},
+            {"ARMENIA", "ARM"},
+            {"AMERICAN SAMOA", "ASM"},
+            {"ANTARCTICA", "ATA"},
+            {"FRENCH SOUTHERN TERRITORIES", "ATF"},
+            {"ANTIGUA AND BARBUDA", "ATG"},
+            {"AUSTRALIA", "AUS"},
+            {"AUSTRIA", "AUT"},
+            {"AZERBAIJAN", "AZE"},
+            {"BURUNDI", "BDI"},
+            {"BELGIUM", "BEL"},
+            {"BENIN", "BEN"},
+            {"BURKINA FASO", "BFA"},
+            {"BANGLADESH", "BGD"},
+            {"BULGARIA", "BGR"},
+            {"BAHRAIN", "BHR"},
+            {"BAHAMAS", "BHS"},
+            {"BOSNIA AND HERZEGOWINA", "BIH"},
+            {"BELARUS", "BLR"},
+            {"BELIZE", "BLZ"},
+            {"BERMUDA", "BMU"},
+            {"BOLIVIA", "BOL"},
+            {"BRAZIL", "BRA"},
+            {"BARBADOS", "BRB"},
+            {"BRUNEI DARUSSALAM", "BRN"},
+            {"BHUTAN", "BTN"},
+            {"BOUVET ISLAND", "BVT"},
+            {"BOTSWANA", "BWA"},
+            {"CENTRAL AFRICAN REPUBLIC", "CAF"},
+            {"CANADA", "CAN"},
+            {"COCOS (KEELING) ISLANDS", "CCK"},
+            {"SWITZERLAND", "CHE"},
+            {"CHILE", "CHL"},
+            {"CHINA", "CHN"},
+            {"IVOIRE", "CIV"},
+            {"CAMEROON", "CMR"},
+            {"DEMOCRATIC REPUBLIC OF CONGO", "COD"},
+            {"PEOPLES REPUBLIC OF CONGO", "COG"},
+            {"COOK ISLANDS", "COK"},
+            {"COLOMBIA", "COL"},
+            {"COMOROS", "COM"},
+            {"CAPE VERDE", "CPV"},
+            {"COSTA RICA", "CRI"},
+            {"CUBA", "CUB"},
+            {"CHRISTMAS ISLAND", "CXR"},
+            {"CAYMAN ISLANDS", "CYM"},
+            {"CYPRUS", "CYP"},
+            {"CZECH REPUBLIC", "CZE"},
+            {"GERMANY", "DEU"},
+            {"DJIBOUTI", "DJI"},
+            {"DOMINICA", "DMA"},
+            {"DENMARK", "DNK"},
+            {"DOMINICAN REPUBLIC", "DOM"},
+            {"ALGERIA", "DZA"},
+            {"ECUADOR", "ECU"},
+            {"EGYPT", "EGY"},
+            {"ERITREA", "ERI"},
+            {"WESTERN SAHARA", "ESH"},
+            {"SPAIN", "ESP"},
+            {"ESTONIA", "EST"},
+            {"ETHIOPIA", "ETH"},
+            {"FINLAND", "FIN"},
+            {"FIJI", "FJI"},
+            {"FALKLAND ISLANDS", "FLK"},
+            {"FRANCE", "FRA"},
+            {"FAROE ISLANDS", "FRO"},
+            {"FEDERATED STATES OF MICRONESIA", "FSM"},
+            {"FRANCE, METROPOLITAN", "FXX"},
+            {"GABON", "GAB"},
+            {"UNITED KINGDOM", "GBR"},
+            {"GEORGIA", "GEO"},
+            {"GHANA", "GHA"},
+            {"GIBRALTAR", "GIB"},
+            {"GUINEA", "GIN"},
+            {"GUADELOUPE", "GLP"},
+            {"GAMBIA", "GMB"},
+            {"BISSAU", "GNB"},
+            {"EQUATORIAL GUINEA", "GNQ"},
+            {"GREECE", "GRC"},
+            {"GRENADA", "GRD"},
+            {"GREENLAND", "GRL"},
+            {"GUATEMALA", "GTM"},
+            {"FRENCH GUIANA", "GUF"},
+            {"GUAM", "GUM"},
+            {"GUYANA", "GUY"},
+            {"HONG KONG", "HKG"},
+            {"HEARD AND MC DONALD ISLANDS", "HMD"},
+            {"HONDURAS", "HND"},
+            {"CROATIA", "HRV"},
+            {"HAITI", "HTI"},
+            {"HUNGARY", "HUN"},
+            {"INDONESIA", "IDN"},
+            {"INDIA", "IND"},
+            {"BRITISH INDIAN OCEAN TERRITORY", "IOT"},
+            {"IRELAND", "IRL"},
+            {"ISLAMIC REPUBLIC OF IRAN", "IRN"},
+            {"IRAQ", "IRQ"},
+            {"ICELAND", "ISL"},
+            {"ISRAEL", "ISR"},
+            {"ITALY", "ITA"},
+            {"JAMAICA", "JAM"},
+            {"JORDAN", "JOR"},
+            {"JAPAN", "JPN"},
+            {"KAZAKHSTAN", "KAZ"},
+            {"KENYA", "KEN"},
+            {"KYRGYZSTAN", "KGZ"},
+            {"CAMBODIA", "KHM"},
+            {"KIRIBATI", "KIR"},
+            {"SAINT KITTS AND NEVIS", "KNA"},
+            {"REPUBLIC OF KOREA (SOUTH)", "KOR"},
+            {"KUWAIT", "KWT"},
+            {"LAO PEOPLES DEMOCRATIC REPUBLI", "LAO"},
+            {"LEBANON", "LBN"},
+            {"LIBERIA", "LBR"},
+            {"LIBYAN ARAB JAMAHIRIYA", "LBY"},
+            {"SAINT LUCIA", "LCA"},
+            {"LIECHTENSTEIN", "LIE"},
+            {"SRI LANKA", "LKA"},
+            {"LESOTHO", "LSO"},
+            {"LITHUANIA", "LTU"},
+            {"LUXEMBOURG", "LUX"},
+            {"LATVIA", "LVA"},
+            {"MACAU", "MAC"},
+            {"MOROCCO", "MAR"},
+            {"MONACO", "MCO"},
+            {"REPUBLIC OF MOLDOVA", "MDA"},
+            {"MADAGASCAR", "MDG"},
+            {"MALDIVES", "MDV"},
+            {"MEXICO", "MEX"},
+            {"MARSHALL ISLANDS", "MHL"},
+            {"MACEDONIA", "MKD"},
+            {"MALI", "MLI"},
+            {"MALTA", "MLT"},
+            {"MYANMAR", "MMR"},
+            {"MONGOLIA", "MNG"},
+            {"NORTHERN MARIANA ISLANDS", "MNP"},
+            {"MOZAMBIQUE", "MOZ"},
+            {"MAURITANIA", "MRT"},
+            {"MONTSERRAT", "MSR"},
+            {"MARTINIQUE", "MTQ"},
+            {"MAURITIUS", "MUS"},
+            {"MALAWI", "MWI"},
+            {"MALAYSIA", "MYS"},
+            {"MAYOTTE", "MYT"},
+            {"NAMIBIA", "NAM"},
+            {"NEW CALEDONIA", "NCL"},
+            {"NIGER", "NER"},
+            {"NORFOLK ISLAND", "NFK"},
+            {"NIGERIA", "NGA"},
+            {"NICARAGUA", "NIC"},
+            {"NIUE", "NIU"},
+            {"THE NETHERLANDS", "NLD"},
+            {"NORWAY", "NOR"},
+            {"NEPAL", "NPL"},
+            {"NAURU", "NRU"},
+            {"NEW ZEALAND", "NZL"},
+            {"OMAN", "OMN"},
+            {"PAKISTAN", "PAK"},
+            {"PANAMA", "PAN"},
+            {"PITCAIRN", "PCN"},
+            {"PERU", "PER"},
+            {"PHILIPPINES", "PHL"},
+            {"PALAU", "PLW"},
+            {"PAPUA NEW GUINEA", "PNG"},
+            {"POLAND", "POL"},
+            {"PUERTO RICO", "PRI"},
+            {"DEMOCRATIC PEOPLES REPUBLIC OF", "PRK"},
+            {"PORTUGAL", "PRT"},
+            {"PARAGUAY", "PRY"},
+            {"PALESTINIAN TERRITORY, OCCUPIED", "PSE"},
+            {"FRENCH POLYNESIA", "PYF"},
+            {"QATAR", "QAT"},
+            {"REUNION ISLAND", "REU"},
+            {"ROMANIA", "ROU"},
+            {"RUSSIAN FEDERATION", "RUS"},
+            {"RWANDA", "RWA"},
+            {"SAUDI ARABIA", "SAU"},
+            {"SUDAN", "SDN"},
+            {"SENEGAL", "SEN"},
+            {"SINGAPORE", "SGP"},
+            {"SOUTH GEORGIA AND THE SOUTH SA", "SGS"},
+            {"ST. HELENA", "SHN"},
+            {"SVALBARD AND JAN MAYEN ISLANDS", "SJM"},
+            {"SOLOMON ISLANDS", "SLB"},
+            {"SIERRA LEONE", "SLE"},
+            {"EL SALVADOR", "SLV"},
+            {"SAN MARINO", "SMR"},
+            {"SOMALIA", "SOM"},
+            {"ST. PIERRE AND MIQUELON", "SPM"},
+            {"SAO TOME AND PRINCIPE", "STP"},
+            {"SURINAME", "SUR"},
+            {"SLOVAKIA", "SVK"},
+            {"SLOVENIA", "SVN"},
+            {"SWEDEN", "SWE"},
+            {"SWAZILAND", "SWZ"},
+            {"SEYCHELLES", "SYC"},
+            {"SYRIAN ARAB REPUBLIC", "SYR"},
+            {"TURKS AND CAICOS ISLANDS", "TCA"},
+            {"CHAD", "TCD"},
+            {"TOGO", "TGO"},
+            {"THAILAND", "THA"},
+            {"TAJIKISTAN", "TJK"},
+            {"TOKELAU", "TKL"},
+            {"TURKMENISTAN", "TKM"},
+            {"EAST TIMOR", "TLS"},
+            {"TONGA", "TON"},
+            {"TRINIDAD AND TOBAGO", "TTO"},
+            {"TUNISIA", "TUN"},
+            {"TURKEY", "TUR"},
+            {"TUVALU", "TUV"},
+            {"TAIWAN", "TWN"},
+            {"UNITED REPUBLIC OF TANZANIA", "TZA"},
+            {"UGANDA", "UGA"},
+            {"UKRAINE", "UKR"},
+            {"UNITED STATES MINOR OUTLYING I", "UMI"},
+            {"URUGUAY", "URY"},
+            {"UNITED STATES", "USA"},
+            {"UZBEKISTAN", "UZB"},
+            {"VATICAN CITY STATE", "VAT"},
+            {"SAINT VINCENT AND THE GRENADIN", "VCT"},
+            {"VENEZUELA", "VEN"},
+            {"VIRGIN ISLANDS, BRITISH", "VGB"},
+            {"VIRGIN ISLANDS, US", "VIR"},
+            {"VIET NAM", "VNM"},
+            {"VANUATU", "VUT"},
+            {"WALLIS AND FUTUNA ISLANDS", "WLF"},
+            {"SAMOA", "WSM"},
+            {"YEMEN", "YEM"},
+            {"YUGOSLAVIA", "YUG"},
+            {"SOUTH AFRICA", "ZAF"},
+            {"ZAMBIA", "ZMB"},
+            {"ZIMBABWE", "ZWE"}
+        };
     }
 }

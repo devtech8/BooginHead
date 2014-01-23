@@ -17,20 +17,20 @@ namespace CYO.Tests
             Assert.AreEqual("USA", orderHelper.Country);
             Assert.AreEqual("USD", orderHelper.Currency);
             Assert.IsFalse(orderHelper.IsTestMessage);
-            Assert.AreEqual(ShippingMethod.DEFAULT, orderHelper.ShippingMethod);
+            Assert.AreEqual(ShippingMethod.USPS, orderHelper.ShippingMethod);
             Assert.IsNotNull(orderHelper.Items);
 
-            orderHelper.Address1 = "Address Line 1";
-            orderHelper.Address2 = "Address Line 2";
-            orderHelper.Address3 = "Address Line 3";
-            orderHelper.Address4 = "Address Line 4";
-            orderHelper.City = "Vancouver";
-            orderHelper.Country = "Canada";
-            orderHelper.Currency = "CAD";
+            orderHelper.RecipientNameLine1 = "Springfield Toys";
+            orderHelper.RecipientNameLine2 = "Edna Krabapple";
+            orderHelper.Address1 = "501 Main St.";
+            orderHelper.Address2 = "Suite E";
+            orderHelper.City = "Springfield";
+            orderHelper.Country = "USA";
+            orderHelper.Currency = "USD";
             orderHelper.IsTestMessage = false;
             orderHelper.OrderNumber = "100000999";
-            orderHelper.State = "BC";
-            orderHelper.Zip = "ABC123";
+            orderHelper.State = "OR";
+            orderHelper.Zip = "95114";
 
             orderHelper.Items.Add(new LineItem("Part1", 10));
             orderHelper.Items.Add(new LineItem("Part2", 20));
@@ -38,16 +38,17 @@ namespace CYO.Tests
             orderHelper.Items.Add(new LineItem("Part4", 40));
             orderHelper.Items.Add(new LineItem("Part5", 50));
 
+            //Console.WriteLine(orderHelper.GetFormattedOrder());
             Assert.AreEqual(ExpectedOutput, orderHelper.GetFormattedOrder());
         }
 
-        public string ExpectedOutput = @"SA1|BOO100000999|BOO007324|100001803|ORD001|BEMIS|ORD001||20140122|||test message|SA1_END
-SA2|BOO100000999|BOO007324|100001803|20140122|20140122|20140122|100001803|||||904|||||||||CAD||||||BOO007324|||WRV5|||||||||BOO007324|||||||||||SA2_END
-SA3|BOO100000999|BOO007324|100001803|STBP|Canada|Address Line 1|Address Line 2|Address Line 3|Address Line 4||||ABC123|BC||||||||Vancouver|Vancouver||SA3_END
-SA5|BOO100000999|BOO007324|100001803|1|1|||Part1|||10|20140122|20140122|20140122|EA||EA||||||||||||||||||||||||||||||||||WRV5||||||||||||||||||||||||||||Canada||Canada|SA5_END
-SA5|BOO100000999|BOO007324|100001803|2|2|||Part2|||20|20140122|20140122|20140122|EA||EA||||||||||||||||||||||||||||||||||WRV5||||||||||||||||||||||||||||Canada||Canada|SA5_END
-SA5|BOO100000999|BOO007324|100001803|3|3|||Part3|||30|20140122|20140122|20140122|EA||EA||||||||||||||||||||||||||||||||||WRV5||||||||||||||||||||||||||||Canada||Canada|SA5_END
-SA5|BOO100000999|BOO007324|100001803|4|4|||Part4|||40|20140122|20140122|20140122|EA||EA||||||||||||||||||||||||||||||||||WRV5||||||||||||||||||||||||||||Canada||Canada|SA5_END
-SA5|BOO100000999|BOO007324|100001803|5|5|||Part5|||50|20140122|20140122|20140122|EA||EA||||||||||||||||||||||||||||||||||WRV5||||||||||||||||||||||||||||Canada||Canada|SA5_END";
+        public string ExpectedOutput = @"SA1|BOO100000999|BOO007324|100001803|ORD001|BEMIS|ORD001||20140123|||test message|SA1_END
+SA2|BOO100000999|BOO007324|100001803|20140123|20140123|20140123|100001803|||||904|||||||||USD||||||BOO007324|||S78001|||WRV5|||||||||BOO007324|SA2_END
+SA3|BOO100000999|BOO007324|100001803|STBP|USA|Springfield Toys|Edna Krabapple|501 Main St.|Suite E|||95114|OR||||||||Springfield|Springfield||SA3_END
+SA5|BOO100000999|BOO007324|100001803|1|1|||Part1|||10|20140123|20140123|20140123|EA||EA||||||||||||||||||||||||||||||||||S78001||||||||||||||||||||||||||||USA||USA|SA5_END
+SA5|BOO100000999|BOO007324|100001803|2|2|||Part2|||20|20140123|20140123|20140123|EA||EA||||||||||||||||||||||||||||||||||S78001||||||||||||||||||||||||||||USA||USA|SA5_END
+SA5|BOO100000999|BOO007324|100001803|3|3|||Part3|||30|20140123|20140123|20140123|EA||EA||||||||||||||||||||||||||||||||||S78001||||||||||||||||||||||||||||USA||USA|SA5_END
+SA5|BOO100000999|BOO007324|100001803|4|4|||Part4|||40|20140123|20140123|20140123|EA||EA||||||||||||||||||||||||||||||||||S78001||||||||||||||||||||||||||||USA||USA|SA5_END
+SA5|BOO100000999|BOO007324|100001803|5|5|||Part5|||50|20140123|20140123|20140123|EA||EA||||||||||||||||||||||||||||||||||S78001||||||||||||||||||||||||||||USA||USA|SA5_END";
     }
 }
