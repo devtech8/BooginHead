@@ -75,6 +75,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\FluentValidation.MVC4.4.0.0.1\lib\Net40\FluentValidation.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp, Version=5.4.5.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\iTextSharp.5.4.5\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -1934,6 +1938,8 @@
     <Content Include="App_Data\cyo\fonts\TitiliumWeb-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\Ultra-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\VerelaRound-Regular.ttf" />
+    <Content Include="App_Data\cyo\pdf_templates\BH_MultiPGPackingSlip_editable.pdf" />
+    <Content Include="App_Data\cyo\pdf_templates\BH_Packing Slip_editable.pdf" />
     <None Include="App_Data\Resources.xsd">
       <SubType>Designer</SubType>
     </None>
