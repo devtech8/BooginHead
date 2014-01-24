@@ -290,6 +290,7 @@
     <Compile Include="Models\Custom\CYOImageHelper.cs" />
     <Compile Include="Models\Custom\CYOModel.cs" />
     <Compile Include="Models\Custom\CYOOrderHelper.cs" />
+    <Compile Include="Models\Custom\CYOScheduledTask.cs" />
     <Compile Include="Models\Custom\CYOSFTPClient.cs" />
     <Compile Include="Models\Install\InstallModel.cs" />
     <Compile Include="Models\Cms\RenderWidgetModel.cs" />

@@ -29,7 +29,18 @@ under Presentation\Nop.Web\App_Data
 * The identity that your IIS application pool uses must have 
 read/write/list/create privileges on App_Data\cyo and all of
 its sub-directories.
-* The machine must have ImageMagick installed. See below.
+
+Run the following command against the SQL database. This will schedule the
+daily job that cleans up the old CYO upload and proof files. The job will
+run hourly (every 3600 seconds) and will delete files from App_Data/cyo/proofs
+and App_Data/cyo/uploads that are more than 24 hours old.
+
+<code language="sql">
+
+insert into ScheduleTask (Name, Seconds, Type, Enabled, StopOnError, LastStartUTC, LastEndUTC, LastSuccessUTC)
+values ('Clean up CYO files', 3600, 'Nop.Web.Models.Custom.CYOScheduledTask, Nop.Web', 1, 0, null, null, null)
+
+</code>
 
 # Notes...
 
