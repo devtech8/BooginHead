@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Nop.Core.Domain.Logging;
 using Nop.Core.Infrastructure;
 using Nop.Services.Logging;
 using Renci.SshNet;
@@ -45,6 +46,7 @@ namespace Nop.Web.Models.Custom
         /// <returns>The number of files successfully uploaded.</returns>
         public int Upload(List<string> localFiles, string remoteDirectory)
         {
+            // TODO: Add a completion callback that removes sent files from a queue
             int filesUploaded = 0;
             using (var client = new SftpClient(host, port, login, password))
             {
@@ -60,14 +62,14 @@ namespace Nop.Web.Models.Custom
                             client.UploadFile(fileStream, remoteFilePath);
                             string message = string.Format("Uploaded file {0}", localFilePath);
                             if (logger != null)
-                                logger.InsertLog(Core.Domain.Logging.LogLevel.Information, "SFTP Uploaded Succeeded", message, null);
+                                logger.InsertLog(LogLevel.Information, "SFTP Uploaded Succeeded", message, null);
                             filesUploaded++;
                         }
                         catch (Exception ex)
                         {
                             string message = string.Format("Failed file: {0}. Error: {1}", localFilePath, ex.Message);
                             if (logger != null)
-                                logger.InsertLog(Core.Domain.Logging.LogLevel.Error, "SFTP Upload Failed", message, null);
+                                logger.InsertLog(LogLevel.Error, "SFTP Upload Failed", message, null);
                         }
                     }
                 }
