@@ -30,22 +30,26 @@ namespace Nop.Web.Models.Custom
         }
 
         /// <summary>
-        /// Uploads the file at localFilePath to the SFTP server, writing
-        /// it into remoteDirectory.
+        /// Uploads all of the files in the localFiles list to the SFTP server, 
+        /// writing them into remoteDirectory.
         /// </summary>
         /// <param name="localFilePath"></param>
         /// <param name="remoteDirectory"></param>
-        public void Upload(string localFilePath, string remoteDirectory)
+        public void Upload(List<string> localFiles, string remoteDirectory)
         {
-            string fileBaseName = Path.GetFileName(localFilePath);
-            string remoteFilePath = string.Format("{0}/{1}", remoteDirectory, fileBaseName);
-            using (FileStream fileStream = File.Open(localFilePath, FileMode.Open))
+            using (var client = new SftpClient(host, port, login, password))
             {
-                using (var client = new SftpClient(host, port, login, password))
+                client.Connect();
+                foreach (string localFilePath in localFiles)
                 {
-                    client.Connect();
-                    client.UploadFile(fileStream, remoteFilePath);
+                    string fileBaseName = Path.GetFileName(localFilePath);
+                    string remoteFilePath = string.Format("{0}/{1}", remoteDirectory, fileBaseName);
+                    using (FileStream fileStream = File.Open(localFilePath, FileMode.Open))
+                    {
+                        client.UploadFile(fileStream, remoteFilePath);
+                    }
                 }
+                client.Disconnect();
             }
         }
 

@@ -25,7 +25,8 @@ namespace CYO.Tests
         {
             string filePath = Path.Combine(Directory.GetCurrentDirectory(), "SFTP_Test_File.txt");
             CYOSFTPClient client = new CYOSFTPClient(host, port, login, password);
-            Assert.DoesNotThrow(() => client.Upload(filePath, remoteUploadDir));
+            List<string> localFiles = new List<string>() { filePath };
+            Assert.DoesNotThrow(() => client.Upload(localFiles, remoteUploadDir));
         }
 
         [Test]
