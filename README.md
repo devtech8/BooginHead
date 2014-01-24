@@ -35,12 +35,12 @@ daily job that cleans up the old CYO upload and proof files. The job will
 run hourly (every 3600 seconds) and will delete files from App_Data/cyo/proofs
 and App_Data/cyo/uploads that are more than 24 hours old.
 
-<code language="sql">
+```sql
 
 insert into ScheduleTask (Name, Seconds, Type, Enabled, StopOnError, LastStartUTC, LastEndUTC, LastSuccessUTC)
 values ('Clean up CYO files', 3600, 'Nop.Web.Models.Custom.CYOScheduledTask, Nop.Web', 1, 0, null, null, null)
 
-</code>
+```
 
 # Notes...
 
