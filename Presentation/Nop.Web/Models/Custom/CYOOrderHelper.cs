@@ -36,7 +36,7 @@ namespace Nop.Web.Models.Custom
             {ShippingMethod.FEDEX_STANDARD_OVERNIGHT, "4000" }
         };
 
-        private static readonly string DATE_FORMAT = "yyyyMMdd";
+        public static readonly string DATE_FORMAT = "yyyyMMdd";
 
         # endregion
 
