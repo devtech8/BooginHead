@@ -27,13 +27,16 @@ namespace Nop.Web.Models.Custom
         public static readonly string ADDRESS_QUALIFIER = "STBP";
         public static readonly string SALES_UNIT = "EA";
         
+        /// <summary>
+        /// This maps Booginhead shipping options to PRIDE shipping codes.
+        /// </summary>
         public static readonly Dictionary<ShippingMethod, string> SHIPPING_METHOD_CODES = new Dictionary<ShippingMethod, string>()
         {
-            {ShippingMethod.USPS, "904" },
-            {ShippingMethod.FEDEX_2DAY, "1000" },
-            {ShippingMethod.FEDEX_GROUND, "2000" },
-            {ShippingMethod.FEDEX_PRIORITY_OVERNIGHT, "3000" },
-            {ShippingMethod.FEDEX_STANDARD_OVERNIGHT, "4000" }
+            {ShippingMethod.USPS, "L12" },
+            {ShippingMethod.FEDEX_2DAY, "904" },
+            {ShippingMethod.FEDEX_GROUND, "907" },
+            {ShippingMethod.FEDEX_PRIORITY_OVERNIGHT, "902" },
+            {ShippingMethod.FEDEX_STANDARD_OVERNIGHT, "903" }
         };
 
         public static readonly string DATE_FORMAT = "yyyyMMdd";
@@ -331,7 +334,7 @@ namespace Nop.Web.Models.Custom
 
             AddBlanks(fields, 33);
 
-            fields.Add(BUY_FROM_BUSINESS_PARTNER);
+            fields.Add(SHIP_FROM_WAREHOUSE);
 
             AddBlanks(fields, 27);
 

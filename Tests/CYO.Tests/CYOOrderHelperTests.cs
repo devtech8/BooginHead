@@ -8,6 +8,27 @@ namespace CYO.Tests
     public class CYOOrderHelperTests
     {
         [Test]
+        public void ShippingCode_Test()
+        {
+            CYOOrderHelper orderHelper = new CYOOrderHelper();
+            
+            orderHelper.ShippingMethod = ShippingMethod.FEDEX_2DAY;
+            Assert.IsTrue(orderHelper.LineSA2().Contains("|904|"));
+
+            orderHelper.ShippingMethod = ShippingMethod.FEDEX_GROUND;
+            Assert.IsTrue(orderHelper.LineSA2().Contains("|907|"));
+
+            orderHelper.ShippingMethod = ShippingMethod.FEDEX_PRIORITY_OVERNIGHT;
+            Assert.IsTrue(orderHelper.LineSA2().Contains("|902|"));
+
+            orderHelper.ShippingMethod = ShippingMethod.FEDEX_STANDARD_OVERNIGHT;
+            Assert.IsTrue(orderHelper.LineSA2().Contains("|903|"));
+
+            orderHelper.ShippingMethod = ShippingMethod.USPS;
+            Assert.IsTrue(orderHelper.LineSA2().Contains("|L12|"));
+        }
+        
+        [Test]
         public void GetFormattedOrder_Test()
         {
             CYOOrderHelper orderHelper = new CYOOrderHelper();
@@ -43,13 +64,13 @@ namespace CYO.Tests
         }
 
         public string ExpectedOutput = string.Format(@"SA1|BOO100000999|BOO007324|100001803|ORD001|BEMIS|ORD001||{0}|||test message|SA1_END
-SA2|BOO100000999|BOO007324|100001803|{0}|{0}|{0}|100001803|||||904|||||||||USD||||||BOO007324|||S78001|||WRV5|||||||||BOO007324|SA2_END
+SA2|BOO100000999|BOO007324|100001803|{0}|{0}|{0}|100001803|||||L12|||||||||USD||||||BOO007324|||S78001|||WRV5|||||||||BOO007324|SA2_END
 SA3|BOO100000999|BOO007324|100001803|STBP|USA|Springfield Toys|Edna Krabapple|501 Main St.|Suite E|||95114|OR||||||||Springfield|Springfield||SA3_END
-SA5|BOO100000999|BOO007324|100001803|1|1|||Part1|||10|{0}|{0}|{0}|EA||EA||||||||||||||||||||||||||||||||||S78001||||||||||||||||||||||||||||USA||USA|SA5_END
-SA5|BOO100000999|BOO007324|100001803|2|2|||Part2|||20|{0}|{0}|{0}|EA||EA||||||||||||||||||||||||||||||||||S78001||||||||||||||||||||||||||||USA||USA|SA5_END
-SA5|BOO100000999|BOO007324|100001803|3|3|||Part3|||30|{0}|{0}|{0}|EA||EA||||||||||||||||||||||||||||||||||S78001||||||||||||||||||||||||||||USA||USA|SA5_END
-SA5|BOO100000999|BOO007324|100001803|4|4|||Part4|||40|{0}|{0}|{0}|EA||EA||||||||||||||||||||||||||||||||||S78001||||||||||||||||||||||||||||USA||USA|SA5_END
-SA5|BOO100000999|BOO007324|100001803|5|5|||Part5|||50|{0}|{0}|{0}|EA||EA||||||||||||||||||||||||||||||||||S78001||||||||||||||||||||||||||||USA||USA|SA5_END", 
+SA5|BOO100000999|BOO007324|100001803|1|1|||Part1|||10|{0}|{0}|{0}|EA||EA||||||||||||||||||||||||||||||||||WRV5||||||||||||||||||||||||||||USA||USA|SA5_END
+SA5|BOO100000999|BOO007324|100001803|2|2|||Part2|||20|{0}|{0}|{0}|EA||EA||||||||||||||||||||||||||||||||||WRV5||||||||||||||||||||||||||||USA||USA|SA5_END
+SA5|BOO100000999|BOO007324|100001803|3|3|||Part3|||30|{0}|{0}|{0}|EA||EA||||||||||||||||||||||||||||||||||WRV5||||||||||||||||||||||||||||USA||USA|SA5_END
+SA5|BOO100000999|BOO007324|100001803|4|4|||Part4|||40|{0}|{0}|{0}|EA||EA||||||||||||||||||||||||||||||||||WRV5||||||||||||||||||||||||||||USA||USA|SA5_END
+SA5|BOO100000999|BOO007324|100001803|5|5|||Part5|||50|{0}|{0}|{0}|EA||EA||||||||||||||||||||||||||||||||||WRV5||||||||||||||||||||||||||||USA||USA|SA5_END", 
                                        DateTime.Now.ToString(CYOOrderHelper.DATE_FORMAT));
     }
 }
