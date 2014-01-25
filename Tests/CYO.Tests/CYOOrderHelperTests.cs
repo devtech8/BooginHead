@@ -25,7 +25,7 @@ namespace CYO.Tests
             Assert.IsTrue(orderHelper.LineSA2().Contains("|903|"));
 
             orderHelper.ShippingMethod = ShippingMethod.USPS;
-            Assert.IsTrue(orderHelper.LineSA2().Contains("|L12|"));
+            Assert.IsTrue(orderHelper.LineSA2().Contains("|L13|"));
         }
         
         [Test]
@@ -64,7 +64,7 @@ namespace CYO.Tests
         }
 
         public string ExpectedOutput = string.Format(@"SA1|BOO100000999|BOO007324|100001803|ORD001|BEMIS|ORD001||{0}|||test message|SA1_END
-SA2|BOO100000999|BOO007324|100001803|{0}|{0}|{0}|100001803|||||L12|||||||||USD||||||BOO007324|||S78001|||WRV5|||||||||BOO007324|SA2_END
+SA2|BOO100000999|BOO007324|100001803|{0}|{0}|{0}|100001803|||||L13|||||||||USD||||||BOO007324|||S78001|||WRV5|||||||||BOO007324|SA2_END
 SA3|BOO100000999|BOO007324|100001803|STBP|USA|Springfield Toys|Edna Krabapple|501 Main St.|Suite E|||95114|OR||||||||Springfield|Springfield||SA3_END
 SA5|BOO100000999|BOO007324|100001803|1|1|||Part1|||10|{0}|{0}|{0}|EA||EA||||||||||||||||||||||||||||||||||WRV5||||||||||||||||||||||||||||USA||USA|SA5_END
 SA5|BOO100000999|BOO007324|100001803|2|2|||Part2|||20|{0}|{0}|{0}|EA||EA||||||||||||||||||||||||||||||||||WRV5||||||||||||||||||||||||||||USA||USA|SA5_END

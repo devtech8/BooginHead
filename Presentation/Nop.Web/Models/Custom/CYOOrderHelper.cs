@@ -32,7 +32,7 @@ namespace Nop.Web.Models.Custom
         /// </summary>
         public static readonly Dictionary<ShippingMethod, string> SHIPPING_METHOD_CODES = new Dictionary<ShippingMethod, string>()
         {
-            {ShippingMethod.USPS, "L12" },
+            {ShippingMethod.USPS, "L13" },
             {ShippingMethod.FEDEX_2DAY, "904" },
             {ShippingMethod.FEDEX_GROUND, "907" },
             {ShippingMethod.FEDEX_PRIORITY_OVERNIGHT, "902" },
