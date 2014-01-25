@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CYOOrderHelperTests.cs" />
+    <Compile Include="CYOPDFHelperTests.cs" />
     <Compile Include="CYOSFTPClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -57,13 +58,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="SFTP_Test_File.txt" />
+    <Content Include="UnitTest.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(ProjectDir)\SFTP_Test_File.txt $(TargetDir)\SFTP_Test_File.txt</PostBuildEvent>
+    <PostBuildEvent>copy $(ProjectDir)\SFTP_Test_File.txt $(TargetDir)\SFTP_Test_File.txt
+copy $(SolutionDir)\Presentation\Nop.Web\App_Data\cyo\pdf_templates\*.pdf $(TargetDir)\
+copy $(ProjectDir)\UnitTest.png $(TargetDir)\UnitTest.png</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
