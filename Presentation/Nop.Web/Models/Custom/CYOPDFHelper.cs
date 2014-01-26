@@ -117,25 +117,71 @@ namespace Nop.Web.Models.Custom
             }
         }
 
-        private byte[] MergePages(List<byte[]> pages)
+
+        /// <summary>
+        /// Merges pdf files from a list of byte arrays. Each byte array
+        /// is a full PDF document in pure binary form. When merging
+        /// documents that have annotations and certain types of form
+        /// fields, a simple merge using the standard PdfCopy object
+        /// loses all of the image data on all pages after Page 1. 
+        /// This code handles that issue by using PdfSmartCopy and PdfStamper, 
+        /// explicitly copying in all of the fields from the pages it imports. 
+        /// 
+        /// This code came from here:
+        /// http://stackoverflow.com/questions/15521972/pdf-merging-by-itextsharp
+        /// </summary>
+        /// <param name="pages">list of files to merge</param>
+        /// <returns>byte array containing combined pdf</returns>
+        public byte[] MergePages(List<byte[]> pages)
         {
             byte[] pdfData = null;
-            PdfReader pdfReader = new PdfReader(pages[0]);
-            Document newDocument = new Document(pdfReader.GetPageSizeWithRotation(1));
-            using (var memStream = new MemoryStream())
+
+            string[] names;
+            PdfStamper stamper;
+            MemoryStream msTemp = null;
+            PdfReader pdfTemplate = null;
+            PdfReader pdfFile;
+            Document doc;
+            PdfWriter pCopy;
+            MemoryStream msOutput = new MemoryStream();
+
+            pdfFile = new PdfReader(pages[0]);
+
+            doc = new Document();
+            pCopy = new PdfSmartCopy(doc, msOutput);
+            pCopy.PdfVersion = PdfWriter.VERSION_1_7;
+
+            doc.Open();
+
+            for (int k = 0; k < pages.Count; k++)
             {
-                PdfCopy copier = new PdfCopy(newDocument, memStream);
-                newDocument.Open();
-                for (int i = 0; i < pages.Count; i++)
+                for (int i = 1; i < pdfFile.NumberOfPages + 1; i++)
                 {
-                    PdfReader tempReader = new PdfReader(pages[i]);
-                    copier.AddPage(copier.GetImportedPage(tempReader, 1));
-                    tempReader.Close();
+                    msTemp = new MemoryStream();
+                    pdfTemplate = new PdfReader(pages[k]);
+
+                    stamper = new PdfStamper(pdfTemplate, msTemp);
+
+                    names = new string[stamper.AcroFields.Fields.Keys.Count];
+                    stamper.AcroFields.Fields.Keys.CopyTo(names, 0);
+                    foreach (string name in names)
+                    {
+                        stamper.AcroFields.RenameField(name, name + "_file" + k.ToString());
+                    }
+
+                    stamper.Close();
+                    pdfFile = new PdfReader(msTemp.ToArray());
+                    ((PdfSmartCopy)pCopy).AddPage(pCopy.GetImportedPage(pdfFile, i));
+                    pCopy.FreeReader(pdfFile);
                 }
-                newDocument.Close();
-                pdfData = memStream.ToArray();
             }
-            pdfReader.Close();
+
+            pdfFile.Close();
+            pCopy.Close();
+            doc.Close();
+
+            pdfData = msOutput.ToArray();
+            msOutput.Close();
             return pdfData;
         }
 
@@ -152,7 +198,8 @@ namespace Nop.Web.Models.Custom
             lastItemPrinted = Math.Min(itemIndex + maxItemsPerPage, Items.Count);
             bool thisIsTheLastPage = (lastItemPrinted == Items.Count);
 
-            using (PdfStamper pdfStamper = new PdfStamper(new PdfReader(template), memStream))
+            PdfReader pdfReader = new PdfReader(template);
+            using (PdfStamper pdfStamper = new PdfStamper(pdfReader, memStream))
             {
                 CreateOrderHeader(pdfStamper);
                 for (int i = itemIndex; i < lastItemPrinted; i++)
@@ -160,8 +207,9 @@ namespace Nop.Web.Models.Custom
                 if (thisIsTheLastPage)
                     CreateOrderTotals(pdfStamper);
                 pdfStamper.FormFlattening = true;
+                pdfStamper.Close();
             }
-
+            pdfReader.Close();
             byte[] pdfData = memStream.ToArray();
             memStream.Close();
             return pdfData;
@@ -184,16 +232,16 @@ namespace Nop.Web.Models.Custom
 
             if (item.Image != null)
             {
-                //pdfStamper.AcroFields.SetField(string.Format("ImageRow{0}", lineNumber), "");
                 string fieldName = string.Format("ImageRow{0}", lineNumber);
                 AcroFields.FieldPosition fieldPosition = pdfStamper.AcroFields.GetFieldPositions(fieldName)[0];
 
+                // Be sure to scale this down!
+                item.Image.ScaleAbsolute(fieldPosition.position.Width, fieldPosition.position.Height);
+
                 PushbuttonField imageField = new PushbuttonField(pdfStamper.Writer, fieldPosition.position, fieldName);
-                imageField.Layout = PushbuttonField.LAYOUT_ICON_ONLY;
+                imageField.Layout = PushbuttonField.LAYOUT_ICON_ONLY; 
                 imageField.Image = item.Image;
-                imageField.ScaleIcon = PushbuttonField.SCALE_ICON_ALWAYS;
-                imageField.ProportionalIcon = false;
-                imageField.Options = BaseField.READ_ONLY;
+                imageField.Options = BaseField.READ_ONLY; 
                 
                 pdfStamper.AcroFields.RemoveField(fieldName);
                 pdfStamper.AddAnnotation(imageField.Field, fieldPosition.page);
