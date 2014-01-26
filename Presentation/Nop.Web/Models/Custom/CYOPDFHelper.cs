@@ -77,8 +77,8 @@ namespace Nop.Web.Models.Custom
         /// </summary>
         public double Total { get; set; }
 
-
-        private bool finished = false;
+        
+        private int lastItemPrinted = 0;
 
         public CYOPDFHelper()
         {
@@ -95,20 +95,48 @@ namespace Nop.Web.Models.Custom
 
         public void CreatePackingSlip(string outputFilePath)
         {
-            finished = false;
-            // TODO: Handle multiple pages
-            byte[] pdf = CreatePage(0);
+            lastItemPrinted = 0;
+            List<byte[]> pages = new List<byte[]>();
+            while(lastItemPrinted < Items.Count)
+                pages.Add(CreatePage(lastItemPrinted));
+            byte[] pdfData = null;
+            if (Items.Count <= SINGLE_ORDER_TEMPLATE_MAX_ITEMS)
+                pdfData = pages[0];
+            else
+                pdfData = MergePages(pages);
             FileStream output = null;
             try 
             {
                 output = File.Open(outputFilePath, FileMode.Create);
-                output.Write(pdf, 0, pdf.Length);               
+                output.Write(pdfData, 0, pdfData.Length);               
             }
             finally
             {
                 if (output != null)
                     output.Close();
             }
+        }
+
+        private byte[] MergePages(List<byte[]> pages)
+        {
+            byte[] pdfData = null;
+            PdfReader pdfReader = new PdfReader(pages[0]);
+            Document newDocument = new Document(pdfReader.GetPageSizeWithRotation(1));
+            using (var memStream = new MemoryStream())
+            {
+                PdfCopy copier = new PdfCopy(newDocument, memStream);
+                newDocument.Open();
+                for (int i = 0; i < pages.Count; i++)
+                {
+                    PdfReader tempReader = new PdfReader(pages[i]);
+                    copier.AddPage(copier.GetImportedPage(tempReader, 1));
+                    tempReader.Close();
+                }
+                newDocument.Close();
+                pdfData = memStream.ToArray();
+            }
+            pdfReader.Close();
+            return pdfData;
         }
 
         private byte[] CreatePage(int itemIndex)
@@ -121,20 +149,19 @@ namespace Nop.Web.Models.Custom
                 template = MultiPageOrderTemplate;
                 maxItemsPerPage = MULTI_ORDER_TEMPLATE_MAX_ITEMS;
             }
-            int stopAt = Math.Min(itemIndex + maxItemsPerPage, Items.Count);
-            bool thisIsTheLastPage = (stopAt == Items.Count);
+            lastItemPrinted = Math.Min(itemIndex + maxItemsPerPage, Items.Count);
+            bool thisIsTheLastPage = (lastItemPrinted == Items.Count);
 
             using (PdfStamper pdfStamper = new PdfStamper(new PdfReader(template), memStream))
             {
                 CreateOrderHeader(pdfStamper);
-                for (int i = itemIndex; i < stopAt; i++)
+                for (int i = itemIndex; i < lastItemPrinted; i++)
                     CreateLineItem(pdfStamper, i);
                 if (thisIsTheLastPage)
                     CreateOrderTotals(pdfStamper);
                 pdfStamper.FormFlattening = true;
             }
 
-            finished = thisIsTheLastPage;
             byte[] pdfData = memStream.ToArray();
             memStream.Close();
             return pdfData;
@@ -151,7 +178,7 @@ namespace Nop.Web.Models.Custom
 
         private void CreateLineItem(PdfStamper pdfStamper, int itemIndex)
         {
-            int lineNumber = itemIndex + 1;
+            int lineNumber = GetLineNumber(itemIndex);
             CYOOrderItem item = Items[itemIndex];
             pdfStamper.AcroFields.SetField(string.Format("ITEMRow{0}", lineNumber), item.ItemName);
 
@@ -178,6 +205,14 @@ namespace Nop.Web.Models.Custom
             pdfStamper.AcroFields.SetField(string.Format("TOTALRow{0}", lineNumber), item.Total.ToString("C2"));
         }
 
+
+        private int GetLineNumber(int itemIndex)
+        {
+            int lineNumber = itemIndex + 1;
+            if (itemIndex >= MULTI_ORDER_TEMPLATE_MAX_ITEMS)
+                lineNumber = (itemIndex % MULTI_ORDER_TEMPLATE_MAX_ITEMS) + 1;
+            return lineNumber;
+        }
 
         private void CreateOrderTotals(PdfStamper pdfStamper)
         {

@@ -51,7 +51,28 @@ namespace CYO.Tests
             pdfHelper.Tax = 2.38;
             pdfHelper.Total = 34.16;
             pdfHelper.Items = CreateItems(4);
-            pdfHelper.CreatePackingSlip(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SinglePage.pdf"));
+            string outputFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SinglePage.pdf");
+            pdfHelper.CreatePackingSlip(outputFile);
+            Console.WriteLine("Single page PDF written to " + outputFile);
+        }
+
+        [Test]
+        public void MultiPageTest()
+        {
+            CYOPDFHelper pdfHelper = new CYOPDFHelper(SinglePageTemplate, MultiPageTemplate);
+            pdfHelper.OrderDate = DateTime.Now.ToString("MM/dd/yyyy");
+            pdfHelper.OrderedBy = "Edna Krabapple" + Environment.NewLine + "1001 East 5th St." + Environment.NewLine + "Seattle, WA 98101";
+            pdfHelper.OrderNumber = "99000033";
+            pdfHelper.Shipping = 4.75;
+            pdfHelper.ShippingMethod = ShippingMethod.FEDEX_2DAY.ToString();
+            pdfHelper.ShipTo = "Seymour Skinner" + Environment.NewLine + "8301 53rd Ave NW" + Environment.NewLine + "Seattle, WA 98177";
+            pdfHelper.SubTotal = 31.78;
+            pdfHelper.Tax = 2.38;
+            pdfHelper.Total = 34.16;
+            pdfHelper.Items = CreateItems(40);
+            string outputFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MultiPage.pdf");
+            pdfHelper.CreatePackingSlip(outputFile);
+            Console.WriteLine("Multi page PDF written to " + outputFile);
         }
     }
 }
