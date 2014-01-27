@@ -45,7 +45,7 @@ namespace CYO.Tests
             pdfHelper.OrderedBy = "Jimi Hendrix" + Environment.NewLine + "1001 East 5th St." + Environment.NewLine + "Seattle, WA 98101";
             pdfHelper.OrderNumber = "99000011";
             pdfHelper.Shipping = 4.75;
-            pdfHelper.ShippingMethod = ShippingMethod.USPS.ToString();
+            pdfHelper.ShippingMethod = ShippingMethod.USPS;
             pdfHelper.ShipTo = "Bruce Lee" + Environment.NewLine + "8301 53rd Ave NW" + Environment.NewLine + "Seattle, WA 98177";
             pdfHelper.SubTotal = 31.78;
             pdfHelper.Tax = 2.38;
@@ -64,7 +64,7 @@ namespace CYO.Tests
             pdfHelper.OrderedBy = "Edna Krabapple" + Environment.NewLine + "1001 East 5th St." + Environment.NewLine + "Seattle, WA 98101";
             pdfHelper.OrderNumber = "99000033";
             pdfHelper.Shipping = 4.75;
-            pdfHelper.ShippingMethod = ShippingMethod.FEDEX_2DAY.ToString();
+            pdfHelper.ShippingMethod = ShippingMethod.FEDEX_STANDARD_OVERNIGHT;
             pdfHelper.ShipTo = "Seymour Skinner" + Environment.NewLine + "8301 53rd Ave NW" + Environment.NewLine + "Seattle, WA 98177";
             pdfHelper.SubTotal = 31.78;
             pdfHelper.Tax = 2.38;
