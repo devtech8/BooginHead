@@ -199,6 +199,8 @@ namespace Nop.Web.Models.Custom
             bool thisIsTheLastPage = (lastItemPrinted == Items.Count);
 
             PdfReader pdfReader = new PdfReader(template);
+            //foreach (string f in pdfReader.AcroFields.Fields.Keys)
+            //    Console.WriteLine(f);
             using (PdfStamper pdfStamper = new PdfStamper(pdfReader, memStream))
             {
                 CreateOrderHeader(pdfStamper);
@@ -206,6 +208,8 @@ namespace Nop.Web.Models.Custom
                     CreateLineItem(pdfStamper, i);
                 if (thisIsTheLastPage)
                     CreateOrderTotals(pdfStamper);
+                if (pdfStamper.AcroFields.Fields.ContainsKey("Barcode2"))
+                    AddBarcode(pdfStamper, "Barcode2");
                 pdfStamper.FormFlattening = true;
                 pdfStamper.Close();
             }
@@ -220,6 +224,7 @@ namespace Nop.Web.Models.Custom
             pdfStamper.AcroFields.SetField("Ordered By", this.OrderedBy);
             pdfStamper.AcroFields.SetField("Ship To", this.ShipTo);
             pdfStamper.AcroFields.SetField("Order Date", this.OrderDate);
+            pdfStamper.AcroFields.SetField("Shipping", this.ShippingMethod);
             pdfStamper.AcroFields.SetField("Order Number", this.OrderNumber);
             pdfStamper.AcroFields.SetField("number of items", this.Items.Count.ToString());
         }
@@ -268,9 +273,29 @@ namespace Nop.Web.Models.Custom
             pdfStamper.AcroFields.SetField("TOTALShipping", this.Shipping.ToString("C2"));
             pdfStamper.AcroFields.SetField("TOTALTax", this.Tax.ToString("C2"));
             pdfStamper.AcroFields.SetField("TOTALTotal", this.Total.ToString("C2"));
+            if (pdfStamper.AcroFields.Fields.ContainsKey("Barcode3"))
+                AddBarcode(pdfStamper, "Barcode3");
         }
 
+        private void AddBarcode(PdfStamper pdfStamper, string fieldName)
+        {
+            Barcode39 barcode = new Barcode39();
+            barcode.Code = this.OrderNumber;
+            Image barcodeImage = barcode.CreateImageWithBarcode(pdfStamper.GetOverContent(1), null, BaseColor.BLACK);
+
+            AcroFields.FieldPosition fieldPosition = pdfStamper.AcroFields.GetFieldPositions(fieldName)[0];
+            PushbuttonField imageField = new PushbuttonField(pdfStamper.Writer, fieldPosition.position, fieldName);
+            imageField.Layout = PushbuttonField.LAYOUT_ICON_ONLY;
+            imageField.Image = barcodeImage;
+            imageField.Options = BaseField.READ_ONLY;
+
+            pdfStamper.AcroFields.RemoveField(fieldName);
+            pdfStamper.AddAnnotation(imageField.Field, fieldPosition.page);
+        }
+
+
     }
+
 
     public class CYOOrderItem
     {
