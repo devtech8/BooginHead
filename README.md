@@ -38,7 +38,7 @@ and App_Data/cyo/uploads that are more than 24 hours old.
 ```sql
 
 insert into ScheduleTask (Name, Seconds, Type, Enabled, StopOnError, LastStartUTC, LastEndUTC, LastSuccessUTC)
-values ('Clean up CYO files', 3600, 'Nop.Web.Models.Custom.CYOScheduledTask, Nop.Web', 1, 0, null, null, null)
+values ('Clean up CYO files', 3600, 'Nop.Web.Models.Custom.CYOImageCleanupTask, Nop.Web', 1, 0, null, null, null)
 
 ```
 

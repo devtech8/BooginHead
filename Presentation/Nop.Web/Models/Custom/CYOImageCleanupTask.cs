@@ -13,13 +13,16 @@ using Nop.Services.Tasks;
 namespace Nop.Web.Models.Custom
 {
     /*
+     * This class provides a method to clean up old uploads and proofs
+     * from the CYO tool.
+     * 
      * To run this every hour:
      * 
      * insert into ScheduleTask (Name, Seconds, Type, Enabled, StopOnError, LastStartUTC, LastEndUTC, LastSuccessUTC)
-     * values ('Clean up CYO files', 3600, 'Nop.Web.Models.Custom.CYOScheduledTask, Nop.Web', 1, 0, null, null, null)
+     * values ('Clean up CYO files', 3600, 'Nop.Web.Models.Custom.CYOImageCleanupTask, Nop.Web', 1, 0, null, null, null)
      * 
      */
-    public class CYOScheduledTask : ITask
+    public class CYOImageCleanupTask : ITask
     {
         private string _pathToAppData = null;
         private DateTime _tooOld = DateTime.MinValue;
@@ -34,7 +37,7 @@ namespace Nop.Web.Models.Custom
         /// maybe some other Nop namespaces?)
         /// </summary>
         /// <param name="webHelper"></param>
-        public CYOScheduledTask(IWebHelper webHelper)
+        public CYOImageCleanupTask(IWebHelper webHelper)
         {
             this._pathToAppData = webHelper.MapPath("~/App_Data/cyo");
             this._logger = EngineContext.Current.Resolve<ILogger>();
