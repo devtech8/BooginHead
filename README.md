@@ -29,14 +29,15 @@ under Presentation\Nop.Web\App_Data
 * The identity that your IIS application pool uses must have 
 read/write/list/create privileges on App_Data\cyo and all of
 its sub-directories.
+* You need to run the SQL commands below to set up the custom scheduled jobs
 
 Run the following commands against the SQL database. This will schedule the
 daily job that cleans up the old CYO upload and proof files. The job will
 run hourly (every 3600 seconds) and will delete files from App_Data/cyo/proofs
-and App_Data/cyo/uploads that are more than 24 hours old.
+and App_Data/cyo/uploads that are more than 72 hours old.
 
-The second job sends CYO order files to PRIDE every hour. We want that run as
-a scheduled job, so it can re-send any files that might have failed.
+The second job sends CYO order files to PRIDE every 20 minutes. We want that 
+run as a scheduled job, so it can re-send any files that might have failed.
 
 ```sql
 
@@ -44,7 +45,7 @@ insert into ScheduleTask (Name, Seconds, Type, Enabled, StopOnError, LastStartUT
 values ('Clean up CYO files', 3600, 'Nop.Web.Models.Custom.CYOImageCleanupTask, Nop.Web', 1, 0, null, null, null)
 
 insert into ScheduleTask (Name, Seconds, Type, Enabled, StopOnError, LastStartUTC, LastEndUTC, LastSuccessUTC)
-values ('Send CYO orders to PRIDE', 3600, 'Nop.Web.Models.Custom.CYOFileTransferTask, Nop.Web', 1, 0, null, null, null)
+values ('Send CYO orders to PRIDE', 1200, 'Nop.Web.Models.Custom.CYOFileTransferTask, Nop.Web', 1, 0, null, null, null)
 
 ```
 
@@ -56,3 +57,4 @@ DB connection is stored in AppData/Settings.txt
 
 Uploaded files are stored in App_Data/cyo/uploads
 
+TODO: Scheduled task CYOImageCleanupTask should not delete proofs that are in a shopping cart!

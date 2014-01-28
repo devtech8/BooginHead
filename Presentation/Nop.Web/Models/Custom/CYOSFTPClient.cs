@@ -15,7 +15,6 @@ namespace Nop.Web.Models.Custom
         private int port = 22;
         private string login = null;
         private string password = null;
-        private ILogger logger = null;
 
 
         /// <summary>
@@ -32,8 +31,6 @@ namespace Nop.Web.Models.Custom
             this.port = port;
             this.login = login;
             this.password = password;
-            try { logger = EngineContext.Current.Resolve<ILogger>(); }
-            catch (Exception) { /* EngineContext not available when running NUnit tests */ }
         }
 
 
@@ -43,11 +40,10 @@ namespace Nop.Web.Models.Custom
         /// </summary>
         /// <param name="localFilePath"></param>
         /// <param name="remoteDirectory"></param>
-        /// <returns>The number of files successfully uploaded.</returns>
-        public int Upload(List<string> localFiles, string remoteDirectory)
+        /// <returns>An SftpResult object describing what what uploaded and what was not.</returns>
+        public SftpResult Upload(IEnumerable<string> localFiles, string remoteDirectory)
         {
-            // TODO: Add a completion callback that removes sent files from a queue
-            int filesUploaded = 0;
+            SftpResult result = new SftpResult();
             using (var client = new SftpClient(host, port, login, password))
             {
                 client.Connect();
@@ -60,22 +56,17 @@ namespace Nop.Web.Models.Custom
                         try
                         {
                             client.UploadFile(fileStream, remoteFilePath);
-                            string message = string.Format("Uploaded file {0}", localFilePath);
-                            if (logger != null)
-                                logger.InsertLog(LogLevel.Information, "SFTP Uploaded Succeeded", message, null);
-                            filesUploaded++;
+                            result.FilesSent.Add(localFilePath);
                         }
                         catch (Exception ex)
                         {
-                            string message = string.Format("Failed file: {0}. Error: {1}", localFilePath, ex.Message);
-                            if (logger != null)
-                                logger.InsertLog(LogLevel.Error, "SFTP Upload Failed", message, null);
+                            result.FilesNotSent[localFilePath] = ex.Message;
                         }
                     }
                 }
                 client.Disconnect();
             }
-            return filesUploaded;
+            return result;
         }
 
         public IEnumerable<SftpFile> ListDirectory(string remotePath)
@@ -91,4 +82,29 @@ namespace Nop.Web.Models.Custom
         }
     }
 
+    public class SftpResult
+    {
+        /// <summary>
+        /// Contains a list of files that were successfully uploaded
+        /// to the remote SFTP server.
+        /// </summary>
+        public List<string> FilesSent;
+
+        /// <summary>
+        /// Contains entries for files that were not sent to the remote
+        /// SFTP server. The key is the filename, the value is the exception
+        /// message describing why the file was not sent.
+        /// </summary>
+        public Dictionary<string, string> FilesNotSent;
+
+        /// <summary>
+        /// Contains information about the result of an SFTP
+        /// upload operation.
+        /// </summary>
+        public SftpResult() 
+        {
+            this.FilesSent = new List<string>();
+            this.FilesNotSent = new Dictionary<string, string>();
+        }
+    }
 }
