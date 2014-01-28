@@ -30,15 +30,21 @@ under Presentation\Nop.Web\App_Data
 read/write/list/create privileges on App_Data\cyo and all of
 its sub-directories.
 
-Run the following command against the SQL database. This will schedule the
+Run the following commands against the SQL database. This will schedule the
 daily job that cleans up the old CYO upload and proof files. The job will
 run hourly (every 3600 seconds) and will delete files from App_Data/cyo/proofs
 and App_Data/cyo/uploads that are more than 24 hours old.
+
+The second job sends CYO order files to PRIDE every hour. We want that run as
+a scheduled job, so it can re-send any files that might have failed.
 
 ```sql
 
 insert into ScheduleTask (Name, Seconds, Type, Enabled, StopOnError, LastStartUTC, LastEndUTC, LastSuccessUTC)
 values ('Clean up CYO files', 3600, 'Nop.Web.Models.Custom.CYOImageCleanupTask, Nop.Web', 1, 0, null, null, null)
+
+insert into ScheduleTask (Name, Seconds, Type, Enabled, StopOnError, LastStartUTC, LastEndUTC, LastSuccessUTC)
+values ('Send CYO orders to PRIDE', 3600, 'Nop.Web.Models.Custom.CYOFileTransferTask, Nop.Web', 1, 0, null, null, null)
 
 ```
 

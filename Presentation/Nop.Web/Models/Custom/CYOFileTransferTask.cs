@@ -31,7 +31,6 @@ namespace Nop.Web.Models.Custom
 
         private ILogger _logger = null;
         private string _pathToAppData = null;
-        private string _pathToWebConfig = null;
         private string _unsentOrdersDir = null;
         private string _sentOrdersDir = null;
         private string _sftpLogin = null;
@@ -43,9 +42,7 @@ namespace Nop.Web.Models.Custom
         public CYOFileTransferTask(IWebHelper webHelper)
         {
             this._logger = EngineContext.Current.Resolve<ILogger>();
-            this._pathToAppData = webHelper.MapPath("~/App_Data/cyo");
-            
-            this._pathToWebConfig = Path.Combine(Path.GetDirectoryName(webHelper.MapPath("~/Web.config")), "Web.config");  
+            this._pathToAppData = webHelper.MapPath("~/App_Data/cyo");            
         }
 
         void ITask.Execute()
@@ -91,7 +88,7 @@ namespace Nop.Web.Models.Custom
             }
             try
             {
-                Configuration config = WebConfigurationManager.OpenWebConfiguration(this._pathToWebConfig);
+                Configuration config = WebConfigurationManager.OpenWebConfiguration("~/Web.config");
                 this._sftpHost = (string)config.AppSettings.Settings["PRIDE_SFTP_HOST"].Value;
                 this._sftpLogin = (string)config.AppSettings.Settings["PRIDE_SFTP_LOGIN"].Value;
                 this._sftpPassword = (string)config.AppSettings.Settings["PRIDE_SFTP_PASSWORD"].Value;
