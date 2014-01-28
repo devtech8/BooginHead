@@ -75,6 +75,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\FluentValidation.MVC4.4.0.0.1\lib\Net40\FluentValidation.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp, Version=5.4.5.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\iTextSharp.5.4.5\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -89,6 +93,9 @@
     </Reference>
     <Reference Include="Recaptcha">
       <HintPath>..\..\packages\recaptcha.1.0.5.0\lib\.NetFramework 4.0\Recaptcha.dll</HintPath>
+    </Reference>
+    <Reference Include="Renci.SshNet">
+      <HintPath>..\..\packages\SSH.NET.2013.4.7\lib\net40\Renci.SshNet.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
@@ -280,9 +287,13 @@
     <Compile Include="Models\Customer\CustomerForumSubscriptionsModel.cs" />
     <Compile Include="Models\Customer\ForumSubscriptionModel.cs" />
     <Compile Include="Models\Customer\ExternalAuthenticationMethodModel.cs" />
+    <Compile Include="Models\Custom\CYOFileTransferTask.cs" />
     <Compile Include="Models\Custom\CYOImageHelper.cs" />
     <Compile Include="Models\Custom\CYOModel.cs" />
     <Compile Include="Models\Custom\CYOOrderHelper.cs" />
+    <Compile Include="Models\Custom\CYOPDFHelper.cs" />
+    <Compile Include="Models\Custom\CYOImageCleanupTask.cs" />
+    <Compile Include="Models\Custom\CYOSFTPClient.cs" />
     <Compile Include="Models\Install\InstallModel.cs" />
     <Compile Include="Models\Cms\RenderWidgetModel.cs" />
     <Compile Include="Models\News\AddNewsCommentModel.cs" />
@@ -1894,7 +1905,8 @@
     <Content Include="Views\Shared\_Notifications.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\cyo\orders\" />
+    <Folder Include="App_Data\cyo\orders_sent\" />
+    <Folder Include="App_Data\cyo\orders_unsent\" />
     <Folder Include="App_Data\cyo\proofs\" />
     <Folder Include="App_Data\cyo\uploads\" />
     <Folder Include="Plugins\bin\" />
@@ -1991,6 +2003,8 @@
     <Content Include="App_Data\cyo\fonts\TitiliumWeb-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\Ultra-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\VerelaRound-Regular.ttf" />
+    <Content Include="App_Data\cyo\pdf_templates\BH_MultiPGPackingSlip_editable.pdf" />
+    <Content Include="App_Data\cyo\pdf_templates\BH_Packing Slip_editable.pdf" />
     <None Include="App_Data\Resources.xsd">
       <SubType>Designer</SubType>
     </None>
