@@ -1,0 +1,8 @@
+﻿Group: Widgets
+FriendlyName: Google Maps
+SystemName: Widgets.GoogleMaps
+Version: 1.00
+SupportedVersions: 3.10
+Author: César Castro
+DisplayOrder: 1
+FileName: Nop.Plugin.Widgets.GoogleMaps.dll

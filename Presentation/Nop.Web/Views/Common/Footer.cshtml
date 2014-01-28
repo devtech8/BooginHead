@@ -2,17 +2,45 @@
 @using Nop.Web.Models.Common;
 
 <div class="footer">
-    <div class="footer-poweredby">
-        Powered by <a href="http://www.nopcommerce.com/">nopCommerce</a>
-        @*Would you like to remove the "Powered by nopCommerce" link in the bottom of the footer?
-            Find more info here http://www.nopcommerce.com/copyrightremoval.aspx*@
+    <div class="footerUpper">
+        <span class="socialLinks">
+            <a href="https://www.facebook.com/BooginHead"><img src="~/Themes/BH/Content/images/client/icons/Facebook.png" alt="Facebook" /></a>
+            <a href="http://www.pinterest.com/booginhead/"><img src="~/Themes/BH/Content/images/client/icons/Pinterest.png" alt="Pinterest" /></a>
+            <a href="https://twitter.com/BooginHead"><img src="~/Themes/BH/Content/images/client/icons/Twitter.png" alt="Twitter" /></a>
+        </span>
+        <span class="footerLinks">
+            <a href="#">Home</a>
+            ::
+            <a href="#">Products</a>
+            ::
+            <a href="#">Find a Store</a>
+            ::
+            <a href="#">Press</a>
+            ::
+            <a href="#">Blog</a>
+            ::
+            <a href="#">About</a>
+            ::
+            <a href="#">Contact Us</a>
+            ::
+            <a href="#">View Cart</a>
+        </span>
     </div>
-    <div class="footer-disclaimer">
-        @T("Content.CopyrightNotice", DateTime.Now.Year.ToString(), Model.StoreName)
+    <div class="footerLower">
+        <span class="footer-disclaimer">
+            @T("Content.CopyrightNotice", DateTime.Now.Year.ToString(), Model.StoreName)
+        </span>
+        <span class="footer-poweredby">
+            Powered by <a href="http://www.nopcommerce.com/">nopCommerce</a>
+            @*Would you like to remove the "Powered by nopCommerce" link in the bottom of the footer?
+                Find more info here http://www.nopcommerce.com/copyrightremoval.aspx*@
+        </span>
     </div>
+    @*<span><img src="~/Themes/BH/Content/images/client/home/StitchOnlyDarkBottom.png" /></span>*@
     <div class="footer-store-theme">
         @Html.Action("StoreThemeSelector", "Common")
     </div>
     @Html.Action("ChangeDeviceBlock", "Common")
     @Html.Widget("footer")
 </div>
+

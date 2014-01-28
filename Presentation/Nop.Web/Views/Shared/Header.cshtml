@@ -1,4 +1,7 @@
-﻿<div class="header">
+﻿<link href="/Themes/BH/Content/header.css" rel="stylesheet" type="text/css" />
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+<div class="header">
     @Html.Widget("header")
     <div class="header-logo">
         <a href="@Url.RouteUrl("HomePage")" class="logo">&nbsp; </a>
@@ -9,17 +12,5 @@
     </div>
     <div class="search-box">
         @Html.Action("SearchBox", "Catalog")
-    </div>
-    <div class="header-selectors-wrapper">
-        <div class="tax-display-type-selector">
-            @Html.Action("TaxTypeSelector", "Common")
-        </div>
-        <div class="currency-selector">
-            @Html.Action("CurrencySelector", "Common")
-        </div>
-        <div class="language-selector">
-            @Html.Action("LanguageSelector", "Common")
-        </div>
-        @Html.Widget("header_selectors")
     </div>
 </div>
