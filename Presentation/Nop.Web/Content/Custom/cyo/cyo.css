@@ -23,6 +23,13 @@
     margin-left: 20px;
 }
 
+#cyoDefaultProofMessage {
+    width: 65%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
 #cyoRecentDesigns {
     width: 460px;
     font-size: 10pt;

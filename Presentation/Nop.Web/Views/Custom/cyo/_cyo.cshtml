@@ -324,7 +324,13 @@
         <div id="cyoModalProof" title="Your Custom Pacifier">
             <div id="cyoProofImageContainer"></div>
             <div id="cyoProofErrorMessage"></div>
-            <p id="cyoDefaultProofMessage">This is what your pacifier will look like.</p>
+            <div id="cyoDefaultProofMessage">
+                <p>This is what your pacifier will look like.</p>
+                <input type="checkbox" name="cyoApproveProof" id="cyoApproveProof" value="true" />
+                <label for="cyoApproveProof">I approve the proof.</label> <br />
+                <input type="checkbox" name="cyoProofNotCopyrighted" id="cyoProofNotCopyrighted" value="true" />
+                <label for="cyoProofNotCopyrighted">This proof contains no copyrighted material.</label> <br />
+            </div>
         </div>
 
         <h2 class="cyo-h2">Step 5: Approve Instant Proof</h2>
