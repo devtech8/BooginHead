@@ -21,17 +21,19 @@ namespace Nop.Web.Models.Custom
      * insert into ScheduleTask (Name, Seconds, Type, Enabled, StopOnError, LastStartUTC, LastEndUTC, LastSuccessUTC)
      * values ('Clean up CYO files', 3600, 'Nop.Web.Models.Custom.CYOImageCleanupTask, Nop.Web', 1, 0, null, null, null)
      * 
+     * TODO: Don't delete proofs that are in a shopping cart!
+     * 
      */
     public class CYOImageCleanupTask : ITask
     {
         private string _pathToAppData = null;
         private DateTime _tooOld = DateTime.MinValue;
         private ILogger _logger = null;
-        private int _maxAgeInHours = 24;
+        private int _maxAgeInHours = 72;
 
         /// <summary>
         /// Scheduled task to clean up the uploads and proofs
-        /// directories under App_Data every 24 hours. 
+        /// directories under App_Data. 
         /// NopCommerce seems to be able to figure out constructor
         /// params that implement an interface from Nop.Core (and
         /// maybe some other Nop namespaces?)
