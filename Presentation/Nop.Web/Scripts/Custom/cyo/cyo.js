@@ -452,7 +452,28 @@
         proofModalProperties.height += 100;
         proofModalProperties.width += 150;
         proofModalProperties.position = { at: "center", of: window }
+        proofModalProperties.open = function (event, ui) {
+            // Make user explicitly approve each proof
+            var proofUrl = $('#cyoProofImageContainer img').attr("src");
+            if($("#cyoApprovedImages").val().indexOf(proofUrl) < 0)
+                $('.js-approval-checkbox').prop("checked", false);
+            else
+                $('.js-approval-checkbox').prop("checked", true);
+        }
         $("#cyoModalProof").dialog(modalProperties);
+
+        $(".js-approval-checkbox").change(function () {
+            var proofUrl = $('#cyoProofImageContainer img').attr("src");
+            var approvedProofs = $("#cyoApprovedImages").val();
+            if ($("#cyoApproveProof").prop("checked") && $("#cyoProofNotCopyrighted").prop("checked")) {
+                if ($("#cyoApprovedImages").val().indexOf(proofUrl) < 0)
+                    approvedProofs += '(' + proofUrl + ')';
+            }
+            else {
+                approvedProofs = approvedProofs.replace('(' + proofUrl + ')', '');
+            }
+            $("#cyoApprovedImages").val(approvedProofs);
+        });
 
         $('#btnShowModalUpload').click(function () {
             $("#cyoModalUpload").dialog("open");            
