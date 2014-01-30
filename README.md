@@ -16,6 +16,10 @@ The files for the custom CYO components are in these folders:
 * Presentation\Nop.Web\Scripts\Custom\cyo
 * Presentation\Nop.Web\Views\Custom\cyo
 
+There's also a custom view here:
+
+* Presentation\Nop.Web\Views\Catalog\CYO.cshtml
+
 (No configuration just yet ...)
 
 The CYOModel is NOT saved to the database! 
@@ -23,12 +27,29 @@ The CYOModel is NOT saved to the database!
 All of the data that the CYO tool saves goes into one of the directories
 under Presentation\Nop.Web\App_Data
 
+# CYO Special Handling
+
+The Product handler of the CatalogController has this special addition:
+
+```c#
+// Special shortcut for CYO
+if (product.ProductTags.Any() && product.ProductTags.First(t => t.Name == "CYO") != null)
+{
+	return View("CYO", model);
+}
+```
+
+The catalog must include a product with the tag "CYO". Currently, this is a product called
+"Custom Pacifier", with a generic image.
+
 # Deployment and Dependencies
 
 * You need to deploy only Presentation\Nop.Web\
 * The identity that your IIS application pool uses must have 
 read/write/list/create privileges on App_Data\cyo and all of
 its sub-directories.
+* The identity that your IIS application pool uses must have 
+read/write/list/create privileges on Booginhead\Presentation\Nop.Web\Content\images
 * You need to run the SQL commands below to set up the custom scheduled jobs
 
 Run the following commands against the SQL database. This will schedule the

@@ -1564,6 +1564,12 @@ namespace Nop.Web.Controllers
             //activity log
             _customerActivityService.InsertActivity("PublicStore.ViewProduct", _localizationService.GetResource("ActivityLog.PublicStore.ViewProduct"), product.Name);
 
+            // Special shortcut for CYO
+            if (product.ProductTags.Any() && product.ProductTags.First(t => t.Name == "CYO") != null)
+            {
+                return View("CYO", model);
+            }
+
             return View(model.ProductTemplateViewPath, model);
         }
 

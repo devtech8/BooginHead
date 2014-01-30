@@ -13,6 +13,7 @@
     AjaxOptions ajaxOptions = new AjaxOptions();
     ajaxOptions.HttpMethod = "Post";
     ajaxOptions.OnComplete = "cyoProofOnComplete"; // callback is defined in cyo.js
+    
 }
 
     <div id="cyoLeftColumn">
@@ -338,12 +339,19 @@
 
         <h2 class="cyo-h2">Step 6: Add to Cart!</h2>
         <div class="relative">
-        <p class="noapproval">Once your "Instant Proof" is approved, you will be able to add your design to the cart!</p>
-        <div class="info">
-            <p>
-                Price: <span class="price">$11.95</span><br>
-            </p>
-        </div>
+            <p class="noapproval">Once your "Instant Proof" is approved, you will be able to add your design to the cart!</p>
+
+            @{                     
+                    var dataDictPrice = new ViewDataDictionary();
+                    dataDictPrice.TemplateInfo.HtmlFieldPrefix = string.Format("price_{0}", Model.Id);
+                    @Html.Partial("_ProductPrice", (Nop.Web.Models.Catalog.ProductDetailsModel.ProductPriceModel)Model.ProductPrice, (ViewDataDictionary)dataDictPrice)
+                            
+                    Model.AddToCart.DisableWishlistButton = true;
+                    var dataDictAddToCart = new ViewDataDictionary();
+                    dataDictAddToCart.TemplateInfo.HtmlFieldPrefix = string.Format("addtocart_{0}", Model.Id);                    
+                    @Html.Partial("_AddToCart", (Nop.Web.Models.Catalog.ProductDetailsModel.AddToCartModel)Model.AddToCart, (ViewDataDictionary)dataDictAddToCart)                    
+             }
+
         </div>
 
         @using (Ajax.BeginForm("CreateProof", "CYO", ajaxOptions))
