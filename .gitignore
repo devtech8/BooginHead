@@ -6,6 +6,7 @@ Presentation/Nop.Web/App_Data/cyo/orders_sent/*.*
 Presentation/Nop.Web/App_Data/cyo/orders_unsent/*.*
 Presentation/Nop.Web/App_Data/cyo/proofs/*.*
 Presentation/Nop.Web/App_Data/cyo/uploads/*.*
+Presentation/Nop.Web/Content/Images
 
 
 ## Ignore Visual Studio temporary files, build results, and
