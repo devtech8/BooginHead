@@ -20,8 +20,6 @@ There's also a custom view here:
 
 * Presentation\Nop.Web\Views\Catalog\CYO.cshtml
 
-(No configuration just yet ...)
-
 The CYOModel is NOT saved to the database! 
 
 All of the data that the CYO tool saves goes into one of the directories
@@ -38,6 +36,14 @@ if (product.ProductTags.Any() && product.ProductTags.First(t => t.Name == "CYO")
 	return View("CYO", model);
 }
 ```
+
+And the shopping cart / order summary templates here have been modified to show 
+the custom pacifier that the user ordered:
+
+* Presentation\Nop.Web\Themes\Furniture\Views\ShoppingCart\OrderSummary.cshtml
+* Presentation\Nop.Web\Views\ShoppingCart\OrderSummary.cshtml
+
+Search for the string "CYO Custom Code" in these files.
 
 The catalog must include a product with the tag "CYO". Currently, this is a product called
 "Custom Pacifier", with a generic image.
