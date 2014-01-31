@@ -8,6 +8,7 @@
     var uploadedImageWidth = 0;
     var uploadedImageHeight = 0;
     var UUID_REGEX = /([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/i;
+    var originalButtonBackground = null;
 
     // Call all of the UI initializers & wire up all behaviors
     initUI();
@@ -847,22 +848,6 @@
         $('#cyoPixelsPerInch').val(ppi);
     }
 
-    function initUI() {
-        initUploader();
-        initModals();
-        initDraggablesAndSliders();
-        initBackgroundImageBehaviors();
-        initStockImageBehaviors();
-        initTextDialogBehaviors();
-        initRadios();
-        initBinkySelector();
-        initCreateProof();
-        initOverlays();
-        initDraggableBackground();
-        initHiddenForm();
-        initDocumentBehaviors();
-        updateRecentDesigns();
-    }
 
     function getCookieByName(name) {
         var value = "; " + document.cookie;
@@ -916,6 +901,7 @@
         setImageForCart(proofUrl);
         $('#cyoNotYetApproved').hide();
         $('#cyoApproved').show();
+        enableAddToCart();
     }
 
     // Happens when user unapproves a proof
@@ -924,6 +910,21 @@
         setImageForCart("");
         $('#cyoNotYetApproved').show();
         $('#cyoApproved').hide();
+        disableAddToCart();
+    }
+
+    // User cannot add CYO to cart until they approve the proof
+    function disableAddToCart() {
+        if (originalButtonBackground == null)
+            originalButtonBackground = $('#product-details-form input[type=button]').css('background');
+        $('#product-details-form input[type=button]').css('background', '#999');
+        $('#product-details-form input[type=button]').attr('disabled', 'disabled');
+    }
+
+    // When proof is approved, enable add-to-cart.
+    function enableAddToCart() {
+        $('#product-details-form input[type=button]').css('background', originalButtonBackground);
+        $('#product-details-form input[type=button]').removeAttr('disabled');
     }
 
     // Callback for submitting proof form
@@ -941,6 +942,25 @@
             updateRecentDesigns();
         }
         $("#cyoModalProof").dialog("open");
+    }
+
+
+    function initUI() {
+        disableAddToCart();
+        initUploader();
+        initModals();
+        initDraggablesAndSliders();
+        initBackgroundImageBehaviors();
+        initStockImageBehaviors();
+        initTextDialogBehaviors();
+        initRadios();
+        initBinkySelector();
+        initCreateProof();
+        initOverlays();
+        initDraggableBackground();
+        initHiddenForm();
+        initDocumentBehaviors();
+        updateRecentDesigns();
     }
 
 });
