@@ -195,6 +195,10 @@
     background-color: #ddd;
 }
 
+/* This item is not displayed until the user approves the proof. */
+#cyoApproved {
+    display:none;
+}
 
 /* 
     Important! NopCommerce adds a "custom attribute" input to the

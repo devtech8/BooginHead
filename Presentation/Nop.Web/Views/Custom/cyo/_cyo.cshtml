@@ -339,7 +339,12 @@
 
         <h2 class="cyo-h2">Step 6: Add to Cart!</h2>
         <div class="relative">
-            <p class="noapproval">Once your "Instant Proof" is approved, you will be able to add your design to the cart!</p>
+            <p id="cyoNotYetApproved">Once your "Instant Proof" is approved, you will be able to add your design to the cart!</p>
+            <p id="cyoApproved">
+                Click "Add to Cart" to add this image to your cart. <br />
+                <img id="cyoDesignForCart" src="" width="150">
+            </p>
+
             @using (Html.BeginRouteForm("Product", new { SeName = Model.SeName }, FormMethod.Post, new { id = "product-details-form" }))
             {
                     var dataDictAttributes = new ViewDataDictionary();
@@ -353,7 +358,7 @@
                     Model.AddToCart.DisableWishlistButton = true;
                     var dataDictAddToCart = new ViewDataDictionary();
                     dataDictAddToCart.TemplateInfo.HtmlFieldPrefix = string.Format("addtocart_{0}", Model.Id);                    
-                    @Html.Partial("_AddToCart", (Nop.Web.Models.Catalog.ProductDetailsModel.AddToCartModel)Model.AddToCart, (ViewDataDictionary)dataDictAddToCart)                    
+                    @Html.Partial("_AddToCart", (Nop.Web.Models.Catalog.ProductDetailsModel.AddToCartModel)Model.AddToCart, (ViewDataDictionary)dataDictAddToCart)
              }
 
         </div>
