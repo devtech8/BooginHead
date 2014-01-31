@@ -340,8 +340,12 @@
         <h2 class="cyo-h2">Step 6: Add to Cart!</h2>
         <div class="relative">
             <p class="noapproval">Once your "Instant Proof" is approved, you will be able to add your design to the cart!</p>
-
-            @{                     
+            @using (Html.BeginRouteForm("Product", new { SeName = Model.SeName }, FormMethod.Post, new { id = "product-details-form" }))
+            {
+                    var dataDictAttributes = new ViewDataDictionary();
+                    dataDictAttributes.TemplateInfo.HtmlFieldPrefix = string.Format("attributes_{0}", Model.Id);
+                    @Html.Partial("_ProductAttributes", (IList<Nop.Web.Models.Catalog.ProductDetailsModel.ProductVariantAttributeModel>)Model.ProductVariantAttributes, (ViewDataDictionary)dataDictAttributes) 
+          
                     var dataDictPrice = new ViewDataDictionary();
                     dataDictPrice.TemplateInfo.HtmlFieldPrefix = string.Format("price_{0}", Model.Id);
                     @Html.Partial("_ProductPrice", (Nop.Web.Models.Catalog.ProductDetailsModel.ProductPriceModel)Model.ProductPrice, (ViewDataDictionary)dataDictPrice)

@@ -194,3 +194,13 @@
 #cyoFontMenu li.selected {
     background-color: #ddd;
 }
+
+
+/* 
+    Important! NopCommerce adds a "custom attribute" input to the
+    add-to-cart form on the CYO page. We have to fill this in programmatically
+    with a GUID, and we don't want to display it to the user.
+*/
+#product-details-form .attributes {
+    display: none;
+}
