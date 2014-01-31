@@ -457,10 +457,14 @@
             // Make user explicitly approve each proof
             var proofUrl = $('#cyoProofImageContainer img').attr("src");
             var uuid = extractUUID(proofUrl);
-            if($("#cyoApprovedImages").val().indexOf(uuid) < 0)
+            if ($("#cyoApprovedImages").val().indexOf(uuid) < 0) {
                 $('.js-approval-checkbox').prop("checked", false);
-            else
+                unsetCartParams(); // Item is not approved so user cannot add to cart.
+            }
+            else {
                 $('.js-approval-checkbox').prop("checked", true);
+                setCartParams(proofUrl);
+            }
         }
         $("#cyoModalProof").dialog(modalProperties);
 
