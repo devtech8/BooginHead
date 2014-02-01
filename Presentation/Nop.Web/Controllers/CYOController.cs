@@ -18,7 +18,6 @@ namespace Nop.Web.Controllers
     {
         ILocalizationService _localizationService = null;
         Regex validFileName = new Regex(@"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\.[a-z]{3,4}$");
-        Regex guidRegex = new Regex(@"([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})", RegexOptions.IgnoreCase);
 
         public CYOController()
         {
@@ -231,55 +230,6 @@ namespace Nop.Web.Controllers
             HttpCookie cookie = new HttpCookie("CYORecentDesigns");
             cookie.Expires = DateTime.Now.AddDays(5);
             return cookie;
-        }
-
-        [NonAction]
-        public void ProcessOrder(Core.Domain.Orders.Order order)
-        {
-            foreach (var item in order.OrderItems)
-            {
-                if (item.Product.ProductTags.First(tag => tag.Name == "CYO") != null)
-                {
-                    // This is a very short string of XML. 
-                    // Skipping document createion & will just extract the regex.
-                    string imageGuid = ExtractGuid(item.AttributesXml);
-                    MoveProofToOrdersFolder(imageGuid);
-                    CreateOrderFiles(order);
-                }
-            }
-        }
-
-        [NonAction]
-        public void ProcessAddedToCart(Core.Domain.Catalog.Product product, string attributes)
-        {
-            if (product.ProductTags.First(tag => tag.Name == "CYO") != null)
-            {
-                string imageGuid = ExtractGuid(attributes);
-                MoveProofToCartFolder(imageGuid);
-            }
-        }
-
-        private string ExtractGuid(string str)
-        {
-            Match m = guidRegex.Match(str);
-            if (m.Success)
-                return m.Groups[1].Value;
-            return null;
-        }
-
-        private void MoveProofToOrdersFolder(string imageGuid)
-        {
-            // TODO: Implement me!
-        }
-
-        private void MoveProofToCartFolder(string imageGuid)
-        {
-            // TODO: Implement me!
-        }
-
-        private void CreateOrderFiles(Core.Domain.Orders.Order order)
-        {
-            // TODO: Generate PRIDE text file and PDF - Async!
         }
 
         # endregion

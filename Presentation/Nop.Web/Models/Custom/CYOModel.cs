@@ -16,6 +16,9 @@ namespace Nop.Web.Models.Custom
     public class CYOModel
     {
         Regex illegalForDouble = new Regex(@"[^0-9\.\-]");
+        public static readonly Regex guidRegex = new Regex(@"([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})", RegexOptions.IgnoreCase);
+
+
 
         #region Constructors
 
@@ -69,8 +72,20 @@ namespace Nop.Web.Models.Custom
 
         #endregion
 
+        # region Static Methods
+
+        public static string ExtractGuid(string str)
+        {
+            Match m = guidRegex.Match(str);
+            if (m.Success)
+                return m.Groups[1].Value;
+            return null;
+        }
+
+        #endregion
+
         #region Public Properties
-        
+
         public string ProductSize { get; set; }
         public string ProductColor { get; set; }
         public string SampleImage { get; set; }
