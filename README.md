@@ -27,6 +27,9 @@ under Presentation\Nop.Web\App_Data
 
 # CYO Special Handling
 
+The catalog must include a product with the tag "CYO". Currently, this is a product called
+"CYO Pacifier", with a generic image.
+
 The Product handler of the CatalogController has this special addition:
 
 ```c#
@@ -40,13 +43,10 @@ if (product.ProductTags.Any() && product.ProductTags.First(t => t.Name == "CYO")
 And the shopping cart / order summary templates here have been modified to show 
 the custom pacifier that the user ordered:
 
-* Presentation\Nop.Web\Themes\Furniture\Views\ShoppingCart\OrderSummary.cshtml
-* Presentation\Nop.Web\Views\ShoppingCart\OrderSummary.cshtml
+* Presentation\Nop.Web\Themes\BH\Views\ShoppingCart\OrderSummary.cshtml
 
 Search for the string "CYO Custom Code" in these files.
 
-The catalog must include a product with the tag "CYO". Currently, this is a product called
-"Custom Pacifier", with a generic image.
 
 # Deployment and Dependencies
 

@@ -2198,6 +2198,7 @@
     <Content Include="Themes\BH\Views\Shared\Head.cshtml" />
     <Content Include="Themes\BH\Views\Web.config" />
     <Content Include="Views\Catalog\CYO.cshtml" />
+    <Content Include="Themes\BH\Views\ShoppingCart\OrderSummary.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
