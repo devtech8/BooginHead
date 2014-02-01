@@ -287,10 +287,12 @@
     <Compile Include="Models\Customer\CustomerForumSubscriptionsModel.cs" />
     <Compile Include="Models\Customer\ForumSubscriptionModel.cs" />
     <Compile Include="Models\Customer\ExternalAuthenticationMethodModel.cs" />
+    <Compile Include="Models\Custom\CYOCartItemEventListener.cs" />
     <Compile Include="Models\Custom\CYOFileTransferTask.cs" />
     <Compile Include="Models\Custom\CYOImageHelper.cs" />
     <Compile Include="Models\Custom\CYOModel.cs" />
     <Compile Include="Models\Custom\CYOOrderHelper.cs" />
+    <Compile Include="Models\Custom\CYOOrderListener.cs" />
     <Compile Include="Models\Custom\CYOPDFHelper.cs" />
     <Compile Include="Models\Custom\CYOImageCleanupTask.cs" />
     <Compile Include="Models\Custom\CYOSFTPClient.cs" />

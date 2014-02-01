@@ -441,12 +441,6 @@ namespace Nop.Web.Controllers
                 return RedirectToRoute("OrderDetails", new {orderId = order.Id});
             }
 
-            // ---- Start CYO Custom Code ----
-            // ************* REMOVE THIS AND USER ORDER PLACED EVENT ****************
-            CYOController cyoController = new CYOController();
-            cyoController.ProcessOrder(order);
-            // ---- End CYO Custom Code ----
-
             //model
             var model = new CheckoutCompletedModel()
             {
