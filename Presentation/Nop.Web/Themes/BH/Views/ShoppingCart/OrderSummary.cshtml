@@ -93,7 +93,8 @@
                                 @if (!String.IsNullOrEmpty(item.AttributeInfo) && item.AttributeInfo.IndexOf("CYO Unique Id") > -1)
                                 {
                                     string imageGuid = Nop.Web.Models.Custom.CYOModel.ExtractGuid(item.AttributeInfo);
-                                    string imageUrl = string.Format("//localhost/Booginhead/CYO/ViewProof?fileName={0}.png", imageGuid);
+                                    string baseUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~/"));
+                                    string imageUrl = string.Format("{0}/CYO/ViewProof?fileName={1}.png", baseUrl, imageGuid);
                                     <img alt="@item.Picture.AlternateText" src="@imageUrl" title="@item.Picture.Title" width="150" />
                                 }
                                 else
