@@ -178,7 +178,11 @@ namespace Nop.Web.Controllers
             string filePath = Path.Combine(Server.MapPath("~/App_Data/cyo/proofs"), fileName);
             if (!System.IO.File.Exists(filePath))
                 return Content(string.Format("File '{0}' not found.", fileName));
-            return new FileContentResult(System.IO.File.ReadAllBytes(filePath), "image/png");
+            string contentType = "image/png";
+            // Late addition: This endpoint serves the JSON data files for proofs as well as the proofs themselves.
+            if (fileName.EndsWith("json"))
+                contentType = "application/json";
+            return new FileContentResult(System.IO.File.ReadAllBytes(filePath), contentType);
         }
 
 

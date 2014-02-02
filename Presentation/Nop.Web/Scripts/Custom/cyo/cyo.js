@@ -9,6 +9,7 @@
     var uploadedImageHeight = 0;
     var UUID_REGEX = /([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/i;
     var originalButtonBackground = null;
+    var recentDesignData = {};
 
     // Call all of the UI initializers & wire up all behaviors
     initUI();
@@ -855,6 +856,16 @@
         if (parts.length == 2) return parts.pop().split(";").shift();
     }
 
+    // Get the data associated with the recent design. If the user
+    // decides they want to buy this design, we need to know the
+    // size, color, brand, etc. This data goes into the cart.
+    function getDataForRecentDesign(jsonUrl, imageUrl) {
+        $.get(jsonUrl, function (data) {
+            recentDesignData[imageUrl] = data;
+        });
+    }
+
+    // Update the recent design images in the lower left corner of the page.
     function updateRecentDesigns() {
         var cookie = getCookieByName("CYORecentDesigns");
         if (cookie != null) {
@@ -862,6 +873,8 @@
             var html = '<h2 class="cyo-h2">Recent Designs</h2>';
             for (var i = 0; i < urls.length; i++) {
                 html += '<img src="' + urls[i] + '" width="150" />';
+                var jsonUrl = urls[i].replace(".png", ".json");
+                getDataForRecentDesign(jsonUrl, urls[i]);
             }
             $("#cyoRecentDesigns").html(html);
             $("#cyoRecentDesigns img").click(function () {
@@ -885,13 +898,24 @@
     }
 
 
-    function setAttributesForCart(uuid) {
-        var brand = $('#cyoProductBrand').val();
-        var color = $('#cyoProductColor').val();
-        var size = $('#cyoProductSize').val();
-        console.log(uuid + " " + brand + " " + color + " " + size);
+    function setAttributesForCart(proofUrl) {
+        var uuid = extractUUID(proofUrl);
+        var brand, color, size;
+        if (recentDesignData[proofUrl]) {
+            // Item is a recent design
+            var data = recentDesignData[proofUrl];
+            brand = data.Brand;
+            color = data.ProductColor;
+            size = data.ProductSize;
+        }
+        else {
+            // Item is the proof they just made
+            brand = $('#cyoProductBrand').val();
+            color = $('#cyoProductColor').val();
+            size = $('#cyoProductSize').val();
+        }
         $('#product-details-form input[data-cyo="CYO Unique Id"]').val(uuid);
-        $('#product-details-form input[data-cyo="CYO Brand"]').val();
+        $('#product-details-form input[data-cyo="CYO Brand"]').val(brand);
         $('#product-details-form input[data-cyo="CYO Color"]').val(color);
         $('#product-details-form input[data-cyo="CYO Size"]').val(size);
     }
@@ -909,8 +933,7 @@
 
     // Happens when user approves a proof
     function setCartParams(proofUrl) {
-        var uuid = extractUUID(proofUrl);
-        setAttributesForCart(uuid);
+        setAttributesForCart(proofUrl);
         setImageForCart(proofUrl);
         $('#cyoNotYetApproved').hide();
         $('#cyoApproved').show();
