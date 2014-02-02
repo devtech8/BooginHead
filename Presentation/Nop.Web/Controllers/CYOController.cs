@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Nop.Core.Domain.Media;
 using Nop.Core.Infrastructure;
 using Nop.Services.Localization;
@@ -145,6 +146,7 @@ namespace Nop.Web.Controllers
                 string imageFileName = imageHelper.CreateProof();
                 proofUrl = Url.Action("ViewProof", new { fileName = imageFileName });
                 AddProofToRecentDesigns(proofUrl);
+                SaveProofData(cyoModel, imageFileName);
             }
             catch (Exception ex)
             {
@@ -152,6 +154,22 @@ namespace Nop.Web.Controllers
                 errorMessage = ex.Message;
             }
             return Json(new {proofUrl = proofUrl, errorMessage = errorMessage});
+        }
+
+        /// <summary>
+        /// Save the data used to generate this proof.
+        /// </summary>
+        /// <param name="cyoModel"></param>
+        /// <param name="imageFileName"></param>
+        private void SaveProofData(CYOModel cyoModel, string imageFileName)
+        {
+            string path = Path.Combine(Server.MapPath("~/App_Data/cyo/proofs/"), imageFileName.Replace(".png", ".json"));
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            byte[] proofData = System.Text.Encoding.UTF8.GetBytes(serializer.Serialize(cyoModel));
+            using (FileStream fs = System.IO.File.Open(path, FileMode.Create))
+            {
+                fs.Write(proofData, 0, proofData.Length);
+            }
         }
 
         [HttpGet]
