@@ -177,7 +177,18 @@ namespace Nop.Web.Controllers
         {
             string filePath = Path.Combine(Server.MapPath("~/App_Data/cyo/proofs"), fileName);
             if (!System.IO.File.Exists(filePath))
-                return Content(string.Format("File '{0}' not found.", fileName));
+            {
+                filePath = Path.Combine(Server.MapPath("~/App_Data/cyo/in_cart"), fileName);
+                if (!System.IO.File.Exists(filePath))
+                {
+                    filePath = Path.Combine(Server.MapPath("~/App_Data/cyo/orders_unsent"), fileName);
+                    if (!System.IO.File.Exists(filePath))
+                    {
+                        filePath = Path.Combine(Server.MapPath("~/App_Data/cyo/orders_sent"), fileName);
+                        return Content(string.Format("File '{0}' not found.", fileName));
+                    }
+                }
+            }
             string contentType = "image/png";
             // Late addition: This endpoint serves the JSON data files for proofs as well as the proofs themselves.
             if (fileName.EndsWith("json"))

@@ -4,11 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Xml.Linq;
 using Nop.Core;
+using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Orders;
 using Nop.Core.Events;
 using Nop.Core.Infrastructure;
+using Nop.Data.Mapping.Catalog;
+using Nop.Services.Catalog;
 using Nop.Services.Events;
 using Nop.Services.Logging;
 
@@ -25,28 +29,37 @@ namespace Nop.Web.Models.Custom
         {
             this._logger = EngineContext.Current.Resolve<ILogger>();
             this._webHelper = EngineContext.Current.Resolve<IWebHelper>();
-            this._singlePageTemplate = Path.Combine(_webHelper.MapPath("~/App_Data/pdf_templates"), "BH_Packing Slip_editable.pdf");
-            this._multiPageTemplate = Path.Combine(_webHelper.MapPath("~/App_Data/pdf_templates"), "BH_MultiPGPackingSlip_editable.pdf");
+            this._singlePageTemplate = Path.Combine(_webHelper.MapPath("~/App_Data/cyo/pdf_templates/"), "BH_Packing_Slip_editable.pdf");
+            this._multiPageTemplate = Path.Combine(_webHelper.MapPath("~/App_Data/cyo/pdf_templates/"), "BH_MultiPGPackingSlip_editable.pdf");
         }
 
         void IConsumer<OrderPlacedEvent>.HandleEvent(OrderPlacedEvent eventMessage)
         {
-            bool hasCYOItem = false;
-            foreach (var item in eventMessage.Order.OrderItems)
+            List<OrderItem> items = GetCyoItems(eventMessage.Order);
+            foreach (var item in items)
             {
-                if (item.Product.ProductTags.First(tag => tag.Name == "CYO") != null)
-                {
-                    // This is a very short string of XML. 
-                    // Skipping document createion & will just extract the regex.                    
-                    string imageGuid = CYOModel.ExtractGuid(item.AttributesXml);
-                    MoveProofToOrdersFolder(imageGuid);
-                    hasCYOItem = true;
-                }
+                // This is a very short string of XML. 
+                // Skipping document createion & will just extract the regex.                    
+                string imageGuid = CYOModel.ExtractGuid(item.AttributesXml);
+                MoveProofToOrdersFolder(imageGuid);
             }
-            if (hasCYOItem)
+            if (items.Count > 0)
             {
                 CreateOrderFiles(eventMessage.Order);
             }
+        }
+
+        private List<OrderItem> GetCyoItems(Nop.Core.Domain.Orders.Order order)
+        {
+            List<OrderItem> cyoItems = new List<OrderItem>();
+            foreach (var item in order.OrderItems)
+            {
+                if (item.Product.ProductTags.First(tag => tag.Name == "CYO") != null)
+                {
+                    cyoItems.Add(item);
+                }
+            }
+            return cyoItems;
         }
 
         /// <summary>
@@ -59,7 +72,10 @@ namespace Nop.Web.Models.Custom
             string destPath = this._webHelper.MapPath("~/App_Data/cyo/orders_unsent/");
             string sourceFile = Path.Combine(sourcePath, string.Format("{0}.png", imageGuid));
             string destFile = Path.Combine(destPath, string.Format("{0}.png", imageGuid));
-            File.Move(sourceFile, destFile);
+            if (!File.Exists(destFile))
+            {
+                File.Move(sourceFile, destFile);
+            }
         }
 
         /// <summary>
@@ -93,13 +109,28 @@ namespace Nop.Web.Models.Custom
 
             AddLineItemsToPDF(pdfHelper, order);
 
-            string outputFile = Path.Combine(_webHelper.MapPath("~/App_Data/orders_unsent/"), string.Format("BH_{0}", order.Id.ToString("D8")));
+            string outputFile = Path.Combine(_webHelper.MapPath("~/App_Data/cyo/orders_unsent/"), string.Format("BH_{0}.pdf", order.Id.ToString("D8")));
             pdfHelper.CreatePackingSlip(outputFile);
         }
 
         private void AddLineItemsToPDF(CYOPDFHelper pdfHelper, Core.Domain.Orders.Order order)
         {
-            
+            List<OrderItem> cyoItems = GetCyoItems(order);
+            foreach (var item in cyoItems)
+            {
+                Dictionary<string, string> attributes = ParseAttributes(item.AttributesXml);
+                string imageGuid = attributes["CYO Unique Id"];
+                string color = attributes["CYO Color"];
+                string size = attributes["CYO Size"];
+                string brand = attributes["CYO Brand"];
+                string description = string.Format("CYO Pacifier Color={0}{4}Size={1},Brand={2}{4}Design={3}.png", color, size, brand, imageGuid, Environment.NewLine);
+                
+                double priceAsDouble = Double.Parse(item.PriceExclTax.ToString());                
+                string pathToImageFile = Path.Combine(this._webHelper.MapPath("~/App_Data/cyo/orders_unsent/"), string.Format("{0}.png", imageGuid));
+
+                CYOOrderItem cyoOrderItem = new CYOOrderItem("CYO Pacifier", pathToImageFile, description, priceAsDouble, item.Quantity);
+                pdfHelper.Items.Add(cyoOrderItem);
+            }            
         }
 
         private string FormatAddress(Address address)
@@ -130,16 +161,13 @@ namespace Nop.Web.Models.Custom
             orderHelper.State = order.ShippingAddress.StateProvince.Abbreviation;
             orderHelper.Zip = order.ShippingAddress.ZipPostalCode;
 
-            foreach (var item in order.OrderItems)
+            List<OrderItem> cyoItems = GetCyoItems(order);
+            foreach (var item in cyoItems)
             {
-                if (item.Product.ProductTags.First(tag => tag.Name == "CYO") != null)
-                {
-                    // TODO: Include color and size in the description.
-                    string imageGuid = CYOModel.ExtractGuid(item.AttributesXml);
-                    string color = "White";
-                    string description = string.Format("Create Your Own Pacifier{0}Color={1}{0}Design={2}.png", Environment.NewLine, color, imageGuid);
-                    orderHelper.Items.Add(new LineItem(description, item.Quantity));
-                }
+                Dictionary<string, string> attributes = ParseAttributes(item.AttributesXml);
+                string imageGuid = attributes["CYO Unique Id"];
+                string description = string.Format("CYO Pacifier {0}", imageGuid);
+                orderHelper.Items.Add(new LineItem(description, item.Quantity));
             }
             string filePath = Path.Combine(_webHelper.MapPath("~/App_Data/cyo/orders_unsent"), string.Format("BH_{0}.txt", order.Id.ToString("D8")));
             using (FileStream fs = File.Open(filePath, FileMode.Create))
@@ -147,6 +175,30 @@ namespace Nop.Web.Models.Custom
                 byte[] orderData = System.Text.Encoding.UTF8.GetBytes(orderHelper.GetFormattedOrder());
                 fs.Write(orderData, 0, orderData.Length);
             }
+        }
+
+
+        /// <summary>
+        /// Returns a dictionary of attrbutes, including size, color, brand and unique id.
+        /// All of these attributes should be marked as "Required" in the Admin control
+        /// panel, so we know they will be here.
+        /// </summary>
+        /// <param name="attributesXml"></param>
+        /// <returns></returns>
+        private Dictionary<string, string> ParseAttributes(string attributesXml)
+        {
+            Dictionary<string, string> attributes = new Dictionary<string, string>();
+            IProductAttributeParser p = EngineContext.Current.Resolve<IProductAttributeParser>();
+            IList<ProductVariantAttribute> attrs = p.ParseProductVariantAttributes(attributesXml);
+            foreach (var attr in attrs)
+            {
+                string name = attr.ProductAttribute.Name;
+                string value = p.ParseValues(attributesXml, attr.Id).First();
+                attributes[name] = value;
+
+            }
+
+            return attributes;
         }
     }
 }
