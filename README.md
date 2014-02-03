@@ -16,14 +16,20 @@ The files for the custom CYO components are in these folders:
 * Presentation\Nop.Web\Scripts\Custom\cyo
 * Presentation\Nop.Web\Views\Custom\cyo
 
-There's also a custom view here:
-
-* Presentation\Nop.Web\Views\Catalog\CYO.cshtml
-
 The CYOModel is NOT saved to the database! 
 
 All of the data that the CYO tool saves goes into one of the directories
-under Presentation\Nop.Web\App_Data
+under Presentation\Nop.Web\App_Data\cyo
+
+These directories include the following:
+
+* fonts - Contains custom fonts used by the CYO tool
+* in_cart - Contains proof images that customers have put into their shopping carts
+* orders_sent - Contains the PRIDE files (proof images, text order files, PDF packing slips) that been sent to PRIDE
+* orders_unsent - Contains PRIDE files that should be sent to PRIDE the next time the scheduled SFTP job runs
+* pdf_templates - Contains the PDF templates used to generate the PRIDE packing slips
+* proofs - Contains proof images that users have generated with the CYO tool
+* uploads - Contains images users have uploaded through the CYO tool. These become background images for CYO pacifiers
 
 # CYO Special Handling
 
@@ -44,8 +50,7 @@ And the shopping cart / order summary templates here have been modified to show
 the custom pacifier that the user ordered:
 
 * Presentation\Nop.Web\Themes\BH\Views\ShoppingCart\OrderSummary.cshtml
-
-Search for the string "CYO Custom Code" in these files.
+* Presentation\Nop.Web\Themes\BH\Views\Catalog\CYO.cshtml
 
 
 # Deployment and Dependencies
@@ -58,13 +63,11 @@ its sub-directories.
 read/write/list/create privileges on Booginhead\Presentation\Nop.Web\Content\images
 * You need to run the SQL commands below to set up the custom scheduled jobs
 
-Run the following commands against the SQL database. This will schedule the
-daily job that cleans up the old CYO upload and proof files. The job will
-run hourly (every 3600 seconds) and will delete files from App_Data/cyo/proofs
-and App_Data/cyo/uploads that are more than 72 hours old.
 
-The second job sends CYO order files to PRIDE every 20 minutes. We want that 
-run as a scheduled job, so it can re-send any files that might have failed.
+# Scheduled Jobs
+
+Run the following commands against the SQL database. 
+
 
 ```sql
 
@@ -76,9 +79,24 @@ values ('Send CYO orders to PRIDE', 1200, 'Nop.Web.Models.Custom.CYOFileTransfer
 
 ```
 
-# Notes...
+This will schedule the daily job that cleans up the old CYO upload and proof files. 
+The job will run hourly (every 3600 seconds) and will delete files from App_Data/cyo/proofs
+and App_Data/cyo/uploads that are more than 72 hours old.
 
-The CYO partial currently renders on the Wishlist page.
+The second job sends CYO order files to PRIDE every 20 minutes. We want that 
+run as a scheduled job, so it can re-send any files that might have failed.
+
+The settings for the job that sends files to PRIDE include information on how
+to access PRIDE's SFTP server. This info is stored in the web.config file.
+
+# Behaviors and Settings 
+
+This document describes the CYO tool's basic front-end and back-end behavior, 
+as well as the settings required for the CYO tool to work:
+
+https://docs.google.com/a/7simplemachines.com/document/d/1M_nM5qZONpvYC-qM5qhA11k7Vdst7XLy2CH-nqwaP7U/edit#
+
+# Notes...
 
 DB connection is stored in AppData/Settings.txt
 
