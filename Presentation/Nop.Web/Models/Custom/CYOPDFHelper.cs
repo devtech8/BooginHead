@@ -17,8 +17,8 @@ namespace Nop.Web.Models.Custom
         public static readonly Dictionary<ShippingMethod, string> SHIPPING_METHOD_NAMES = new Dictionary<ShippingMethod, string> {
             {ShippingMethod.USPS, "USPS"},
             {ShippingMethod.FEDEX_2DAY, "Fedex 2 Day"},
-            {ShippingMethod.FEDEX_PRIORITY_OVERNIGHT, "Fedex Pri Overnight"},
-            {ShippingMethod.FEDEX_STANDARD_OVERNIGHT, "Fedex Std Overnight"}
+            {ShippingMethod.FEDEX_PRIORITY_OVERNIGHT, "Fedex Priority Overnight"},
+            {ShippingMethod.FEDEX_STANDARD_OVERNIGHT, "Fedex Standard Overnight"}
         };
 
         /// <summary>

@@ -5,25 +5,35 @@
     <li><a>About</a></li>
     <li><a>Find A Store</a></li>
     <li><a>Customize</a></li>
-    <li><a>Shop</a></li>
+    <li>
+        <a href="~/Home/ProductsCat">Shop</a>
+        @*<ul>
+            <li><a href="#">Squeez'Ems</a></li>
+            <li><a href="#">PaciGrip</a></li>
+            <li><a href="#">SippiGrip</a></li>
+            <li><a href="#">PaciPouch</a></li>
+            <li><a href="#">SplatMat</a></li>
+        </ul>*@
+    </li>
+
 
     @*@Html.Widget("header_menu_before")
-    <li><a href="@Url.RouteUrl("HomePage")">@T("HomePage")</a></li>
-    @if (Model.RecentlyAddedProductsEnabled)
-    {
-        <li><a href="@Url.RouteUrl("RecentlyAddedProducts")">@T("Products.NewProducts")</a>
-        </li>
-    }
-    <li><a href="@Url.RouteUrl("ProductSearch")">@T("Search")</a> </li>
-    <li><a href="@Url.RouteUrl("CustomerInfo")">@T("Account.MyAccount")</a></li>
-    @if (Model.BlogEnabled)
-    {
-        <li><a href="@Url.RouteUrl("Blog")">@T("Blog")</a></li>
-    }
-    @if (Model.ForumEnabled)
-    {
-        <li><a href="@Url.RouteUrl("Boards")">@T("Forum.Forums")</a></li>
-    }
-    <li><a href="@Url.RouteUrl("ContactUs")">@T("ContactUs")</a></li>
-    @Html.Widget("header_menu_after")*@
+        <li><a href="@Url.RouteUrl("HomePage")">@T("HomePage")</a></li>
+        @if (Model.RecentlyAddedProductsEnabled)
+        {
+            <li><a href="@Url.RouteUrl("RecentlyAddedProducts")">@T("Products.NewProducts")</a>
+            </li>
+        }
+        <li><a href="@Url.RouteUrl("ProductSearch")">@T("Search")</a> </li>
+        <li><a href="@Url.RouteUrl("CustomerInfo")">@T("Account.MyAccount")</a></li>
+        @if (Model.BlogEnabled)
+        {
+            <li><a href="@Url.RouteUrl("Blog")">@T("Blog")</a></li>
+        }
+        @if (Model.ForumEnabled)
+        {
+            <li><a href="@Url.RouteUrl("Boards")">@T("Forum.Forums")</a></li>
+        }
+        <li><a href="@Url.RouteUrl("ContactUs")">@T("ContactUs")</a></li>
+        @Html.Widget("header_menu_after")*@
 </ul>

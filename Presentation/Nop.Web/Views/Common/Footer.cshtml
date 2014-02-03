@@ -1,6 +1,7 @@
 ﻿@model FooterModel
 @using Nop.Web.Models.Common;
 
+
 <div class="footer">
     <div class="footerUpper">
         <span class="socialLinks">
@@ -9,7 +10,8 @@
             <a href="https://twitter.com/BooginHead"><img src="~/Themes/BH/Content/images/client/icons/Twitter.png" alt="Twitter" /></a>
         </span>
         <span class="footerLinks">
-            <a href="#">Home</a>
+            <a href="@Url.RouteUrl("HomePage")">@T("HomePage")</a>
+            @*<a href="#">Home</a>*@
             ::
             <a href="#">Products</a>
             ::
@@ -36,7 +38,7 @@
                 Find more info here http://www.nopcommerce.com/copyrightremoval.aspx*@
         </span>
     </div>
-    @*<span><img src="~/Themes/BH/Content/images/client/home/StitchOnlyDarkBottom.png" /></span>*@
+    <span id="footLine"><img src="~/Themes/BH/Content/images/client/home/GreyStitch.png" /></span>
     <div class="footer-store-theme">
         @Html.Action("StoreThemeSelector", "Common")
     </div>

@@ -14,11 +14,22 @@ namespace Nop.Web.Infrastructure
                             "",
                             new { controller = "Home", action = "Index"},
                             new[] { "Nop.Web.Controllers" });
+            //Revised Catalog landing page - MG
+            routes.MapLocalizedRoute("ProductsCat",
+                            "",
+                            new { controller = "Catalog", action = "HomepageCategories" },
+                            new[] { "Nop.Web.Controllers" });
             //install
             routes.MapRoute("Installation",
                             "install",
                             new { controller = "Install", action = "Index" },
                             new[] { "Nop.Web.Controllers" });
+
+            //productsdemo - for category demos - MG
+            routes.MapLocalizedRoute("ProductDemo", 
+                                "ProductsDemoController", 
+                                new { controller = "ProductsDemoController", action = "Index" }, 
+                                new[] { "Nop.Web.Controllers" });
 
             //products
             routes.MapLocalizedRoute("RecentlyViewedProducts",

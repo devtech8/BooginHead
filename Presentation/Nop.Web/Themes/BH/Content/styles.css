@@ -1,4 +1,7 @@
-﻿@import url(http://fonts.googleapis.com/css?family=Ribeye);
+﻿/*font for menu text*/
+@import url(http://fonts.googleapis.com/css?family=Ribeye);
+/*font for copyright input footer*/
+@import url(http://fonts.googleapis.com/css?family=Arvo:400,700);
 
 /* RESET STYLESHEET (html5doctor.com) v1.6.1 */
 html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;}
@@ -23,7 +26,7 @@ input,select{vertical-align:middle;}
 
 /* OTHER RESET STYLESHEET (HTML GENERAL) */
 /*MG - revised fonts used globally - except for menu links given in 'header' links section of css*/
-body{text-align:center;font-family:verdana,sans-serif;font-size:12px;/*background:none repeat scroll 0 0 #F6F6F4;*/background-image:url(images/client/home/PatternBackground.png); min-height:1000px; /*color:#5C5B5B;*/line-height:normal;}
+body{text-align:center;font-family:verdana,sans-serif;font-size:12px;/*background:none repeat scroll 0 0 #F6F6F4;*/background-image:url(images/client/home/PatternBackground_fade.png); min-height:1000px; /*color:#5C5B5B;*/line-height:normal;}
 a{/*color:#5C5B5B;*/text-decoration:none;font-weight:normal;}
 a:hover{color:#B80709;text-decoration:underline;}
 h1,h2,h3,h4,h5,h6{font-family:verdana,sans-serif;}
@@ -36,7 +39,7 @@ input[type="text"]:disabled{background:none repeat scroll 0 0 #FFF;}
 
 
 /* MASTER PAGE WRAPPERS */
-.master-wrapper-page{margin:0 auto;width:960px;background:none repeat scroll 0 0 #FFF;border:2px solid black; box-shadow: 10px 10px 5px #888888;}
+.master-wrapper-page{margin:0 auto;width:960px;background:none repeat scroll 0 0 #FFF;border:1px solid grey; box-shadow: 10px 10px 5px #888888;}
 .master-wrapper-content{float:left;width:960px;text-align:left; background:none repeat scroll 0 0 #FFFFFF;}
 .master-wrapper-main{font-family:verdana,sans-serif;color:#5C5B5B;}
 /* one column master page */
@@ -59,7 +62,7 @@ input[type="text"]:disabled{background:none repeat scroll 0 0 #FFF;}
 .header .ico-cart:hover *,.header .ico-wishlist:hover *{text-decoration:underline;cursor:pointer;}
 .header .ico-cart span,.header .ico-wishlist span{float:left;}
 .header-logo{margin-top:5px;float:left;text-align:left;}
-a.logo{background:url("images/booginlogo.png") no-repeat scroll 0 0 transparent;display:block;width:310px;height:60px;text-decoration:none;}
+a.logo{background:url("images/booginlogo.png") no-repeat scroll 0 0 transparent;display:block;width:310px;height:80px;text-decoration:none;margin-left:10px;}
 .header-selectors-wrapper{text-align:right;float:right;margin-top:10px;clear:both;}
 .currency-selector{float:right;}
 .language-selector{float:right;}
@@ -79,15 +82,18 @@ ul.language-list li:hover{cursor:pointer;}
 .admin-header-links .administration{font-weight:bold;}
 .admin-header-links .impersonate{display:block; color:#E44097; margin-bottom:10px;}
 .admin-header-links .impersonate a{color:#F93;font-weight:700;}
-.header-menu{background:none repeat scroll 0 0;height:32px;list-style:none;/*margin:10px auto 0;*/padding:0 10px;}
-/*MG - changed text color*/
+.header-menu{background:none repeat scroll 0 0;height:40px;list-style:none;}
+/*MG - revised menu system*/
 .header-menu ul.top-menu li a {color:#0054a0;}
 .header-menu ul.top-menu li a:hover {color:#E28C05;}
 .header-menu a{font-size:1.1em;text-decoration:none;}
 .header-menu li{float:left;list-style:none outside none;padding:7px 8px;margin-right:10px;font-size:1.1em;line-height:17px;}
-/*MG - revised nav links font and hover and active states below*/
 .header-menu .top-menu li{list-style-type:none;font-family: 'Ribeye', cursive;margin-right:10px;float:right; cursor:pointer;}
 .header-menu .top-menu li:hover{list-style-type:none;font-family: 'Ribeye', cursive; color:#E28C05; text-transform:uppercase; border-top:dashed; border-bottom:dashed; border-color:#E28C05; border-width:1px; border-spacing: 200px 200px; margin-right:10px;float:right; cursor:pointer;}
+/*sub menu*/
+.top-menu ul {position:absolute; left:-9999px; top:-9999px; list-style-type:none;}
+.top-menu li:hover ul {left:0px; top:30px;padding:0;}
+.top-menu li:hover ul li a {padding:5px; display:block; text-indent:15px;}
 /* search box */
 .search-text{border:1px solid #eee;vertical-align:top;padding:5px 0 5px 5px;font-size:12px;width:100%;}
 .search-box{background:none repeat scroll 0 0 #F6F6F4;float:right;clear:right;width:auto;display:inline;padding:7px 7px 5px;-o-border-radius:3px;-icab-border-radius:3px;-khtml-border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;}
@@ -115,15 +121,15 @@ ul.language-list li:hover{cursor:pointer;}
 .footer-menu h3,.footer-menu-first h3{font-size:14px;}
 .footer-menu ul,.footer-menu-first ul{margin:10px 0;padding:0;list-style:none outside none;}
 .footer-menu ul li,.footer-menu-first ul{line-height:150%;}
+.footerUpper  {clear:both;}
 .footerUpper .socialLinks {float:left;}
 .footerUpper .footerLinks {float:right;}
-.footerLower {clear:both; padding-top:10px; padding-bottom:10px;}
-.footerLower .footer-disclaimer {float:left;}
+.footerLower {clear:both; color:#555555;}
+.footerLower .footer-disclaimer {float:left; font-family: 'Arvo', serif;}
 .footerLower .footer-poweredby {float:right;}
 .footerLinks{font-size: .8em;}
 .footerLinks a {padding-left:2px; padding-right:2px;}
-
-
+#footerLine img {max-width: 80%;}
 
 /* MISC. CLASSES */
 .nobr{white-space:nowrap!important;}

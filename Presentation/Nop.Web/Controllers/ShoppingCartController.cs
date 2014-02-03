@@ -1255,6 +1255,15 @@ namespace Nop.Web.Controllers
                 });
             }
 
+
+            // ---- Start CYO Custom Code ----
+            // ************* REMOVE THIS AND USE ENTITYINSERTED / ENTITYDELETED EVENT ****************
+            // http://www.nopcommerce.com/boards/t/13039/shoppingcartitem-event-consumer.aspx
+            // http://www.nopcommerce.com/boards/t/12719/how-to-subscribe-to-an-event-in-a-plugin.aspx
+            CYOController cyoController = new CYOController();
+            cyoController.ProcessAddedToCart(product, attributes);
+            // ---- End CYO Custom Code ----
+
             //added to the cart/wishlist
             switch (cartType)
             {
