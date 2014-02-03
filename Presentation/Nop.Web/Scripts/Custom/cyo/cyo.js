@@ -611,13 +611,13 @@
             // Full background image... No longer used. Full images have been
             // moved up to the background image dialog.
             if ($(this).attr('data-fill-background') == 'true') {
-                setBinkyBackground(url.replace(/_thumb/, ''));
+                setBinkyBackground(url.replace(/_thumb/, '').replace(".jpg", ".png"));
                 $('#cyoOverlayStockImage .cyoImgContainer').empty();
                 $('#cyoGraphicIsBackground').val('true');
                 setZoomForStockImage();
             }
             else {  // Smaller image goes on overlay
-                var img = '<img src=\"' + url + '\" height=\"222">';
+                var img = '<img src=\"' + url.replace(/_thumb/, '').replace(".jpg", ".png") + '\" height=\"222">';
                 $('#cyoOverlayStockImage .cyoImgContainer').html(img);
                 //$(img).height($(this).height());
                 //$(img).width($(this).width());

@@ -1,2 +1,2 @@
 DataProvider: sqlserver
-DataConnectionString: Data Source=stimpy\sql2008a;Initial Catalog=BH_test;Integrated Security=False;Persist Security Info=False;User ID=nopDevTestAcct;Password=kBPiilti4;MultipleActiveResultSets=True
+DataConnectionString: Data Source=localhost;Initial Catalog=Booginhead;Integrated Security=False;Persist Security Info=False;User ID=Booginhead;Password=kBPiilti4;MultipleActiveResultSets=True
