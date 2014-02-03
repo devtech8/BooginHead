@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Nop.Core.Domain.Media;
 using Nop.Core.Infrastructure;
 using Nop.Services.Localization;
@@ -18,7 +19,6 @@ namespace Nop.Web.Controllers
     {
         ILocalizationService _localizationService = null;
         Regex validFileName = new Regex(@"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\.[a-z]{3,4}$");
-        Regex guidRegex = new Regex(@"([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})", RegexOptions.IgnoreCase);
 
         public CYOController()
         {
@@ -146,6 +146,7 @@ namespace Nop.Web.Controllers
                 string imageFileName = imageHelper.CreateProof();
                 proofUrl = Url.Action("ViewProof", new { fileName = imageFileName });
                 AddProofToRecentDesigns(proofUrl);
+                SaveProofData(cyoModel, imageFileName);
             }
             catch (Exception ex)
             {
@@ -155,13 +156,44 @@ namespace Nop.Web.Controllers
             return Json(new {proofUrl = proofUrl, errorMessage = errorMessage});
         }
 
+        /// <summary>
+        /// Save the data used to generate this proof.
+        /// </summary>
+        /// <param name="cyoModel"></param>
+        /// <param name="imageFileName"></param>
+        private void SaveProofData(CYOModel cyoModel, string imageFileName)
+        {
+            string path = Path.Combine(Server.MapPath("~/App_Data/cyo/proofs/"), imageFileName.Replace(".png", ".json"));
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            byte[] proofData = System.Text.Encoding.UTF8.GetBytes(serializer.Serialize(cyoModel));
+            using (FileStream fs = System.IO.File.Open(path, FileMode.Create))
+            {
+                fs.Write(proofData, 0, proofData.Length);
+            }
+        }
+
         [HttpGet]
         public ActionResult ViewProof(string fileName)
         {
             string filePath = Path.Combine(Server.MapPath("~/App_Data/cyo/proofs"), fileName);
             if (!System.IO.File.Exists(filePath))
-                return Content(string.Format("File '{0}' not found.", fileName));
-            return new FileContentResult(System.IO.File.ReadAllBytes(filePath), "image/png");
+            {
+                filePath = Path.Combine(Server.MapPath("~/App_Data/cyo/in_cart"), fileName);
+                if (!System.IO.File.Exists(filePath))
+                {
+                    filePath = Path.Combine(Server.MapPath("~/App_Data/cyo/orders_unsent"), fileName);
+                    if (!System.IO.File.Exists(filePath))
+                    {
+                        filePath = Path.Combine(Server.MapPath("~/App_Data/cyo/orders_sent"), fileName);
+                        return Content(string.Format("File '{0}' not found.", fileName));
+                    }
+                }
+            }
+            string contentType = "image/png";
+            // Late addition: This endpoint serves the JSON data files for proofs as well as the proofs themselves.
+            if (fileName.EndsWith("json"))
+                contentType = "application/json";
+            return new FileContentResult(System.IO.File.ReadAllBytes(filePath), contentType);
         }
 
 
@@ -231,55 +263,6 @@ namespace Nop.Web.Controllers
             HttpCookie cookie = new HttpCookie("CYORecentDesigns");
             cookie.Expires = DateTime.Now.AddDays(5);
             return cookie;
-        }
-
-        [NonAction]
-        public void ProcessOrder(Core.Domain.Orders.Order order)
-        {
-            foreach (var item in order.OrderItems)
-            {
-                if (item.Product.ProductTags.First(tag => tag.Name == "CYO") != null)
-                {
-                    // This is a very short string of XML. 
-                    // Skipping document createion & will just extract the regex.
-                    string imageGuid = ExtractGuid(item.AttributesXml);
-                    MoveProofToOrdersFolder(imageGuid);
-                    CreateOrderFiles(order);
-                }
-            }
-        }
-
-        [NonAction]
-        public void ProcessAddedToCart(Core.Domain.Catalog.Product product, string attributes)
-        {
-            if (product.ProductTags.First(tag => tag.Name == "CYO") != null)
-            {
-                string imageGuid = ExtractGuid(attributes);
-                MoveProofToCartFolder(imageGuid);
-            }
-        }
-
-        private string ExtractGuid(string str)
-        {
-            Match m = guidRegex.Match(str);
-            if (m.Success)
-                return m.Groups[1].Value;
-            return null;
-        }
-
-        private void MoveProofToOrdersFolder(string imageGuid)
-        {
-            // TODO: Implement me!
-        }
-
-        private void MoveProofToCartFolder(string imageGuid)
-        {
-            // TODO: Implement me!
-        }
-
-        private void CreateOrderFiles(Core.Domain.Orders.Order order)
-        {
-            // TODO: Generate PRIDE text file and PDF - Async!
         }
 
         # endregion
