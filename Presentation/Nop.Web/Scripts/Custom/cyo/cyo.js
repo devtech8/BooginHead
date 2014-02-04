@@ -58,7 +58,8 @@
 
     // Set the hidden form data for the graphic currently showing in the overlay.
     function setFormDataForGraphic() {
-        $('#cyoGraphic').val($('#cyoModalGraphic .chooser img.selected').attr('src'));
+        var graphicUrl = $('#cyoModalGraphic .chooser img.selected').attr('src');
+        $('#cyoGraphic').val(graphicUrl.replace(/_thumb/, '').replace(".jpg", ".png"));
         $('#cyoGraphicTop').val($('#cyoOverlayStockImage').offset().top);
         $('#cyoGraphicLeft').val($('#cyoOverlayStockImage').offset().left);
         $('#cyoGraphicWidth').val($('#cyoOverlayStockImage').width());
