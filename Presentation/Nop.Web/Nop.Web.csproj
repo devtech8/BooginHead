@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -192,7 +192,7 @@
     <Compile Include="Controllers\BackwardCompatibility1XController.cs" />
     <Compile Include="Controllers\BackwardCompatibility2XController.cs" />
     <Compile Include="Controllers\CYOController.cs" />
-	<Compile Include="Controllers\ProductsDemoController.cs" />
+    <Compile Include="Controllers\ProductsDemoController.cs" />
     <Compile Include="Controllers\ReturnRequestController.cs" />
     <Compile Include="Controllers\KeepAliveController.cs" />
     <Compile Include="Controllers\ExternalAuthenticationController.cs" />
@@ -1100,6 +1100,8 @@
     <Content Include="Themes\BH\Content\images\bullet-left.gif" />
     <Content Include="Themes\BH\Content\images\bullet-right.gif" />
     <Content Include="Themes\BH\Content\images\client\carousel\GOGOChevron.jpg" />
+    <Content Include="Themes\BH\Content\images\client\carousel\Home_PaciGrip.png" />
+    <Content Include="Themes\BH\Content\images\client\carousel\Home_SqueezEms.png" />
     <Content Include="Themes\BH\Content\images\client\carousel\Page1Marker.png" />
     <Content Include="Themes\BH\Content\images\client\home\GreyStitch.png" />
     <Content Include="Themes\BH\Content\images\client\home\Home_GOGOChev.png" />
@@ -1108,23 +1110,64 @@
     <Content Include="Themes\BH\Content\images\client\home\Home_SG.png" />
     <Content Include="Themes\BH\Content\images\client\home\Home_SQ.png" />
     <Content Include="Themes\BH\Content\images\client\home\PatternBackground_fade.png" />
-    <Content Include="Themes\BH\Content\images\client\home\PatternBackground.png" />
-    <Content Include="Themes\BH\Content\images\client\home\StitchOnlyDarkBottom.png" />
     <Content Include="Themes\BH\Content\images\client\icons\Facebook.png" />
     <Content Include="Themes\BH\Content\images\client\icons\Pinterest.png" />
     <Content Include="Themes\BH\Content\images\client\icons\Search-icon.png" />
     <Content Include="Themes\BH\Content\images\client\icons\shop_cart.png" />
     <Content Include="Themes\BH\Content\images\client\icons\Twitter.png" />
+    <Content Include="Themes\BH\Content\images\client\misc\abclogo.jpg" />
+    <Content Include="Themes\BH\Content\images\client\page-banners\AboutUs_Page.png" />
+    <Content Include="Themes\BH\Content\images\client\page-banners\ContactUs_Page.png" />
+    <Content Include="Themes\BH\Content\images\client\page-banners\CYO-BH-Page.png" />
+    <Content Include="Themes\BH\Content\images\client\page-banners\FindAStore_Page.png" />
     <Content Include="Themes\BH\Content\images\client\products\CYO_Page.png" />
+    <Content Include="Themes\BH\Content\images\client\products\productbanners\CYO NUK Page-NOTYETUSED.png" />
+    <Content Include="Themes\BH\Content\images\client\products\productbanners\PaciGrip-Page.png" />
+    <Content Include="Themes\BH\Content\images\client\products\productbanners\PaciPouch-Page.png" />
+    <Content Include="Themes\BH\Content\images\client\products\productbanners\SippiGrip-Page.png" />
+    <Content Include="Themes\BH\Content\images\client\products\productbanners\Specials-Page.png" />
+    <Content Include="Themes\BH\Content\images\client\products\productbanners\SplatMat-Page.png" />
+    <Content Include="Themes\BH\Content\images\client\products\productbanners\SqueezEms-Page.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_CreateYourOwn.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_CYO_Large.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_CYO_RO.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_PaciGrip.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_PaciGrip2.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_PaciGrip_Large.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_PaciGrip_RO.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_PaciGrip_RO2.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_PaciPouch.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_PaciPouch_Large.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_PaciPouch_RO.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_PackEms.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_PackEms_RO.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_SippiGrip.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_SippiGrip_Large.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_SippiGrip_RO.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_Specials2_Large.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_SplatMat.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_SplatMat_Large.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_SplatMat_RO.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_SqueezEms.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_SqueezEms_Large.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_SqueezEms_RO.png" />
+    <Content Include="Themes\BH\Content\images\client\products\sippigrip\sippigrip854034003656.png" />
+    <Content Include="Themes\BH\Content\images\client\products\sippigrip\sippigrip854034004073.png" />
+    <Content Include="Themes\BH\Content\images\client\products\sippigrip\sippigrip899139001039.png" />
+    <Content Include="Themes\BH\Content\images\client\products\sippigrip\sippigrip899139001350.png" />
+    <Content Include="Themes\BH\Content\images\client\products\sippigrip\sippygrip854034003502.png" />
+    <Content Include="Themes\BH\Content\images\client\products\sippigrip\sippygrip854034003595.png" />
+    <Content Include="Themes\BH\Content\images\client\products\sippigrip\sippygrip854034003618.png" />
+    <Content Include="Themes\BH\Content\images\client\products\sippigrip\sippygrip854034003656.png" />
+    <Content Include="Themes\BH\Content\images\client\products\sippigrip\sippygrip854034003823.png" />
+    <Content Include="Themes\BH\Content\images\client\products\sippigrip\sippygrip899139001251.png" />
+    <Content Include="Themes\BH\Content\images\client\products\sippigrip\sippygrip899139001527.png" />
+    <Content Include="Themes\BH\Content\images\client\products\sippigrip\sippygrip899139001534.png" />
+    <Content Include="Themes\BH\Content\images\client\products\sippigrip\sippygrip899139001541.png" />
+    <Content Include="Themes\BH\Content\images\client\products\sippigrip\sippygrip899139001787.png" />
     <Content Include="Themes\BH\Content\images\client\products\SippiGrip_Page.png" />
+    <Content Include="Themes\BH\Content\images\client\products\squeezems\squeezems854034003922.png" />
+    <Content Include="Themes\BH\Content\images\client\products\squeezems\squeezems899139001756.png" />
     <Content Include="Themes\BH\Content\images\closelabel.gif" />
     <Content Include="Themes\BH\Content\images\download-sample-bg.gif" />
     <Content Include="Themes\BH\Content\images\forum-footer-bg.gif" />
@@ -2181,13 +2224,18 @@
     <Content Include="Themes\BH\Views\Web.config" />
     <Content Include="Views\Catalog\CYO.cshtml" />
     <Content Include="Themes\BH\Views\ProductsDemo\Index.cshtml" />
-	<Content Include="Themes\BH\Views\Catalog\ProductTemplate.Simple.cshtml" />
-	<Content Include="Views\Home\ProductCats.cshtml" />
-	<Content Include="Themes\BH\Views\Catalog\CategoryTemplate.ProductsInGridOrLines.cshtml" />
-	<Content Include="Views\Catalog\CategoriesTest.cshtml" />
+    <Content Include="Themes\BH\Views\Catalog\ProductTemplate.BHsimple.cshtml" />
+    <Content Include="Views\Home\ProductCats.cshtml" />
+    <Content Include="Themes\BH\Views\Catalog\CategoryTemplate.BHcats.cshtml" />
+    <Content Include="Views\Catalog\CategoriesTest.cshtml" />
     <Content Include="Views\ProductsDemo\Index.cshtml" />
     <Content Include="Themes\BH\Views\ShoppingCart\OrderSummary.cshtml" />
     <Content Include="Themes\BH\Views\Catalog\_ProductAttributes.cshtml" />
+    <Content Include="Themes\BH\Content\images\client\products\productbanners\desktop.ini" />
+    <Content Include="Themes\BH\Content\images\client\products\sippigrip\desktop.ini" />
+    <Content Include="Themes\BH\Content\images\client\products\sippigrip\products.xlsx" />
+    <Content Include="Themes\BH\Content\images\client\products\squeezems\desktop.ini" />
+    <Content Include="Themes\BH\Content\images\client\products\squeezems\products.xlsx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

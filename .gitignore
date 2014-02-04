@@ -2,7 +2,6 @@
 # Omit Presentation/Nop.Web/Plugins from source control
 # because the plugins are rebuilt when you rebuild the solution.
 Presentation/Nop.Web/Plugins
-Presentation/Nop.Web/App_Data/cyo/in_cart/*.*
 Presentation/Nop.Web/App_Data/cyo/orders_sent/*.*
 Presentation/Nop.Web/App_Data/cyo/orders_unsent/*.*
 Presentation/Nop.Web/App_Data/cyo/proofs/*.*
