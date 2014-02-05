@@ -3,6 +3,7 @@
 
 
 <div class="footer">
+    <span class="footLine"><img src="~/Themes/BH/Content/images/client/home/GreyStitch.png" /></span>
     <div class="footerUpper">
         <span class="socialLinks">
             <a href="https://www.facebook.com/BooginHead"><img src="~/Themes/BH/Content/images/client/icons/Facebook.png" alt="Facebook" /></a>
@@ -28,6 +29,7 @@
             <a href="#">View Cart</a>
         </span>
     </div>
+
     <div class="footerLower">
         <span class="footer-disclaimer">
             @T("Content.CopyrightNotice", DateTime.Now.Year.ToString(), Model.StoreName)
@@ -38,7 +40,7 @@
                 Find more info here http://www.nopcommerce.com/copyrightremoval.aspx*@
         </span>
     </div>
-    <span id="footLine"><img src="~/Themes/BH/Content/images/client/home/GreyStitch.png" /></span>
+    <span class="footLine"><img src="~/Themes/BH/Content/images/client/home/GreyStitch.png" /></span>
     <div class="footer-store-theme">
         @Html.Action("StoreThemeSelector", "Common")
     </div>
