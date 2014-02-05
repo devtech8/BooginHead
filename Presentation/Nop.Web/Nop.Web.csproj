@@ -1993,6 +1993,7 @@
     <Content Include="App_Data\cyo\fonts\Anton-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\ArchivoBlack-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\AutourOne-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\BerkshireSwath-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\BigelowRules-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\Bonbon-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\Candal-Regular.ttf" />
@@ -2019,6 +2020,7 @@
     <Content Include="App_Data\cyo\fonts\Roboto-Italic.ttf" />
     <Content Include="App_Data\cyo\fonts\Roboto-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\RugeBoogie-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\RunRaisin-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\Rye-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\ShadowsIntoLight-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\SofadiOne-Regular.ttf" />
@@ -2030,6 +2032,7 @@
     <Content Include="App_Data\cyo\fonts\Ultra-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\VerelaRound-Regular.ttf" />
     <Content Include="App_Data\cyo\pdf_templates\BH_MultiPGPackingSlip_editable.pdf" />
+    <Content Include="App_Data\cyo\pdf_templates\BH_Packing Slip_editable.pdf" />
     <None Include="App_Data\Resources.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -2233,7 +2236,6 @@
     <Content Include="Themes\BH\Content\images\client\products\sippigrip\products.xlsx" />
     <Content Include="Themes\BH\Content\images\client\products\squeezems\desktop.ini" />
     <Content Include="Themes\BH\Content\images\client\products\squeezems\products.xlsx" />
-    <None Include="Properties\PublishProfiles\BH-web.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
