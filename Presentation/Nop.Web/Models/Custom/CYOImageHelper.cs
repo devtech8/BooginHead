@@ -244,9 +244,7 @@ namespace Nop.Web.Models.Custom
             double fontSize = cyoModel.FontSize1;
             if (whichText == 2)
                 fontSize = cyoModel.FontSize2;
-            double fontSizeInInches = fontSize / cyoModel.PixelsPerInch;
-            double fontSizeInPoints = fontSizeInInches * 72.0;
-            return System.Convert.ToInt32(Math.Round(fontSizeInPoints, 0, MidpointRounding.AwayFromZero));                                
+            return System.Convert.ToInt32(fontSize);
         }
 
         public Point TextOffset(int whichText)
@@ -268,7 +266,7 @@ namespace Nop.Web.Models.Custom
             Font font = null;
             int fontSize = FontSize(whichText);
             if (fontFamily.IsStyleAvailable(FontStyle.Regular))
-                font = new Font(fontFamily, fontSize, FontStyle.Regular);
+                font = new Font(fontFamily, fontSize, FontStyle.Regular, GraphicsUnit.Pixel);
             else if (fontFamily.IsStyleAvailable(FontStyle.Bold))
                 font = new Font(fontFamily, fontSize, FontStyle.Bold);
             else if (fontFamily.IsStyleAvailable(FontStyle.Italic))

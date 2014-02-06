@@ -203,7 +203,14 @@
         var textOverlay = $('#cyoOverlayText' + activeTextContainer);
         $('#cyoFontSize' + activeTextContainer).val($('#cyoTextContent' + activeTextContainer).css('font-size'));
         $('#cyoTextTop' + activeTextContainer).val(textOverlay.offset().top);
-        $('#cyoTextLeft' + activeTextContainer).val(textOverlay.offset().left);
+
+        // Back end proof generator renders fonts slightly differently.
+        // This usually brings us to within about 2 pixels of what the front end shows.
+        var leftAdjustment = 6;
+        if (textOverlay.width() >= 160)
+            leftAdjustment += (textOverlay.width() - 160) / 20;
+        $('#cyoTextLeft' + activeTextContainer).val(textOverlay.offset().left - leftAdjustment);
+
         $('#cyoTextHeight' + activeTextContainer).val(textOverlay.height());
         $('#cyoTextWidth' + activeTextContainer).val(textOverlay.width());
         setTextColor();
