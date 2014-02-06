@@ -51,10 +51,10 @@ namespace Nop.Web.Models.Custom
                 else if (!string.IsNullOrEmpty(cyoModel.BgColor))
                     RenderBackgroundColor(graphics, productImage);
 
-                graphics.DrawImage(productImage, 0, 0, productImage.Width, productImage.Height);
                 RenderGraphic(graphics);
                 RenderText(graphics, 1, cyoModel.Text1, cyoModel.FontColor1, cyoModel.TextLeft1, cyoModel.TextTop1);
                 RenderText(graphics, 2, cyoModel.Text2, cyoModel.FontColor2, cyoModel.TextLeft2, cyoModel.TextTop2);
+                graphics.DrawImage(productImage, 0, 0, productImage.Width, productImage.Height);
             }
 
             bitmap.Save(this.OutputFileName);

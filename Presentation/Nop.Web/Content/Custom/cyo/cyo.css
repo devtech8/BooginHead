@@ -9,6 +9,12 @@
   height: 335px;  /* Needs to mactch image height, or background bleeds through at bottom */
 }
 
+#cyoProductContainer 
+{
+    /* z-index: 50; */
+    position: relative;
+}
+
 /* This div is hidden until user selects Nuk brand */
 #binkiesNuk {
     display: none;
@@ -85,12 +91,14 @@
 }
 
 #cyoOverlayText1 {
+  position: absolute;
   top: 194px;
   left: 200px;
   z-index: 30;
 }
 
 #cyoOverlayText2 {
+  position: absolute;
   top: 224px;
   left: 200px;
   z-index: 40;

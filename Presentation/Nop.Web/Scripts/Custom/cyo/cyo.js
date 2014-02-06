@@ -763,6 +763,15 @@
             $(this).addClass('selected-overlay');
             return false;
         });
+
+
+        // This is too jumpy because events keep firing.
+        //$('#cyoProductContainer').mouseover(function () {
+        //    $(this).css("z-index", "0");
+        //});
+        //$('#cyoProductContainer').mouseout(function () {
+        //    $(this).css("z-index", "50");
+        //});
     }
 
     // Initialize document-wide click and key behaviors
