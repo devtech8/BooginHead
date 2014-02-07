@@ -1111,10 +1111,13 @@
     <Content Include="Themes\BH\Content\images\client\home\Home_SQ.png" />
     <Content Include="Themes\BH\Content\images\client\home\PatternBackground_fade.png" />
     <Content Include="Themes\BH\Content\images\client\icons\Facebook.png" />
+    <Content Include="Themes\BH\Content\images\client\icons\Facebook_blue.png" />
     <Content Include="Themes\BH\Content\images\client\icons\Pinterest.png" />
-    <Content Include="Themes\BH\Content\images\client\icons\Search-icon.png" />
+    <Content Include="Themes\BH\Content\images\client\icons\Pinterest_red.png" />
+    <Content Include="Themes\BH\Content\images\client\icons\SearchIcon_E.png" />
     <Content Include="Themes\BH\Content\images\client\icons\shop_cart.png" />
     <Content Include="Themes\BH\Content\images\client\icons\Twitter.png" />
+    <Content Include="Themes\BH\Content\images\client\icons\Twitter_blue.png" />
     <Content Include="Themes\BH\Content\images\client\misc\abclogo.jpg" />
     <Content Include="Themes\BH\Content\images\client\page-banners\AboutUs_Page.png" />
     <Content Include="Themes\BH\Content\images\client\page-banners\ContactUs_Page.png" />
@@ -1993,7 +1996,6 @@
     <Content Include="App_Data\cyo\fonts\Anton-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\ArchivoBlack-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\AutourOne-Regular.ttf" />
-    <Content Include="App_Data\cyo\fonts\BerkshireSwath-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\BigelowRules-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\Bonbon-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\Candal-Regular.ttf" />
@@ -2020,7 +2022,6 @@
     <Content Include="App_Data\cyo\fonts\Roboto-Italic.ttf" />
     <Content Include="App_Data\cyo\fonts\Roboto-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\RugeBoogie-Regular.ttf" />
-    <Content Include="App_Data\cyo\fonts\RunRaisin-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\Rye-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\ShadowsIntoLight-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\SofadiOne-Regular.ttf" />
@@ -2032,7 +2033,6 @@
     <Content Include="App_Data\cyo\fonts\Ultra-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\VerelaRound-Regular.ttf" />
     <Content Include="App_Data\cyo\pdf_templates\BH_MultiPGPackingSlip_editable.pdf" />
-    <Content Include="App_Data\cyo\pdf_templates\BH_Packing Slip_editable.pdf" />
     <None Include="App_Data\Resources.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -2226,7 +2226,7 @@
     <Content Include="Themes\BH\Views\ProductsDemo\Index.cshtml" />
     <Content Include="Themes\BH\Views\Catalog\ProductTemplate.BHsimple.cshtml" />
     <Content Include="Views\Home\ProductCats.cshtml" />
-    <Content Include="Themes\BH\Views\Catalog\CategoryTemplate.BHcats.cshtml" />
+    <Content Include="Themes\BH\Views\Catalog\CategoryTemplate.BHsimple.cshtml" />
     <Content Include="Views\Catalog\CategoriesTest.cshtml" />
     <Content Include="Views\ProductsDemo\Index.cshtml" />
     <Content Include="Themes\BH\Views\ShoppingCart\OrderSummary.cshtml" />
