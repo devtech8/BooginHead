@@ -46,6 +46,7 @@ namespace Nop.Web.Models.Custom
             if (items.Count > 0)
             {
                 CreateOrderFiles(eventMessage.Order);
+                RenameImageFiles(eventMessage.Order, items);
             }
         }
 
@@ -60,6 +61,33 @@ namespace Nop.Web.Models.Custom
                 }
             }
             return cyoItems;
+        }
+
+        /// <summary>
+        /// While constructing the PDF order file, the proof images need to keep
+        /// their Guids. After the PDF order file is generated, the name of each
+        /// proof image should match the name of the other files, so PRIDE can 
+        /// keep them together. PRIDE requested this naming scheme. 
+        /// </summary>
+        /// <param name="order"></param>
+        /// <param name="items"></param>
+        private void RenameImageFiles(Nop.Core.Domain.Orders.Order order, List<OrderItem> items)
+        {
+            string directory = this._webHelper.MapPath("~/App_Data/cyo/orders_unsent/");
+            int itemNumber = 1;
+            foreach (var item in items)
+            {
+                string imageName = string.Format("BH_{0}_{1}.png", order.Id.ToString("D8"), itemNumber.ToString("D3"));
+                string imageGuid = CYOModel.ExtractGuid(item.AttributesXml);
+                string sourceFile = Path.Combine(directory, string.Format("{0}.png", imageGuid));
+                string destFile = Path.Combine(directory, string.Format("{0}.png", imageName));
+                if (!File.Exists(destFile))
+                {
+                    File.Move(sourceFile, destFile);
+                }
+                itemNumber++;
+            }
+
         }
 
         /// <summary>
@@ -116,20 +144,23 @@ namespace Nop.Web.Models.Custom
         private void AddLineItemsToPDF(CYOPDFHelper pdfHelper, Core.Domain.Orders.Order order)
         {
             List<OrderItem> cyoItems = GetCyoItems(order);
+            int itemNumber = 1;
             foreach (var item in cyoItems)
             {
                 Dictionary<string, string> attributes = ParseAttributes(item.AttributesXml);
                 string imageGuid = attributes["CYO Unique Id"];
+                string designName = string.Format("BH_{0}_{1}.png", order.Id.ToString("D8"), itemNumber.ToString("D3"));
                 string color = attributes["CYO Color"];
                 string size = attributes["CYO Size"];
                 string brand = attributes["CYO Brand"];
-                string description = string.Format("CYO Pacifier Color={0}{4}Size={1},Brand={2}{4}Design={3}.png", color, size, brand, imageGuid, Environment.NewLine);
-                
-                double priceAsDouble = Double.Parse(item.PriceExclTax.ToString());                
+                string description = string.Format("CYO Pacifier Color={0}{4}Size={1},Brand={2}{4}Design={3}", color, size, brand, designName, Environment.NewLine);
+
+                double priceAsDouble = Double.Parse(item.UnitPriceExclTax.ToString());                
                 string pathToImageFile = Path.Combine(this._webHelper.MapPath("~/App_Data/cyo/orders_unsent/"), string.Format("{0}.png", imageGuid));
 
                 CYOOrderItem cyoOrderItem = new CYOOrderItem("CYO Pacifier", pathToImageFile, description, priceAsDouble, item.Quantity);
                 pdfHelper.Items.Add(cyoOrderItem);
+                itemNumber++;
             }            
         }
 
@@ -162,12 +193,14 @@ namespace Nop.Web.Models.Custom
             orderHelper.Zip = order.ShippingAddress.ZipPostalCode;
 
             List<OrderItem> cyoItems = GetCyoItems(order);
+            int itemNumber = 1;
             foreach (var item in cyoItems)
             {
                 Dictionary<string, string> attributes = ParseAttributes(item.AttributesXml);
-                string imageGuid = attributes["CYO Unique Id"];
-                string description = string.Format("CYO Pacifier {0}", imageGuid);
+                //string imageGuid = attributes["CYO Unique Id"];
+                string description = string.Format("CYO Pacifier {0}", itemNumber.ToString("D3"));
                 orderHelper.Items.Add(new LineItem(description, item.Quantity));
+                itemNumber++;
             }
             string filePath = Path.Combine(_webHelper.MapPath("~/App_Data/cyo/orders_unsent"), string.Format("BH_{0}.txt", order.Id.ToString("D8")));
             using (FileStream fs = File.Open(filePath, FileMode.Create))
