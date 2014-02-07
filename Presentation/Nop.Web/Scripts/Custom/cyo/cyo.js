@@ -272,17 +272,19 @@
         var binkyHeight = $('#cyoBinkyLarge').height();
         var bgSize = (parseFloat(uploadedImageWidth) / parseFloat(binkyWidth));
         if (bgSize < 1.00) {
-            bgOffsetLeft = Math.round((binkyWidth - uploadedImageWidth) / 2);
-            bgOffsetTop = Math.round((binkyHeight - uploadedImageHeight) / 2);
+            // Note that the bg images are not quite centered. 
+            // Centered would be 50% / 50%, but then they appear slightly high and left.
+            bgOffsetLeft = Math.round((binkyWidth - uploadedImageWidth) * 0.52);
+            bgOffsetTop = Math.round((binkyHeight - uploadedImageHeight) * 0.52);
             bgPercent = Math.round(bgSize * 100);
         }
         // Set background-size and offsets. Zoom is always initialized to 100%.
         $('#cyoSample').css('background-size', bgPercent + '%');
-        $('#cyoSample').css('background-position', 'center');
+        $('#cyoSample').css('background-position', '52% 52%');
         $('#uploadSizeSlider a').css('left', DEFAULT_ZOOM_SLIDER_POSITION);
         $('#cyoBgImageZoom').val('100');
-        $('#cyoBgImageOffsetX').val(bgOffsetLeft.toString());
-        $('#cyoBgImageOffsetY').val(bgOffsetTop.toString());
+        $('#cyoBgImageOffsetX').val((bgOffsetLeft).toString());
+        $('#cyoBgImageOffsetY').val((bgOffsetTop).toString());
     }
 
 
