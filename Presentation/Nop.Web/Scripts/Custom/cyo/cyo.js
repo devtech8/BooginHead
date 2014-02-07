@@ -595,6 +595,7 @@
         // by clicking in a new location or by dragging the dot.
         $('#cyoBackgroundColorControl').spectrum({
             allowEmpty: true,
+            clickoutFiresChange: true,
             color: "#fff",
             move: setBinkyBackgroundColor,
             showPalette: true
@@ -662,6 +663,7 @@
         // Allow font color input to set font color in overlay
         $('#cyoTextColor').spectrum({
             allowEmpty: true,
+            clickoutFiresChange: true,
             color: "#000",
             move: setTextColor,
             showPalette: true
