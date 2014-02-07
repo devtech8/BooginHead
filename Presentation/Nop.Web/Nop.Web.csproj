@@ -2033,6 +2033,10 @@
     <Content Include="App_Data\cyo\fonts\Ultra-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\VerelaRound-Regular.ttf" />
     <Content Include="App_Data\cyo\pdf_templates\BH_MultiPGPackingSlip_editable.pdf" />
+
+    <Content Include="App_Data\cyo\fonts\BerkshireSwash-Regular.ttf" />
+    <Content Include="App_Data\cyo\fonts\RumRaisin-Regular.ttf" />
+    <Content Include="App_Data\cyo\pdf_templates\BH_Packing_Slip_editable.pdf" />
     <None Include="App_Data\Resources.xsd">
       <SubType>Designer</SubType>
     </None>

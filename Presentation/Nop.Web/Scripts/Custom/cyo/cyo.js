@@ -203,7 +203,14 @@
         var textOverlay = $('#cyoOverlayText' + activeTextContainer);
         $('#cyoFontSize' + activeTextContainer).val($('#cyoTextContent' + activeTextContainer).css('font-size'));
         $('#cyoTextTop' + activeTextContainer).val(textOverlay.offset().top);
-        $('#cyoTextLeft' + activeTextContainer).val(textOverlay.offset().left);
+
+        // Back end proof generator renders fonts slightly differently.
+        // This usually brings us to within about 2 pixels of what the front end shows.
+        var leftAdjustment = 6;
+        if (textOverlay.width() >= 160)
+            leftAdjustment += (textOverlay.width() - 160) / 20;
+        $('#cyoTextLeft' + activeTextContainer).val(textOverlay.offset().left - leftAdjustment);
+
         $('#cyoTextHeight' + activeTextContainer).val(textOverlay.height());
         $('#cyoTextWidth' + activeTextContainer).val(textOverlay.width());
         setTextColor();
@@ -265,17 +272,19 @@
         var binkyHeight = $('#cyoBinkyLarge').height();
         var bgSize = (parseFloat(uploadedImageWidth) / parseFloat(binkyWidth));
         if (bgSize < 1.00) {
-            bgOffsetLeft = Math.round((binkyWidth - uploadedImageWidth) / 2);
-            bgOffsetTop = Math.round((binkyHeight - uploadedImageHeight) / 2);
+            // Note that the bg images are not quite centered. 
+            // Centered would be 50% / 50%, but then they appear slightly high and left.
+            bgOffsetLeft = Math.round((binkyWidth - uploadedImageWidth) * 0.52);
+            bgOffsetTop = Math.round((binkyHeight - uploadedImageHeight) * 0.52);
             bgPercent = Math.round(bgSize * 100);
         }
         // Set background-size and offsets. Zoom is always initialized to 100%.
         $('#cyoSample').css('background-size', bgPercent + '%');
-        $('#cyoSample').css('background-position', 'center');
+        $('#cyoSample').css('background-position', '52% 52%');
         $('#uploadSizeSlider a').css('left', DEFAULT_ZOOM_SLIDER_POSITION);
         $('#cyoBgImageZoom').val('100');
-        $('#cyoBgImageOffsetX').val(bgOffsetLeft.toString());
-        $('#cyoBgImageOffsetY').val(bgOffsetTop.toString());
+        $('#cyoBgImageOffsetX').val((bgOffsetLeft).toString());
+        $('#cyoBgImageOffsetY').val((bgOffsetTop).toString());
     }
 
 
@@ -586,6 +595,7 @@
         // by clicking in a new location or by dragging the dot.
         $('#cyoBackgroundColorControl').spectrum({
             allowEmpty: true,
+            clickoutFiresChange: true,
             color: "#fff",
             move: setBinkyBackgroundColor,
             showPalette: true
@@ -653,6 +663,7 @@
         // Allow font color input to set font color in overlay
         $('#cyoTextColor').spectrum({
             allowEmpty: true,
+            clickoutFiresChange: true,
             color: "#000",
             move: setTextColor,
             showPalette: true
@@ -763,6 +774,15 @@
             $(this).addClass('selected-overlay');
             return false;
         });
+
+
+        // This is too jumpy because events keep firing.
+        //$('#cyoProductContainer').mouseover(function () {
+        //    $(this).css("z-index", "0");
+        //});
+        //$('#cyoProductContainer').mouseout(function () {
+        //    $(this).css("z-index", "50");
+        //});
     }
 
     // Initialize document-wide click and key behaviors

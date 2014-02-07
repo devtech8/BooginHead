@@ -51,10 +51,10 @@ namespace Nop.Web.Models.Custom
                 else if (!string.IsNullOrEmpty(cyoModel.BgColor))
                     RenderBackgroundColor(graphics, productImage);
 
-                graphics.DrawImage(productImage, 0, 0, productImage.Width, productImage.Height);
                 RenderGraphic(graphics);
                 RenderText(graphics, 1, cyoModel.Text1, cyoModel.FontColor1, cyoModel.TextLeft1, cyoModel.TextTop1);
                 RenderText(graphics, 2, cyoModel.Text2, cyoModel.FontColor2, cyoModel.TextLeft2, cyoModel.TextTop2);
+                graphics.DrawImage(productImage, 0, 0, productImage.Width, productImage.Height);
             }
 
             bitmap.Save(this.OutputFileName);
@@ -93,12 +93,13 @@ namespace Nop.Web.Models.Custom
             // Now apply the zoom.
             if (cyoModel.BgImageZoom != 100 && zoomAlreadyApplied == false)
             { 
-                // WTF?? Browser has bg image zoom set to 50%, and it renders correctly.
-                // To match what the browser displays, we have to set the zoom to 65%.
-                // Why?? This applies to Booginhead stock backgrounds only.
-                // Users cannot change the zoom on those.
+                // Browser has bg image zoom set to 50% and is working with 96ppi resolution.
+                // Here the productImage is 72 ppi, so we have to adjust the zoom to reach
+                // the same size in inches or cm.
+                // 96 * 0.50 = 48
+                // 72 + 0.667 = 48
                 if (!cyoModel.BackgroundIsUploadedImage)
-                    zoom = 0.65;
+                    zoom = 0.667;
 
                 int width = System.Convert.ToInt32(zoom * backgroundImage.Width);
                 int height = System.Convert.ToInt32(zoom * backgroundImage.Height);
@@ -113,8 +114,9 @@ namespace Nop.Web.Models.Custom
             // Booginhead stock background images must be centered behind the product image.
             if (!cyoModel.BackgroundIsUploadedImage)
             {
-                backgroundX = (productImage.Width - backgroundImage.Width) / 2;
-                backgroundY = (productImage.Height - backgroundImage.Height) / 2;
+                // Hack: add 5px to x/y offset to get position close to correct
+                backgroundX = 5 + (productImage.Width - backgroundImage.Width) / 2;
+                backgroundY = 5 + (productImage.Height - backgroundImage.Height) / 2;
             }
 
             // Explicitly specify width and height of bg image, because
@@ -244,9 +246,7 @@ namespace Nop.Web.Models.Custom
             double fontSize = cyoModel.FontSize1;
             if (whichText == 2)
                 fontSize = cyoModel.FontSize2;
-            double fontSizeInInches = fontSize / cyoModel.PixelsPerInch;
-            double fontSizeInPoints = fontSizeInInches * 72.0;
-            return System.Convert.ToInt32(Math.Round(fontSizeInPoints, 0, MidpointRounding.AwayFromZero));                                
+            return System.Convert.ToInt32(fontSize);
         }
 
         public Point TextOffset(int whichText)
@@ -268,7 +268,7 @@ namespace Nop.Web.Models.Custom
             Font font = null;
             int fontSize = FontSize(whichText);
             if (fontFamily.IsStyleAvailable(FontStyle.Regular))
-                font = new Font(fontFamily, fontSize, FontStyle.Regular);
+                font = new Font(fontFamily, fontSize, FontStyle.Regular, GraphicsUnit.Pixel);
             else if (fontFamily.IsStyleAvailable(FontStyle.Bold))
                 font = new Font(fontFamily, fontSize, FontStyle.Bold);
             else if (fontFamily.IsStyleAvailable(FontStyle.Italic))
