@@ -1,12 +1,13 @@
-﻿#cyoLeftColumn {
+﻿#cyoLeftColumn, #cyoLeftTop {
   float: left;
   position: relative;
+  width: 472px;
 }
 
 #cyoSample {
   background-repeat:no-repeat;
   background-position:center;
-  height: 335px;  /* Needs to mactch image height, or background bleeds through at bottom */
+  height: 335px;  /* Needs to match image height, or background bleeds through at bottom */
 }
 
 #cyoProductContainer 
@@ -105,7 +106,7 @@
 }
 
 
-#cyoCustomizer {
+#cyoCustomizer, #cyoRightTop {
   float: right;
   width: 40%;
   margin-right: 30px;
