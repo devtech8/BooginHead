@@ -113,6 +113,10 @@
   font-size: 10pt;
 }
 
+#cyoRightTop li {
+    margin-left: 18px;
+}
+
 #cyoLaunchButtonContainer .cyoButtonContainer, #cyoModalText .cyoButtonContainer {
     margin-top: 10px;
     display: block;
