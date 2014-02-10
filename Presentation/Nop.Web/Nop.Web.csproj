@@ -1087,6 +1087,13 @@
     <Content Include="Scripts\Custom\cyo\jscolor\hv.png" />
     <Content Include="Scripts\Custom\cyo\jscolor\jscolor.js" />
     <Content Include="Scripts\Custom\cyo\spectrum.js" />
+    <Content Include="Scripts\jquery.bxslider\images\bx_loader.gif" />
+    <Content Include="Scripts\jquery.bxslider\images\controls.png" />
+    <Content Include="Scripts\jquery.bxslider\jquery.bxslider.css" />
+    <Content Include="Scripts\jquery.bxslider\jquery.bxslider.js" />
+    <Content Include="Scripts\jquery.bxslider\jquery.bxslider.min.js" />
+    <Content Include="Scripts\jquery.bxslider\plugins\jquery.easing.1.3.js" />
+    <Content Include="Scripts\jquery.bxslider\plugins\jquery.fitvids.js" />
     <Content Include="Scripts\public.common.mobile.js" />
     <Content Include="Themes\BH\Content\BH.css" />
     <Content Include="Themes\BH\Content\header.css" />
@@ -1147,6 +1154,7 @@
     <Content Include="Themes\BH\Content\images\client\products\Product_SippiGrip.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_SippiGrip_Large.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_SippiGrip_RO.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_Specials2.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_Specials2_Large.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_SplatMat.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_SplatMat_Large.png" />
@@ -1940,7 +1948,6 @@
     <Folder Include="App_Data\cyo\uploads\" />
     <Folder Include="Plugins\bin\" />
     <Folder Include="Themes\BH\Views\Custom\" />
-    <Folder Include="Themes\BH\Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Nop.Core\Nop.Core.csproj">
@@ -2033,7 +2040,6 @@
     <Content Include="App_Data\cyo\fonts\Ultra-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\VerelaRound-Regular.ttf" />
     <Content Include="App_Data\cyo\pdf_templates\BH_MultiPGPackingSlip_editable.pdf" />
-
     <Content Include="App_Data\cyo\fonts\BerkshireSwash-Regular.ttf" />
     <Content Include="App_Data\cyo\fonts\RumRaisin-Regular.ttf" />
     <Content Include="App_Data\cyo\pdf_templates\BH_Packing_Slip_editable.pdf" />
@@ -2230,7 +2236,7 @@
     <Content Include="Themes\BH\Views\ProductsDemo\Index.cshtml" />
     <Content Include="Themes\BH\Views\Catalog\ProductTemplate.BHsimple.cshtml" />
     <Content Include="Views\Home\ProductCats.cshtml" />
-    <Content Include="Themes\BH\Views\Catalog\CategoryTemplate.BHsimple.cshtml" />
+    <Content Include="Themes\BH\Views\Catalog\CategoryTemplate.BHcats.cshtml" />
     <Content Include="Views\Catalog\CategoriesTest.cshtml" />
     <Content Include="Views\ProductsDemo\Index.cshtml" />
     <Content Include="Themes\BH\Views\ShoppingCart\OrderSummary.cshtml" />
@@ -2240,6 +2246,15 @@
     <Content Include="Themes\BH\Content\images\client\products\sippigrip\products.xlsx" />
     <Content Include="Themes\BH\Content\images\client\products\squeezems\desktop.ini" />
     <Content Include="Themes\BH\Content\images\client\products\squeezems\products.xlsx" />
+    <Content Include="Themes\BH\Views\Catalog\HomepageCategories.cshtml" />
+    <Content Include="Themes\BH\Views\Home\ProductCats.cshtml" />
+    <Content Include="Scripts\jquery.bxslider\images\desktop.ini" />
+    <Content Include="Scripts\jquery.bxslider\plugins\desktop.ini" />
+    <Content Include="Scripts\jquery.bxslider\readme.md" />
+    <Content Include="Themes\BH\Views\Blog\BlogMonths.cshtml" />
+    <Content Include="Themes\BH\Views\Blog\BlogPost.cshtml" />
+    <Content Include="Themes\BH\Views\Blog\List.cshtml" />
+    <Content Include="Themes\BH\Views\Blog\BlogTags.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

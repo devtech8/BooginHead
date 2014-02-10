@@ -60,7 +60,6 @@
                 </div>
                 @using (Html.BeginForm())
                 {
-                    
                     <div class="form-fields">
                         <div class="inputs">
                             @Html.LabelFor(model => model.AddNewComment.CommentText, new { }, ":")
@@ -87,7 +86,6 @@
                 </div>
                 @foreach (var comment in Model.Comments)
                 {
-                    <h4>TESTING BLOG BY MG</h4>
                     <div class="blog-comment">
                         <div class="comment-info">
                             <div class="user-info">
