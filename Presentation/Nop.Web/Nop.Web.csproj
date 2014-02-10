@@ -1947,7 +1947,6 @@
     <Folder Include="App_Data\cyo\proofs\" />
     <Folder Include="App_Data\cyo\uploads\" />
     <Folder Include="Plugins\bin\" />
-    <Folder Include="Themes\BH\Views\Custom\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Nop.Core\Nop.Core.csproj">
@@ -2228,11 +2227,11 @@
     <Content Include="Themes\Furniture\Views\ShoppingCart\OrderSummary.cshtml" />
     <Content Include="Themes\Furniture\Views\ShoppingCart\Wishlist.cshtml" />
     <Content Include="Themes\Furniture\Views\Web.config" />
-    <Content Include="Views\Custom\cyo\_cyo.cshtml" />
+    <Content Include="Themes\BH\Views\Catalog\_cyo.cshtml" />
     <Content Include="Themes\BH\theme.config" />
     <Content Include="Themes\BH\Views\Shared\Head.cshtml" />
     <Content Include="Themes\BH\Views\Web.config" />
-    <Content Include="Views\Catalog\CYO.cshtml" />
+    <Content Include="Themes\BH\Views\Catalog\CYO.cshtml" />
     <Content Include="Themes\BH\Views\ProductsDemo\Index.cshtml" />
     <Content Include="Themes\BH\Views\Catalog\ProductTemplate.BHsimple.cshtml" />
     <Content Include="Views\Home\ProductCats.cshtml" />
