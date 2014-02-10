@@ -77,7 +77,7 @@ namespace Nop.Web.Models.Custom
             int itemNumber = 1;
             foreach (var item in items)
             {
-                string imageName = string.Format("BH_{0}_{1}.png", order.Id.ToString("D8"), itemNumber.ToString("D3"));
+                string imageName = string.Format("BH_{0}_{1}", order.Id.ToString("D8"), itemNumber.ToString("D3"));
                 string imageGuid = CYOModel.ExtractGuid(item.AttributesXml);
                 string sourceFile = Path.Combine(directory, string.Format("{0}.png", imageGuid));
                 string destFile = Path.Combine(directory, string.Format("{0}.png", imageName));
