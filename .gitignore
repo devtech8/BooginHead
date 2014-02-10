@@ -4,6 +4,7 @@
 Presentation/Nop.Web/Plugins
 Presentation/Nop.Web/App_Data/cyo/in_cart/*.*
 Presentation/Nop.Web/App_Data/cyo/orders_sent/*.*
+Presentation/Nop.Web/App_Data/cyo/orders_unsent
 Presentation/Nop.Web/App_Data/cyo/orders_unsent/*.*
 Presentation/Nop.Web/App_Data/cyo/proofs/*.*
 Presentation/Nop.Web/App_Data/cyo/uploads/*.*
