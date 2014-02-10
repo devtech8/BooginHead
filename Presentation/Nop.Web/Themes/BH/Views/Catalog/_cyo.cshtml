@@ -1,14 +1,14 @@
 ﻿@{
     Layout = "";
 
-    Html.AddScriptParts("~/Scripts/Custom/cyo/spectrum.js");
+    Html.AddScriptParts("~/Themes/BH/Scripts/cyo/spectrum.js");
     Html.AddScriptParts("~/Scripts/fileuploader.js");
-    Html.AddScriptParts("~/Scripts/Custom/cyo/cyo.js");
+    Html.AddScriptParts("~/Themes/BH/Scripts/cyo/cyo.js");
 
     Html.AddCssFileParts("~/Content/jquery-ui-themes/smoothness/jquery-ui-1.10.0.custom.min.css");
-    Html.AddCssFileParts("~/Content/Custom/cyo/spectrum.css");
+    Html.AddCssFileParts("~/Themes/BH/Content/cyo/spectrum.css");
     Html.AddCssFileParts("~/Content/fileuploader/fileuploader.css");
-    Html.AddCssFileParts("~/Content/Custom/cyo/cyo.css");
+    Html.AddCssFileParts("~/Themes/BH/Content/cyo/cyo.css");
 
     AjaxOptions ajaxOptions = new AjaxOptions();
     ajaxOptions.HttpMethod = "Post";
@@ -40,7 +40,7 @@
 
     <div id="cyoLeftColumn">
   	    <div id="cyoSample">
-            <div id="cyoProductContainer"><img id="cyoBinkyLarge" src="~/Content/custom/cyo/images/shield_white.png" /></div>
+            <div id="cyoProductContainer"><img id="cyoBinkyLarge" src="~/Themes/BH/Content/cyo/images/shield_white.png" /></div>
             <div id="cyoOverlayStockImage" style="display:none;"><div class="cyoImgContainer"></div></div>
             <div id="cyoOverlayText1" style="display:none; font-family: 'ABeeZee';"><div id="cyoTextContent1"></div></div>
             <div id="cyoOverlayText2" style="display:none; font-family: 'ABeeZee';"><div id="cyoTextContent2"></div></div>
@@ -80,12 +80,12 @@
 
         <h2 class="cyo-h2">Step 2: Choose A Color</h2>
         <section class="shields" id="binkiesBooginhead">
-            <img src="http://booginhead.com/products/pacitool/img/shield-color/shield_white_thumb.jpg" data-shield="white" data-large-image="@Url.Content("~/Content/custom/cyo/images/shield_white.png")">
-            <img src="http://booginhead.com/products/pacitool/img/shield-color/shield_pink_thumb.jpg" data-shield="pink" data-large-image="@Url.Content("~/Content/custom/cyo/images/shield_pink.png")">
-            <img src="http://booginhead.com/products/pacitool/img/shield-color/shield_blue_thumb.jpg" data-shield="blue" data-large-image="@Url.Content("~/Content/custom/cyo/images/shield_blue.png")">
+            <img src="http://booginhead.com/products/pacitool/img/shield-color/shield_white_thumb.jpg" data-shield="white" data-large-image="@Url.Content("~/Themes/BH/Content/cyo/images/shield_white.png")">
+            <img src="http://booginhead.com/products/pacitool/img/shield-color/shield_pink_thumb.jpg" data-shield="pink" data-large-image="@Url.Content("~/Themes/BH/Content/cyo/images/shield_pink.png")">
+            <img src="http://booginhead.com/products/pacitool/img/shield-color/shield_blue_thumb.jpg" data-shield="blue" data-large-image="@Url.Content("~/Themes/BH/Content/cyo/images/shield_blue.png")">
         </section>
         <section class="shields" id="binkiesNuk">
-            <img src="~/Content/custom/cyo/images/nuk_thumb.jpg" data-shield="white" data-large-image="@Url.Content("~/Content/custom/cyo/images/nuk.jpg")">
+            <img src="~/Themes/BH/Content/cyo/images/nuk_thumb.jpg" data-shield="white" data-large-image="@Url.Content("~/Themes/BH/Content/cyo/images/nuk.jpg")">
         </section>
 
 
@@ -135,36 +135,36 @@
             </section>
             <section class="chooser" style="width:60%;float:right;">
                 <h3>Background Image</h3>
-				<img src="~/Content/Custom/cyo/images/backgrounds/America_thumb.jpg" title="America">
-                <img src="~/Content/Custom/cyo/images/backgrounds/BritishFlag_thumb.jpg" title="British Flag">
-                <img src="~/Content/Custom/cyo/images/backgrounds/Blue_plaid_banner_thumb.jpg" title="Blue Plaid Banner">
-                <img src="~/Content/Custom/cyo/images/backgrounds/Brown_Stars_thumb.jpg" title="Brown Stars">
-                <img src="~/Content/Custom/cyo/images/backgrounds/Green_Star_Banner_thumb.jpg" title="Green Star Banner">
-                <img src="~/Content/Custom/cyo/images/backgrounds/Houndstooth_Blue_thumb.jpg" title="Blue Houndstooth">
-                <img src="~/Content/Custom/cyo/images/backgrounds/Houndstooth_Pink_thumb.jpg" title="Pink Houndstooth">
-                <img src="~/Content/Custom/cyo/images/backgrounds/Pink_Dot_Banner_thumb.jpg" title="Pink Dot Banner">
-                <img src="~/Content/Custom/cyo/images/backgrounds/Purple_Dot_Banner_thumb.jpg" title="Purple Dot Banner">
-                <img src="~/Content/Custom/cyo/images/backgrounds/purple_plaid_thumb.jpg" title="Purple Plaid">
-                <img src="~/Content/Custom/cyo/images/backgrounds/Burberry_Plaid_Banner_thumb.jpg" title="Burberry Plaid Banner">
-                <img src="~/Content/Custom/cyo/images/backgrounds/pink_flower_thumb.jpg" title="Pink Flower">
-                <img src="~/Content/Custom/cyo/images/backgrounds/Hearts_thumb.jpg" title="Hearts">
-                <img src="~/Content/Custom/cyo/images/backgrounds/big_dots_thumb.jpg" title="Big Dots">
-                <img src="~/Content/Custom/cyo/images/backgrounds/Flower_thumb.jpg" title="Flower">
-                <img src="~/Content/Custom/cyo/images/backgrounds/giraffe_thumb.jpg" title="Giraffe">
-                <img src="~/Content/Custom/cyo/images/backgrounds/zebra_thumb.jpg" title="Zebra">
-                <img src="~/Content/Custom/cyo/images/backgrounds/Swirls_thumb.jpg" title="Swirls">
-                <img src="~/Content/Custom/cyo/images/backgrounds/Bee_boy_thumb.jpg" title="Boy Bee">
-                <img src="~/Content/Custom/cyo/images/backgrounds/bee_girl_thumb.jpg" title="Girl Bee">
-                <img src="~/Content/Custom/cyo/images/backgrounds/peppermint_thumb.jpg" title="Peppermint">
-                <img src="~/Content/Custom/cyo/images/backgrounds/pink-peppermint_thumb.jpg" title="Pink Peppermint">
-                <img src="~/Content/Custom/cyo/images/backgrounds/Fa_La_La_thumb.jpg" title="Fa La La">
-                <img src="~/Content/Custom/cyo/images/backgrounds/Merry_X_mas_Red_thumb.jpg" title="Merry Xmas Red">
-                <img src="~/Content/Custom/cyo/images/backgrounds/snowflakes_thumb.jpg" title="Snowflakes">
-                <img src="~/Content/Custom/cyo/images/backgrounds/snowman_thumb.jpg" title="Snowman">
-                <img src="~/Content/Custom/cyo/images/backgrounds/new_year_thumb.jpg" title="New Year">
-                <img src="~/Content/Custom/cyo/images/backgrounds/art_hearts_thumb.jpg" title="Art Hearts">
-                <img src="~/Content/Custom/cyo/images/backgrounds/heart_banner_thumb.jpg" title="Heart Banner">
-                <img src="~/Content/Custom/cyo/images/backgrounds/LOVE_thumb.jpg" title="Love">
+				<img src="~/Themes/BH/Content/cyo/images/backgrounds/America_thumb.jpg" title="America">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/BritishFlag_thumb.jpg" title="British Flag">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/Blue_plaid_banner_thumb.jpg" title="Blue Plaid Banner">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/Brown_Stars_thumb.jpg" title="Brown Stars">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/Green_Star_Banner_thumb.jpg" title="Green Star Banner">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/Houndstooth_Blue_thumb.jpg" title="Blue Houndstooth">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/Houndstooth_Pink_thumb.jpg" title="Pink Houndstooth">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/Pink_Dot_Banner_thumb.jpg" title="Pink Dot Banner">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/Purple_Dot_Banner_thumb.jpg" title="Purple Dot Banner">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/purple_plaid_thumb.jpg" title="Purple Plaid">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/Burberry_Plaid_Banner_thumb.jpg" title="Burberry Plaid Banner">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/pink_flower_thumb.jpg" title="Pink Flower">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/Hearts_thumb.jpg" title="Hearts">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/big_dots_thumb.jpg" title="Big Dots">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/Flower_thumb.jpg" title="Flower">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/giraffe_thumb.jpg" title="Giraffe">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/zebra_thumb.jpg" title="Zebra">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/Swirls_thumb.jpg" title="Swirls">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/Bee_boy_thumb.jpg" title="Boy Bee">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/bee_girl_thumb.jpg" title="Girl Bee">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/peppermint_thumb.jpg" title="Peppermint">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/pink-peppermint_thumb.jpg" title="Pink Peppermint">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/Fa_La_La_thumb.jpg" title="Fa La La">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/Merry_X_mas_Red_thumb.jpg" title="Merry Xmas Red">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/snowflakes_thumb.jpg" title="Snowflakes">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/snowman_thumb.jpg" title="Snowman">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/new_year_thumb.jpg" title="New Year">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/art_hearts_thumb.jpg" title="Art Hearts">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/heart_banner_thumb.jpg" title="Heart Banner">
+                <img src="~/Themes/BH/Content/cyo/images/backgrounds/LOVE_thumb.jpg" title="Love">
             </section>
         </div>
 
@@ -297,37 +297,37 @@
         <div id="cyoModalGraphic" title="Choose a graphic">
             <input type="hidden" autofocus="autofocus" /> <!-- jQuery dialog autofocus fix -->
             <section class="chooser">
-                <img src="~/Content/Custom/cyo/images/graphics/OwlGreen.png" width="80" title="Green Owl" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/OwlPink.png" width="80" title="Pink Owl" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/SkullBoy_thumb.jpg" title="Boy Skull" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/SkullGirl.png" width="80" title="Girl Skull" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/2030.jpg" width="80" title="Class of 2030" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/Female_thumb.jpg" title="Female" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/Male.png" width="80" title="Male" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/ILoveDad_thumb.jpg" title="I Love Dad" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/ILoveMom_thumb.jpg" title="I Love Mom" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/DND_thumb.jpg" title="DND" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/Fragile_thumb.jpg" title="Fragile" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/Hi_thumb.jpg" title="Hi" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/HeavenSent_thumb.jpg" title="Heaven Sent" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/iCry_thumb.jpg" title="I Cry" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/ImABoy_thumb.jpg" title="I'm a Boy" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/ImAGirl_thumb.jpg" title="I'm a Girl" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/JustChillin_thumb.jpg" title="Just Chillin" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/MilkJunkie_thumb.jpg" title="Milk Junkie" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/DaddysGirl.png" width="80" title="Daddy's Girl'" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/MuteButton_thumb.jpg" title="Mute Button" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/NoComment_thumb.jpg" title="No Comment" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/NoHablo_thumb.jpg" title="No Hablo" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/PTSA_thumb.jpg" title="PTSA" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/Snooze_thumb.jpg" title="Snooze" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/TaxDeduction_thumb.jpg" title="Tax Deduction" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/TooCute.png" width="80" title="Too Cute" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/VolumeControl.png" width="80" title="Volume Control" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/WhineConnoisseur.png" width="80" title="Whine Connoisseur" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/Hearts.png" width="80" title="Hearts" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/Stash1.png" width="80" title="Mustache 1" data-fill-background="false">
-                <img src="~/Content/Custom/cyo/images/graphics/Stash2.png" width="80" title="Mustache 2" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/OwlGreen.png" width="80" title="Green Owl" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/OwlPink.png" width="80" title="Pink Owl" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/SkullBoy_thumb.jpg" title="Boy Skull" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/SkullGirl.png" width="80" title="Girl Skull" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/2030.jpg" width="80" title="Class of 2030" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/Female_thumb.jpg" title="Female" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/Male.png" width="80" title="Male" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/ILoveDad_thumb.jpg" title="I Love Dad" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/ILoveMom_thumb.jpg" title="I Love Mom" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/DND_thumb.jpg" title="DND" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/Fragile_thumb.jpg" title="Fragile" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/Hi_thumb.jpg" title="Hi" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/HeavenSent_thumb.jpg" title="Heaven Sent" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/iCry_thumb.jpg" title="I Cry" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/ImABoy_thumb.jpg" title="I'm a Boy" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/ImAGirl_thumb.jpg" title="I'm a Girl" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/JustChillin_thumb.jpg" title="Just Chillin" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/MilkJunkie_thumb.jpg" title="Milk Junkie" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/DaddysGirl.png" width="80" title="Daddy's Girl'" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/MuteButton_thumb.jpg" title="Mute Button" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/NoComment_thumb.jpg" title="No Comment" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/NoHablo_thumb.jpg" title="No Hablo" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/PTSA_thumb.jpg" title="PTSA" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/Snooze_thumb.jpg" title="Snooze" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/TaxDeduction_thumb.jpg" title="Tax Deduction" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/TooCute.png" width="80" title="Too Cute" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/VolumeControl.png" width="80" title="Volume Control" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/WhineConnoisseur.png" width="80" title="Whine Connoisseur" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/Hearts.png" width="80" title="Hearts" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/Stash1.png" width="80" title="Mustache 1" data-fill-background="false">
+                <img src="~/Themes/BH/Content/cyo/images/graphics/Stash2.png" width="80" title="Mustache 2" data-fill-background="false">
             </section>
         </div>
 
@@ -379,7 +379,7 @@
             <!-- Product Info -->
             <input type="hidden" name="cyoProductSize" id="cyoProductSize" value="7plus" />
             <input type="hidden" name="cyoProductColor" id="cyoProductColor" value="white" />
-            <input type="hidden" name="cyoSampleImage" id="cyoSampleImage" value="@Url.Content("~/Content/custom/cyo/images/shield_white.png")" />
+            <input type="hidden" name="cyoSampleImage" id="cyoSampleImage" value="@Url.Content("~/Themes/BH/Content/cyo/images/shield_white.png")" />
             <input type="hidden" name="cyoBrand" id="cyoBrand" value="booginhead" />
 
             <!-- Binky position and background -->
