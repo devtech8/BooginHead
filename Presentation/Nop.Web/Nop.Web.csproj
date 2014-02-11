@@ -2254,6 +2254,7 @@
     <Content Include="Themes\BH\Views\Blog\BlogPost.cshtml" />
     <Content Include="Themes\BH\Views\Blog\List.cshtml" />
     <Content Include="Themes\BH\Views\Blog\BlogTags.cshtml" />
+    <Content Include="Themes\BH\Views\ShoppingCart\FlyoutShoppingCart.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
