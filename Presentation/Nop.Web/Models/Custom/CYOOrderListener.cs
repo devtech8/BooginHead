@@ -18,7 +18,7 @@ using Nop.Services.Logging;
 
 namespace Nop.Web.Models.Custom
 {
-    public class CYOOrderListener : IConsumer<OrderPlacedEvent>
+    public class CYOOrderListener : IConsumer<OrderPaidEvent>
     {
         private ILogger _logger = null;
         private IWebHelper _webHelper = null;
@@ -33,7 +33,14 @@ namespace Nop.Web.Models.Custom
             this._multiPageTemplate = Path.Combine(_webHelper.MapPath("~/App_Data/cyo/pdf_templates/"), "BH_MultiPGPackingSlip_editable.pdf");
         }
 
-        void IConsumer<OrderPlacedEvent>.HandleEvent(OrderPlacedEvent eventMessage)
+        /// <summary>
+        /// When an order is PAID (not PLACED), created the CYO order files for PRIDE.
+        /// Those files will go into the folder App_Data/cyo/orders_unsent. They'll 
+        /// be picked up by the scheduled job CYOFileTransferTask, and sent by SFTP
+        /// to PRIDE for fulfillment.
+        /// </summary>
+        /// <param name="eventMessage"></param>
+        void IConsumer<OrderPaidEvent>.HandleEvent(OrderPaidEvent eventMessage)
         {
             List<OrderItem> items = GetCyoItems(eventMessage.Order);
             foreach (var item in items)
@@ -77,7 +84,7 @@ namespace Nop.Web.Models.Custom
             int itemNumber = 1;
             foreach (var item in items)
             {
-                string imageName = string.Format("BH_{0}_{1}.png", order.Id.ToString("D8"), itemNumber.ToString("D3"));
+                string imageName = string.Format("BH_{0}_{1}", order.Id.ToString("D8"), itemNumber.ToString("D3"));
                 string imageGuid = CYOModel.ExtractGuid(item.AttributesXml);
                 string sourceFile = Path.Combine(directory, string.Format("{0}.png", imageGuid));
                 string destFile = Path.Combine(directory, string.Format("{0}.png", imageName));

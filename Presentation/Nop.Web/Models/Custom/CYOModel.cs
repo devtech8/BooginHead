@@ -45,7 +45,7 @@ namespace Nop.Web.Models.Custom
             BgImageOffsetY = ParseInt(requestParams["cyoBgImageOffsetY"]);
             BgColor = requestParams["cyoBgColor"];
             Text1 = requestParams["cyoText1"];
-            FontFamily1 = requestParams["cyoFontFamily1"];
+            FontFamily1 = requestParams["cyoFontFamily1"].Replace("\"", "");  // IE sends some fonts with quotes
             FontColor1 = requestParams["cyoFontColor1"];
             FontSize1 = ParseInt(requestParams["cyoFontSize1"]);
             TextTop1 = ParseInt(requestParams["cyoTextTop1"]);
@@ -53,7 +53,7 @@ namespace Nop.Web.Models.Custom
             TextHeight1 = ParseInt(requestParams["cyoTextHeight1"]);
             TextWidth1 = ParseInt(requestParams["cyoTextWidth1"]);
             Text2 = requestParams["cyoText2"];
-            FontFamily2 = requestParams["cyoFontFamily2"];
+            FontFamily2 = requestParams["cyoFontFamily2"].Replace("\"", "");  // IE sends some fonts with quotes
             FontColor2 = requestParams["cyoFontColor2"];
             FontSize2 = ParseInt(requestParams["cyoFontSize2"]);
             TextTop2 = ParseInt(requestParams["cyoTextTop2"]);

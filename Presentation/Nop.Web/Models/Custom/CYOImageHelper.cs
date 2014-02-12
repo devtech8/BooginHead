@@ -23,6 +23,7 @@ namespace Nop.Web.Models.Custom
         Regex legalHexColor = new Regex(@"^#[0-9a-f]{6}$", RegexOptions.IgnoreCase);
 
         private static PrivateFontCollection customFonts = new PrivateFontCollection();
+        public static readonly string CYO_IMAGE_ROOT = "~/Themes/BH/Content/cyo/images/";
 
         public CYOImageHelper(CYOModel cyoModel, HttpServerUtilityBase server)
         {
@@ -197,14 +198,14 @@ namespace Nop.Web.Models.Custom
             else if (!string.IsNullOrEmpty(cyoModel.BgImage))
             {
                 string filename = this.ImageBaseName(cyoModel.BgImage);
-                string path = Path.Combine(this.server.MapPath("~/Content/custom/cyo/images/backgrounds"), filename);
+                string path = Path.Combine(this.server.MapPath(CYO_IMAGE_ROOT + "backgrounds"), filename);
                 if (!File.Exists(path))
                     throw new CYOInvalidDataException("The selected background image does not exist.");
             }
             if (!string.IsNullOrEmpty(cyoModel.Graphic))
             {
                 string filename = this.ImageBaseName(cyoModel.Graphic);
-                string path = Path.Combine(this.server.MapPath("~/Content/custom/cyo/images/graphics"), filename);
+                string path = Path.Combine(this.server.MapPath(CYO_IMAGE_ROOT + "graphics"), filename);
                 if (!File.Exists(path))
                     throw new CYOInvalidDataException("The selected graphic does not exist.");
             }
@@ -288,7 +289,7 @@ namespace Nop.Web.Models.Custom
             {
                 string pathToGraphic = null;
                 if (!string.IsNullOrEmpty(cyoModel.Graphic))
-                    pathToGraphic = Path.Combine(this.server.MapPath("~/Content/Custom/cyo/images/graphics"), ImageBaseName(cyoModel.Graphic));
+                    pathToGraphic = Path.Combine(this.server.MapPath(CYO_IMAGE_ROOT + "graphics"), ImageBaseName(cyoModel.Graphic));
                 return pathToGraphic;
             }
         }
@@ -309,7 +310,7 @@ namespace Nop.Web.Models.Custom
         {
             get
             {
-                return Path.Combine(this.server.MapPath("~/Content/Custom/cyo/images"), ImageBaseName(cyoModel.SampleImage));
+                return Path.Combine(this.server.MapPath(CYO_IMAGE_ROOT), ImageBaseName(cyoModel.SampleImage));
             }
         }
 
@@ -336,7 +337,7 @@ namespace Nop.Web.Models.Custom
                     if (cyoModel.BackgroundIsUploadedImage)
                         pathToBgImage = Path.Combine(this.server.MapPath("~/App_Data/cyo/uploads"), ImageBaseName(cyoModel.BgImage));
                     else
-                        pathToBgImage = Path.Combine(this.server.MapPath("~/Content/Custom/cyo/images/backgrounds/"), ImageBaseName(cyoModel.BgImage));
+                        pathToBgImage = Path.Combine(this.server.MapPath(CYO_IMAGE_ROOT + "backgrounds/"), ImageBaseName(cyoModel.BgImage));
                 }
                 return pathToBgImage;
             }

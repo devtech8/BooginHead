@@ -10,11 +10,52 @@ which allows customers to design their own products.
 The files for the custom CYO components are in these folders:
 
 * Presentation\Nop.Web\App_Data\cyo
-* Presentation\Nop.Web\Content\Custom\cyo
 * Presentation\Nop.Web\Controllers\CYOController.cs
-* Presentation\Nop.Web\Models\Custom\CYOModel.cs
-* Presentation\Nop.Web\Scripts\Custom\cyo
-* Presentation\Nop.Web\Views\Custom\cyo
+* Presentation\Nop.Web\Models\Custom\*.cs
+* Presentation\Nop.Web\Themes\BH\Content\cyo
+* Presentation\Nop.Web\Themes\BH\Scripts\cyo
+* Presentation\Nop.Web\Themes\BH\Views\Catalog\CYO.cshtml
+* Presentation\Nop.Web\Themes\BH\Views\Catalog\_cyo.cshtml
+
+And the shopping cart / order summary templates here have been modified to show 
+the custom pacifier that the user ordered:
+
+* Presentation\Nop.Web\Themes\BH\Views\ShoppingCart\OrderSummary.cshtml
+
+# What's in Models/Custom
+
+The following items are in Presentation\Nop.Web\Models\Custom:
+
+* CYOCartItemEventListener.cs - When a CYO item is added to a shopping cart, this
+  module moves the proof image associated with the CYO item into App_Data/cyo/in_cart, 
+  so that it does not get deleted by the CYOImageCleanupTask.
+* CYOFileTransferTask.cs - This is a scheduled task that periodically transfers
+  order files to PRIDE for fulfillment. There is some SQL in the README to add the
+  scheduled task to the database. Once it's added, you can manage it in the admin
+  panel of NopCommerce, under System > Scheduled Tasks.
+* CYOImageCleanupTask.cs - A scheduled task that deletes old image files from 
+  App_Data/proofs.
+* CYOImageHelper.cs - This generates proof images.
+* CYOModel.cs - This contains data about a customer's CYO design, including the size
+  and color of the selected pacifier, URL and position of the background image, etc.
+  It includes all data needed to render the image. This model is not saved to the 
+  database, but it is saved to the file system as serialized JSON. The json filename
+  has the same Guid as the proof image filename it describes. At some point, Booginhead
+  may want to allow customers to re-edit recent designs. The JSON file contains enough
+  data to allow this. It just has to be re-loaded into the UI.
+* CYOOrderHelper.cs - This class generates the pipe-delimited text file that goes to
+  PRIDE.
+* CYOOrderListener.cs - This class builds the files that PRIDE needs to fulfill a CYO
+  order, and copies them into App_Data/cyo/orders_unsent. In development, this class
+  creates the order files when an order is placed. _In production, it should created
+  the files when an order is paid._ There is a separate event for OrderPaid.
+* CYOPDFHelper.cs - This class generates the PDF packing slip that is sent to PRIDE.
+  PRIDE includes the packing slip in the order, which they ship directly from their
+  factory to the customer.
+* CYOSFTPHelper.cs - This class provides methods to send files to PRIDE.
+
+
+# The App_Data Directory
 
 The CYOModel is NOT saved to the database! 
 
@@ -46,12 +87,7 @@ if (product.ProductTags.Any() && product.ProductTags.First(t => t.Name == "CYO")
 }
 ```
 
-And the shopping cart / order summary templates here have been modified to show 
-the custom pacifier that the user ordered:
-
-* Presentation\Nop.Web\Themes\BH\Views\ShoppingCart\OrderSummary.cshtml
-* Presentation\Nop.Web\Themes\BH\Views\Catalog\CYO.cshtml
-
+This is the only section of the core code that has been modified for CYO.
 
 # Deployment and Dependencies
 
