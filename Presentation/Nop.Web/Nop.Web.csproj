@@ -15,7 +15,7 @@
     <AssemblyName>Nop.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -617,6 +617,12 @@
     <Content Include="Content\2013.2.611\Windows7\slider-v.gif" />
     <Content Include="Content\2013.2.611\Windows7\sprite-vertical.png" />
     <Content Include="Content\2013.2.611\Windows7\sprite.png" />
+    <Content Include="Scripts\Custom\storeLocator\handlebars-v1.3.0.js" />
+    <Content Include="Scripts\Custom\storeLocator\jquery.storelocator.js" />
+    <Content Include="Scripts\Custom\storeLocator\jquery.storelocator.min.js" />
+    <Content Include="Scripts\Custom\storeLocator\storeLocations.xml" />
+    <Content Include="Scripts\Custom\storeLocator\templates\infowindow-description.html" />
+    <Content Include="Scripts\Custom\storeLocator\templates\location-list-description.html" />
     <Content Include="Themes\BH\Content\cyo\cyo.css" />
     <Content Include="Themes\BH\Content\cyo\images\backgrounds\America.jpg" />
     <Content Include="Themes\BH\Content\cyo\images\backgrounds\America_thumb.jpg" />
@@ -2257,6 +2263,7 @@
     <Content Include="Themes\BH\Views\Blog\List.cshtml" />
     <Content Include="Themes\BH\Views\Blog\BlogTags.cshtml" />
     <Content Include="Themes\BH\Views\ShoppingCart\FlyoutShoppingCart.cshtml" />
+    <Content Include="Views\Common\StoreLocator.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -2282,7 +2289,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>62563</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/Booginhead</IISUrl>
+          <IISUrl>http://localhost:57422/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
