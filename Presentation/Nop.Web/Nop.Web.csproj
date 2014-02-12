@@ -1154,7 +1154,7 @@
     <Content Include="Themes\BH\Content\images\client\products\Product_SippiGrip.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_SippiGrip_Large.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_SippiGrip_RO.png" />
-    <Content Include="Themes\BH\Content\images\client\products\Product_Specials2.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_Specials.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_Specials2_Large.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_SplatMat.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_SplatMat_Large.png" />
@@ -1179,6 +1179,8 @@
     <Content Include="Themes\BH\Content\images\client\products\SippiGrip_Page.png" />
     <Content Include="Themes\BH\Content\images\client\products\squeezems\squeezems854034003922.png" />
     <Content Include="Themes\BH\Content\images\client\products\squeezems\squeezems899139001756.png" />
+    <Content Include="Themes\BH\Content\images\client\products\TEST.png" />
+    <Content Include="Themes\BH\Content\images\client\products\TEST2.png" />
     <Content Include="Themes\BH\Content\images\closelabel.gif" />
     <Content Include="Themes\BH\Content\images\download-sample-bg.gif" />
     <Content Include="Themes\BH\Content\images\forum-footer-bg.gif" />
