@@ -101,6 +101,8 @@ namespace Nop.Web.Models.Custom
                 // 72 + 0.667 = 48
                 if (!cyoModel.BackgroundIsUploadedImage)
                     zoom = 0.667;
+                else
+                    zoom *= 2; // WTF??
 
                 int width = System.Convert.ToInt32(zoom * backgroundImage.Width);
                 int height = System.Convert.ToInt32(zoom * backgroundImage.Height);

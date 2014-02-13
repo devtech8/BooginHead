@@ -268,8 +268,8 @@
         var bgPercent = 100;
         var bgOffsetLeft = 0;
         var bgOffsetTop = 0;
-        var binkyWidth = $('#cyoBinkyLarge').width();
-        var binkyHeight = $('#cyoBinkyLarge').height();
+        var binkyWidth = $('#cyoSample').width();
+        var binkyHeight = $('#cyoSample').height();
         var bgSize = (parseFloat(uploadedImageWidth) / parseFloat(binkyWidth));
         if (bgSize < 1.00) {
             // Note that the bg images are not quite centered. 
@@ -835,7 +835,7 @@
         var yPercent = parseInt(pos[2]) / 100;
         var xCoord = (container.width() - uploadedImageWidth) * yPercent;
         var yCoord = (container.height() - uploadedImageHeight) * xPercent;
-        return [xCoord, yCoord];
+        return [xCoord < 0 ? 0 : xCoord, yCoord < 0 ? 0 : yCoord];
     }
 
     // Allow user to reposition the background image they uploaded. 
@@ -860,7 +860,7 @@
               , pos = bgPositionOfUploadedImage()
               , xPos = parseInt(pos[0]) || 0
               , yPos = parseInt(pos[1]) || 0
-            var coords = bgPositionOfUploadedImage()
+            console.log(pos)
             $(window).on('mousemove touchmove', function (e) {
                 e.preventDefault();
                 if (e.originalEvent.touches) {
