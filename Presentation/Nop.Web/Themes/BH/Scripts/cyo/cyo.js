@@ -820,6 +820,24 @@
         });
     }
 
+    // This function figures out the position of the background image behind
+    // the pacifier. If user uploaded this image, they can drag the image to 
+    // center it. The problem is that the initial background position is 
+    // set to a percentage value, and we have to translate that to a pixel
+    // value. Once the image has been dragged, bg position has a pixel value.
+    function bgPositionOfUploadedImage() {
+        var container = $('#cyoSample');
+        var pos = container.css('background-position').match(/(-?\d+).*?\s(-?\d+)/);
+        if (pos[0].indexOf('px') > -1)
+            return [parseInt(pos[1]), parseInt(pos[2])];
+        // Else background position is specified as percentage.
+        var xPercent = parseInt(pos[1]) / 100;
+        var yPercent = parseInt(pos[2]) / 100;
+        var xCoord = (container.width() - uploadedImageWidth) * yPercent;
+        var yCoord = (container.height() - uploadedImageHeight) * xPercent;
+        return [xCoord, yCoord];
+    }
+
     // Allow user to reposition the background image they uploaded. 
     // Adapted from https://github.com/kentor/jquery-draggable-background
     function initDraggableBackground() {
@@ -839,9 +857,10 @@
             }
             var x0 = e.clientX
               , y0 = e.clientY
-              , pos = $(this).css('background-position').match(/(-?\d+).*?\s(-?\d+)/) || []
-              , xPos = parseInt(pos[1]) || 0
-              , yPos = parseInt(pos[2]) || 0
+              , pos = bgPositionOfUploadedImage()
+              , xPos = parseInt(pos[0]) || 0
+              , yPos = parseInt(pos[1]) || 0
+            var coords = bgPositionOfUploadedImage()
             $(window).on('mousemove touchmove', function (e) {
                 e.preventDefault();
                 if (e.originalEvent.touches) {
