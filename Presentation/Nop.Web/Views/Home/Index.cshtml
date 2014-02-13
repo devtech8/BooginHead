@@ -2,24 +2,37 @@
     Layout = "~/Views/Shared/_ColumnsOne.cshtml";
 }
 
+<script src="~/Scripts/jquery.bxslider/jquery.bxslider.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Scripts/jquery.bxslider/jquery.bxslider.css">
+
+
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.bxslider').bxslider();
+        $('.bxslider').bxSlider(
+            {
+                auto: true,
+                speed: 400,
+                randomStart: true
+            });
     });
 </script>
+
+
 
 <div class="page home-page">
 
     <div class="page-body">
 
         <ul class="bxslider">
-            <li><img src="~/Themes/BH/Content/images/client/carousel/GOGOChevron.jpg" /></li>
-            <li><img src="~/Themes/BH/Content/images/client/carousel/Home_PaciGrip.png" /></li>
-            <li><img src="~/Themes/BH/Content/images/client/carousel/Home_SqueezEms.png" /></li>
+            <li><a><img src="~/Themes/BH/Content/images/client/carousel/GOGOChevron.jpg" /></a></li>
+            <li><a><img src="~/Themes/BH/Content/images/client/carousel/Home_PaciGrip.png" /></a></li>
+            <li><a><img src="~/Themes/BH/Content/images/client/carousel/Home_SqueezEms.png" /></a></li>
+            <li><a><img src="~/Themes/BH/Content/images/client/carousel/Home_PackEms.png" /></a></li>
         </ul>
-        <div class="imgRotate">
+
+        @*<div class="imgRotate">
                 <img src="~/Themes/BH/Content/images/client/carousel/GOGOChevron.jpg" />
-            </div>
+            </div>*@
         <div class="imgLand">
             <img src="~/Themes/BH/Content/images/client/home/Home_SG.png" />
             <img src="~/Themes/BH/Content/images/client/home/Home_SQ.png" />
