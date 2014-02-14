@@ -42,8 +42,15 @@ namespace Nop.Web.Models.Custom
         /// <param name="eventMessage"></param>
         void IConsumer<OrderPaidEvent>.HandleEvent(OrderPaidEvent eventMessage)
         {
-            List<OrderItem> items = GetCyoItems(eventMessage.Order);
-            foreach (var item in items)
+            List<OrderItem> cyoItems = GetCyoItems(eventMessage.Order);
+
+            // If there are no CYO items in the order, do not create files
+            // for PRIDE. Booginhead will fulfill the order. PRIDE fulfills
+            // orders that contain CYO-only or a mix of CYO and non-CYO items.
+            if (cyoItems.Count == 0)
+                return;
+
+            foreach (var item in cyoItems)
             {
                 // This is a very short string of XML. 
                 // Skipping document createion & will just extract the regex.                    
@@ -53,7 +60,7 @@ namespace Nop.Web.Models.Custom
             if (eventMessage.Order.OrderItems.Count > 0)
             {
                 CreateOrderFiles(eventMessage.Order);
-                RenameImageFiles(eventMessage.Order, items);
+                RenameImageFiles(eventMessage.Order, cyoItems);
             }
         }
 
