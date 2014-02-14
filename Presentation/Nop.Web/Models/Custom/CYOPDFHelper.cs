@@ -323,6 +323,19 @@ namespace Nop.Web.Models.Custom
             this.Quantity = quantity;
         }
 
+        public CYOOrderItem(string itemName, byte[] imageBinary, string description, double unitPrice, int quantity)
+        {
+            this.ItemName = itemName;
+            if (imageBinary != null)
+            {
+                try { this.Image = iTextSharp.text.Image.GetInstance(imageBinary); }
+                catch (Exception) { /* bad binary? */ }
+            }
+            this.Description = description;
+            this.UnitPrice = unitPrice;
+            this.Quantity = quantity;
+        }
+
         public void SetImageFromFile(string pathToImageFile)
         {
             this.Image = iTextSharp.text.Image.GetInstance(pathToImageFile);

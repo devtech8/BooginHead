@@ -50,7 +50,7 @@ namespace Nop.Web.Models.Custom
                 string imageGuid = CYOModel.ExtractGuid(item.AttributesXml);
                 MoveProofToOrdersFolder(imageGuid);
             }
-            if (items.Count > 0)
+            if (eventMessage.Order.OrderItems.Count > 0)
             {
                 CreateOrderFiles(eventMessage.Order);
                 RenameImageFiles(eventMessage.Order, items);
@@ -62,7 +62,7 @@ namespace Nop.Web.Models.Custom
             List<OrderItem> cyoItems = new List<OrderItem>();
             foreach (var item in order.OrderItems)
             {
-                if (item.Product.ProductTags.First(tag => tag.Name == "CYO") != null)
+                if (item.Product.ProductTags.FirstOrDefault(tag => tag.Name == "CYO") != null)
                 {
                     cyoItems.Add(item);
                 }
@@ -150,22 +150,42 @@ namespace Nop.Web.Models.Custom
 
         private void AddLineItemsToPDF(CYOPDFHelper pdfHelper, Core.Domain.Orders.Order order)
         {
-            List<OrderItem> cyoItems = GetCyoItems(order);
+            //List<OrderItem> cyoItems = GetCyoItems(order);
             int itemNumber = 1;
-            foreach (var item in cyoItems)
+            foreach (var item in order.OrderItems)
             {
-                Dictionary<string, string> attributes = ParseAttributes(item.AttributesXml);
-                string imageGuid = attributes["CYO Unique Id"];
-                string designName = string.Format("BH_{0}_{1}.png", order.Id.ToString("D8"), itemNumber.ToString("D3"));
-                string color = attributes["CYO Color"];
-                string size = attributes["CYO Size"];
-                string brand = attributes["CYO Brand"];
-                string description = string.Format("CYO Pacifier Color={0}{4}Size={1},Brand={2}{4}Design={3}", color, size, brand, designName, Environment.NewLine);
-
+                string description = string.Format("{0} ({1})", item.Product.Name, item.Product.ManufacturerPartNumber);
+                string pathToImageFile = _webHelper.MapPath("~/Content/Images/Thumbs/default-image_80.gif");
+                byte[] imageBinary = null;
+                if (item.Product.ProductTags.FirstOrDefault(tag => tag.Name == "CYO") != null)
+                {
+                    Dictionary<string, string> attributes = ParseAttributes(item.AttributesXml);
+                    string imageGuid = attributes["CYO Unique Id"];
+                    string designName = string.Format("BH_{0}_{1}.png", order.Id.ToString("D8"), itemNumber.ToString("D3"));
+                    string color = attributes["CYO Color"];
+                    string size = attributes["CYO Size"];
+                    string brand = attributes["CYO Brand"];
+                    description = string.Format("CYO Pacifier Color={0}{4}Size={1},Brand={2}{4}Design={3}", color, size, brand, designName, Environment.NewLine);
+                    pathToImageFile = Path.Combine(this._webHelper.MapPath("~/App_Data/cyo/orders_unsent/"), string.Format("{0}.png", imageGuid));
+                }
+                else 
+                {
+                    // Not a CYO item
+                    ProductPicture productPicture = item.Product.ProductPictures.FirstOrDefault();
+                    if (productPicture != null)
+                    {
+                        imageBinary = productPicture.Picture.PictureBinary;
+                        //pathToImageFile = Path.Combine(_webHelper.MapPath("~/Content/Images/Thumbs/"), productPicture.Picture.SeoFilename);
+                    }
+                }
                 double priceAsDouble = Double.Parse(item.UnitPriceExclTax.ToString());                
-                string pathToImageFile = Path.Combine(this._webHelper.MapPath("~/App_Data/cyo/orders_unsent/"), string.Format("{0}.png", imageGuid));
 
-                CYOOrderItem cyoOrderItem = new CYOOrderItem("CYO Pacifier", pathToImageFile, description, priceAsDouble, item.Quantity);
+                CYOOrderItem cyoOrderItem = null;
+                if(imageBinary != null)
+                    cyoOrderItem = new CYOOrderItem(item.Product.Name, imageBinary, description, priceAsDouble, item.Quantity);
+                else
+                    cyoOrderItem = new CYOOrderItem("CYO Pacifier", pathToImageFile, description, priceAsDouble, item.Quantity);
+                
                 pdfHelper.Items.Add(cyoOrderItem);
                 itemNumber++;
             }            
@@ -199,13 +219,13 @@ namespace Nop.Web.Models.Custom
             orderHelper.State = order.ShippingAddress.StateProvince.Abbreviation;
             orderHelper.Zip = order.ShippingAddress.ZipPostalCode;
 
-            List<OrderItem> cyoItems = GetCyoItems(order);
+            //List<OrderItem> cyoItems = GetCyoItems(order);
             int itemNumber = 1;
-            foreach (var item in cyoItems)
+            foreach (var item in order.OrderItems)
             {
-                Dictionary<string, string> attributes = ParseAttributes(item.AttributesXml);
-                //string imageGuid = attributes["CYO Unique Id"];
-                string description = string.Format("CYO Pacifier {0}", itemNumber.ToString("D3"));
+                string description = string.Format("{0} ({1})", item.Product.Name, item.Product.ManufacturerPartNumber);
+                if (item.Product.ProductTags.FirstOrDefault(tag => tag.Name == "CYO") != null)
+                    description = string.Format("CYO Pacifier {0}", itemNumber.ToString("D3"));
                 orderHelper.Items.Add(new LineItem(description, item.Quantity));
                 itemNumber++;
             }
@@ -233,7 +253,7 @@ namespace Nop.Web.Models.Custom
             foreach (var attr in attrs)
             {
                 string name = attr.ProductAttribute.Name;
-                string value = p.ParseValues(attributesXml, attr.Id).First();
+                string value = p.ParseValues(attributesXml, attr.Id).FirstOrDefault();
                 attributes[name] = value;
 
             }
