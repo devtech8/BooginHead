@@ -133,11 +133,21 @@
     cursor: pointer;
 }
 
-#cyoUploadedImageDiv label {
-    margin-bottom: 10px;
+#cyoModalUpload label {
+    margin-bottom: 20px;
+    font-weight: bold;
 }
+
+#cyoModalUpload p {
+    text-align: left;
+}
+
 #cyoUploadedImageThumbnail{
     margin-bottom: 20px;
+}
+
+#uploadSizeSlider {
+    margin-top: 10px;
 }
 
 #cyoBackgroundColorControl{

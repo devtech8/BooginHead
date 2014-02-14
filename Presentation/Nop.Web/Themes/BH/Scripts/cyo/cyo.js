@@ -269,20 +269,32 @@
         var bgOffsetLeft = 0;
         var bgOffsetTop = 0;
         var binkyWidth = $('#cyoSample').width();
-        var binkyHeight = $('#cyoSample').height();
-        var bgSize = (parseFloat(uploadedImageWidth) / parseFloat(binkyWidth));
-        if (bgSize < 1.00) {
+        var binkyHeight = $('#cyoSample').height();        
+        //var bgSize = Math.max((parseFloat(uploadedImageWidth) / parseFloat(binkyWidth)), (parseFloat(uploadedImageHeight) / parseFloat(binkyHeight)));
+        var bgSize = 1.0;
+        if (bgImageWasUploadedByUser()) {
+            if (uploadedImageWidth > binkyWidth)
+                bgSize = parseFloat(uploadedImageWidth) / parseFloat(binkyWidth);
+            else if (uploadedImageHeight > binkyHeight)
+                bgSize = parseFloat(uploadedImageHeight) / parseFloat(binkyHeight);
+            console.log("uploaded: " + uploadedImageWidth + "x" + uploadedImageHeight + ", sample: " + binkyWidth + "x" + binkyHeight + ", bgsize:" + bgSize)
             // Note that the bg images are not quite centered. 
             // Centered would be 50% / 50%, but then they appear slightly high and left.
-            bgOffsetLeft = Math.round((binkyWidth - uploadedImageWidth) * 0.52);
-            bgOffsetTop = Math.round((binkyHeight - uploadedImageHeight) * 0.52);
-            bgPercent = Math.round(bgSize * 100);
+            bgOffsetLeft = Math.max(0, Math.round((binkyWidth - uploadedImageWidth) * 0.52));
+            bgOffsetTop = Math.max(0, Math.round((binkyHeight - uploadedImageHeight) * 0.52));
+            bgPercent = Math.min(100, Math.round(bgSize * 50));
+            $('#cyoSample').css('background-size', bgPercent + '%');
+            console.log("Pct = " + bgPercent + ", Left = " + bgOffsetLeft + ", Top = " + bgOffsetTop)
+            $('#cyoSample').css('background-position', bgOffsetLeft + 'px ' + bgOffsetTop + 'px');
+            $('#uploadSizeSlider a').css('left', (bgPercent / 2.0) + '%');
         }
-        // Set background-size and offsets. Zoom is always initialized to 100%.
-        $('#cyoSample').css('background-size', bgPercent + '%');
-        $('#cyoSample').css('background-position', '52% 52%');
-        $('#uploadSizeSlider a').css('left', DEFAULT_ZOOM_SLIDER_POSITION);
-        $('#cyoBgImageZoom').val('100');
+        else {
+            // bg image is one of Booginhead's 
+            // These have to be just slightly off center, at 52% instead of 50%
+            $('#cyoSample').css('background-size', '100%');
+            $('#cyoSample').css('background-position', '52% 52%');
+        }
+        $('#cyoBgImageZoom').val(bgPercent);
         $('#cyoBgImageOffsetX').val((bgOffsetLeft).toString());
         $('#cyoBgImageOffsetY').val((bgOffsetTop).toString());
     }
@@ -456,10 +468,13 @@
             }
         };
 
-        $("#cyoModalUpload").dialog(modalProperties);
         $("#cyoModalBackground").dialog(modalProperties);
         $("#cyoModalText").dialog(modalProperties);
         $("#cyoModalGraphic").dialog(modalProperties);
+
+        var uploadModalProperties = modalProperties;
+        uploadModalProperties.height += 100;
+        $("#cyoModalUpload").dialog(uploadModalProperties);
 
         var proofModalProperties = modalProperties;
         proofModalProperties.height += 100;
