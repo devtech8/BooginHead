@@ -3,17 +3,9 @@
 @using Nop.Web.Models.Catalog;
 @{
     //prepare "Add to cart" AJAX link
-    string addtocartlink = "";
+
     var shoppingCartTypeId = (int)ShoppingCartType.ShoppingCart;
-    var quantity = 1;
-    if (Model.ProductPrice.ForceRedirectionAfterAddingToCart)
-    {
-        addtocartlink = Url.RouteUrl("AddProductToCart-Catalog", new { productId = Model.Id, shoppingCartTypeId = shoppingCartTypeId, quantity = quantity, forceredirection = Model.ProductPrice.ForceRedirectionAfterAddingToCart });
-    }
-    else
-    {
-        addtocartlink = Url.RouteUrl("AddProductToCart-Catalog", new { productId = Model.Id, shoppingCartTypeId = shoppingCartTypeId, quantity = quantity, });
-    }    
+
 }
 <div class="product-item" data-productid="@Model.Id">
     <div class="picture">
@@ -54,10 +46,35 @@
                 @*<input type="button" value="@T("Products.Details")" class="button-1 product-box-detail-button" onclick="setLocation('@Url.RouteUrl("Product", new { SeName = Model.SeName })')" />*@
                 @if (!Model.ProductPrice.DisableBuyButton)
                 {
-                    <input type="button" value="@(Model.ProductPrice.AvailableForPreOrder ? T("ShoppingCart.PreOrder") : T("ShoppingCart.AddToCart"))" class="button-2 product-box-add-to-cart-button" onclick="AjaxCart.addproducttocart_catalog('@addtocartlink    ');return false;" />
+                    <span>Qty:</span>
+                    @Html.TextBox("EnteredQuantity", 1, new { @class = "qty-input", size = 1, maxlength = 3, onkeypress = "return isNumberKey(event)" })
+                    <input type="button" value="@(Model.ProductPrice.AvailableForPreOrder ? T("ShoppingCart.PreOrder") : T("ShoppingCart.AddToCart"))" class="button-2 product-box-add-to-cart-button"
+                           data-url="@Url.RouteUrl("AddProductToCart-Catalog", new { productId = Model.Id , shoppingCartTypeId = shoppingCartTypeId , quantity = 0 })" />
+
                 }
             </div>
             @Html.Widget("productbox_add_info")
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    //Just numeric values
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+    //Add to Cart Function
+    $(function () {
+        $(".add-info input.button-2").click(function () {
+            var url = $(this).attr("data-url");
+            var _quantity = $(this).prev('input.qty-input').val();
+            url = url.replace("0", _quantity);
+            AjaxCart.addproducttocart_catalog(url);
+            return false;
+        });
+
+    });
+</script>

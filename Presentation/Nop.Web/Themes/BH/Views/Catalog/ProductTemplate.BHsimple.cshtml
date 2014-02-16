@@ -22,8 +22,6 @@
 <div class="page product-details-page">
     <div class="page-body">
 
-        PRODUCT CUSTOM TEMPLATE
-
         @Html.Widget("productdetails_top")
         @using (Html.BeginRouteForm("Product", new { SeName = Model.SeName }, FormMethod.Post, new { id = "product-details-form" }))
         {

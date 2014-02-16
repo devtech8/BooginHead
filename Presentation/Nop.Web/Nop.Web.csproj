@@ -2266,6 +2266,8 @@
     <Content Include="Themes\BH\Views\Blog\BlogTags.cshtml" />
     <Content Include="Themes\BH\Views\ShoppingCart\FlyoutShoppingCart.cshtml" />
     <Content Include="Views\Common\StoreLocator.cshtml" />
+    <Content Include="Themes\BH\Views\Shared\_ColumnsOne.cshtml" />
+    <Content Include="Themes\BH\Views\Shared\_ColumnsTwo.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
