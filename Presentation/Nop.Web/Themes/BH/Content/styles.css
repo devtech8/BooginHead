@@ -212,6 +212,9 @@ ul.language-list li:hover{cursor:pointer;}
 /*BH Custom Blog*/
 .block .block-blog-archive .title{background-color:#E28C05;text-transform:uppercase;color:white;}
 
+/*About styling*/
+.side-2 .leftHeading h2{text-decoration:underline;}
+
 /* MISC. CLASSES */
 .nobr{white-space:nowrap!important;}
 .wrap{white-space:normal!important;}

@@ -31,6 +31,12 @@ namespace Nop.Web.Infrastructure
                                 new { controller = "ProductsDemoController", action = "Index" }, 
                                 new[] { "Nop.Web.Controllers" });
 
+            //Custom About BH page
+            routes.MapLocalizedRoute("About Booginhead", 
+                                "About BH",
+                                new { controller = "About", action = "Index" },
+                                new[] { "Nop.Web.Controllers" });
+
             //products
             routes.MapLocalizedRoute("RecentlyViewedProducts",
                             "recentlyviewedproducts/",

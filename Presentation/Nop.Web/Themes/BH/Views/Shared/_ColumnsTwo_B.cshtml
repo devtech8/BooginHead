@@ -1,0 +1,65 @@
+﻿@{
+    Layout = "~/Views/Shared/_Root.cshtml";
+}
+@{
+    //current category ID
+    int currentCategoryId = 0;
+    if (Url.RequestContext.RouteData.Values["controller"].ToString().Equals("catalog", StringComparison.InvariantCultureIgnoreCase) &&
+        Url.RequestContext.RouteData.Values["action"].ToString().Equals("category", StringComparison.InvariantCultureIgnoreCase))
+    {
+        currentCategoryId = Convert.ToInt32(Url.RequestContext.RouteData.Values["categoryId"].ToString());
+    }
+
+
+    //current manufacturer ID
+    int currentManufacturerId = 0;
+    if (Url.RequestContext.RouteData.Values["controller"].ToString().Equals("catalog", StringComparison.InvariantCultureIgnoreCase) &&
+        Url.RequestContext.RouteData.Values["action"].ToString().Equals("manufacturer", StringComparison.InvariantCultureIgnoreCase))
+    {
+        currentManufacturerId = Convert.ToInt32(Url.RequestContext.RouteData.Values["manufacturerId"].ToString());
+    }
+
+
+    //current product ID
+    int currentProductId = 0;
+    if (Url.RequestContext.RouteData.Values["controller"].ToString().Equals("catalog", StringComparison.InvariantCultureIgnoreCase) &&
+        Url.RequestContext.RouteData.Values["action"].ToString().Equals("product", StringComparison.InvariantCultureIgnoreCase))
+    {
+        currentProductId = Convert.ToInt32(Url.RequestContext.RouteData.Values["productId"].ToString());
+    }
+}
+
+<div class="aboutBanner">
+    <img src="~/themes/bh/Content/images/client/page-banners/AboutUs_Page.png" alt="About Booginhead" />
+</div>
+
+<div class="side-2">
+    <div class="leftHeading">
+        <h2>ABOUT US</h2>
+    </div>
+    <div class="col2nav">
+        <ul>
+            <li><a href="~/About/Index">Booginhead</a></li>
+            <li><a href="~/About/Meet">Meet the Team</a></li>
+            <li><a href="~/About/Praise">BooginPraise</a></li>
+        </ul>
+    </div>
+    @*@if (IsSectionDefined("left"))
+    {
+        @RenderSection("left")
+    }
+    else
+    {
+        @Html.Widget("left_side_column_before")
+        @Html.Action("CategoryNavigation", "Catalog", new { currentCategoryId = currentCategoryId, currentProductId = currentProductId })
+        @Html.Widget("left_side_column_after_category_navigation")
+        @Html.Action("ManufacturerNavigation", "Catalog", new { currentManufacturerId = currentManufacturerId })        
+        @Html.Action("NewsletterBox", "Newsletter")
+        @Html.Widget("left_side_column_after")
+    }*@
+</div>
+<div class="center-2">
+    @Html.Widget("main_column_before")
+    @RenderBody()
+    @Html.Widget("main_column_after")
+</div>
