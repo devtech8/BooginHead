@@ -29,7 +29,7 @@
     }
 }
 
-<div class="aboutBanner">
+<div class="aboutBanner" style="padding-top: 40px; padding-left: 20px;">
     <img src="~/themes/bh/Content/images/client/page-banners/AboutUs_Page.png" alt="About Booginhead" />
 </div>
 
@@ -39,24 +39,10 @@
     </div>
     <div class="col2nav">
         <ul>
-            <li><a href="~/About/Index">Booginhead</a></li>
             <li><a href="~/About/Meet">Meet the Team</a></li>
             <li><a href="~/About/Praise">BooginPraise</a></li>
         </ul>
     </div>
-    @*@if (IsSectionDefined("left"))
-    {
-        @RenderSection("left")
-    }
-    else
-    {
-        @Html.Widget("left_side_column_before")
-        @Html.Action("CategoryNavigation", "Catalog", new { currentCategoryId = currentCategoryId, currentProductId = currentProductId })
-        @Html.Widget("left_side_column_after_category_navigation")
-        @Html.Action("ManufacturerNavigation", "Catalog", new { currentManufacturerId = currentManufacturerId })        
-        @Html.Action("NewsletterBox", "Newsletter")
-        @Html.Widget("left_side_column_after")
-    }*@
 </div>
 <div class="center-2">
     @Html.Widget("main_column_before")
