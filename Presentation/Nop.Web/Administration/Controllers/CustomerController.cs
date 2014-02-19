@@ -864,16 +864,19 @@ namespace Nop.Admin.Controllers
                     }
 
                     // Booginhead custom
-                    customer.Wholesaler.AmazonSellerName = model.Wholesaler.AmazonSellerName;
-                    customer.Wholesaler.HowDidYouHear = model.Wholesaler.HowDidYouHear;
-                    customer.Wholesaler.International = model.Wholesaler.International;
-                    customer.Wholesaler.NameOfWebStore = model.Wholesaler.NameOfWebStore;
-                    customer.Wholesaler.StoreFront = model.Wholesaler.StoreFront;
-                    customer.Wholesaler.TaxId = model.Wholesaler.TaxId;
-                    customer.Wholesaler.TypeOfStore = model.Wholesaler.TypeOfStore;
-                    customer.Wholesaler.WebsiteURL = model.Wholesaler.WebsiteURL;
-                    customer.Wholesaler.YearsInBusiness = model.Wholesaler.YearsInBusiness;
-                    _customerService.UpdateCustomer(customer);
+                    if (model.Wholesaler != null)
+                    {
+                        customer.Wholesaler.AmazonSellerName = model.Wholesaler.AmazonSellerName;
+                        customer.Wholesaler.HowDidYouHear = model.Wholesaler.HowDidYouHear;
+                        customer.Wholesaler.International = model.Wholesaler.International;
+                        customer.Wholesaler.NameOfWebStore = model.Wholesaler.NameOfWebStore;
+                        customer.Wholesaler.StoreFront = model.Wholesaler.StoreFront;
+                        customer.Wholesaler.TaxId = model.Wholesaler.TaxId;
+                        customer.Wholesaler.TypeOfStore = model.Wholesaler.TypeOfStore;
+                        customer.Wholesaler.WebsiteURL = model.Wholesaler.WebsiteURL;
+                        customer.Wholesaler.YearsInBusiness = model.Wholesaler.YearsInBusiness;
+                        _customerService.UpdateCustomer(customer);
+                    }
                     // End Booginhead custom
 
                     //activity log
