@@ -1,7 +1,7 @@
-﻿@model RegisterModel
+@model RegisterModel
 @using Nop.Web.Models.Customer;
 @{
-    Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+    Layout = "~/Views/Shared/_ColumnsTwo.cshtml";
 
     //title
     Html.AddTitleParts(T("PageTitle.Register").Text);
@@ -33,7 +33,34 @@
                     }
                 });
             });
-     });
+
+            // Sorry for the cut-n-paste duplication
+            $("#@Html.FieldIdFor(model => model.ShippingCountryId)").change(function () {
+                var selectedItem = $(this).val();
+                var ddlStates = $("#@Html.FieldIdFor(model => model.ShippingStateProvinceId)");
+                var statesProgress = $("#shipping-states-loading-progress");
+                statesProgress.show();
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: "@(Url.RouteUrl("GetStatesByCountryId"))",
+                    data: { "countryId": selectedItem, "addEmptyStateIfRequired": "true" },
+                success: function (data) {
+                    ddlStates.html('');
+                    $.each(data, function (id, option) {
+                        ddlStates.append($('<option></option>').val(option.id).html(option.name));
+                    });
+                    statesProgress.hide();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states.');
+                    statesProgress.hide();
+                }
+            });
+        });
+
+
+        });
     </script>
 }
 @using (Html.BeginForm())
@@ -48,6 +75,17 @@
                 @Html.ValidationSummary(true)
             </div>
             @Html.Partial("_ExternalAuthentication.AssociateMessage")
+
+            <div class="fieldset">
+                <div class="title">
+                    <strong>Registration Type</strong>
+                </div>
+                <div class="inputs">
+                    @Html.LabelFor(model => model.RegisterAsWholesaler, "I want to register as a wholesaler")
+                    @Html.EditorFor(model => model.RegisterAsWholesaler)
+                    @Html.ValidationMessageFor(model => model.RegisterAsWholesaler)
+                </div>
+            </div>
             <div class="fieldset">
                 <div class="title">
                     <strong>@T("Account.YourPersonalDetails")</strong>
@@ -84,13 +122,13 @@
                         <div class="inputs">
                             <label>@T("Account.Fields.DateOfBirth"):</label>
                             @Html.DatePickerDropDowns(Html.FieldNameFor(x => x.DateOfBirthDay),
-                                Html.FieldNameFor(x => x.DateOfBirthMonth),
-                                Html.FieldNameFor(x => x.DateOfBirthYear),
-                                DateTime.Now.Year - 110,
-                                DateTime.Now.Year,
-                                Model.DateOfBirthDay,
-                                Model.DateOfBirthMonth,
-                                Model.DateOfBirthYear)
+                            Html.FieldNameFor(x => x.DateOfBirthMonth),
+                            Html.FieldNameFor(x => x.DateOfBirthYear),
+                            DateTime.Now.Year - 110,
+                            DateTime.Now.Year,
+                            Model.DateOfBirthDay,
+                            Model.DateOfBirthMonth,
+                            Model.DateOfBirthYear)
                             @Html.ValidationMessageFor(model => model.DateOfBirthDay)
                             @Html.ValidationMessageFor(model => model.DateOfBirthMonth)
                             @Html.ValidationMessageFor(model => model.DateOfBirthYear)
@@ -110,11 +148,11 @@
                             @Html.RequiredHint()
                             @Html.ValidationMessageFor(model => model.Username)
                             @if (Model.CheckUsernameAvailabilityEnabled)
-                            {
+                        {
                                 @Html.Partial("_CheckUsernameAvailability")
-                            }
+                        }
                         </div>
-                        
+
                     }
                 </div>
             </div>
@@ -131,9 +169,9 @@
                                 @Html.LabelFor(model => model.Company, new { }, ":")
                                 @Html.EditorFor(model => model.Company)
                                 @if (Model.CompanyRequired)
-                                {
+                            {
                                     @Html.RequiredHint()
-                                }
+                            }
                                 @Html.ValidationMessageFor(model => model.Company)
                             </div>
                         }
@@ -160,11 +198,11 @@
                         {
                             <div class="inputs">
                                 @Html.LabelFor(model => model.StreetAddress, new { }, ":")
-                            @Html.EditorFor(model => model.StreetAddress)
+                                @Html.EditorFor(model => model.StreetAddress)
                                 @if (Model.StreetAddressRequired)
-                                {
+                            {
                                     @Html.RequiredHint()
-                                }
+                            }
                                 @Html.ValidationMessageFor(model => model.StreetAddress)
                             </div>
                         }
@@ -172,11 +210,11 @@
                         {
                             <div class="inputs">
                                 @Html.LabelFor(model => model.StreetAddress2, new { }, ":")
-                            @Html.EditorFor(model => model.StreetAddress2)
+                                @Html.EditorFor(model => model.StreetAddress2)
                                 @if (Model.StreetAddress2Required)
-                                {
+                            {
                                     @Html.RequiredHint()
-                                }
+                            }
                                 @Html.ValidationMessageFor(model => model.StreetAddress2)
                             </div>
                         }
@@ -184,11 +222,11 @@
                         {
                             <div class="inputs">
                                 @Html.LabelFor(model => model.ZipPostalCode, new { }, ":")
-                            @Html.EditorFor(model => model.ZipPostalCode)
+                                @Html.EditorFor(model => model.ZipPostalCode)
                                 @if (Model.ZipPostalCodeRequired)
-                                {
+                            {
                                     @Html.RequiredHint()
-                                }
+                            }
                                 @Html.ValidationMessageFor(model => model.ZipPostalCode)
                             </div>
                         }
@@ -196,11 +234,11 @@
                         {
                             <div class="inputs">
                                 @Html.LabelFor(model => model.City, new { }, ":")
-                            @Html.EditorFor(model => model.City)
+                                @Html.EditorFor(model => model.City)
                                 @if (Model.CityRequired)
-                                {
+                            {
                                     @Html.RequiredHint()
-                                }
+                            }
                                 @Html.ValidationMessageFor(model => model.City)
                             </div>
                         }
@@ -208,15 +246,89 @@
                         {
                             <div class="inputs">
                                 @Html.LabelFor(model => model.CountryId, new { }, ":")
-                            @Html.DropDownList("CountryId", Model.AvailableCountries)
+                                @Html.DropDownList("CountryId", Model.AvailableCountries)
                             </div>
                         }
                         @if (Model.CountryEnabled && Model.StateProvinceEnabled)
                         {
                             <div class="inputs">
                                 @Html.LabelFor(model => model.StateProvinceId, new { }, ":")
-                            @Html.DropDownList("StateProvinceId", Model.AvailableStates)
+                                @Html.DropDownList("StateProvinceId", Model.AvailableStates)
                                 <span id="states-loading-progress" style="display: none;" class="please-wait">@T("Common.Wait...")</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            @if (Model.StreetAddressEnabled || Model.StreetAddress2Enabled || Model.ZipPostalCodeEnabled
+            || Model.CityEnabled || Model.CountryEnabled)
+            {
+                <div class="fieldset">
+                    <div class="title">
+                        <strong>Shipping Address</strong>
+                    </div>
+                    <div class="form-fields">
+                        @if (Model.StreetAddressEnabled)
+                        {
+                            <div class="inputs">
+                                @Html.LabelFor(model => model.ShippingStreetAddress, new { }, ":")
+                                @Html.EditorFor(model => model.ShippingStreetAddress)
+                                @if (Model.StreetAddressRequired)
+                            {
+                                    @Html.RequiredHint()
+                            }
+                                @Html.ValidationMessageFor(model => model.ShippingStreetAddress)
+                            </div>
+                        }
+                        @if (Model.StreetAddress2Enabled)
+                        {
+                            <div class="inputs">
+                                @Html.LabelFor(model => model.ShippingStreetAddress2, new { }, ":")
+                                @Html.EditorFor(model => model.ShippingStreetAddress2)
+                                @if (Model.StreetAddress2Required)
+                            {
+                                    @Html.RequiredHint()
+                            }
+                                @Html.ValidationMessageFor(model => model.ShippingStreetAddress2)
+                            </div>
+                        }
+                        @if (Model.ZipPostalCodeEnabled)
+                        {
+                            <div class="inputs">
+                                @Html.LabelFor(model => model.ShippingZipPostalCode, new { }, ":")
+                                @Html.EditorFor(model => model.ShippingZipPostalCode)
+                                @if (Model.ZipPostalCodeRequired)
+                            {
+                                    @Html.RequiredHint()
+                            }
+                                @Html.ValidationMessageFor(model => model.ShippingZipPostalCode)
+                            </div>
+                        }
+                        @if (Model.CityEnabled)
+                        {
+                            <div class="inputs">
+                                @Html.LabelFor(model => model.ShippingCity, new { }, ":")
+                                @Html.EditorFor(model => model.ShippingCity)
+                                @if (Model.CityRequired)
+                            {
+                                    @Html.RequiredHint()
+                            }
+                                @Html.ValidationMessageFor(model => model.ShippingCity)
+                            </div>
+                        }
+                        @if (Model.CountryEnabled)
+                        {
+                            <div class="inputs">
+                                @Html.LabelFor(model => model.ShippingCountryId, new { }, ":")
+                                @Html.DropDownList("ShippingCountryId", Model.AvailableCountries)
+                            </div>
+                        }
+                        @if (Model.CountryEnabled && Model.StateProvinceEnabled)
+                        {
+                            <div class="inputs">
+                                @Html.LabelFor(model => model.ShippingStateProvinceId, new { }, ":")
+                                @Html.DropDownList("ShippingStateProvinceId", Model.AvailableStates)
+                                <span id="shipping-states-loading-progress" style="display: none;" class="please-wait">@T("Common.Wait...")</span>
                             </div>
                         }
                     </div>
@@ -235,9 +347,9 @@
                                 @Html.LabelFor(model => model.Phone, new { }, ":")
                                 @Html.EditorFor(model => model.Phone)
                                 @if (Model.PhoneRequired)
-                                {
+                            {
                                     @Html.RequiredHint()
-                                }
+                            }
                                 @Html.ValidationMessageFor(model => model.Phone)
                             </div>
                         }
@@ -247,15 +359,66 @@
                                 @Html.LabelFor(model => model.Fax, new { }, ":")
                                 @Html.EditorFor(model => model.Fax)
                                 @if (Model.FaxRequired)
-                                {
+                            {
                                     @Html.RequiredHint()
-                                }
+                            }
                                 @Html.ValidationMessageFor(model => model.Fax)
                             </div>
                         }
                     </div>
                 </div>
             }
+
+            <div class="fieldset">
+                <div class="title"><strong>Wholesaler Information</strong></div>
+                <div class="form-fields">
+                    <div class="inputs">
+                        @Html.LabelFor(model => model.TaxId, "TIN or EIN:")
+                        @Html.EditorFor(model => model.TaxId)
+                        @Html.ValidationMessageFor(model => model.TaxId)
+                    </div>
+                    <div class="inputs">
+                        @Html.LabelFor(model => model.WebsiteURL, "Website URL:")
+                        @Html.EditorFor(model => model.WebsiteURL)
+                        @Html.ValidationMessageFor(model => model.WebsiteURL)
+                    </div>
+                    <div class="inputs">
+                        @Html.LabelFor(model => model.International, "International:")
+                        @Html.EditorFor(model => model.International)
+                        @Html.ValidationMessageFor(model => model.International)
+                    </div>
+                    <div class="inputs">
+                        @Html.LabelFor(model => model.HowDidYouHear, "How did you hear about Booginhead?")
+                        @Html.EditorFor(model => model.HowDidYouHear)
+                        @Html.ValidationMessageFor(model => model.HowDidYouHear)
+                    </div>
+                    <div class="inputs">
+                        @Html.LabelFor(model => model.YearsInBusiness, "Years in business:")
+                        @Html.DropDownList("YearsInBusiness", Model.YearsInBusinessOptions)
+                        @Html.ValidationMessageFor(model => model.YearsInBusiness)
+                    </div>
+                    <div class="inputs">
+                        @Html.LabelFor(model => model.StoreFront, "Storefront:")
+                        @Html.DropDownList("StoreFront", Model.StorefrontOptions)
+                        @Html.ValidationMessageFor(model => model.StoreFront)
+                    </div>
+                    <div class="inputs">
+                        @Html.LabelFor(model => model.TypeOfStore, "Type of store")
+                        @Html.EditorFor(model => model.TypeOfStore)
+                        @Html.ValidationMessageFor(model => model.TypeOfStore)
+                    </div>
+                    <div class="inputs">
+                        @Html.LabelFor(model => model.NameOfWebStore, "Name of web store:")
+                        @Html.EditorFor(model => model.NameOfWebStore)
+                        @Html.ValidationMessageFor(model => model.NameOfWebStore)
+                    </div>
+                    <div class="inputs">
+                        @Html.LabelFor(model => model.AmazonSellerName, "Amazon seller name:")
+                        @Html.EditorFor(model => model.AmazonSellerName)
+                        @Html.ValidationMessageFor(model => model.AmazonSellerName)
+                    </div>
+                </div>
+            </div>
             @if (Model.NewsletterEnabled)
             {
                 <div class="fieldset">

@@ -131,7 +131,6 @@ namespace Nop.Web.Models.Customer
 
         public CustomerNavigationModel NavigationModel { get; set; }
 
-
         #region Nested classes
 
         public partial class AssociatedExternalAuthModel : BaseNopEntityModel

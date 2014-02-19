@@ -24,6 +24,7 @@ namespace Nop.Data.Mapping.Customers
                 .Map(m => m.ToTable("CustomerAddresses"));
             this.HasOptional<Address>(c => c.BillingAddress);
             this.HasOptional<Address>(c => c.ShippingAddress);
+            this.HasOptional<Wholesaler>(c => c.Wholesaler);
         }
     }
 }
