@@ -550,7 +550,8 @@ namespace Nop.Web.Controllers
                     model.Username = model.Username.Trim();
                 }
 
-                bool isApproved = _customerSettings.UserRegistrationType == UserRegistrationType.Standard;
+
+                bool isApproved = (!model.RegisterAsWholesaler && _customerSettings.UserRegistrationType == UserRegistrationType.Standard);
                 var registrationRequest = new CustomerRegistrationRequest(customer, model.Email,
                     _customerSettings.UsernamesEnabled ? model.Username : model.Email, model.Password, _customerSettings.DefaultPasswordFormat, isApproved);
                 var registrationResult = _customerRegistrationService.RegisterCustomer(registrationRequest);
@@ -685,9 +686,61 @@ namespace Nop.Web.Controllers
                         _customerService.UpdateCustomer(customer);
                     }
 
+                    if (model.RegisterAsWholesaler)
+                    {
+                        Wholesaler wholesaler = new Wholesaler()
+                        {
+                            TaxId = model.TaxId,
+                            WebsiteURL = model.WebsiteURL,
+                            International = model.International,
+                            HowDidYouHear = model.HowDidYouHear,
+                            YearsInBusiness = model.YearsInBusiness,
+                            StoreFront = model.StoreFront,
+                            TypeOfStore = model.TypeOfStore,
+                            NameOfWebStore = model.NameOfWebStore,
+                            AmazonSellerName = model.AmazonSellerName
+                        };
+                        customer.Wholesaler = wholesaler;
+                        customer.AdminComment = "This customer has requested to be a wholesaler. If you approve them, be sure to 1) check the Active box under the Customer Info tab and 2) check the Wholesaler box under the Customer Roles tab.";
+                        _customerService.UpdateCustomer(customer);
+                        var shippingAddress = new Address()
+                        {
+                            FirstName = customer.GetAttribute<string>(SystemCustomerAttributeNames.FirstName),
+                            LastName = customer.GetAttribute<string>(SystemCustomerAttributeNames.LastName),
+                            Email = customer.Email,
+                            Company = customer.GetAttribute<string>(SystemCustomerAttributeNames.Company),
+                            CountryId = model.ShippingCountryId,
+                            StateProvinceId = model.ShippingStateProvinceId,
+                            City = model.ShippingCity,
+                            Address1 = model.ShippingStreetAddress,
+                            Address2 = model.ShippingStreetAddress2,
+                            ZipPostalCode = model.ShippingZipPostalCode,
+                            PhoneNumber = model.Phone,
+                            FaxNumber = model.Fax,
+                            CreatedOnUtc = customer.CreatedOnUtc
+                        };
+                        if (this._addressService.IsAddressValid(shippingAddress))
+                        {
+                            //some validation
+                            if (shippingAddress.CountryId == 0)
+                                shippingAddress.CountryId = null;
+                            if (shippingAddress.StateProvinceId == 0)
+                                shippingAddress.StateProvinceId = null;
+                            //set default address
+                            customer.Addresses.Add(shippingAddress);
+                            customer.ShippingAddress = shippingAddress;
+                            _customerService.UpdateCustomer(customer);
+                        }
+
+                    }
+
                     //notifications
                     if (_customerSettings.NotifyNewCustomerRegistration)
                         _workflowMessageService.SendCustomerRegisteredNotificationMessage(customer, _localizationSettings.DefaultAdminLanguageId);
+
+                    // Wholesale customers need to be approved by an admin
+                    if (model.RegisterAsWholesaler)
+                        return RedirectToRoute("RegisterResult", new { resultId = (int)UserRegistrationType.AdminApproval });
                     
                     switch (_customerSettings.UserRegistrationType)
                     {

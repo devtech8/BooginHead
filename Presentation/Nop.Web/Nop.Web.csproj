@@ -2275,6 +2275,7 @@
     <Content Include="Themes\BH\Views\About\Press.cshtml" />
     <Content Include="Views\About\Meet.cshtml" />
     <Content Include="Views\About\Praise.cshtml" />
+    <Content Include="Themes\BH\Views\Customer\Register.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
