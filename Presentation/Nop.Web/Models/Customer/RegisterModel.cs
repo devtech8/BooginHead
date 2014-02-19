@@ -180,11 +180,15 @@ namespace Nop.Web.Models.Customer
             {
                 List<SelectListItem> items = new List<SelectListItem>();
                 SelectListItem item1 = new SelectListItem();
+                SelectListItem item0 = new SelectListItem();
+                item0.Value = null;
+                item0.Text = "-- Choose One --";
                 item1.Text = item1.Value = "Bricks and Mortar";
                 SelectListItem item2 = new SelectListItem();
                 item2.Text = item2.Value = "Web";
                 SelectListItem item3 = new SelectListItem();
                 item3.Text = item3.Value = "Both";
+                items.Add(item0);
                 items.Add(item1);
                 items.Add(item2);
                 items.Add(item3);
@@ -197,6 +201,9 @@ namespace Nop.Web.Models.Customer
             get
             {
                 List<SelectListItem> items = new List<SelectListItem>();
+                SelectListItem item0 = new SelectListItem();
+                item0.Value = null;
+                item0.Text = "-- Choose One --";
                 SelectListItem item1 = new SelectListItem();
                 item1.Text = item1.Value = "Less than one";
                 SelectListItem item2 = new SelectListItem();
@@ -209,6 +216,7 @@ namespace Nop.Web.Models.Customer
                 item5.Text = item5.Value = "4";
                 SelectListItem item6 = new SelectListItem();
                 item6.Text = item6.Value = "5 or more";
+                items.Add(item0);
                 items.Add(item1);
                 items.Add(item2);
                 items.Add(item3);

@@ -6,6 +6,7 @@ using FluentValidation.Attributes;
 using Nop.Admin.Validators.Customers;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Mvc;
+using Nop.Core.Domain.Customers;
 
 namespace Nop.Admin.Models.Customers
 {
@@ -200,6 +201,63 @@ namespace Nop.Admin.Models.Customers
         [NopResourceDisplayName("Admin.Customers.Customers.AssociatedExternalAuth")]
         public IList<AssociatedExternalAuthModel> AssociatedExternalAuthRecords { get; set; }
 
+        // Booginhead custom
+        public Wholesaler Wholesaler { get; set; }
+
+        public List<SelectListItem> StorefrontOptions
+        {
+            get
+            {
+                List<SelectListItem> items = new List<SelectListItem>();
+                SelectListItem item1 = new SelectListItem();
+                SelectListItem item0 = new SelectListItem();
+                item0.Value = null;
+                item0.Text = "-- Choose One --";
+                item1.Text = item1.Value = "Bricks and Mortar";
+                SelectListItem item2 = new SelectListItem();
+                item2.Text = item2.Value = "Web";
+                SelectListItem item3 = new SelectListItem();
+                item3.Text = item3.Value = "Both";
+                items.Add(item0);
+                items.Add(item1);
+                items.Add(item2);
+                items.Add(item3);
+                return items;
+            }
+        }
+
+        public List<SelectListItem> YearsInBusinessOptions
+        {
+            get
+            {
+                List<SelectListItem> items = new List<SelectListItem>();
+                SelectListItem item0 = new SelectListItem();
+                item0.Value = null;
+                item0.Text = "-- Choose One --";
+                SelectListItem item1 = new SelectListItem();
+                item1.Text = item1.Value = "Less than one";
+                SelectListItem item2 = new SelectListItem();
+                item2.Text = item2.Value = "1";
+                SelectListItem item3 = new SelectListItem();
+                item3.Text = item3.Value = "2";
+                SelectListItem item4 = new SelectListItem();
+                item4.Text = item4.Value = "3";
+                SelectListItem item5 = new SelectListItem();
+                item5.Text = item5.Value = "4";
+                SelectListItem item6 = new SelectListItem();
+                item6.Text = item6.Value = "5 or more";
+                items.Add(item0);
+                items.Add(item1);
+                items.Add(item2);
+                items.Add(item3);
+                items.Add(item4);
+                items.Add(item5);
+                items.Add(item6);
+                return items;
+            }
+        }
+
+        // End of Booginhead custom
         
         #region Nested classes
 

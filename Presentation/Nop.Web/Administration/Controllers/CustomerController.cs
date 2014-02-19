@@ -703,6 +703,9 @@ namespace Nop.Admin.Controllers
             //external authentication records
             model.AssociatedExternalAuthRecords = GetAssociatedExternalAuthRecords(customer);
 
+            // Booginhead custom
+            model.Wholesaler = customer.Wholesaler;
+
             return View(model);
         }
 
@@ -860,6 +863,18 @@ namespace Nop.Admin.Controllers
                         ErrorNotification(_localizationService.GetResource("Admin.Customers.Customers.CannotBeInVendoRoleWithoutVendorAssociated"));
                     }
 
+                    // Booginhead custom
+                    customer.Wholesaler.AmazonSellerName = model.Wholesaler.AmazonSellerName;
+                    customer.Wholesaler.HowDidYouHear = model.Wholesaler.HowDidYouHear;
+                    customer.Wholesaler.International = model.Wholesaler.International;
+                    customer.Wholesaler.NameOfWebStore = model.Wholesaler.NameOfWebStore;
+                    customer.Wholesaler.StoreFront = model.Wholesaler.StoreFront;
+                    customer.Wholesaler.TaxId = model.Wholesaler.TaxId;
+                    customer.Wholesaler.TypeOfStore = model.Wholesaler.TypeOfStore;
+                    customer.Wholesaler.WebsiteURL = model.Wholesaler.WebsiteURL;
+                    customer.Wholesaler.YearsInBusiness = model.Wholesaler.YearsInBusiness;
+                    _customerService.UpdateCustomer(customer);
+                    // End Booginhead custom
 
                     //activity log
                     _customerActivityService.InsertActivity("EditCustomer", _localizationService.GetResource("ActivityLog.EditCustomer"), customer.Id);

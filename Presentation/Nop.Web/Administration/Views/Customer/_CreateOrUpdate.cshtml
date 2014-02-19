@@ -445,6 +445,84 @@
                 </td>
             </tr>
         }
+        @if (Model.Id > 0 && Model.Wholesaler != null)
+        {
+            <tr>
+                <td colspan="2"><strong>Wholesaler Information</strong></td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    TID/EIN:
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.Wholesaler.TaxId)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    Type of Store:
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.Wholesaler.TypeOfStore)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    Store Front:
+                </td>
+                <td class="adminData">
+                    @Html.DropDownList("Wholesaler.StoreFront", new SelectList(Model.StorefrontOptions, "Value", "Text", Model.Wholesaler.StoreFront))
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    Name of Web Store:
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.Wholesaler.NameOfWebStore)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    Amazon Seller Name:
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.Wholesaler.AmazonSellerName)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    Website URL:
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.Wholesaler.WebsiteURL)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    Years in Business:
+                </td>
+                <td class="adminData">
+                    @Html.DropDownList("Wholesaler.YearsInBusiness", new SelectList(Model.YearsInBusinessOptions, "Value", "Text", Model.Wholesaler.YearsInBusiness))
+                </td>
+            </tr>            
+            <tr>
+                <td class="adminTitle">
+                    Heard about Booginhead:
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.Wholesaler.HowDidYouHear)
+                </td>
+            </tr>
+            <tr>
+                <td class="adminTitle">
+                    Is International:
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.Wholesaler.International)
+                </td>
+            </tr>
+        }
     </table>
 }
 @helper TabCustomerRoles()

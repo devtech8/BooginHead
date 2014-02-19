@@ -394,12 +394,12 @@
                     </div>
                     <div class="inputs">
                         @Html.LabelFor(model => model.YearsInBusiness, "Years in business:")
-                        @Html.DropDownList("YearsInBusiness", Model.YearsInBusinessOptions)
+                        @Html.DropDownList("YearsInBusiness", new SelectList(Model.YearsInBusinessOptions, "Value", "Text", Model.YearsInBusiness))
                         @Html.ValidationMessageFor(model => model.YearsInBusiness)
                     </div>
                     <div class="inputs">
                         @Html.LabelFor(model => model.StoreFront, "Storefront:")
-                        @Html.DropDownList("StoreFront", Model.StorefrontOptions)
+                        @Html.DropDownList("StoreFront", new SelectList(Model.StorefrontOptions, "Value", "Text", Model.StoreFront))
                         @Html.ValidationMessageFor(model => model.StoreFront)
                     </div>
                     <div class="inputs">
