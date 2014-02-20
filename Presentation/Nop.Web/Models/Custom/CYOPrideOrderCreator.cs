@@ -119,12 +119,12 @@ namespace Nop.Web.Models.Custom
         /// keep them together. PRIDE requested this naming scheme. 
         /// </summary>
         /// <param name="order"></param>
-        /// <param name="items"></param>
-        private void RenameImageFiles(Nop.Core.Domain.Shipping.Shipment shipment, int shipmentNumber, List<OrderItem> items)
+        /// <param name="cyoItems"></param>
+        private void RenameImageFiles(Nop.Core.Domain.Shipping.Shipment shipment, int shipmentNumber, List<OrderItem> cyoItems)
         {
             string directory = this._webHelper.MapPath("~/App_Data/cyo/orders_unsent/");
             int itemNumber = 1;
-            foreach (var item in items)
+            foreach (var item in cyoItems)
             {
                 string imageName = string.Format("BH_{0}_{1}_{2}", shipment.Order.Id.ToString("D8"), shipmentNumber, itemNumber.ToString("D3"));
                 string imageGuid = CYOModel.ExtractGuid(item.AttributesXml);
@@ -276,7 +276,7 @@ namespace Nop.Web.Models.Custom
                 OrderItem item = order.OrderItems.First(i => i.Id == shipmentItem.OrderItemId);
                 string description = string.Format("{0} ({1})", item.Product.Name, item.Product.ManufacturerPartNumber);
                 if (item.Product.ProductTags.FirstOrDefault(tag => tag.Name == "CYO") != null)
-                    description = string.Format("CYO Pacifier {0}", itemNumber.ToString("D3"));
+                    description = string.Format("CYO Pacifier {0}_{1}", shipmentNumber, itemNumber.ToString("D3"));
                 orderHelper.Items.Add(new LineItem(description, shipmentItem.Quantity));
                 itemNumber++;
             }
