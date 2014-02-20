@@ -26,6 +26,7 @@ namespace Nop.Web.Models.Custom
         private IWebHelper _webHelper = null;
         private string _singlePageTemplate = null;
         private string _multiPageTemplate = null;
+        private List<string> _proofsToCleanUp = null;
 
         public CYOPrideOrderCreator()
         {
@@ -33,6 +34,7 @@ namespace Nop.Web.Models.Custom
             this._webHelper = EngineContext.Current.Resolve<IWebHelper>();
             this._singlePageTemplate = Path.Combine(_webHelper.MapPath("~/App_Data/cyo/pdf_templates/"), "BH_Packing_Slip_editable.pdf");
             this._multiPageTemplate = Path.Combine(_webHelper.MapPath("~/App_Data/cyo/pdf_templates/"), "BH_MultiPGPackingSlip_editable.pdf");
+            this._proofsToCleanUp = new List<string>();
         }
 
         /// <summary>
@@ -45,7 +47,19 @@ namespace Nop.Web.Models.Custom
         /// <param name="eventMessage"></param>
         public void CreatePRIDEOrderFiles(Nop.Core.Domain.Orders.Order order)
         {
-            List<OrderItem> cyoItems = GetCyoItems(order);
+            for(int i=0; i < order.Shipments.Count; i++)
+            {
+                int shipmentNumber = i + 1;
+                Nop.Core.Domain.Shipping.Shipment shipment = order.Shipments.ElementAt(i);
+                CreateFilesForShipment(shipment, shipmentNumber);
+            }
+            CleanUpProofs();
+        }
+
+        private void CreateFilesForShipment(Nop.Core.Domain.Shipping.Shipment shipment, int shipmentNumber)
+        {
+            Nop.Core.Domain.Orders.Order order = shipment.Order;
+            List<OrderItem> cyoItems = GetCyoItems(shipment);
 
             // If there are no CYO items in the order, do not create files
             // for PRIDE. Booginhead will fulfill the order. PRIDE fulfills
@@ -55,29 +69,47 @@ namespace Nop.Web.Models.Custom
 
             foreach (var item in cyoItems)
             {
-                // This is a very short string of XML. 
-                // Skipping document createion & will just extract the regex.                    
                 string imageGuid = CYOModel.ExtractGuid(item.AttributesXml);
-                MoveProofToOrdersFolder(imageGuid);
+                CopyProofToOrdersFolder(imageGuid);
             }
-            if (order.OrderItems.Count > 0)
-            {
-                CreateOrderFiles(order);
-                RenameImageFiles(order, cyoItems);
-            }
+            CreateOrderFiles(shipment, shipmentNumber);
+            RenameImageFiles(shipment, shipmentNumber, cyoItems);
         }
 
-        private List<OrderItem> GetCyoItems(Nop.Core.Domain.Orders.Order order)
+        /// <summary>
+        /// Returns a list of CYO items in the shipment.
+        /// </summary>
+        /// <param name="shipment"></param>
+        /// <returns></returns>
+        private List<OrderItem> GetCyoItems(Nop.Core.Domain.Shipping.Shipment shipment)
         {
             List<OrderItem> cyoItems = new List<OrderItem>();
-            foreach (var item in order.OrderItems)
+            foreach (var item in shipment.ShipmentItems)
             {
-                if (item.Product.ProductTags.FirstOrDefault(tag => tag.Name == "CYO") != null)
+                OrderItem orderItem = shipment.Order.OrderItems.First(i => i.Id == item.OrderItemId);
+                if (orderItem.Product.ProductTags.FirstOrDefault(tag => tag.Name == "CYO") != null)
                 {
-                    cyoItems.Add(item);
+                    cyoItems.Add(orderItem);
                 }
             }
             return cyoItems;
+        }
+
+
+        /// <summary>
+        /// Delete proof images that were moved into the orders folder.
+        /// Don't do this until the end, because multiple shipments in one
+        /// order may refer to the same proof image.
+        /// </summary>
+        private void CleanUpProofs()
+        {
+            foreach (string imageFile in this._proofsToCleanUp)
+            {
+                if (File.Exists(imageFile))
+                {
+                    File.Delete(imageFile);
+                }
+            }
         }
 
         /// <summary>
@@ -88,13 +120,13 @@ namespace Nop.Web.Models.Custom
         /// </summary>
         /// <param name="order"></param>
         /// <param name="items"></param>
-        private void RenameImageFiles(Nop.Core.Domain.Orders.Order order, List<OrderItem> items)
+        private void RenameImageFiles(Nop.Core.Domain.Shipping.Shipment shipment, int shipmentNumber, List<OrderItem> items)
         {
             string directory = this._webHelper.MapPath("~/App_Data/cyo/orders_unsent/");
             int itemNumber = 1;
             foreach (var item in items)
             {
-                string imageName = string.Format("BH_{0}_{1}", order.Id.ToString("D8"), itemNumber.ToString("D3"));
+                string imageName = string.Format("BH_{0}_{1}_{2}", shipment.Order.Id.ToString("D8"), shipmentNumber, itemNumber.ToString("D3"));
                 string imageGuid = CYOModel.ExtractGuid(item.AttributesXml);
                 string sourceFile = Path.Combine(directory, string.Format("{0}.png", imageGuid));
                 string destFile = Path.Combine(directory, string.Format("{0}.png", imageName));
@@ -108,10 +140,12 @@ namespace Nop.Web.Models.Custom
         }
 
         /// <summary>
-        /// Moves the proof image into the orders folder, so the ImageCleanupTask won't delete it.
+        /// Copies the proof image into the orders folder, so the ImageCleanupTask won't delete it.
+        /// We don't want to remove it from the proofs folder until we're all done creating the
+        /// PRIDE files, because it's possible for two shipments to refer to the same proof image.
         /// </summary>
         /// <param name="imageGuid"></param>
-        private void MoveProofToOrdersFolder(string imageGuid)
+        private void CopyProofToOrdersFolder(string imageGuid)
         {
             string sourcePath = this._webHelper.MapPath("~/App_Data/cyo/in_cart/");
             string destPath = this._webHelper.MapPath("~/App_Data/cyo/orders_unsent/");
@@ -119,7 +153,8 @@ namespace Nop.Web.Models.Custom
             string destFile = Path.Combine(destPath, string.Format("{0}.png", imageGuid));
             if (!File.Exists(destFile))
             {
-                File.Move(sourceFile, destFile);
+                File.Copy(sourceFile, destFile);
+                this._proofsToCleanUp.Add(sourceFile);
             }
         }
 
@@ -128,14 +163,15 @@ namespace Nop.Web.Models.Custom
         /// and puts these in the orders folder.
         /// </summary>
         /// <param name="order"></param>
-        private void CreateOrderFiles(Nop.Core.Domain.Orders.Order order)
+        private void CreateOrderFiles(Nop.Core.Domain.Shipping.Shipment shipment, int shipmentNumber)
         {
-            CreatePRIDEOrderFile(order);
-            CreatePDFPackingSlip(order);
+            CreatePRIDEOrderFile(shipment, shipmentNumber);
+            CreatePDFPackingSlip(shipment, shipmentNumber);
         }
 
-        private void CreatePDFPackingSlip(Core.Domain.Orders.Order order)
+        private void CreatePDFPackingSlip(Nop.Core.Domain.Shipping.Shipment shipment, int shipmentNumber)
         {
+            Nop.Core.Domain.Orders.Order order = shipment.Order;
             CYOPDFHelper pdfHelper = new CYOPDFHelper(_singlePageTemplate, _multiPageTemplate);
             pdfHelper.OrderDate = DateTime.Now.ToString("MM/dd/yyyy");
             pdfHelper.OrderedBy = FormatAddress(order.Customer.BillingAddress);
@@ -144,6 +180,7 @@ namespace Nop.Web.Models.Custom
             // Do we have a way of separating CYO shipping cost from other item shipping cost?
             pdfHelper.Shipping = Double.Parse(order.OrderShippingExclTax.ToString());
 
+            // TODO: FIX THIS!!
             // Need to convert shipping method from NOP to Enum.
             pdfHelper.ShippingMethod = ShippingMethod.USPS; // order.ShippingMethod;
 
@@ -152,18 +189,19 @@ namespace Nop.Web.Models.Custom
             pdfHelper.Tax = Double.Parse(order.OrderTax.ToString());
             pdfHelper.Total = Double.Parse(order.OrderTotal.ToString());
 
-            AddLineItemsToPDF(pdfHelper, order);
+            AddLineItemsToPDF(pdfHelper, shipment, shipmentNumber);
 
-            string outputFile = Path.Combine(_webHelper.MapPath("~/App_Data/cyo/orders_unsent/"), string.Format("BH_{0}.pdf", order.Id.ToString("D8")));
+            string outputFile = Path.Combine(_webHelper.MapPath("~/App_Data/cyo/orders_unsent/"), string.Format("BH_{0}_{1}.pdf", order.Id.ToString("D8"), shipmentNumber));
             pdfHelper.CreatePackingSlip(outputFile);
         }
 
-        private void AddLineItemsToPDF(CYOPDFHelper pdfHelper, Core.Domain.Orders.Order order)
+        private void AddLineItemsToPDF(CYOPDFHelper pdfHelper, Nop.Core.Domain.Shipping.Shipment shipment, int shipmentNumber)
         {
-            //List<OrderItem> cyoItems = GetCyoItems(order);
+            Nop.Core.Domain.Orders.Order order = shipment.Order;
             int itemNumber = 1;
-            foreach (var item in order.OrderItems)
+            foreach (var shipmentItem in shipment.ShipmentItems)
             {
+                OrderItem item = order.OrderItems.First(i => i.Id == shipmentItem.OrderItemId);
                 string description = string.Format("{0} ({1})", item.Product.Name, item.Product.ManufacturerPartNumber);
                 string pathToImageFile = _webHelper.MapPath("~/Content/Images/Thumbs/default-image_80.gif");
                 byte[] imageBinary = null;
@@ -171,7 +209,7 @@ namespace Nop.Web.Models.Custom
                 {
                     Dictionary<string, string> attributes = ParseAttributes(item.AttributesXml);
                     string imageGuid = attributes["CYO Unique Id"];
-                    string designName = string.Format("BH_{0}_{1}.png", order.Id.ToString("D8"), itemNumber.ToString("D3"));
+                    string designName = string.Format("BH_{0}_{1}_{2}.png", order.Id.ToString("D8"), shipmentNumber, itemNumber.ToString("D3"));
                     string color = attributes["CYO Color"];
                     string size = attributes["CYO Size"];
                     string brand = attributes["CYO Brand"];
@@ -190,11 +228,12 @@ namespace Nop.Web.Models.Custom
                 }
                 double priceAsDouble = Double.Parse(item.UnitPriceExclTax.ToString());
 
+
                 CYOOrderItem cyoOrderItem = null;
                 if (imageBinary != null)
-                    cyoOrderItem = new CYOOrderItem(item.Product.Name, imageBinary, description, priceAsDouble, item.Quantity);
+                    cyoOrderItem = new CYOOrderItem(item.Product.Name, imageBinary, description, priceAsDouble, shipmentItem.Quantity);
                 else
-                    cyoOrderItem = new CYOOrderItem("CYO Pacifier", pathToImageFile, description, priceAsDouble, item.Quantity);
+                    cyoOrderItem = new CYOOrderItem("CYO Pacifier", pathToImageFile, description, priceAsDouble, shipmentItem.Quantity);
 
                 pdfHelper.Items.Add(cyoOrderItem);
                 itemNumber++;
@@ -214,8 +253,9 @@ namespace Nop.Web.Models.Custom
             return sb.ToString();
         }
 
-        private void CreatePRIDEOrderFile(Nop.Core.Domain.Orders.Order order)
+        private void CreatePRIDEOrderFile(Nop.Core.Domain.Shipping.Shipment shipment, int shipmentNumber)
         {
+            Nop.Core.Domain.Orders.Order order = shipment.Order;
             CYOOrderHelper orderHelper = new CYOOrderHelper();
             orderHelper.RecipientNameLine1 = order.ShippingAddress.FirstName + " " + order.ShippingAddress.LastName;
             orderHelper.RecipientNameLine2 = order.ShippingAddress.Company;
@@ -231,15 +271,16 @@ namespace Nop.Web.Models.Custom
 
             //List<OrderItem> cyoItems = GetCyoItems(order);
             int itemNumber = 1;
-            foreach (var item in order.OrderItems)
+            foreach (var shipmentItem in shipment.ShipmentItems)
             {
+                OrderItem item = order.OrderItems.First(i => i.Id == shipmentItem.OrderItemId);
                 string description = string.Format("{0} ({1})", item.Product.Name, item.Product.ManufacturerPartNumber);
                 if (item.Product.ProductTags.FirstOrDefault(tag => tag.Name == "CYO") != null)
                     description = string.Format("CYO Pacifier {0}", itemNumber.ToString("D3"));
-                orderHelper.Items.Add(new LineItem(description, item.Quantity));
+                orderHelper.Items.Add(new LineItem(description, shipmentItem.Quantity));
                 itemNumber++;
             }
-            string filePath = Path.Combine(_webHelper.MapPath("~/App_Data/cyo/orders_unsent"), string.Format("BH_{0}.txt", order.Id.ToString("D8")));
+            string filePath = Path.Combine(_webHelper.MapPath("~/App_Data/cyo/orders_unsent"), string.Format("BH_{0}_{1}.txt", order.Id.ToString("D8"), shipmentNumber));
             using (FileStream fs = File.Open(filePath, FileMode.Create))
             {
                 byte[] orderData = System.Text.Encoding.UTF8.GetBytes(orderHelper.GetFormattedOrder());
