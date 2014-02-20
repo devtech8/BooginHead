@@ -1,0 +1,274 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Nop.Core;
+using Nop.Core.Domain.Catalog;
+using Nop.Core.Domain.Common;
+using Nop.Core.Domain.Orders;
+using Nop.Core.Events;
+using Nop.Core.Infrastructure;
+using Nop.Data.Mapping.Catalog;
+using Nop.Services.Catalog;
+using Nop.Services.Events;
+using Nop.Services.Logging;
+using System.IO;
+using System.Text;
+
+namespace Nop.Web.Models.Custom
+{
+    /// <summary>
+    /// This class creates the files necessary for orders fulfilled by PRIDE.
+    /// </summary>
+    public class CYOPrideOrderCreator
+    {
+        private ILogger _logger = null;
+        private IWebHelper _webHelper = null;
+        private string _singlePageTemplate = null;
+        private string _multiPageTemplate = null;
+
+        public CYOPrideOrderCreator()
+        {
+            this._logger = EngineContext.Current.Resolve<ILogger>();
+            this._webHelper = EngineContext.Current.Resolve<IWebHelper>();
+            this._singlePageTemplate = Path.Combine(_webHelper.MapPath("~/App_Data/cyo/pdf_templates/"), "BH_Packing_Slip_editable.pdf");
+            this._multiPageTemplate = Path.Combine(_webHelper.MapPath("~/App_Data/cyo/pdf_templates/"), "BH_MultiPGPackingSlip_editable.pdf");
+        }
+
+        /// <summary>
+        /// Creates the required PRIDE order files and moves them
+        /// into the diretory ~/App_Data/cyo/orders_unsent.
+        /// These files will go into the folder App_Data/cyo/orders_unsent. They'll 
+        /// be picked up by the scheduled job CYOFileTransferTask, and sent by SFTP
+        /// to PRIDE for fulfillment.
+        /// </summary>
+        /// <param name="eventMessage"></param>
+        public void CreatePRIDEOrderFiles(Nop.Core.Domain.Orders.Order order)
+        {
+            List<OrderItem> cyoItems = GetCyoItems(order);
+
+            // If there are no CYO items in the order, do not create files
+            // for PRIDE. Booginhead will fulfill the order. PRIDE fulfills
+            // orders that contain CYO-only or a mix of CYO and non-CYO items.
+            if (cyoItems.Count == 0)
+                return;
+
+            foreach (var item in cyoItems)
+            {
+                // This is a very short string of XML. 
+                // Skipping document createion & will just extract the regex.                    
+                string imageGuid = CYOModel.ExtractGuid(item.AttributesXml);
+                MoveProofToOrdersFolder(imageGuid);
+            }
+            if (order.OrderItems.Count > 0)
+            {
+                CreateOrderFiles(order);
+                RenameImageFiles(order, cyoItems);
+            }
+        }
+
+        private List<OrderItem> GetCyoItems(Nop.Core.Domain.Orders.Order order)
+        {
+            List<OrderItem> cyoItems = new List<OrderItem>();
+            foreach (var item in order.OrderItems)
+            {
+                if (item.Product.ProductTags.FirstOrDefault(tag => tag.Name == "CYO") != null)
+                {
+                    cyoItems.Add(item);
+                }
+            }
+            return cyoItems;
+        }
+
+        /// <summary>
+        /// While constructing the PDF order file, the proof images need to keep
+        /// their Guids. After the PDF order file is generated, the name of each
+        /// proof image should match the name of the other files, so PRIDE can 
+        /// keep them together. PRIDE requested this naming scheme. 
+        /// </summary>
+        /// <param name="order"></param>
+        /// <param name="items"></param>
+        private void RenameImageFiles(Nop.Core.Domain.Orders.Order order, List<OrderItem> items)
+        {
+            string directory = this._webHelper.MapPath("~/App_Data/cyo/orders_unsent/");
+            int itemNumber = 1;
+            foreach (var item in items)
+            {
+                string imageName = string.Format("BH_{0}_{1}", order.Id.ToString("D8"), itemNumber.ToString("D3"));
+                string imageGuid = CYOModel.ExtractGuid(item.AttributesXml);
+                string sourceFile = Path.Combine(directory, string.Format("{0}.png", imageGuid));
+                string destFile = Path.Combine(directory, string.Format("{0}.png", imageName));
+                if (!File.Exists(destFile))
+                {
+                    File.Move(sourceFile, destFile);
+                }
+                itemNumber++;
+            }
+
+        }
+
+        /// <summary>
+        /// Moves the proof image into the orders folder, so the ImageCleanupTask won't delete it.
+        /// </summary>
+        /// <param name="imageGuid"></param>
+        private void MoveProofToOrdersFolder(string imageGuid)
+        {
+            string sourcePath = this._webHelper.MapPath("~/App_Data/cyo/in_cart/");
+            string destPath = this._webHelper.MapPath("~/App_Data/cyo/orders_unsent/");
+            string sourceFile = Path.Combine(sourcePath, string.Format("{0}.png", imageGuid));
+            string destFile = Path.Combine(destPath, string.Format("{0}.png", imageGuid));
+            if (!File.Exists(destFile))
+            {
+                File.Move(sourceFile, destFile);
+            }
+        }
+
+        /// <summary>
+        /// Creates the pipe-delimited order file and the PDF packing slip
+        /// and puts these in the orders folder.
+        /// </summary>
+        /// <param name="order"></param>
+        private void CreateOrderFiles(Nop.Core.Domain.Orders.Order order)
+        {
+            CreatePRIDEOrderFile(order);
+            CreatePDFPackingSlip(order);
+        }
+
+        private void CreatePDFPackingSlip(Core.Domain.Orders.Order order)
+        {
+            CYOPDFHelper pdfHelper = new CYOPDFHelper(_singlePageTemplate, _multiPageTemplate);
+            pdfHelper.OrderDate = DateTime.Now.ToString("MM/dd/yyyy");
+            pdfHelper.OrderedBy = FormatAddress(order.Customer.BillingAddress);
+            pdfHelper.OrderNumber = order.Id.ToString("D8");
+
+            // Do we have a way of separating CYO shipping cost from other item shipping cost?
+            pdfHelper.Shipping = Double.Parse(order.OrderShippingExclTax.ToString());
+
+            // Need to convert shipping method from NOP to Enum.
+            pdfHelper.ShippingMethod = ShippingMethod.USPS; // order.ShippingMethod;
+
+            pdfHelper.ShipTo = FormatAddress(order.ShippingAddress);
+            pdfHelper.SubTotal = Double.Parse(order.OrderSubtotalExclTax.ToString());
+            pdfHelper.Tax = Double.Parse(order.OrderTax.ToString());
+            pdfHelper.Total = Double.Parse(order.OrderTotal.ToString());
+
+            AddLineItemsToPDF(pdfHelper, order);
+
+            string outputFile = Path.Combine(_webHelper.MapPath("~/App_Data/cyo/orders_unsent/"), string.Format("BH_{0}.pdf", order.Id.ToString("D8")));
+            pdfHelper.CreatePackingSlip(outputFile);
+        }
+
+        private void AddLineItemsToPDF(CYOPDFHelper pdfHelper, Core.Domain.Orders.Order order)
+        {
+            //List<OrderItem> cyoItems = GetCyoItems(order);
+            int itemNumber = 1;
+            foreach (var item in order.OrderItems)
+            {
+                string description = string.Format("{0} ({1})", item.Product.Name, item.Product.ManufacturerPartNumber);
+                string pathToImageFile = _webHelper.MapPath("~/Content/Images/Thumbs/default-image_80.gif");
+                byte[] imageBinary = null;
+                if (item.Product.ProductTags.FirstOrDefault(tag => tag.Name == "CYO") != null)
+                {
+                    Dictionary<string, string> attributes = ParseAttributes(item.AttributesXml);
+                    string imageGuid = attributes["CYO Unique Id"];
+                    string designName = string.Format("BH_{0}_{1}.png", order.Id.ToString("D8"), itemNumber.ToString("D3"));
+                    string color = attributes["CYO Color"];
+                    string size = attributes["CYO Size"];
+                    string brand = attributes["CYO Brand"];
+                    description = string.Format("CYO Pacifier Color={0}{4}Size={1},Brand={2}{4}Design={3}", color, size, brand, designName, Environment.NewLine);
+                    pathToImageFile = Path.Combine(this._webHelper.MapPath("~/App_Data/cyo/orders_unsent/"), string.Format("{0}.png", imageGuid));
+                }
+                else
+                {
+                    // Not a CYO item
+                    ProductPicture productPicture = item.Product.ProductPictures.FirstOrDefault();
+                    if (productPicture != null)
+                    {
+                        imageBinary = productPicture.Picture.PictureBinary;
+                        //pathToImageFile = Path.Combine(_webHelper.MapPath("~/Content/Images/Thumbs/"), productPicture.Picture.SeoFilename);
+                    }
+                }
+                double priceAsDouble = Double.Parse(item.UnitPriceExclTax.ToString());
+
+                CYOOrderItem cyoOrderItem = null;
+                if (imageBinary != null)
+                    cyoOrderItem = new CYOOrderItem(item.Product.Name, imageBinary, description, priceAsDouble, item.Quantity);
+                else
+                    cyoOrderItem = new CYOOrderItem("CYO Pacifier", pathToImageFile, description, priceAsDouble, item.Quantity);
+
+                pdfHelper.Items.Add(cyoOrderItem);
+                itemNumber++;
+            }
+        }
+
+        private string FormatAddress(Address address)
+        {
+            StringBuilder sb = new StringBuilder(address.FirstName + " " + address.LastName + Environment.NewLine);
+            if (!string.IsNullOrEmpty(address.Company))
+                sb.Append(address.Company + Environment.NewLine);
+            if (!string.IsNullOrEmpty(address.Address1))
+                sb.Append(address.Address1 + Environment.NewLine);
+            if (!string.IsNullOrEmpty(address.Address2))
+                sb.Append(address.Address2 + Environment.NewLine);
+            sb.Append(string.Format("{0}, {1} {2}", address.City, address.StateProvince.Abbreviation, address.ZipPostalCode));
+            return sb.ToString();
+        }
+
+        private void CreatePRIDEOrderFile(Nop.Core.Domain.Orders.Order order)
+        {
+            CYOOrderHelper orderHelper = new CYOOrderHelper();
+            orderHelper.RecipientNameLine1 = order.ShippingAddress.FirstName + " " + order.ShippingAddress.LastName;
+            orderHelper.RecipientNameLine2 = order.ShippingAddress.Company;
+            orderHelper.Address1 = order.ShippingAddress.Address1;
+            orderHelper.Address2 = order.ShippingAddress.Address2;
+            orderHelper.City = order.ShippingAddress.City;
+            orderHelper.Country = order.ShippingAddress.Country.ThreeLetterIsoCode;
+            orderHelper.Currency = "USD";
+            orderHelper.IsTestMessage = false;
+            orderHelper.OrderNumber = order.Id.ToString("D8");
+            orderHelper.State = order.ShippingAddress.StateProvince.Abbreviation;
+            orderHelper.Zip = order.ShippingAddress.ZipPostalCode;
+
+            //List<OrderItem> cyoItems = GetCyoItems(order);
+            int itemNumber = 1;
+            foreach (var item in order.OrderItems)
+            {
+                string description = string.Format("{0} ({1})", item.Product.Name, item.Product.ManufacturerPartNumber);
+                if (item.Product.ProductTags.FirstOrDefault(tag => tag.Name == "CYO") != null)
+                    description = string.Format("CYO Pacifier {0}", itemNumber.ToString("D3"));
+                orderHelper.Items.Add(new LineItem(description, item.Quantity));
+                itemNumber++;
+            }
+            string filePath = Path.Combine(_webHelper.MapPath("~/App_Data/cyo/orders_unsent"), string.Format("BH_{0}.txt", order.Id.ToString("D8")));
+            using (FileStream fs = File.Open(filePath, FileMode.Create))
+            {
+                byte[] orderData = System.Text.Encoding.UTF8.GetBytes(orderHelper.GetFormattedOrder());
+                fs.Write(orderData, 0, orderData.Length);
+            }
+        }
+
+
+        /// <summary>
+        /// Returns a dictionary of attrbutes, including size, color, brand and unique id.
+        /// All of these attributes should be marked as "Required" in the Admin control
+        /// panel, so we know they will be here.
+        /// </summary>
+        /// <param name="attributesXml"></param>
+        /// <returns></returns>
+        private Dictionary<string, string> ParseAttributes(string attributesXml)
+        {
+            Dictionary<string, string> attributes = new Dictionary<string, string>();
+            IProductAttributeParser p = EngineContext.Current.Resolve<IProductAttributeParser>();
+            IList<ProductVariantAttribute> attrs = p.ParseProductVariantAttributes(attributesXml);
+            foreach (var attr in attrs)
+            {
+                string name = attr.ProductAttribute.Name;
+                string value = p.ParseValues(attributesXml, attr.Id).FirstOrDefault();
+                attributes[name] = value;
+
+            }
+
+            return attributes;
+        }
+    }
+}
