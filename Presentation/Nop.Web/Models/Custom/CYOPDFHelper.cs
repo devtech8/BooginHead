@@ -14,13 +14,6 @@ namespace Nop.Web.Models.Custom
         public static readonly int SINGLE_ORDER_TEMPLATE_MAX_ITEMS = 14;
         public static readonly int MULTI_ORDER_TEMPLATE_MAX_ITEMS = 16;
 
-        public static readonly Dictionary<ShippingMethod, string> SHIPPING_METHOD_NAMES = new Dictionary<ShippingMethod, string> {
-            {ShippingMethod.USPS, "USPS"},
-            {ShippingMethod.FEDEX_2DAY, "Fedex 2 Day"},
-            {ShippingMethod.FEDEX_PRIORITY_OVERNIGHT, "Fedex Pri Overnight"},
-            {ShippingMethod.FEDEX_STANDARD_OVERNIGHT, "Fedex Std Overnight"}
-        };
-
         /// <summary>
         /// Full system path the PDF template for single-page orders.
         /// This template works for orders with 14 or fewer line items.
@@ -62,7 +55,7 @@ namespace Nop.Web.Models.Custom
         /// <summary>
         /// Shipping method
         /// </summary>
-        public ShippingMethod ShippingMethod { get; set; }
+        public string ShippingMethod { get; set; }
 
         /// <summary>
         /// Order sub-total
@@ -231,7 +224,7 @@ namespace Nop.Web.Models.Custom
             pdfStamper.AcroFields.SetField("Ordered By", this.OrderedBy);
             pdfStamper.AcroFields.SetField("Ship To", this.ShipTo);
             pdfStamper.AcroFields.SetField("Order Date", this.OrderDate);
-            pdfStamper.AcroFields.SetField("Shipping", SHIPPING_METHOD_NAMES[this.ShippingMethod]);
+            pdfStamper.AcroFields.SetField("Shipping", this.ShippingMethod);
             pdfStamper.AcroFields.SetField("Order Number", this.OrderNumber);
             pdfStamper.AcroFields.SetField("number of items", this.Items.Count.ToString());
         }

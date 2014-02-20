@@ -176,20 +176,23 @@ namespace Nop.Web.Models.Custom
             pdfHelper.OrderDate = DateTime.Now.ToString("MM/dd/yyyy");
             pdfHelper.OrderedBy = FormatAddress(order.Customer.BillingAddress);
             pdfHelper.OrderNumber = order.Id.ToString("D8");
-
-            // Do we have a way of separating CYO shipping cost from other item shipping cost?
             pdfHelper.Shipping = Double.Parse(order.OrderShippingExclTax.ToString());
-
-            // TODO: FIX THIS!!
-            // Need to convert shipping method from NOP to Enum.
-            pdfHelper.ShippingMethod = ShippingMethod.USPS; // order.ShippingMethod;
-
+            pdfHelper.ShippingMethod = order.ShippingMethod;
             pdfHelper.ShipTo = FormatAddress(order.ShippingAddress);
             pdfHelper.SubTotal = Double.Parse(order.OrderSubtotalExclTax.ToString());
             pdfHelper.Tax = Double.Parse(order.OrderTax.ToString());
             pdfHelper.Total = Double.Parse(order.OrderTotal.ToString());
 
             AddLineItemsToPDF(pdfHelper, shipment, shipmentNumber);
+
+            if (shipment.Order.Shipments.Count > 1)
+            {
+                string message = string.Format("This order has {0} shipments. " + 
+                        "Totals below are for the ENTIRE order, " + 
+                        "but only items listed above are included in this shipment.", shipment.Order.Shipments.Count);
+                CYOOrderItem cyoOrderItem = new CYOOrderItem("", "", message, 0, 0);
+                pdfHelper.Items.Add(cyoOrderItem);
+            }
 
             string outputFile = Path.Combine(_webHelper.MapPath("~/App_Data/cyo/orders_unsent/"), string.Format("BH_{0}_{1}.pdf", order.Id.ToString("D8"), shipmentNumber));
             pdfHelper.CreatePackingSlip(outputFile);
@@ -223,7 +226,6 @@ namespace Nop.Web.Models.Custom
                     if (productPicture != null)
                     {
                         imageBinary = productPicture.Picture.PictureBinary;
-                        //pathToImageFile = Path.Combine(_webHelper.MapPath("~/Content/Images/Thumbs/"), productPicture.Picture.SeoFilename);
                     }
                 }
                 double priceAsDouble = Double.Parse(item.UnitPriceExclTax.ToString());
@@ -269,16 +271,17 @@ namespace Nop.Web.Models.Custom
             orderHelper.State = order.ShippingAddress.StateProvince.Abbreviation;
             orderHelper.Zip = order.ShippingAddress.ZipPostalCode;
 
-            //List<OrderItem> cyoItems = GetCyoItems(order);
-            int itemNumber = 1;
+            int cyoItemNumber = 1;
             foreach (var shipmentItem in shipment.ShipmentItems)
             {
                 OrderItem item = order.OrderItems.First(i => i.Id == shipmentItem.OrderItemId);
                 string description = string.Format("{0} ({1})", item.Product.Name, item.Product.ManufacturerPartNumber);
                 if (item.Product.ProductTags.FirstOrDefault(tag => tag.Name == "CYO") != null)
-                    description = string.Format("CYO Pacifier {0}_{1}", shipmentNumber, itemNumber.ToString("D3"));
+                {
+                    description = string.Format("CYO Pacifier {0}_{1}", shipmentNumber, cyoItemNumber.ToString("D3"));
+                    cyoItemNumber++;
+                }
                 orderHelper.Items.Add(new LineItem(description, shipmentItem.Quantity));
-                itemNumber++;
             }
             string filePath = Path.Combine(_webHelper.MapPath("~/App_Data/cyo/orders_unsent"), string.Format("BH_{0}_{1}.txt", order.Id.ToString("D8"), shipmentNumber));
             using (FileStream fs = File.Open(filePath, FileMode.Create))
