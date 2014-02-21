@@ -495,6 +495,10 @@ namespace Nop.Admin.Controllers
                 if (orderItem.Product.IsDownload)
                     hasDownloadableItems = true;
 
+                // Booginhead custom
+                if (orderItem.Product.ProductTags.FirstOrDefault(tag => tag.Name == "CYO") != null)
+                    model.HasCYOItems = true;
+
                 var orderItemModel = new OrderModel.OrderItemModel()
                 {
                     Id = orderItem.Id,

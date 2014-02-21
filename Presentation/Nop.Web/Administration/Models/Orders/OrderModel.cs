@@ -15,6 +15,10 @@ namespace Nop.Admin.Models.Orders
 {
     public partial class OrderModel : BaseNopEntityModel
     {
+        // Boginhead custom
+        private bool _hasCYOItems = false;
+        // End Booginhead custom
+
         public OrderModel()
         {
             TaxRates = new List<TaxRate>();
@@ -234,6 +238,13 @@ namespace Nop.Admin.Models.Orders
             foreach(string filename in sent)
                 orderFiles.Add(filename.Replace(sentDirectory + @"\", ""));
             return orderFiles;
+        }
+
+        // This is set by the Admin Order controller
+        public bool HasCYOItems 
+        {
+            get { return this._hasCYOItems; }
+            set { this._hasCYOItems = value; }
         }
         // End Booginhead custom
 

@@ -226,6 +226,13 @@
         }
     </table>
     
+        if(Model.HasCYOItems)
+        {
+            <div style="margin-top: 30px;">
+                <p style="color:#c00;">This order contains CYO items.</p>
+            </div>            
+        }
+    
         @* Booginhead custom *@
         if (orderFiles.Count > 0)
         {
