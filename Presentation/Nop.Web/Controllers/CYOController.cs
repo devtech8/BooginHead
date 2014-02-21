@@ -12,6 +12,7 @@ using Nop.Core.Infrastructure;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Web.Models.Custom;
+using Nop.Web.Framework.Controllers;
 
 namespace Nop.Web.Controllers
 {
@@ -126,6 +127,30 @@ namespace Nop.Web.Controllers
                 contentType = "image/gif";
             else if (fileName.EndsWith(".png", StringComparison.InvariantCultureIgnoreCase))
                 contentType = "image/png";
+            return new FileContentResult(System.IO.File.ReadAllBytes(filePath), contentType);
+        }
+
+
+        /// <summary>
+        /// Returns PRIDE order files. Admin-only!
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        [AdminAuthorize]
+        [HttpGet]
+        public ActionResult GetOrderFile(string fileName)
+        {
+            string filePath = Path.Combine(Server.MapPath("~/App_Data/cyo/orders_unsent"), fileName);
+            if (!System.IO.File.Exists(filePath))
+                filePath = Path.Combine(Server.MapPath("~/App_Data/cyo/orders_sent"), fileName);
+            if (!System.IO.File.Exists(filePath))
+                return Content(string.Format("File '{0}' not found.", fileName));
+
+            string contentType = "image/png";
+            if (fileName.EndsWith(".txt", StringComparison.InvariantCultureIgnoreCase))
+                contentType = "text/plain";
+            else if (fileName.EndsWith(".pdf", StringComparison.InvariantCultureIgnoreCase))
+                contentType = "application/pdf";
             return new FileContentResult(System.IO.File.ReadAllBytes(filePath), contentType);
         }
 
