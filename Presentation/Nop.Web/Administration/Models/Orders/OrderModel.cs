@@ -240,6 +240,7 @@ namespace Nop.Admin.Models.Orders
             return orderFiles;
         }
 
+        // Booginhead custom
         // This is set by the Admin Order controller
         public bool HasCYOItems 
         {

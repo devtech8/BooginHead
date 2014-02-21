@@ -189,6 +189,7 @@
                     columns.Bound(x => x.TotalWeight);
                     columns.Bound(x => x.ShippedDate);
                     columns.Bound(x => x.DeliveryDate);
+                    columns.Bound(x => x.HasCYOItems); @* Booginhead custom *@
                     columns.Bound(x => x.Id)
                         .Template(x => Html.ActionLink(T("Admin.Common.View").Text, "ShipmentDetails", "Order", new { id = x.Id }, new { }))
                         .ClientTemplate("<a href=\"" + @Url.Content("~/Admin/Order/ShipmentDetails/") + "<#= Id #>\">" + T("Admin.Common.View").Text + "</a>")

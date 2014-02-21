@@ -7,6 +7,10 @@ namespace Nop.Admin.Models.Orders
 {
     public partial class ShipmentModel : BaseNopEntityModel
     {
+        // Booginhead custom
+        private bool _hasCYOItems = false;
+        // End Booginhead custom
+
         public ShipmentModel()
         {
             this.Items = new List<ShipmentItemModel>();
@@ -31,6 +35,15 @@ namespace Nop.Admin.Models.Orders
         public DateTime? DeliveryDateUtc { get; set; }
 
         public List<ShipmentItemModel> Items { get; set; }
+
+        // Booginhead custom
+        // This is set by the Admin Order controller
+        public bool HasCYOItems
+        {
+            get { return this._hasCYOItems; }
+            set { this._hasCYOItems = value; }
+        }
+        // End Booginhead custom
 
         #region Nested classes
 

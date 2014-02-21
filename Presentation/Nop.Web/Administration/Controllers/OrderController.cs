@@ -641,6 +641,9 @@ namespace Nop.Admin.Controllers
                     if (orderItem == null)
                         continue;
 
+                    if (orderItem.Product.ProductTags.FirstOrDefault(tag => tag.Name == "CYO") != null)
+                        model.HasCYOItems = true;
+
                     //quantities
                     var qtyInThisShipment = shipmentItem.Quantity;
                     var maxQtyToAdd = orderItem.GetTotalNumberOfItemsCanBeAddedToShipment();
@@ -2136,7 +2139,7 @@ namespace Nop.Admin.Controllers
                 command.Page - 1, command.PageSize);
             var gridModel = new GridModel<ShipmentModel>
             {
-                Data = shipments.Select(shipment => PrepareShipmentModel(shipment, false)),
+                Data = shipments.Select(shipment => PrepareShipmentModel(shipment, true)),
                 Total = shipments.TotalCount
             };
 			return new JsonResult
@@ -2167,7 +2170,7 @@ namespace Nop.Admin.Controllers
                 .OrderBy(s => s.CreatedOnUtc)
                 .ToList();
             foreach (var shipment in shipments)
-                shipmentModels.Add(PrepareShipmentModel(shipment, false));
+                shipmentModels.Add(PrepareShipmentModel(shipment, true));
 
             var model = new GridModel<ShipmentModel>
             {
@@ -2254,6 +2257,9 @@ namespace Nop.Admin.Controllers
                 //we can ship only shippable products
                 if (!orderItem.Product.IsShipEnabled)
                     continue;
+
+                if (orderItem.Product.ProductTags.FirstOrDefault(tag => tag.Name == "CYO") != null)
+                    model.HasCYOItems = true;
 
                 //quantities
                 var qtyInThisShipment = 0;
