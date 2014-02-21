@@ -102,18 +102,8 @@ read/write/list/create privileges on Booginhead\Presentation\Nop.Web\Content\ima
 
 # Scheduled Jobs
 
-Run the following commands against the SQL database. 
-
-
-```sql
-
-insert into ScheduleTask (Name, Seconds, Type, Enabled, StopOnError, LastStartUTC, LastEndUTC, LastSuccessUTC)
-values ('Clean up CYO files', 3600, 'Nop.Web.Models.Custom.CYOImageCleanupTask, Nop.Web', 1, 0, null, null, null)
-
-insert into ScheduleTask (Name, Seconds, Type, Enabled, StopOnError, LastStartUTC, LastEndUTC, LastSuccessUTC)
-values ('Send CYO orders to PRIDE', 1200, 'Nop.Web.Models.Custom.CYOFileTransferTask, Nop.Web', 1, 0, null, null, null)
-
-```
+The CustomSQL folder contains a file called ScheduledTasks.sql. Run that on the
+Booginhead database to set up the scheduled tasks for the CYO tool.
 
 This will schedule the daily job that cleans up the old CYO upload and proof files. 
 The job will run hourly (every 3600 seconds) and will delete files from App_Data/cyo/proofs
@@ -124,6 +114,15 @@ run as a scheduled job, so it can re-send any files that might have failed.
 
 The settings for the job that sends files to PRIDE include information on how
 to access PRIDE's SFTP server. This info is stored in the web.config file.
+
+# Custom Code Mixed Into Nop
+
+We've mixed some custom code directly into the Nop.Core, Nop.Data, Nop.Admin and
+Nop.Web projects. This is primarily code to handle wholesaler registration and
+special attributes for wholesalers.
+
+You can locate this code by searching the codebase for "wholesaler" or "Booginhead
+custom".
 
 # Behaviors and Settings 
 
@@ -136,6 +135,3 @@ https://docs.google.com/a/7simplemachines.com/document/d/1M_nM5qZONpvYC-qM5qhA11
 
 DB connection is stored in AppData/Settings.txt
 
-Uploaded files are stored in App_Data/cyo/uploads
-
-TODO: Scheduled task CYOImageCleanupTask should not delete proofs that are in a shopping cart!

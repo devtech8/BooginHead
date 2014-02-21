@@ -1,5 +1,9 @@
 ﻿@model OrderModel
 @using Telerik.Web.Mvc.UI;
+@{
+    // Booginhead custom
+    var orderFiles = Model.GetOrderFiles(Server.MapPath("~/App_Data/cyo"));
+}
 @if (Model.IsShippable && Model.ShippingAddress != null)
     {
     <table class="adminContent">
@@ -221,9 +225,24 @@
             </tr>
         }
     </table>
+    
+        @* Booginhead custom *@
+        if (orderFiles.Count > 0)
+        {
+            <div style="margin-top: 30px;">
+                <h3>PRIDE Files</h3>
+                <p>This order includes one or more shipments from PRIDE.</p>
+                <ul style="list-style-type:none;">
+                    @foreach (string filename in orderFiles)
+                    {
+                        <li><a href="@(Url.RouteUrl(new { controller = "CYO", action = "GetOrderFile", fileName = filename }).Replace("/Admin", ""))" target="_blank">@filename</a></li>
+                    }
+                </ul>
+            </div>
+        }
     }
-    else
-    {
+else
+{
     <table class="adminContent">
         <tr>
             <td class="adminTitle"></td>

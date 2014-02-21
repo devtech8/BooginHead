@@ -119,6 +119,8 @@ namespace Nop.Web.Models.Custom
 
         private string ReplacePipes(string input)
         {
+            if (string.IsNullOrEmpty(input))
+                return input;
             return input.Replace('|', '/');
         }
 

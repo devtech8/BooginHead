@@ -297,6 +297,7 @@
     <Compile Include="Models\Custom\CYOOrderListener.cs" />
     <Compile Include="Models\Custom\CYOPDFHelper.cs" />
     <Compile Include="Models\Custom\CYOImageCleanupTask.cs" />
+    <Compile Include="Models\Custom\CYOPrideOrderCreator.cs" />
     <Compile Include="Models\Custom\CYOSFTPClient.cs" />
     <Compile Include="Models\Install\InstallModel.cs" />
     <Compile Include="Models\Cms\RenderWidgetModel.cs" />

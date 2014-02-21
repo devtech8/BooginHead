@@ -9,6 +9,7 @@ using Nop.Core.Domain.Tax;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Mvc;
 using Telerik.Web.Mvc;
+using System.IO;
 
 namespace Nop.Admin.Models.Orders
 {
@@ -218,6 +219,23 @@ namespace Nop.Admin.Models.Orders
         public string aggregatorprofit { get; set; }
         public string aggregatortax { get; set; }
         public string aggregatortotal { get; set; }
+
+        // Booginhead custom
+        public List<string> GetOrderFiles(string pathToAppData)
+        {
+            string unsentDirectory = Path.Combine(pathToAppData, "orders_unsent");
+            string pattern = string.Format("BH_{0}*", this.Id.ToString("D8"));
+            string[] unsent = System.IO.Directory.GetFiles(unsentDirectory, pattern);
+            string sentDirectory = Path.Combine(pathToAppData, "orders_sent");
+            string[] sent = System.IO.Directory.GetFiles(sentDirectory, pattern);
+            List<string> orderFiles = new List<string>(unsent.Length + sent.Length);
+            foreach(string filename in unsent)
+                orderFiles.Add(filename.Replace(unsentDirectory + @"\", ""));
+            foreach(string filename in sent)
+                orderFiles.Add(filename.Replace(sentDirectory + @"\", ""));
+            return orderFiles;
+        }
+        // End Booginhead custom
 
         #region Nested Classes
 
