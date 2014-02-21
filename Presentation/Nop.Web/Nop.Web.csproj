@@ -2299,6 +2299,11 @@
     <Content Include="Themes\BH\Views\Customer\PasswordRecovery.cshtml" />
     <Content Include="Themes\BH\Views\Customer\PasswordRecoveryConfirm.cshtml" />
     <Content Include="Themes\BH\Views\Customer\ChangePassword.cshtml" />
+    <Content Include="Themes\BH\Views\Catalog\_ProductBox.cshtml" />
+    <Content Include="Themes\BH\Views\Catalog\SearchBox.cshtml" />
+    <Content Include="Themes\BH\Views\News\List.cshtml" />
+    <Content Include="Themes\BH\Views\News\HomePageNews.cshtml" />
+    <Content Include="Themes\BH\Views\News\NewsItem.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

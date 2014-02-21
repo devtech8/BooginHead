@@ -21,7 +21,6 @@
 @Html.Action("ProductBreadcrumb", "Catalog", new { productId = Model.Id })
 <div class="page product-details-page">
     <div class="page-body">
-
         @Html.Widget("productdetails_top")
         @using (Html.BeginRouteForm("Product", new { SeName = Model.SeName }, FormMethod.Post, new { id = "product-details-form" }))
         {

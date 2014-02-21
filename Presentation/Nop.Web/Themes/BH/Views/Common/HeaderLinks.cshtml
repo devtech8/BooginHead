@@ -21,7 +21,7 @@
         {
             <li id="topcartlink">
                 <a href="@Url.RouteUrl("ShoppingCart")" class="ico-cart">
-                    <span class="cart-label">@T(".")</span>
+                    <span class="cart-label">@T("")</span>
                     <span class="cart-qty">@T("ShoppingCart.HeaderQuantity", Model.ShoppingCartItems)</span>
                 </a>
             </li>
@@ -46,8 +46,10 @@
             </li>
         }
         @Html.Widget("header_links_after")*@
-    @Html.Action("SearchBox", "Catalog")
     </ul>
+    <div class="searchCat" style="height:80px;">
+        @Html.Action("SearchBox", "Catalog")
+    </div>
     @if (Model.ShoppingCartEnabled)
     {
         <script type="text/javascript">
