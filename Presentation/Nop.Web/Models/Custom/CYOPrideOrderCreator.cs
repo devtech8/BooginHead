@@ -14,6 +14,7 @@ using Nop.Services.Events;
 using Nop.Services.Logging;
 using System.IO;
 using System.Text;
+using Nop.Core.Domain.Shipping;
 
 namespace Nop.Web.Models.Custom
 {
@@ -47,6 +48,25 @@ namespace Nop.Web.Models.Custom
         /// <param name="eventMessage"></param>
         public void CreatePRIDEOrderFiles(Nop.Core.Domain.Orders.Order order)
         {
+            // This is f***ed-up. If an order is sent all in one shipment,
+            // it has zero shipments!
+            if (order.Shipments.Count == 0)
+            {
+                Core.Domain.Shipping.Shipment shipment = new Core.Domain.Shipping.Shipment();
+                shipment.Order = order;
+                shipment.OrderId = order.Id;
+                foreach (var item in order.OrderItems)
+                {
+                    ShipmentItem shipmentItem = new ShipmentItem();
+                    shipmentItem.Id = item.Id;
+                    shipmentItem.OrderItemId = item.Id;
+                    shipmentItem.Quantity = item.Quantity;
+                    shipmentItem.Shipment = shipment;
+                    shipmentItem.ShipmentId = shipment.Id;
+                    shipment.ShipmentItems.Add(shipmentItem);
+                }
+                order.Shipments.Add(shipment);
+            }
             for(int i=0; i < order.Shipments.Count; i++)
             {
                 int shipmentNumber = i + 1;
