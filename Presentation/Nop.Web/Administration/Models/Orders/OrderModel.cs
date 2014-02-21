@@ -17,6 +17,7 @@ namespace Nop.Admin.Models.Orders
     {
         // Boginhead custom
         private bool _hasCYOItems = false;
+        private bool _isWholesaler = false;
         // End Booginhead custom
 
         public OrderModel()
@@ -246,6 +247,12 @@ namespace Nop.Admin.Models.Orders
         {
             get { return this._hasCYOItems; }
             set { this._hasCYOItems = value; }
+        }
+
+        public bool IsWholesaler
+        {
+            get { return this._isWholesaler; }
+            set { this._isWholesaler = value; }
         }
         // End Booginhead custom
 

@@ -4,6 +4,24 @@
     //page title
     ViewBag.Title = T("Admin.Orders.EditOrderDetails").Text;
 }
+
+@* Booginhead Custom *@
+@if (TempData.ContainsKey("info"))
+{
+    <div style="display: block; background-color: #A4F5A7;">
+    <p><strong>@TempData["info"]</strong></p>
+    </div>
+    TempData.Remove("info");
+}
+else if (TempData.ContainsKey("error"))
+{
+    <div style="display: block; background-color: #F5A4B1;">
+    <p><strong>@TempData["error"]</strong></p>
+    </div>
+    TempData.Remove("error");    
+}
+@* End Booginhead Custom *@
+
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "order-form" }))
 {
     <div class="section-header">

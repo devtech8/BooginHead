@@ -229,9 +229,56 @@
     
         if(Model.HasCYOItems)
         {
-            <div style="margin-top: 30px;">
-                <p style="color:#c00;">This order contains CYO items.</p>
-            </div>            
+            <div style="margin-top: 30px; width: 50%; color: #c00;">
+                @if (Model.IsWholesaler)
+                {
+                    if (orderFiles.Count == 0)
+                    { 
+                        <p>
+                            This order contains CYO items.
+                            You may split this order into separate shipments,
+                            with CYO items shipping from PRIDE and other items
+                            shipping from Booginhead. Because this is a wholesale
+                            order, you must click the button to generate PRIDE
+                            files if you want any part of the order to ship
+                            from PRIDE.
+                        </p> 
+                        <p>
+                            If you split the order into multiple shipments, if a
+                            shipment contains even a single CYO item, the entire
+                            shipment will be sent from PRIDE. Check the HasCYOItems
+                            column of the shipping table to see if a shipment contains
+                            CYO items.
+                        </p>
+                    }
+                    else
+                    {
+                        <p>
+                            PRIDE will be shipping some or all of the items in
+                            this order. The PDF file(s) below show which items
+                            PRIDE is shipping.
+                        </p>     
+                    }
+                }
+                else
+                {
+                    <p>
+                        Since this is not a wholesale order, the entire order
+                        will ship from PRIDE. The PDF file(s) below show the items
+                        that PRIDE will be sending.
+                    </p>
+                }
+
+                @if(Model.IsWholesaler && orderFiles.Count == 0)
+                { 
+                    <input type="submit" 
+                           id="btnCreatePrideOrderFiles" 
+                           name="btnCreatePrideOrderFiles" 
+                           value="Create PRIDE Files"
+                           onclick="javascript:setLocation('/Booginhead/Admin/Order/CreatePrideFiles?orderId=53'); return false;" 
+                           class="t-button">
+                }
+            </div>   
         }
     
         @* Booginhead custom *@

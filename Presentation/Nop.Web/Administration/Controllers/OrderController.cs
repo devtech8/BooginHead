@@ -250,6 +250,11 @@ namespace Nop.Admin.Controllers
             model.AffiliateId = order.AffiliateId;
             //a vendor should have access only to his products
             model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
+
+            // Booginhead custom
+            if (order.Customer.CustomerRoles.FirstOrDefault(role => role.Name.Equals("Wholesaler", StringComparison.InvariantCultureIgnoreCase)) != null)
+                model.IsWholesaler = true;
+            // End Booginhead custom
             
             #region Order totals
 
@@ -498,6 +503,7 @@ namespace Nop.Admin.Controllers
                 // Booginhead custom
                 if (orderItem.Product.ProductTags.FirstOrDefault(tag => tag.Name == "CYO") != null)
                     model.HasCYOItems = true;
+                // End Booginhead custom
 
                 var orderItemModel = new OrderModel.OrderItemModel()
                 {
@@ -2291,6 +2297,37 @@ namespace Nop.Admin.Controllers
 
             return View(model);
         }
+
+        // Booginhead custom
+        public ActionResult CreatePrideFiles(int orderId)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageOrders))
+                return AccessDeniedView();
+
+            var order = _orderService.GetOrderById(orderId);
+            if (order == null)
+                //No order found with the specified id
+                return RedirectToAction("List");
+
+            //a vendor should have access only to his products
+            if (_workContext.CurrentVendor != null && !HasAccessToOrder(order))
+                return RedirectToAction("List");
+
+            Nop.Web.Models.Custom.CYOPrideOrderCreator prideOrderCreator = new Web.Models.Custom.CYOPrideOrderCreator();
+
+            try
+            {
+                prideOrderCreator.CreatePRIDEOrderFiles(order);
+                TempData["info"] = "Created PRIDE files. These will be sent to PRIDE shortly. You'll find links to the files under the Shipping Info tab.";
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Error creating PRIDE files: " + ex.Message;
+            }
+            
+            return RedirectToAction("Edit", new { id = orderId});
+        }
+        // Booginhead custom
 
         [HttpPost, ParameterBasedOnFormNameAttribute("save-continue", "continueEditing")]
         [FormValueRequired("save", "save-continue")]
