@@ -17,5 +17,6 @@ namespace Nop.Core.Domain.Customers
         public string TypeOfStore { get; set; }
         public string NameOfWebStore { get; set; }
         public string AmazonSellerName { get; set; }
+        public bool AcceptedTerms { get; set; }
     }
 }

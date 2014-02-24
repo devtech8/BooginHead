@@ -698,7 +698,8 @@ namespace Nop.Web.Controllers
                             StoreFront = model.StoreFront,
                             TypeOfStore = model.TypeOfStore,
                             NameOfWebStore = model.NameOfWebStore,
-                            AmazonSellerName = model.AmazonSellerName
+                            AmazonSellerName = model.AmazonSellerName,
+                            AcceptedTerms = model.AcceptedTerms
                         };
                         customer.Wholesaler = wholesaler;
                         customer.AdminComment = "This customer has requested to be a wholesaler. If you approve them, be sure to 1) check the Active box under the Customer Info tab and 2) check the Wholesaler box under the Customer Roles tab.";

@@ -154,6 +154,8 @@ namespace Nop.Web.Models.Customer
         public string NameOfWebStore { get; set; }
         [AllowHtml]
         public string AmazonSellerName { get; set; }
+        [AllowHtml]
+        public bool AcceptedTerms { get; set; }
 
         [NopResourceDisplayName("Account.Fields.StreetAddress")]
         [AllowHtml]

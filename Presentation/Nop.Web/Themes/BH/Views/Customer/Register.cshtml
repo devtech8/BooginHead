@@ -163,7 +163,7 @@
             </div>
             @if (Model.CompanyEnabled || Model.DisplayVatNumber)
             {
-                <div class="fieldset">
+                <div class="fieldset wholesale-field" style="display:none">
                     <div class="title">
                         <strong>@T("Account.CompanyDetails")</strong>
                     </div>
@@ -174,9 +174,9 @@
                                 @Html.LabelFor(model => model.Company, new { }, ":")
                                 @Html.EditorFor(model => model.Company)
                                 @if (Model.CompanyRequired)
-                            {
+                                {
                                     @Html.RequiredHint()
-                            }
+                                }
                                 @Html.ValidationMessageFor(model => model.Company)
                             </div>
                         }
@@ -505,6 +505,27 @@
                     <a class="read" href='@Url.RouteUrl("Topic", new { SystemName = "privacyinfo" })'>@T("Account.Fields.AcceptPrivacyPolicy.Read")</a>
                 </div>
             }
+            <div class="fieldset wholesale-field" style="display:none;">
+                <div class="title">
+                    <strong>Wholesale Terms and Conditions</strong>
+                </div>
+                <div style="width:60%; height: 200px; overflow: auto;">
+                    <p><strong>Terms and Conditions</strong></p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris scelerisque nec tortor eget elementum. Vivamus sollicitudin mi et leo elementum, accumsan blandit eros iaculis. Integer mollis nibh lacus, in laoreet est euismod id. Nullam erat nunc, egestas at auctor in, commodo vel nisl. Vivamus dapibus, metus ut ullamcorper dictum, elit quam vehicula sapien, a semper nibh erat ut neque. Cras varius diam at cursus hendrerit. Mauris vehicula, turpis non congue tempor, felis elit sollicitudin turpis, ut hendrerit nisi neque a ipsum. Integer non accumsan odio. Pellentesque sed molestie felis. Nunc quis neque et ligula scelerisque interdum. Maecenas a turpis mattis, molestie ligula eget, accumsan neque. In nibh metus, accumsan tempor aliquam non, feugiat quis quam. Praesent ultricies dapibus quam. Quisque convallis et est sed rutrum. Nulla a varius urna.</p>
+                    <p>Vivamus vel dolor faucibus, elementum sem at, suscipit leo. Nam mattis urna nec ante scelerisque, non varius sem mollis. Donec non fermentum nisi, vitae eleifend augue. Nunc augue enim, luctus a ipsum sed, pellentesque blandit lectus. Vestibulum consequat ante eget massa mollis, sit amet vestibulum tortor rutrum. Aenean eget eleifend odio. Aliquam tincidunt risus metus, non scelerisque arcu vestibulum id. Aenean at sapien eget massa interdum vehicula ut at dolor. Vestibulum sed mauris rutrum, suscipit nisl in, eleifend dolor. Aliquam rhoncus, eros quis interdum egestas, justo mauris tincidunt nibh, vel sollicitudin risus nibh non ipsum. Quisque sed dolor et neque rutrum sodales.</p>
+                    <p>Aliquam erat odio, consectetur at augue a, ultricies mollis nulla. Nam tempus sed arcu vestibulum molestie. Donec tincidunt justo sit amet adipiscing luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vitae ligula at metus bibendum placerat. In vitae metus non magna posuere viverra eget id tellus. Curabitur pharetra justo at felis ullamcorper, at gravida diam congue.</p>
+                    <p>Vestibulum sollicitudin est id porta adipiscing. Ut placerat condimentum tortor in ornare. Nulla est libero, fringilla vel orci a, iaculis accumsan dolor. Sed elementum posuere tellus, sed aliquam felis mollis id. Suspendisse posuere accumsan risus, quis viverra turpis. Integer in velit diam. Sed eget elit libero. Praesent et risus nec elit eleifend congue. Etiam dignissim placerat dignissim. Praesent tristique pulvinar pretium. Sed cursus augue erat, quis faucibus odio ultricies id. Quisque in ligula quam. Donec a sodales erat, vel varius magna. Integer congue lacus tincidunt, aliquam turpis nec, fringilla lacus. Vivamus ornare elementum dui.</p>
+                    <p>Cras eget nulla nec tortor commodo vehicula vel id urna. Pellentesque odio diam, viverra at iaculis at, placerat id purus. Ut tempor facilisis neque at pellentesque. Pellentesque nulla dolor, placerat in eros nec, pulvinar dignissim risus. In ullamcorper mollis fringilla. Nullam posuere diam eu nisi pretium sagittis. Cras congue, ligula ut sollicitudin condimentum, metus lorem fermentum ipsum, in tincidunt neque massa ut felis. Ut tempus orci eget sapien suscipit, vitae varius ligula sodales. Nunc consequat felis volutpat imperdiet rutrum. Proin vel interdum nibh, nec mattis lorem. Fusce luctus massa et sem aliquet congue. Aenean varius lectus id nulla facilisis consectetur.</p>
+                </div>
+                <div class="form-fields">
+                    <div class="inputs">
+                        @Html.LabelFor(model => model.AcceptedTerms, "I accept the terms and conditions")
+                        @Html.EditorFor(model => model.AcceptedTerms)
+                        @Html.ValidationMessageFor(model => model.AcceptedTerms)
+                    </div>
+                </div>
+            </div>
+
             <div class="buttons">
                 <input type="submit" id="register-button" class="button-1 register-next-step-button" value="@T("Account.Register.Button")" name="register-button" />
             </div>

@@ -18,7 +18,8 @@ CREATE TABLE [dbo].[Wholesaler](
 	[TypeOfStore] [nvarchar](50) NULL,
 	[NameOfWebStore] [nvarchar](50) NULL,
 	[AmazonSellerName] [nvarchar](50) NULL,
- CONSTRAINT [PK_Wholesaler] PRIMARY KEY CLUSTERED 
+	[AcceptedTerms] [bit] NULL CONSTRAINT [DF_Wholesaler_AcceptedTerms]  DEFAULT ((0)), 
+	CONSTRAINT [PK_Wholesaler] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
