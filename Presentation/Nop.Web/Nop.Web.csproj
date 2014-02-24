@@ -1096,8 +1096,13 @@
     <Content Include="Themes\BH\Content\images\client\about\sarinew.jpg" />
     <Content Include="Themes\BH\Content\images\client\about\tana.jpg" />
     <Content Include="Themes\BH\Content\images\client\carousel\Home_PackEms.png" />
+    <Content Include="Themes\BH\Content\images\client\home\Home_PG_RO.png" />
+    <Content Include="Themes\BH\Content\images\client\home\Home_SG_RO.png" />
+    <Content Include="Themes\BH\Content\images\client\home\Home_SQ_RO.png" />
     <Content Include="Themes\BH\Content\images\client\icons\sprites-fb.png" />
     <Content Include="Themes\BH\Content\images\client\misc\awards.png" />
+    <Content Include="Themes\BH\Content\images\client\page-banners\Blog_Page.png" />
+    <Content Include="Themes\BH\Content\images\client\page-banners\Press_Page.png" />
     <Content Include="Themes\BH\Scripts\cyo\cyo.js" />
     <Content Include="Themes\BH\Scripts\cyo\jscolor\arrow.gif" />
     <Content Include="Themes\BH\Scripts\cyo\jscolor\cross.gif" />
