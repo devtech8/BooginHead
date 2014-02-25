@@ -87,6 +87,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\MiniProfiler.2.1.0\lib\net40\MiniProfiler.dll</HintPath>
     </Reference>
+    <Reference Include="MVC Foolproof Validation, Version=0.9.4517.16477, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\foolproof.0.9.4517\lib\MVC Foolproof Validation.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -625,6 +629,9 @@
     <Content Include="Scripts\Custom\storeLocator\storeLocations.xml" />
     <Content Include="Scripts\Custom\storeLocator\templates\infowindow-description.html" />
     <Content Include="Scripts\Custom\storeLocator\templates\location-list-description.html" />
+    <Content Include="Scripts\mvcfoolproof.unobtrusive.min.js" />
+    <Content Include="Scripts\MvcFoolproofJQueryValidation.min.js" />
+    <Content Include="Scripts\MvcFoolproofValidation.min.js" />
     <Content Include="Themes\BH\Content\cyo\cyo.css" />
     <Content Include="Themes\BH\Content\cyo\images\backgrounds\America.jpg" />
     <Content Include="Themes\BH\Content\cyo\images\backgrounds\America_thumb.jpg" />

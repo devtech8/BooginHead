@@ -523,6 +523,14 @@
                     @Html.EditorFor(model => model.Wholesaler.International)
                 </td>
             </tr>
+            <tr>
+                <td class="adminTitle">
+                    Accepted Terms:
+                </td>
+                <td class="adminData">
+                    @Html.EditorFor(model => model.Wholesaler.AcceptedTerms)
+                </td>
+            </tr>
         }
     </table>
 }

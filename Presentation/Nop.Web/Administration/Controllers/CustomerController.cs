@@ -875,6 +875,7 @@ namespace Nop.Admin.Controllers
                         customer.Wholesaler.TypeOfStore = model.Wholesaler.TypeOfStore;
                         customer.Wholesaler.WebsiteURL = model.Wholesaler.WebsiteURL;
                         customer.Wholesaler.YearsInBusiness = model.Wholesaler.YearsInBusiness;
+                        customer.Wholesaler.AcceptedTerms = model.Wholesaler.AcceptedTerms;
                         _customerService.UpdateCustomer(customer);
                     }
                     // End Booginhead custom

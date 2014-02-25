@@ -5,6 +5,7 @@ using FluentValidation.Attributes;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Validators.Customer;
+using Foolproof;
 
 namespace Nop.Web.Models.Customer
 {
@@ -20,6 +21,7 @@ namespace Nop.Web.Models.Customer
 
         [NopResourceDisplayName("Account.Fields.Email")]
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage="This field is required for wholesale registration.")]
         public string Email { get; set; }
 
         public bool UsernamesEnabled { get; set; }
@@ -64,12 +66,14 @@ namespace Nop.Web.Models.Customer
         public bool CompanyRequired { get; set; }
         [NopResourceDisplayName("Account.Fields.Company")]
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string Company { get; set; }
 
         public bool StreetAddressEnabled { get; set; }
         public bool StreetAddressRequired { get; set; }
         [NopResourceDisplayName("Account.Fields.StreetAddress")]
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string StreetAddress { get; set; }
 
         public bool StreetAddress2Enabled { get; set; }
@@ -82,21 +86,25 @@ namespace Nop.Web.Models.Customer
         public bool ZipPostalCodeRequired { get; set; }
         [NopResourceDisplayName("Account.Fields.ZipPostalCode")]
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string ZipPostalCode { get; set; }
 
         public bool CityEnabled { get; set; }
         public bool CityRequired { get; set; }
         [NopResourceDisplayName("Account.Fields.City")]
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string City { get; set; }
 
         public bool CountryEnabled { get; set; }
         [NopResourceDisplayName("Account.Fields.Country")]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public int CountryId { get; set; }
         public IList<SelectListItem> AvailableCountries { get; set; }
 
         public bool StateProvinceEnabled { get; set; }
         [NopResourceDisplayName("Account.Fields.StateProvince")]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public int StateProvinceId { get; set; }
         public IList<SelectListItem> AvailableStates { get; set; }
 
@@ -104,12 +112,14 @@ namespace Nop.Web.Models.Customer
         public bool PhoneRequired { get; set; }
         [NopResourceDisplayName("Account.Fields.Phone")]
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string Phone { get; set; }
 
         public bool FaxEnabled { get; set; }
         public bool FaxRequired { get; set; }
         [NopResourceDisplayName("Account.Fields.Fax")]
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string Fax { get; set; }
         
         public bool NewsletterEnabled { get; set; }
@@ -137,41 +147,57 @@ namespace Nop.Web.Models.Customer
         [AllowHtml]
         public bool RegisterAsWholesaler { get; set; }
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string TaxId { get; set; }
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string WebsiteURL { get; set; }
         [AllowHtml]
         public bool International { get; set; }
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string HowDidYouHear { get; set; }
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string YearsInBusiness { get; set; }
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string StoreFront { get; set; }
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string TypeOfStore { get; set; }
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string NameOfWebStore { get; set; }
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string AmazonSellerName { get; set; }
+        [AllowHtml]
+        [EqualTo("RegisterAsWholesaler", ErrorMessage = "You must accept the terms for wholesale registration.")]
+        public bool AcceptedTerms { get; set; }
 
         [NopResourceDisplayName("Account.Fields.StreetAddress")]
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string ShippingStreetAddress { get; set; }
         [NopResourceDisplayName("Account.Fields.StreetAddress2")]
         [AllowHtml]
         public string ShippingStreetAddress2 { get; set; }
         [NopResourceDisplayName("Account.Fields.ZipPostalCode")]
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string ShippingZipPostalCode { get; set; }
         [NopResourceDisplayName("Account.Fields.City")]
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string ShippingCity { get; set; }
         [NopResourceDisplayName("Account.Fields.Country")]
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public int ShippingCountryId { get; set; }
         [NopResourceDisplayName("Account.Fields.StateProvince")]
         [AllowHtml]
+        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public int ShippingStateProvinceId { get; set; }
 
         public List<SelectListItem> StorefrontOptions
