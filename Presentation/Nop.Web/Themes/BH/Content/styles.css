@@ -82,8 +82,8 @@ ul.language-list li:hover{cursor:pointer;}
 .admin-header-links .impersonate a{color:#F93;font-weight:700;}
 .header-menu{position:relative; float:right; background:none repeat scroll 0 0;height:40px;list-style:none;/*padding-top:10px;*/ /*z-index:21;*/}
 /*MG - revised menu system*/
-.header-menu ul.top-menu li a {color:#0054a0;}
-.header-menu ul.top-menu li a:hover {color:#E28C05;}
+.header-menu ul.top-menu li a {color:#0054a0; display: inline-block !important; position:relative;}
+.header-menu ul.top-menu li a:hover {color:#E28C05; display: inline-block !important; position:relative;}
 .header-menu a{font-size:1.5em;text-decoration:none;}
 .header-menu li{float:left;list-style:none outside none;/*padding:7px 8px;margin-right:10px;*/font-size:1.1em;line-height:17px;}
 .header-menu .top-menu li{list-style-type:none;font-family: 'Ribeye', cursive;padding-left:20px; float:right; cursor:pointer;}
@@ -91,8 +91,8 @@ ul.language-list li:hover{cursor:pointer;}
 /*sub menu*/
 /*.top-menu ul.subNav {position:relative;z-index:1000 !important; }*/
 ul.top-menu .subNav li{position:relative; display:none !important;}
-ul.top-menu li:hover ul.subNav li {display:inline-table !important; float:none; position:absolute; padding: 5px;}
-ul.top-menu .subNav li {text-transform:capitalize;font-size:.75em;}
+ul.top-menu li:hover ul.subNav li {display:inline-block !important; position:relative; padding: 5px;}
+.subNav li {text-transform:capitalize;font-size:.75em; float:left;}
 /*.top-menu ul {position:absolute; left:-9999px; top:-9999px; list-style-type:none;}
 .top-menu li:hover ul {left:0px; top:30px;padding:0;}
 .top-menu li:hover ul li a {padding:5px; display:block; text-indent:15px;}*/
@@ -209,13 +209,117 @@ ul.top-menu .subNav li {text-transform:capitalize;font-size:.75em;}
 
 /*Categories Page*/
 .catPage{width:940px;}
-.topProducts a:hover img:first-child {}
-.bottomProducts{}
-#pic1 {background-image: url(~/Themes/BH/Contentimages/client/products/Product_SqueezEms.png);}
+/*#pic1 {background-image: url(~/Themes/BH/Contentimages/client/products/Product_SqueezEms.png);}
 #pic1, #pic2, #pic3, #pic4{padding-right:20px; padding-bottom:20px;}
-#pic5, #pic6, #pic7, #pic8{padding-right:20px; padding-top:20px;}
-.topProducts{}
+#pic5, #pic6, #pic7, #pic8{padding-right:20px; padding-top:20px;}*/
 .imgChange{float:right}
+
+.sqCat {
+    background-image: url(images/client/products/Product_SqueezEms.png);
+	height: 251px;
+	width: 146px;
+	float: left;
+}
+.sqCat:hover {
+    background-image: url(images/client/products/Product_SqueezEms_RO.png);
+	height: 251px;
+	width: 146px;
+}
+
+.pgCat {
+    background-image: url(images/client/products/Product_PaciGrip.png);
+	height: 251px;
+	width: 146px;
+	margin-left: 12px;
+	float: left;
+}
+.pgCat:hover {
+    background-image: url(images/client/products/Product_PaciGrip_RO.png);
+	height: 251px;
+	width: 146px;
+}
+
+.sgCat {
+    background-image: url(images/client/products/Product_SippiGrip.png);
+	height: 251px;
+	width: 146px;
+	margin-left: 12px;
+	float: left;
+}
+.sgCat:hover {
+    background-image: url(images/client/products/Product_SippiGrip_RO.png);
+	height: 251px;
+	width: 146px;
+}
+
+.cyoCat {
+    background-image: url(images/client/products/Product_CreateYourOwn.png);
+	height: 251px;
+	width: 146px;
+	margin-left: 12px;
+	float: left;
+}
+.cyoCat:hover {
+    background-image: url(images/client/products/Product_CYO_RO.png);
+	height: 251px;
+	width: 146px;
+}
+
+.specialsCat {
+    background-image: url(images/client/products/Product_Specials.png);
+	height: 251px;
+	width: 146px;
+    margin-top: 10px;
+	float: left;
+}
+.specialsCat:hover {
+    background-image: url(images/client/products/Product_Specials.png);
+	height: 251px;
+	width: 146px;
+}
+
+.ppCat {
+    background-image: url(images/client/products/Product_PaciPouch.png);
+	height: 251px;
+	width: 146px;
+	margin-left: 12px;
+    margin-top: 10px;
+	float: left;
+}
+.ppCat:hover {
+    background-image: url(images/client/products/Product_PaciPouch_RO.png);
+	height: 251px;
+	width: 146px;
+}
+
+.smCat {
+    background-image: url(images/client/products/Product_SplatMat.png);
+	height: 251px;
+	width: 146px;
+	margin-left: 12px;
+    margin-top: 10px;
+	float: left;
+}
+.smCat:hover {
+    background-image: url(images/client/products/Product_SplatMat_RO.png);
+	height: 251px;
+	width: 146px;
+}
+
+.peCat {
+    background-image: url(images/client/products/Product_PackEms.png);
+	height: 251px;
+	width: 146px;
+	margin-left: 12px;
+        margin-top: 10px;
+	float: left;
+}
+.peCat:hover {
+    background-image: url(images/client/products/Product_PackEms_RO.png);
+	height: 251px;
+	width: 146px;
+}
+
 
 /*BH Custom Blog*/
 .block .block-blog-archive .title{background-color:#E28C05;text-transform:uppercase;color:white;}
@@ -238,14 +342,52 @@ ul.top-menu .subNav li {text-transform:capitalize;font-size:.75em;}
 .prodfloatr {float:right; width:49%;}
 
 /*Landing Page custom*/
-.limg1 {background-image: url(~/Themes/BH/Content/images/client/home/Home_SG.png);}
+
+.limg1 {
+    background-image: url(images/client/home/Home_SG.png);
+	height: 225px;
+	width: 225px;
+	/*margin: 10px;*/
+	float: left;
+}
+.limg1:hover {
+    background-image: url(images/client/home/Home_SG_RO.png);
+}
+
+.limg2 {
+    background-image: url(images/client/home/Home_SQ.png);
+	height: 225px;
+	width: 225px;
+	margin-left: 10px;
+	float: left;
+}
+.limg2:hover {
+    background-image: url(images/client/home/Home_SQ_RO.png);
+}
+
+.limg3 {
+    background-image: url(images/client/home/Home_PG.png);
+	height: 225px;
+	width: 225px;
+	margin-left: 10px;
+	float: left;
+}
+.limg3:hover {
+    background-image: url(images/client/home/Home_PG_RO.png);
+}
+
+.limg4 {
+    margin:10px;
+}
+
+/*.limg1 {background-image: url(~/Themes/BH/Content/images/client/home/Home_SG.png); width:225px; height:225px;}
 .limg1:hover {background-image: url(~/Themes/BH/Content/images/client/home/Home_SG_RO.png);}
-.limg2 {background-image: url(~/Themes/BH/Content/images/client/home/Home_SQ.png);}
+.limg2 {background-image: url(~/Themes/BH/Content/images/client/home/Home_SQ.png); width:225px; height:225px;}
 .limg2:hover {background-image: url(~/Themes/BH/Content/images/client/home/Home_SQ_RO.png);}
 .limg3 {background-image: url(~/Themes/BH/Content/images/client/home/Home_PG.png);}
-.limg3:hover {background-image: url(~/Themes/BH/Content/images/client/home/Home_PG_RO.png);}
+.limg3:hover {background-image: url(~/Themes/BH/Content/images/client/home/Home_PG_RO.png); width:225px; height:225px;}
 .limg4 {}
-.limg4:hover {}
+.limg4:hover {}*/
 
 /* MISC. CLASSES */
 .nobr{white-space:nowrap!important;}
