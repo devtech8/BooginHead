@@ -4,7 +4,8 @@
 {
     <input type="text" class="search-box-text" id="small-searchterms" @(Model.AutoCompleteEnabled ? Html.Raw(" autocomplete=\"off\"") : null)
                 value="@T("Search.SearchBox.Tooltip")" name="q"  onfocus="if(this.value=='@T("Search.SearchBox.Tooltip")')this.value=''" onblur="if(this.value=='') {this.value = '@T("Search.SearchBox.Tooltip")';}" />
-    <input type="image" class="button-1 search-box-button" src="images/client/icons/SearchIcon_E.png" value="@T("Search")" />
+    <input type="submit" class="button-1 search-box-button" value="@T("Search")" />
+    @*<input type="image" class="button-1 search-box-button" src="images/client/icons/SearchIcon_E.png" value="@T("Search")" />*@
     <script type="text/javascript">
 
         function check_small_search_form() {
