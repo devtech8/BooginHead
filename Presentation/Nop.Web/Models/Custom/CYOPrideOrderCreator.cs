@@ -227,6 +227,7 @@ namespace Nop.Web.Models.Custom
                 OrderItem item = order.OrderItems.First(i => i.Id == shipmentItem.OrderItemId);
                 string description = string.Format("{0} ({1})", item.Product.Name, item.Product.ManufacturerPartNumber);
                 string pathToImageFile = _webHelper.MapPath("~/Content/Images/Thumbs/default-image_80.gif");
+                string productName = item.Product.Name;
                 byte[] imageBinary = null;
                 if (item.Product.ProductTags.FirstOrDefault(tag => tag.Name == "CYO") != null)
                 {
@@ -236,7 +237,8 @@ namespace Nop.Web.Models.Custom
                     string color = attributes["CYO Color"];
                     string size = attributes["CYO Size"];
                     string brand = attributes["CYO Brand"];
-                    description = string.Format("CYO Pacifier Color={0}{4}Size={1},Brand={2}{4}Design={3}", color, size, brand, designName, Environment.NewLine);
+                    description = string.Format("{0} CYO Pacifier Size {1}", UCFirst(color), size);
+                    productName = CreateCYOPartNumber(color, size);
                     pathToImageFile = Path.Combine(this._webHelper.MapPath("~/App_Data/cyo/orders_unsent/"), string.Format("{0}.png", imageGuid));
                 }
                 else
@@ -253,13 +255,20 @@ namespace Nop.Web.Models.Custom
 
                 CYOOrderItem cyoOrderItem = null;
                 if (imageBinary != null)
-                    cyoOrderItem = new CYOOrderItem(item.Product.Name, imageBinary, description, priceAsDouble, shipmentItem.Quantity);
+                    cyoOrderItem = new CYOOrderItem(productName, imageBinary, description, priceAsDouble, shipmentItem.Quantity);
                 else
                     cyoOrderItem = new CYOOrderItem("CYO Pacifier", pathToImageFile, description, priceAsDouble, shipmentItem.Quantity);
 
                 pdfHelper.Items.Add(cyoOrderItem);
                 itemNumber++;
             }
+        }
+
+        private string UCFirst(string s)
+        {
+	        if (string.IsNullOrEmpty(s))
+	            return "";
+	        return char.ToUpper(s[0]) + s.Substring(1).ToLower();
         }
 
         private string FormatAddress(Address address)
@@ -295,10 +304,13 @@ namespace Nop.Web.Models.Custom
             foreach (var shipmentItem in shipment.ShipmentItems)
             {
                 OrderItem item = order.OrderItems.First(i => i.Id == shipmentItem.OrderItemId);
-                string description = string.Format("{0} ({1})", item.Product.Name, item.Product.ManufacturerPartNumber);
+                string description = item.Product.ManufacturerPartNumber; //string.Format("{0} ({1})", item.Product.Name, item.Product.ManufacturerPartNumber);
                 if (item.Product.ProductTags.FirstOrDefault(tag => tag.Name == "CYO") != null)
                 {
-                    description = string.Format("CYO Pacifier {0}_{1}", shipmentNumber, cyoItemNumber.ToString("D3"));
+                    Dictionary<string, string> attributes = ParseAttributes(item.AttributesXml);
+                    string color = attributes["CYO Color"];
+                    string size = attributes["CYO Size"];
+                    description = CreateCYOPartNumber(color, size);
                     cyoItemNumber++;
                 }
                 orderHelper.Items.Add(new LineItem(description, shipmentItem.Quantity));
@@ -309,6 +321,35 @@ namespace Nop.Web.Models.Custom
                 byte[] orderData = System.Text.Encoding.UTF8.GetBytes(orderHelper.GetFormattedOrder());
                 fs.Write(orderData, 0, orderData.Length);
             }
+        }
+
+        /// <summary>
+        /// Given a CYO color and size, returns a part number that
+        /// PRIDE's system will accept, like "CYOPACI-B-0M"
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        private string CreateCYOPartNumber(string color, string size)
+        {
+            string prefix = "CYOPACI";
+            string colorMarker = "B";
+            string sizeMarker = "0M";
+            if (color.ToLower().Trim() == "blue")
+                colorMarker = "B";
+            else if (color.ToLower().Trim() == "white")
+                colorMarker = "W";
+            else if (color.ToLower().Trim() == "pink")
+                colorMarker = "P";
+            else
+                throw new ArgumentException(string.Format("Unknown color '{0}' for CYO pacifier. Known colors are White, Blue, Pink.", color));
+            if (size.ToLower().Trim() == "7plus")
+                sizeMarker = "6M";
+            else if (size.ToLower().Trim() == "0-6")
+                sizeMarker = "0M";
+            else
+                throw new ArgumentException(string.Format("Unknown size '{0}' for CYO pacifier. Known sizes are 0-6 and 7plus", size));
+            return string.Format("{0}-{1}-{2}", prefix, colorMarker, sizeMarker);
         }
 
 
