@@ -232,8 +232,17 @@ namespace Nop.Web.Controllers
         private void AddProofToRecentDesigns(string proofUrl)
         {
             List<string> recentDesigns = this.RecentDesigns;
+            // Keep recent designs to a maximum of 3, and delete older ones,
+            // so they don't pile up in the file system.
             if (recentDesigns.Count() == 3)
+            {
+                string oldestDesignUrl = recentDesigns[0];
                 recentDesigns.RemoveAt(0);
+                string fileBaseName = oldestDesignUrl.Split(new char[] { '=' }).Last(); 
+                string localPath = Path.Combine(Server.MapPath("~/App_Data/cyo/proofs/"), fileBaseName);
+                if (System.IO.File.Exists(localPath))
+                    System.IO.File.Delete(localPath);
+            }
             recentDesigns.Add(proofUrl);
             HttpCookie cookie = GetRecentDesignsCookie();
             cookie.Value = string.Join("|", recentDesigns);
