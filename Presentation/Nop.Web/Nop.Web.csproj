@@ -1106,6 +1106,7 @@
     <Content Include="Themes\BH\Content\images\client\home\Home_PG_RO.png" />
     <Content Include="Themes\BH\Content\images\client\home\Home_SG_RO.png" />
     <Content Include="Themes\BH\Content\images\client\home\Home_SQ_RO.png" />
+    <Content Include="Themes\BH\Content\images\client\home\PatternBackground25.png" />
     <Content Include="Themes\BH\Content\images\client\icons\sprites-fb.png" />
     <Content Include="Themes\BH\Content\images\client\misc\awards.png" />
     <Content Include="Themes\BH\Content\images\client\page-banners\Blog_Page.png" />
@@ -1141,7 +1142,9 @@
     <Content Include="Themes\BH\Content\images\ajax_loader_small.gif" />
     <Content Include="Themes\BH\Content\images\arrow-up.png" />
     <Content Include="Themes\BH\Content\images\bbeditor-button-bg.gif" />
-    <Content Include="Themes\BH\Content\images\booginlogo.png" />
+    <Content Include="Themes\BH\Content\images\booginlogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Themes\BH\Content\images\bullet-left.gif" />
     <Content Include="Themes\BH\Content\images\bullet-right.gif" />
     <Content Include="Themes\BH\Content\images\client\carousel\GOGOChevron.jpg" />
