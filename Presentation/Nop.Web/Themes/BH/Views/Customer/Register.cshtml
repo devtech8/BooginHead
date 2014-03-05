@@ -362,7 +362,7 @@
                 <div class="title"><strong>Wholesaler Information</strong></div>
                 <div class="form-fields">
                     <div class="inputs">
-                        @Html.LabelFor(model => model.TaxId, "TIN or EIN:")
+                        @Html.LabelFor(model => model.TaxId, "Resale Certificate Number:")
                         @Html.EditorFor(model => model.TaxId)
                         @Html.RequiredHint()
                         @Html.ValidationMessageFor(model => model.TaxId)
@@ -376,13 +376,11 @@
                     <div class="inputs">
                         @Html.LabelFor(model => model.International, "International:")
                         @Html.EditorFor(model => model.International)
-                        @Html.RequiredHint()
                         @Html.ValidationMessageFor(model => model.International)
                     </div>
                     <div class="inputs">
                         @Html.LabelFor(model => model.HowDidYouHear, "How did you hear about Booginhead?")
                         @Html.EditorFor(model => model.HowDidYouHear)
-                        @Html.RequiredHint()
                         @Html.ValidationMessageFor(model => model.HowDidYouHear)
                     </div>
                     <div class="inputs">
@@ -400,17 +398,16 @@
                     <div class="inputs">
                         @Html.LabelFor(model => model.TypeOfStore, "Type of store")
                         @Html.EditorFor(model => model.TypeOfStore)
-                        @Html.RequiredHint()
                         @Html.ValidationMessageFor(model => model.TypeOfStore)
                     </div>
                     <div class="inputs">
-                        @Html.LabelFor(model => model.NameOfWebStore, "Name of web store:")
+                        @Html.LabelFor(model => model.NameOfWebStore, "Name of web store(s):")
                         @Html.EditorFor(model => model.NameOfWebStore)
                         @Html.RequiredHint()
                         @Html.ValidationMessageFor(model => model.NameOfWebStore)
                     </div>
                     <div class="inputs">
-                        @Html.LabelFor(model => model.AmazonSellerName, "Amazon seller name:")
+                        @Html.LabelFor(model => model.AmazonSellerName, "Amazon seller name(s):")
                         @Html.EditorFor(model => model.AmazonSellerName)
                         @Html.RequiredHint()
                         @Html.ValidationMessageFor(model => model.AmazonSellerName)

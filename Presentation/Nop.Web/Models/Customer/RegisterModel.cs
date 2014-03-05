@@ -155,7 +155,6 @@ namespace Nop.Web.Models.Customer
         [AllowHtml]
         public bool International { get; set; }
         [AllowHtml]
-        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string HowDidYouHear { get; set; }
         [AllowHtml]
         [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
@@ -164,7 +163,6 @@ namespace Nop.Web.Models.Customer
         [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string StoreFront { get; set; }
         [AllowHtml]
-        [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
         public string TypeOfStore { get; set; }
         [AllowHtml]
         [RequiredIf("RegisterAsWholesaler", true, ErrorMessage = "This field is required for wholesale registration.")]
@@ -209,7 +207,7 @@ namespace Nop.Web.Models.Customer
                 SelectListItem item0 = new SelectListItem();
                 item0.Value = null;
                 item0.Text = "-- Choose One --";
-                item1.Text = item1.Value = "Bricks and Mortar";
+                item1.Text = item1.Value = "Brick and Mortar";
                 SelectListItem item2 = new SelectListItem();
                 item2.Text = item2.Value = "Web";
                 SelectListItem item3 = new SelectListItem();

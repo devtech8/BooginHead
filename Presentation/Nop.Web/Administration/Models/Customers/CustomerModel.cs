@@ -213,7 +213,7 @@ namespace Nop.Admin.Models.Customers
                 SelectListItem item0 = new SelectListItem();
                 item0.Value = null;
                 item0.Text = "-- Choose One --";
-                item1.Text = item1.Value = "Bricks and Mortar";
+                item1.Text = item1.Value = "Brick and Mortar";
                 SelectListItem item2 = new SelectListItem();
                 item2.Text = item2.Value = "Web";
                 SelectListItem item3 = new SelectListItem();
