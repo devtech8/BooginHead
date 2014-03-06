@@ -43,8 +43,10 @@
                             </div>
                             @if (!String.IsNullOrEmpty(item.AttributeInfo))
                             {
+                                @* Per request from Booginhead, don't display the UUID. *@
+                                System.Text.RegularExpressions.Regex cyoUUID = new System.Text.RegularExpressions.Regex(@"CYO Unique Id: \w{8}-\w{4}-\w{4}-\w{4}-\w{12}");
                                 <div class="attributes">
-                                    @Html.Raw(item.AttributeInfo)
+                                    @Html.Raw(cyoUUID.Replace(item.AttributeInfo, ""))
                                 </div>
                             }
                             <div class="price">@T("ShoppingCart.Mini.UnitPrice"): <span>@item.UnitPrice</span></div>

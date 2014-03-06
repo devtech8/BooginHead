@@ -343,12 +343,12 @@ namespace Nop.Web.Models.Custom
                 colorMarker = "P";
             else
                 throw new ArgumentException(string.Format("Unknown color '{0}' for CYO pacifier. Known colors are White, Blue, Pink.", color));
-            if (size.ToLower().Trim() == "7plus")
+            if (size.ToLower().Trim() == "6+")
                 sizeMarker = "6M";
             else if (size.ToLower().Trim() == "0-6")
                 sizeMarker = "0M";
             else
-                throw new ArgumentException(string.Format("Unknown size '{0}' for CYO pacifier. Known sizes are 0-6 and 7plus", size));
+                throw new ArgumentException(string.Format("Unknown size '{0}' for CYO pacifier. Known sizes are 0-6 and 6+", size));
             return string.Format("{0}-{1}-{2}", prefix, colorMarker, sizeMarker);
         }
 

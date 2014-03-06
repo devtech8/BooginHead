@@ -72,7 +72,7 @@
     <div id="cyoCustomizer">
         <h2 class="cyo-h2">Step 1: Choose A Brand</h2>
 
-            <input type="radio" name="brand" id="brandBooginhead" value="booginhead" checked="checked">
+            <input type="radio" name="brand" id="brandBooginhead" value="BooginHead" checked="checked">
             <label for="brandBooginhead">BooginHead</label>
 
             <input type="radio" name="brand" id="brandNuk" value="nuk">
@@ -94,7 +94,7 @@
             <input type="radio" name="size" id="u6" value="0-6">
             <label for="u6">0-6 Months</label>
 
-            <input type="radio" name="size" id="p6" value="7plus" checked="checked">
+            <input type="radio" name="size" id="p6" value="6+" checked="checked">
             <label for="p6">6+ Months</label>
 
         <h2 class="cyo-h2">Step 4: Design Custom Pacifier</h2>
@@ -381,10 +381,10 @@
         @using (Ajax.BeginForm("CreateProof", "CYO", ajaxOptions))
         {
             <!-- Product Info -->
-            <input type="hidden" name="cyoProductSize" id="cyoProductSize" value="7plus" />
+            <input type="hidden" name="cyoProductSize" id="cyoProductSize" value="6+" />
             <input type="hidden" name="cyoProductColor" id="cyoProductColor" value="white" />
             <input type="hidden" name="cyoSampleImage" id="cyoSampleImage" value="@Url.Content("~/Themes/BH/Content/cyo/images/shield_white.png")" />
-            <input type="hidden" name="cyoBrand" id="cyoBrand" value="booginhead" />
+            <input type="hidden" name="cyoBrand" id="cyoBrand" value="BooginHead" />
 
             <!-- Binky position and background -->
             <input type="hidden" name="cyoSampleTop" id="cyoSampleTop" value="" />
