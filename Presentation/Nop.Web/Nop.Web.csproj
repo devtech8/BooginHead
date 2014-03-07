@@ -1112,8 +1112,10 @@
     <Content Include="Themes\BH\Content\images\client\page-banners\Blog_Page.png" />
     <Content Include="Themes\BH\Content\images\client\page-banners\Press_Page.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_CYO_Large512.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_PaciGrip_Large.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_PaciGrip_Large512.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_PaciPouch_Large512.png" />
+    <Content Include="Themes\BH\Content\images\client\products\Product_PackEms_Large.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_PackEms_Large512.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_SippiGrip_Large512.png" />
     <Content Include="Themes\BH\Content\images\client\products\Product_Specials_Large512.png" />
@@ -2319,6 +2321,7 @@
     <Content Include="Themes\BH\Views\News\List.cshtml" />
     <Content Include="Themes\BH\Views\News\HomePageNews.cshtml" />
     <Content Include="Themes\BH\Views\News\NewsItem.cshtml" />
+    <Content Include="Themes\BH\Views\Common\ContactUs.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
